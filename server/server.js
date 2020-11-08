@@ -33,11 +33,14 @@ app.use(
     })
 );
 
+
+app.use('/auth/google', router);
+
 app.get('/', (req, res) => {
 
     res.send("Server is Up and Running")
 })
-app.use('/auth/google', router);
+
 
 
 app.listen(PORT, function() {

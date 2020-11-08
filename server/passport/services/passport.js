@@ -4,9 +4,6 @@ const keys = require('../../config/key');
 // const User = require("../../Users/model").User;
 const findOrCreate = require("mongoose-findorcreate");
 
-
-
-
 passport.use(new GoogleStrategy({
         clientID: keys.googleClientID,
         clientSecret: keys.googleClientSecret,
