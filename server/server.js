@@ -11,7 +11,7 @@ const CLIENT_URL = "http://localhost:3000";
 const router = require("./passport/routes/authRoutes");
 require('./passport/services/passport.js');
 
-mongoose.connect('mongodb://localhost:27017/FitnessFreakDB');
+mongoose.connect('mongodb://localhost:27017/FitnessFreakDB', { useNewUrlParser: true , useUnifiedTopology: true });
 mongoose.set("useCreateIndex", true);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

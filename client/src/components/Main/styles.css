@@ -1,0 +1,19 @@
+.nodisplay{
+    display: none;
+}
+.uploadbox{
+    display: block;
+}
+.addcommentdiv{
+    display: flex;
+    justify-content:space-evenly;
+    align-items: center;
+    margin-top: 5px;
+}
+.commentdiv{
+    display: block;
+    background-color: gray;
+    border-radius: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}

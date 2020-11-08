@@ -4,12 +4,17 @@
   "private": true,
   "proxy": "http://localhost:5000",
   "dependencies": {
+    "@material-ui/core": "4.10.2",
+    "@material-ui/icons": "4.9.1",
+    "@material-ui/styles": "4.10.0",
     "@testing-library/jest-dom": "^5.11.5",
     "@testing-library/react": "^11.1.1",
     "@testing-library/user-event": "^12.2.0",
+    "axios": "0.19.2",
     "hookrouter": "^1.2.3",
     "http-proxy-middleware": "^1.0.6",
     "react": "^17.0.1",
+    "react-bootstrap": "^1.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.0",
     "web-vitals": "^0.2.4"

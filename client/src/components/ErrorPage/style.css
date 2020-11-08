@@ -1,0 +1,15 @@
+.error-page {
+    position: relative;
+    text-align: center;
+    top: 30vh;
+}
+
+.error-heading {
+    font-size: 4em;
+}
+
+.error-body {
+    font-size: 2em;
+    margin-top: 3em;
+    position: relative;
+}

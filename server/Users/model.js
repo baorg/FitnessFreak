@@ -38,6 +38,9 @@ const Ans = new mongoose.model("Ans", answerSchema);
 
 const userSchema = new mongoose.Schema({
     userName: String,
+    firstName : String,
+    lastName : String,
+    createdAt : Date,
     googleId: String,
     facebookId : String,
     ProfileImage : String,
