@@ -15,18 +15,21 @@ router.get("/", passport.authenticate('google', {
 }  
 ));
 
-router.get("/feed",
+router.get("/feed",function(req,res,next){
+    console.log('feed');
+    next();
+    },
  passport.authenticate('google', {
-        successRedirect: CLIENT_LOGIN_PAGE_URL,
+        // successRedirect: CLIENT_LOGIN_PAGE_URL,
         failureRedirect: CLIENT_LOGIN_PAGE_URL
     }
      )
-     //,function(req,res){
-//         if(req.user.userName===undefined)
-//         res.redirect(CLIENT_USERNAME_SET_PAGE);
-//         else
-//         res.redirect(CLIENT_HOME_PAGE_URL);
-//     }
+     ,function(req,res){
+        // if(req.user.userName===undefined)
+        // res.redirect(CLIENT_USERNAME_SET_PAGE);
+        // else
+        res.redirect(CLIENT_LOGIN_PAGE_URL);
+    }
  );
 
 

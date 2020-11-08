@@ -1,7 +1,7 @@
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const keys = require('../../config/key');
-// const User = require("../../Users/model").User;
+const User = require("../../Users/model").User;
 const findOrCreate = require("mongoose-findorcreate");
 
 passport.use(new GoogleStrategy({

@@ -1,12 +1,17 @@
 const findOrCreate = require("mongoose-findorcreate");
 const mongoose = require("mongoose");
 
+
+const commentSchema = new mongoose.Schema({
+    comment : String,
+    userId : {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
+});
+const Comment = new mongoose.model("Comment", commentSchema);
+
 const tagsSchema = new mongoose.Schema({
-    upDown : [],
-    answer : String,
-    comments : [commentSchema],
+
+    tagname : String,
     quesId : {type: mongoose.Schema.Types.ObjectId, ref: 'Ques'},
-    userId : {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
 });
 const Tag = new mongoose.model("Tag", tagsSchema);
 
@@ -15,16 +20,12 @@ const quesSchema = new mongoose.Schema({
     answers : [{}],
     categoryName : String,
     userId : {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-    tags : [{type: mongoose.Schema.Types.ObjectId, ref: 'Tag'}].limit(5)
+    tags : [{type: mongoose.Schema.Types.ObjectId, ref: 'Tag'}]
 });
 const Ques = new mongoose.model("Ques", quesSchema);
 
 
-const commentSchema = new mongoose.Schema({
-    comment : String,
-    userId : {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
-});
-const Comment = new mongoose.model("Comment", commentSchema);
+
 
 const answerSchema = new mongoose.Schema({
     upDown : [],
@@ -48,7 +49,7 @@ const userSchema = new mongoose.Schema({
     following : [String],
     score : {totalScore : Number},
     notifications : [],
-    attachments : [{url : String, type : String}].limit(5)
+    attachments : [{url : String, type : String}]
 });
 
 userSchema.plugin(findOrCreate);
@@ -60,6 +61,7 @@ module.exports = {
     Ans, 
     Ques,
     Tag, 
-    Comment
+    Comment,
+    userSchema
     
 }
