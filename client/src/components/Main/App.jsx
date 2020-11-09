@@ -1,5 +1,6 @@
 import React, { useState,useRef,useEffect } from "react"
 import MyNav from "../navbar/navbar"
+import SideNavPage from "../SideNav/SideNav";
 import './styles.css'
 
 
@@ -16,6 +17,7 @@ const App = function(props) {
       <div ref={uploadRef} className="nodisplay" >
       {/* <Question /> */}
       </div>
+      <SideNavPage />
     </div>
   );
 };
