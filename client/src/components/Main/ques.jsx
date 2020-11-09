@@ -10,11 +10,7 @@ return (
     <option value="yoga">Yoga</option>
     <option value="bodyBuilding">BodyBuilding</option>
     </select>
-    <select name = "tags">
-    <option value="lean">Lean</option>
-    <option value="gain">Gain</option>
-    </select>
-
+    <input type = "text" name = "tags"/>
     <button type = "submit">Post</button>
 
 </form>

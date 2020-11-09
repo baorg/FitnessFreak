@@ -15,17 +15,6 @@ const tagsSchema = new mongoose.Schema({
 });
 const Tag = new mongoose.model("Tag", tagsSchema);
 
-const quesSchema = new mongoose.Schema({
-    upDown : [],
-    answers : [{}],
-    categoryName : String,
-    userId : {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-    tags : [{type: mongoose.Schema.Types.ObjectId, ref: 'Tag'}]
-});
-const Ques = new mongoose.model("Ques", quesSchema);
-
-
-
 
 const answerSchema = new mongoose.Schema({
     upDown : [],
@@ -35,6 +24,17 @@ const answerSchema = new mongoose.Schema({
     userId : {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
 });
 const Ans = new mongoose.model("Ans", answerSchema);
+
+const quesSchema = new mongoose.Schema({
+    upDown : [],
+    question : String,
+    answers : [{type: mongoose.Schema.Types.ObjectId, ref: 'Ans'}],
+    categoryName : String,
+    userId : {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+    tags : [String]
+});
+const Ques = new mongoose.model("Ques", quesSchema);
+
 
 const userSchema = new mongoose.Schema({
     userName: String,
