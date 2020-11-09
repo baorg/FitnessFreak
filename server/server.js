@@ -9,6 +9,7 @@ const cors = require("cors");
 const key = require("./config/key");
 const CLIENT_URL = "http://localhost:3000";
 const router = require("./passport/routes/authRoutes");
+const Question = require("./Ques/routes")
 require('./passport/services/passport.js');
 
 mongoose.connect('mongodb://localhost:27017/FitnessFreakDB', { useNewUrlParser: true , useUnifiedTopology: true });
@@ -36,7 +37,7 @@ app.use(
 
 
 app.use('/auth/google', router);
-
+app.use('/Question', Question);
 app.get('/', (req, res) => {
 
     res.send("Server is Up and Running")

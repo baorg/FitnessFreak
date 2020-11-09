@@ -11,7 +11,7 @@ module.exports = function(app) {
     createProxyMiddleware(obj)
   );
   app.use(
-    '/upload/image',
+    '/Question/postQuestion',
     createProxyMiddleware(obj)
   );
 
