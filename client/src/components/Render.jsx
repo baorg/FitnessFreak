@@ -3,12 +3,13 @@ import { useRoutes } from 'hookrouter';
 import Login from "./Login/Login";
 import Feed from "./feed";
 import {HTML404 } from './ErrorPage/Error';
-
+import FullQuestion from "./Main/fullQuestion"
 
 function getRoutes() {
   return {
     '/' : () => <Login />,
     '/feed*': () =>  <Feed/>,
+    '/viewFullQuestion/:quesId' :({quesId}) => <FullQuestion quesId = {quesId}/>
   }
 }
 
