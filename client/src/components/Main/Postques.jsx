@@ -1,7 +1,9 @@
 import React,{useState} from "react";
+import MyNav from "../navbar/navbar"
+import SideNavBar from "../SideNav/SideNav";
 import './styles.css'
 let selectedtagss=[];
-function PostQuestion(){
+function PostQuestion(props){
     const [searchTag, setSearchTag] = useState("");
     const [filterArr,setFilterArr]=useState([ ]);
     const [selectedTags,setSelectedTags]=useState([ ]);
@@ -45,6 +47,9 @@ function PostQuestion(){
     setSelectedTags(a);
     }
 return (
+  <div>
+  <MyNav  user={props.user}/>
+  <SideNavBar disableaddbutton="false" />
 <form method = "post" action = "/Question/postQuestion" className="quesdiv">
     <textarea name = "Ques" placeholder = "Ask Your Question">   
     </textarea>
@@ -68,6 +73,7 @@ return (
     
 
 </form>
+</div>
 )
 }
 

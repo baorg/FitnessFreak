@@ -15,7 +15,6 @@ const App = function(props) {
   return (  
     <div  >
       <MyNav  user={props.user} showuploadbox={showuploadbox} />
-      <PostQuestion />
       <div ref={uploadRef} className="nodisplay" ></div>
       <SideNavPage />
     </div>

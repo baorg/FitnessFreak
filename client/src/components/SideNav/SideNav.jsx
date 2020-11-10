@@ -1,12 +1,15 @@
 import React, { useState,useRef,useEffect } from "react"
 import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
-
+import { navigate } from 'hookrouter';
 // Be sure to include styles at some point, probably during your bootstraping
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 
 
 const SideNavBar = function(props) {
 
+    function navigateToPostQues(){
+        navigate('/feed/post-question');
+    }
   return (
 
 <SideNav
@@ -18,7 +21,7 @@ const SideNavBar = function(props) {
     <SideNav.Nav defaultSelected="home">
         <NavItem eventKey="home">
             <NavIcon>
-                <i className="fa fa-fw fa-home" style={{ fontSize: '1.75em' }} ><ion-icon name="add-outline"></ion-icon></i>
+                <i className="fa fa-fw fa-home" style={{ fontSize: '1.75em' }} onClick={()=>{if(props.disableaddbutton!==false)navigateToPostQues()}}><ion-icon name="add-outline"></ion-icon></i>
             </NavIcon>
             <NavText>
                 Home
