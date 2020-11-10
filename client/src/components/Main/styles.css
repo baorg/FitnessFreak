@@ -17,3 +17,14 @@
     margin-top: 5px;
     margin-bottom: 5px;
 }
+
+
+.quesdiv{
+    border: 2px solid red;
+    margin-left: 250px;
+    height: 800px;
+}
+
+.searchdiv{
+    border: 2px solid blue;
+}

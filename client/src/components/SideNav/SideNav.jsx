@@ -24,21 +24,31 @@ const SideNavBar = function(props) {
                 Home
             </NavText>
         </NavItem>
-        <NavItem eventKey="charts">
+        <NavItem eventKey="categories">
             <NavIcon>
-                <i className="fa fa-fw fa-line-chart" style={{ fontSize: '1.75em' }} />
+                <i className="fa fa-fw fa-line-chart" style={{ fontSize: '1.75em' }} ><ion-icon name="list-outline"></ion-icon></i>
             </NavIcon>
             <NavText>
-                Charts
+                Categories
             </NavText>
-            <NavItem eventKey="charts/linechart">
+            <NavItem eventKey="categories/yoga">
                 <NavText>
-                    Line Chart
+                    Yoga
                 </NavText>
             </NavItem>
-            <NavItem eventKey="charts/barchart">
+            <NavItem eventKey="categories/bodybuilding">
                 <NavText>
-                    Bar Chart
+                    Body Building
+                </NavText>
+            </NavItem>
+            <NavItem eventKey="categories/zumba">
+                <NavText>
+                    Zumba
+                </NavText>
+            </NavItem>
+            <NavItem eventKey="categories/gymnastics">
+                <NavText>
+                    Gymnastics
                 </NavText>
             </NavItem>
         </NavItem>
