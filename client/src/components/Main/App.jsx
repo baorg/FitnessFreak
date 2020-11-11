@@ -3,10 +3,21 @@ import MyNav from "../navbar/navbar"
 import SideNavPage from "../SideNav/SideNav";
 import './styles.css'
 import Question from "./ques";
+import { ENDPOINT } from "../utils";
+import axios from "axios";
 
-const ques = [{id : "8asu8asdas9jsa", question : "Stringsijsaoijasojjaosioasdoas"}];
+// const ques = [{id : "8asu8asdas9jsa", question : "Stringsijsaoijasojjaosioasdoas"}];
 const App = function(props) {
 
+  const [ques, setQues] = useState([]);
+
+  useEffect(() => {
+    axios.get(`${ENDPOINT}/Question/getQuestions`,{ withCredentials: true })
+      .then(res => {
+        console.log("res.data = " ,res.data);
+        setQues(res.data.questions);
+      });
+  }, []);
 
   const uploadRef = useRef(null);
   function showuploadbox(){

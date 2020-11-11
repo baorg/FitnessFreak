@@ -4,14 +4,13 @@ const router = express.Router();
 const bodyParser = require("body-parser");
 const CLIENT_LOGIN_PAGE_URL = "http://localhost:3000";
 const CLIENT_HOME_PAGE_URL = "http://localhost:3000/feed/app";
-const isLoggedIn = require("../../middleware").isLoggedIn;
 const Ques = require("../../Users/model").Ques;
 const Ans = require("../../Users/model").Ans;
 const User = require("../../Users/model").User;
 const Tag = require("../../Users/model").Tag;
 
 router.use(bodyParser.urlencoded({ extended: true }));
-router.post("/", isLoggedIn, (req, res) => {
+router.post("/", (req, res) => {
 
    const user_id = req.user.id;
    const category = req.body.category;
@@ -25,6 +24,7 @@ router.post("/", isLoggedIn, (req, res) => {
                             answers : [],
                             categoryName : category,
                             userId : user_id,
+                            tags : tags
                         })
 
     ques.save(err => {
