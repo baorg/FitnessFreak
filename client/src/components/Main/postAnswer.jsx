@@ -3,10 +3,8 @@ import { ENDPOINT } from "../utils";
 import axiosCall from "../../ajaxRequest"
 
 const PostAnswer = (props) => {
-
     const [answer, setAnswer] = useState(null)
     function postAnswer(e){
-
         e.preventDefault();
         const url = `${ENDPOINT}/Question/postAnswer`;
         const obj = {
@@ -14,7 +12,13 @@ const PostAnswer = (props) => {
             answer : answer
             
         }
-        axiosCall('post', url, obj)
+        axiosCall('post', url, obj).then(res => {
+            console.log(res.data);
+            if (res.data.isAuthenticated) {
+            } else {
+                console.log("Not Authenticated")
+            }
+        });
     }
 
     function handleChange(e){
