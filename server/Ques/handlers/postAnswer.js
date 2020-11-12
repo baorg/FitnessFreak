@@ -14,32 +14,40 @@ router.use(bodyParser.json());
 router.post("/", (req, res) => {
 
    const user_id = req.user.id;
-   const category = req.body.category;
-   const tags = req.body.tags;
-   const question = req.body.Ques;
+   const quesId = req.body.quesId;
+   const answer = req.body.answer;
 
-
-   const ques = new Ques({ 
-                            question : question,
+   const ans = new Ans({ 
+                            answer : answer,
                             upDown : [],
-                            answers : [],
-                            categoryName : category,
+                            commentss : [],
                             userId : user_id,
-                            tags : tags
+                            quesId : quesId
                         })
 
-    ques.save(err => {
+    ans.save(err => {
 
         if(err) return res.redirect(CLIENT_LOGIN_PAGE_URL);
 
         User.findById(user_id).exec((err, user) => {
 
-            user.question.push(ques._id);
+            user.question.push(ans._id);
             user.save(err => { 
                 if(err) return res.redirect(CLIENT_LOGIN_PAGE_URL) 
                 return res.redirect(CLIENT_HOME_PAGE_URL);
             })
         })
+
+        Ques.findById(ques_id).exec((err, ques) => {
+
+            ques.question.push(ans._id);
+            ques.save(err => { 
+                if(err) return res.redirect(CLIENT_LOGIN_PAGE_URL) 
+                return res.redirect(CLIENT_HOME_PAGE_URL);
+            })
+        })
+
+
     })
 })
 

@@ -2,27 +2,25 @@ import React,{useState,useEffect} from "react"
 import axios from "axios"
 import { ENDPOINT } from "../utils";
 import Answer from "./answer";
-
+import PostAnswer from "./postAnswer";
 function FullQuestion(props){
     const [question, setQuestion] = useState([])
-    
+    const [answers, setAnswers] = useState([])
     useEffect(() => {
         axios.get(`${ENDPOINT}/Question/getQuestions/${props.quesId}`,{ withCredentials: true })
           .then(res => {
             console.log("res.data = " ,res.data);
             setQuestion(res.data.ques);
+            setAnswers(res.data.ques.answers)
           });
       }, []);
     return (
     <div>
     <h3>{question.question}</h3>
-    <textarea placeholder="Write your answer"></textarea>
-    <button type="submit">Post</button>
-    {/* {question.answers.map((item, index) => {
-        <Answer answer = {item} />
-    })} */}
-   
-    
+    <PostAnswer id = {props.quesId}/>
+    {answers.map((el, index) => {
+      return <Answer key = {index} answer = {el.answer}/>
+    })}
     </div>
 
     );

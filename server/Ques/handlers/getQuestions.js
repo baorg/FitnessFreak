@@ -27,8 +27,9 @@ router.get("/", isLoggedIn, (req, res) => {
 router.get("/:id", isLoggedIn, (req, res) => {
 
     const id = req.params.id;
-    console.log("hellojoi"+id);
-    Ques.findById(id, (err, ques) => {
+
+    Ques.findById(id).populate("answers").exec( (err, ques) => {
+
         if(err) return res.send({err : err});
         res.send({ques : ques});
     })
