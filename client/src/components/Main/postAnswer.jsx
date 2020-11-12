@@ -4,7 +4,7 @@ import axiosCall from "../../ajaxRequest"
 
 const PostAnswer = (props) => {
 
-    const [answer, setAnswer] = useState(null)
+    const [answer, setAnswer] = useState("")
     function postAnswer(e){
 
         e.preventDefault();

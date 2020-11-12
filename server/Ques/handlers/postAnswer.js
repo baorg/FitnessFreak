@@ -12,7 +12,7 @@ const Tag = require("../../Users/model").Tag;
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 router.post("/", (req, res) => {
-
+    console.log('i am here')
    const user_id = req.user.id;
    const quesId = req.body.quesId;
    const answer = req.body.answer;
@@ -28,26 +28,26 @@ router.post("/", (req, res) => {
     ans.save(err => {
 
         if(err) return res.redirect(CLIENT_LOGIN_PAGE_URL);
-
+        else{
         User.findById(user_id).exec((err, user) => {
 
-            user.question.push(ans._id);
+            user.answer.push(ans._id);
             user.save(err => { 
                 if(err) return res.redirect(CLIENT_LOGIN_PAGE_URL) 
-                return res.redirect(CLIENT_HOME_PAGE_URL);
+                else
+                {
+                    Ques.findById(quesId).exec((err, ques) => {
+
+                        ques.answers.push(ans._id);
+                        ques.save(err => { 
+                            if(err) return res.redirect(CLIENT_LOGIN_PAGE_URL) 
+                             res.redirect(CLIENT_HOME_PAGE_URL);
+                        })
+                    })
+                }
             })
         })
-
-        Ques.findById(ques_id).exec((err, ques) => {
-
-            ques.question.push(ans._id);
-            ques.save(err => { 
-                if(err) return res.redirect(CLIENT_LOGIN_PAGE_URL) 
-                return res.redirect(CLIENT_HOME_PAGE_URL);
-            })
-        })
-
-
+        }
     })
 })
 
