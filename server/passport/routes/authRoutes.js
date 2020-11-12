@@ -4,28 +4,25 @@ const router = express.Router();
 const CLIENT_HOME_PAGE_URL = "http://localhost:3000/feed/app"
 const CLIENT_LOGIN_PAGE_URL = "http://localhost:3000"
 
-const CLIENT_USERNAME_SET_PAGE="http://localhost:3000/feed/set-username"
-// const User = require("../../Users/model").User;
+const CLIENT_USERNAME_SET_PAGE = "http://localhost:3000/feed/set-username"
+    // const User = require("../../Users/model").User;
 const bodyParser = require("body-parser");
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 
 router.get("/", passport.authenticate('google', {
-    scope : ["profile"]
-}  
-));
+    scope: ["profile"]
+}));
 
-router.get("/feed",function(req,res,next){
-    console.log('feed');
-    next();
+router.get("/feed", function(req, res, next) {
+        console.log('feed');
+        next();
     },
- passport.authenticate('google', {
+    passport.authenticate('google', {
         successRedirect: CLIENT_HOME_PAGE_URL,
         failureRedirect: CLIENT_LOGIN_PAGE_URL
-    }
-     )
-    
- );
+    })
+);
 
 
 

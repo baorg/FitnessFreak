@@ -1,23 +1,32 @@
 const express = require("express");
-const bodyParser = require("body-parser");
-const app = express();
-const PORT = process.env.PORT || 5000;
 const session = require("express-session");
+const bodyParser = require("body-parser");
 const passport = require("passport");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const key = require("./config/key");
-const CLIENT_URL = "http://localhost:3000";
-const router = require("./passport/routes/authRoutes");
-const Question = require("./Ques/routes")
+const Question = require("./Ques/routes").questionRouter;
+const AdminBro = require('admin-bro');
+const AdminBroMongoose = require('@admin-bro/mongoose');
+const AdminBroExpressjs = require("@admin-bro/express");
 require('./passport/services/passport.js');
 
-mongoose.connect('mongodb://localhost:27017/FitnessFreakDB', { useNewUrlParser: true, useUnifiedTopology: true });
+const app = express();
 
+AdminBro.registerAdapter(AdminBroMongoose);
 
 
 mongoose.set("useCreateIndex", true);
+
+const logging = require("./Middlewares").logging;
+const passportRouter = require("./passport/routes/authRoutes");
+
+app.use(logging);
 app.use(bodyParser.urlencoded({ extended: true }));
+
+
+const CLIENT_URL = "http://localhost:3000";
+const PORT = process.env.PORT || 5000;
+
 app.use(bodyParser.json());
 app.use(session({
     secret: "MY POST",
@@ -39,14 +48,28 @@ app.use(
 );
 
 
-app.use('/auth/google', router);
+app.use('/auth/google', passportRouter);
 app.use('/Question', Question);
 app.get('/', (req, res) => {
     res.send("Server is Up and Running")
-})
-
-
-
-app.listen(PORT, function() {
-    console.log(`server is up and running on port ${PORT}`);
 });
+
+
+(async() => {
+    const { User, Ques, Ans, Tag, Comment, } = require("./Models");
+    const connection = await mongoose.connect(
+        'mongodb://localhost:27017/FitnessFreakDB', {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        });
+    const adminBro = new AdminBro({
+        rootPath: '/admin',
+        databases: [connection],
+        resources: [User, Ques, Ans, Tag, Comment],
+    });
+    const router = AdminBroExpressjs.buildRouter(adminBro);
+    app.use(adminBro.options.rootPath, router);
+    await app.listen(PORT, function() {
+        console.log(`server is up and running on port ${PORT}`);
+    });
+})();
