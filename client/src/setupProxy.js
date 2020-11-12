@@ -18,6 +18,10 @@ module.exports = function(app) {
     '/Question/getQuestions',
     createProxyMiddleware(obj)
   );
+  app.use(
+    '/Question/postAnswer',
+    createProxyMiddleware(obj)
+  );
 
 };
 
