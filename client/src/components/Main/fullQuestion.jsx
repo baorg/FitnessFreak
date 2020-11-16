@@ -3,6 +3,7 @@ import axios from "axios"
 import { ENDPOINT } from "../utils";
 import Answer from "./answer";
 import PostAnswer from "./postAnswer";
+import UpvoteDownvote from "./upvoteDownvote";
 function FullQuestion(props){
     const [question, setQuestion] = useState([])
     const [answers, setAnswers] = useState([])
@@ -17,6 +18,7 @@ function FullQuestion(props){
     return (
     <div>
     <h3>{question.question}</h3>
+    <UpvoteDownvote />
     <PostAnswer id = {props.quesId}/>
     {answers.map((el, index) => {
       return <Answer key = {index} answer = {el.answer}/>

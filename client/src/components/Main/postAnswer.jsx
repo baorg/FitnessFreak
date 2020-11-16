@@ -1,6 +1,7 @@
 import React,{useState} from "react"
 import { ENDPOINT } from "../utils";
 import axiosCall from "../../ajaxRequest"
+import {navigate} from "hookrouter"
 
 const PostAnswer = (props) => {
     const [answer, setAnswer] = useState("")
@@ -14,10 +15,11 @@ const PostAnswer = (props) => {
         }
         axiosCall('post', url, obj).then(res => {
             console.log(res.data);
-            if (res.data.isAuthenticated) {
-            } else {
-                console.log("Not Authenticated")
-            }
+            // if (res.data.isAuthenticated) {
+            // } else {
+            //     console.log("Not Authenticated")
+            // }
+            navigate(res.data);
         });
     }
 
