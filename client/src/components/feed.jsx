@@ -3,7 +3,6 @@ import App from "./Main/App";
 import axios from "axios";
 import { useRoutes } from 'hookrouter';
 import {HTML404 } from './ErrorPage/Error';
-import SetUsername from './SetUsername/SetUsername';
 import PostQuestion from "./Main/Postques";
 
 
@@ -17,7 +16,6 @@ const tmpUser = {
 function getRoutes(user) {
   return {
     '/app': () => <App user={user}/>,
-    '/set-username':()=><SetUsername />,
     '/post-question':()=><PostQuestion user={user} />
     
   }

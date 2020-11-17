@@ -29,11 +29,15 @@ const App = function(props) {
       <MyNav  user={props.user} showuploadbox={showuploadbox} />
       <div ref={uploadRef} className="nodisplay" ></div>
       <SideNavPage />
+      <div style={{marginTop:"10px" , textAlign:"center"}}>
       {ques.map((item, index) => {
         return(
-        <Question key = {index}  ques = {item}/>
+          <div key={index}  style={{width:"1000px", border:"2px solid blue" , margin:"auto"}}>
+        <Question key = {index}  ques = {item} />
+          </div>
         )
       })}
+      </div>
     </div>
   );
 };
