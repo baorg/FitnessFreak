@@ -3,7 +3,6 @@ import App from "./Main/App";
 import axios from "axios";
 import { useRoutes } from 'hookrouter';
 import {HTML404 } from './ErrorPage/Error';
-import SetUsername from './SetUsername/SetUsername';
 import PostQuestion from "./Main/Postques";
 
 
@@ -18,8 +17,8 @@ function getRoutes(user) {
   return {
     '/': () => <App user={user}/>,
     '/set-username':()=><SetUsername />,
+    '/app': () => <App user={user}/>,
     '/post-question':()=><PostQuestion user={user} />
-    
   }
 }
 

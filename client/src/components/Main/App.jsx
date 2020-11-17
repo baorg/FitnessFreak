@@ -28,12 +28,12 @@ const App = function(props) {
     uploadRef.current.classList.toggle("uploadbox");
   }
 
-  return (  
+  return (
     <>
       <MyNav  user={props.user} showuploadbox={showuploadbox} />
       <div ref={uploadRef} className="nodisplay" ></div>
       <SideNavPage />
-      <div className="posts">
+      <div style={{marginTop:"10px" , textAlign:"center"}}>
         {ques && ques.map((item, index) => <Question key={index}  ques={item}/>)}
       </div>
     </>

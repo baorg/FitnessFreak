@@ -4,12 +4,14 @@ import Login from "./Login/Login";
 import Feed from "./feed";
 import {HTML404 } from './ErrorPage/Error';
 import FullQuestion from "./Main/fullQuestion"
+import FirstTimeSetup from "./FirstTimeSetup/firstTimeSetup";
 
 function getRoutes() {
   return {
     '/' : () => <Login />,
     '/feed*': () =>  <Feed/>,
-    '/viewFullQuestion/:quesId' :({quesId}) => <FullQuestion quesId = {quesId}/>
+    '/viewFullQuestion/:quesId' :({quesId}) => <FullQuestion quesId = {quesId}/>,
+    '/first-time-setup' : () => <FirstTimeSetup />
   }
 }
 
