@@ -14,8 +14,6 @@ function getRoutes() {
 }
 
 function Render() {
-  
-  
   const page = useRoutes(getRoutes());
   return (
     page 

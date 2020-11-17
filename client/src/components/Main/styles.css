@@ -1,16 +1,24 @@
-.nodisplay{
+.nodisplay {
     display: none;
 }
-.uploadbox{
+
+.posts {
+    position: relative;
+    left: 2em;
+}
+
+.uploadbox {
     display: block;
 }
-.addcommentdiv{
+
+.addcommentdiv {
     display: flex;
-    justify-content:space-evenly;
+    justify-content: space-evenly;
     align-items: center;
     margin-top: 5px;
 }
-.commentdiv{
+
+.commentdiv {
     display: block;
     background-color: gray;
     border-radius: 5px;
@@ -18,13 +26,12 @@
     margin-bottom: 5px;
 }
 
-
-.quesdiv{
+.quesdiv {
     border: 2px solid red;
     margin-left: 250px;
     height: 800px;
 }
 
-.searchdiv{
+.searchdiv {
     border: 2px solid blue;
 }

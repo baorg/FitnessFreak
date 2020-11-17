@@ -16,7 +16,7 @@ const tmpUser = {
 
 function getRoutes(user) {
   return {
-    '/app': () => <App user={user}/>,
+    '/': () => <App user={user}/>,
     '/set-username':()=><SetUsername />,
     '/post-question':()=><PostQuestion user={user} />
     

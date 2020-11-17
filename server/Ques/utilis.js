@@ -1,13 +1,11 @@
- function getArrayOfQues(arr){
-
-
-    let res = [];
-    
-    arr.forEach((ques) => {
-        res.push({question : ques.question, id : ques._id})
-    })
-
-    return res;
+function getArrayOfQues(arr) {
+    return arr.map((ques) => ({
+        id: ques._id,
+        question: ques.question,
+        category: ques.categoryName,
+        user: ques.userId,
+        created_at: ques.created_at
+    }));
 }
 
-module.exports = {getArrayOfQues}
+module.exports = { getArrayOfQues }

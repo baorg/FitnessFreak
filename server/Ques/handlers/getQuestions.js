@@ -12,11 +12,23 @@ router.use(bodyParser.urlencoded({ extended: true }));
 
 router.get("/", isAuthenticated, (req, res) => {
     const userid = req.user.id;
-    User.findById(userid).populate('question').exec((err, user) => {
-
-        if (err) return res.send({ err: err });
-        const ques = getArrayOfQues(user.question);
-        res.send({ questions: ques });
+    Ques.find({}).populate({
+        path: 'userId',
+        model: User,
+        options: {
+            sort: {},
+            skip: 0,
+            limit: 2,
+            select: '_id userName firstName lastName'
+        },
+    }).exec((err, questions) => {
+        if (err) {
+            console.error(err);
+            return res.send({ err: "Some error occured." });
+        } else {
+            console.log('Question', questions[0].userId);
+            res.send({ questions: getArrayOfQues(questions), isAuthenticated: true });
+        }
     });
 });
 

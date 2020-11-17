@@ -16,8 +16,7 @@ const userSchema = new mongoose.Schema({
     followers: [String],
     following: [String],
     score: { totalScore: Number },
-    notifications: [],
-    attachments: [{ url: String, type: String }]
+    notifications: []
 });
 
 userSchema.plugin(findOrCreate);
