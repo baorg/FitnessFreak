@@ -59,7 +59,6 @@ const app = express();
 
     AdminBro.registerAdapter(AdminBroMongoose);
     const Resources = require('./AdminBroResources');
-    console.log('Resources: ', Resources);
 
     const adminBro = new AdminBro({
         rootPath: '/admin',

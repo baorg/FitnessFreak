@@ -12,9 +12,10 @@ router.post("/", (req, res) => {
     const category = req.body.category;
     const tags = req.body.tags;
     const question = req.body.Ques;
-
+    const title = req.body.title;
 
     const ques = new Ques({
+        title: title,
         question: question,
         upDown: [],
         answers: [],
@@ -24,19 +25,16 @@ router.post("/", (req, res) => {
     })
 
     ques.save(err => {
-
         if (err) return res.redirect(CLIENT_LOGIN_PAGE_URL);
-
         User.findById(user_id).exec((err, user) => {
-
             user.question.push(ques._id);
             user.save(err => {
                 if (err) return res.redirect(CLIENT_LOGIN_PAGE_URL)
                 return res.redirect(CLIENT_HOME_PAGE_URL);
-            })
-        })
-    })
-})
+            });
+        });
+    });
+});
 
 
 
