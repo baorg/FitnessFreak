@@ -9,5 +9,5 @@ module.exports = {
     isFollowingHandler,
     removeFollowingHandler,
     getFollowersHandler,
-    getFollowingsHandler
+    getFollowingsHandler,
 }

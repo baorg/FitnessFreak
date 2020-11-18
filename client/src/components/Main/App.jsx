@@ -16,7 +16,7 @@ const App = function(props) {
       .then(res => {
         if (res.data.isAuthenticated) {
           console.log("res.data = " ,res.data);
-          setQues(res.data && res.data.questions);
+          setQues(res.data.questions);
         } else {
           navigate('/');
         }
@@ -34,7 +34,7 @@ const App = function(props) {
       <div ref={uploadRef} className="nodisplay" ></div>
       <SideNavPage />
       <div style={{marginTop:"10px" , textAlign:"center"}}>
-        {ques && ques.map((item, index) => <Question key={index}  ques={item}/>)}
+        { ques.map((item, index) => <Question key={index}  ques={item}/>)}
       </div>
     </>
   );

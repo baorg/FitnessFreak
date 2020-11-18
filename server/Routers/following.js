@@ -5,7 +5,7 @@ const {
     isFollowingHandler,
     removeFollowingHandler,
     getFollowersHandler,
-    getFollowingsHandler
+    getFollowingsHandler,
 } = require('../Handlers').FollowingHandler;
 const { isAuthenticated } = require("../Middlewares");
 
@@ -21,6 +21,5 @@ router.post('/add-following', addFollowingHandler, finalHandler);
 router.delete('/remove-following', removeFollowingHandler, finalHandler);
 router.get('/get-followers-list', getFollowersHandler, finalHandler);
 router.get('/get-following-list', getFollowingsHandler, finalHandler);
-
 
 module.exports = router;

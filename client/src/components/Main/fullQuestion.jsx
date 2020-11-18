@@ -18,7 +18,7 @@ function FullQuestion(props){
     return (
     <div>
     <h3>{question.question}</h3>
-    <UpvoteDownvote />
+    <UpvoteDownvote quesId = {props.quesId} />
     <PostAnswer id = {props.quesId}/>
     {answers.map((el, index) => {
       return <Answer key = {index} answer = {el.answer}/>

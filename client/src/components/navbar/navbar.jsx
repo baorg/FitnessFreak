@@ -11,6 +11,7 @@ import {
 import './styles.css'
 import {ENDPOINT} from '../utils'
 import { A } from 'hookrouter';
+import Searchdiv from "../Main/searchdiv";
 
 const MyNav = function(props) {
 
@@ -38,7 +39,8 @@ const MyNav = function(props) {
         </Nav>
           <Form inline >
             <div>
-              <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+              {/* <FormControl type="text" placeholder="Search" className="mr-sm-2" /> */}
+              <Searchdiv type="users" />
             </div>
           <Button variant="outline-success" className="mx-1">
               Search
