@@ -1,0 +1,16 @@
+.box{
+    margin-bottom: 20px;
+    /* border: 2px solid blue; */
+    text-align: center;
+}
+.title{
+    display: inline-block;
+} 
+
+.quesdiv {
+    /* border: 2px solid red; */
+    margin:auto;
+    height: 800px;
+    width: 800px;
+    text-align: center;
+}

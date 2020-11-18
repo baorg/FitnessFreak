@@ -3,9 +3,10 @@ import MyNav from "../navbar/navbar"
 import SideNavBar from "../SideNav/SideNav";
 import Searchdiv from "./searchdiv";
 import './styles.css'
+import './Postques.css'
 let selectedtagss=[];
 function PostQuestion(props){
-    const tags=["yoga","bodybuilding","gymnastics","zumba"];
+    const tags=["#yoga","#bodybuilding","#gymnastics","#zumba"];
     const [searchTag, setSearchTag] = useState("");
     const [filterArr,setFilterArr]=useState([ ]);
     const [selectedTags,setSelectedTags]=useState([ ]);
@@ -22,21 +23,31 @@ function PostQuestion(props){
     <>
       <MyNav user={props.user} />
       <SideNavBar disableaddbutton="false" />
-      <form method="post" action="/Question/postQuestion" className="quesdiv">
-        <input type="text" name="title" placeholder="Enter title"></input><br />
-        <textarea name="Ques" placeholder="Ask Your Question"></textarea><br />
-        <select name="category">
-          <option value="yoga">Yoga</option>
-          <option value="bodyBuilding">BodyBuilding</option>
-        </select>
+      <form method="post" action="/Question/postQuestion" className="quesdiv" style={{marginTop:"20px"}} >
+        <h1>Post a Question</h1>
+        <div className="box">  
+          <h5 className="title" >Enter the title of your question   </h5> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <input type="text" name="title" placeholder="Enter title"></input><br />
+        </div>
+        <div style={{display:"flex", alignItems:"center",justifyContent:"center"}} className="box" >
+          <h5 className="title" >Enter your Question  </h5> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <textarea name="Ques" placeholder="Ask Your Question"></textarea><br />
+        </div>
+        <div className="box">
+          <h5 className="title" >Select a Category   </h5> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <select name="category">
+            <option value="yoga">Yoga</option>
+            <option value="bodyBuilding">BodyBuilding</option>
+          </select>
+        </div>
         <div className="searchdiv">
-          <Searchdiv tags={tags} selectedTags={selectedTags} change={change} />
+          <Searchdiv tags={tags} selectedTags={selectedTags} change={change} type="tags" />
         </div>
         <button type="submit">Post</button>
         <div className="selectedtags" >
           {selectedTags.map((el, index) =>
             <div className="element" key={index}>
-              <a href="#">#{el}</a>
+              <a href="#">{el}</a>
               <button type="button" onClick={() => deltags(index)}><ion-icon name="trash-outline"></ion-icon></button>
             </div>)}
         </div>

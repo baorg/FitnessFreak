@@ -5,6 +5,7 @@ const passport = require("passport");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const Question = require("./Ques/routes").questionRouter;
+const Users=require("./Users/routes").userRouter;
 const AdminBro = require('admin-bro');
 const AdminBroMongoose = require('@admin-bro/mongoose');
 const AdminBroExpressjs = require("@admin-bro/express");
@@ -43,6 +44,7 @@ const app = express();
 
     app.use('/auth/google', passportRouter);
     app.use('/Question', Question);
+    app.use('/Users',Users);
     app.get('/', (req, res) => {
         res.send("Server is Up and Running")
     });
