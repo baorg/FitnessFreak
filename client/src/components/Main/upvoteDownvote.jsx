@@ -31,25 +31,30 @@ const downRef=useRef(null);
 //   }, []);
 
 function upvoted(){
-    setUp(!up);
+    
     if(!up===true){
         upRef.current.name='arrow-up-circle';
     }
     else{
         upRef.current.name='arrow-up-circle-outline';
     }
-    //if(!up===true) axios call to add upvote else axios call to remove upvote
+     
+    //if(!up===true) axios call to add upvote 
+    //else axios call to remove upvote
+      setUp(!up);
 
 }
 function downvoted(){
-    setDown(!down);
+  
     if(!down===true){
         downRef.current.name='arrow-down-circle';
     }
     else{
         downRef.current.name='arrow-down-circle-outline';
     }
-    //if(!down===true) axios call to add downvote else axios call to remove downvote
+    setDown(!down);
+    //if(!down===true) axios call to add downvote 
+    //else axios call to remove downvote
 
 }
 
