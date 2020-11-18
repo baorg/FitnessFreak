@@ -1,16 +1,11 @@
-const express = require("express");
-const router = express.Router();
-const bodyParser = require("body-parser");
 const CLIENT_LOGIN_PAGE_URL = "http://localhost:3000";
 const CLIENT_HOME_PAGE_URL = "http://localhost:3000/feed/app";
-const isAuthenticated = require("../../Middlewares").isAuthenticated;
+const { isAuthenticated } = require("../../Middlewares");
 
 const { Ques, Ans, User, Tag } = require("../../Models");
-const getArrayOfQues = require("../utilis").getArrayOfQues;
+const { getArrayOfQues } = require("./utilis");
 
-router.use(bodyParser.urlencoded({ extended: true }));
-
-router.get("/", isAuthenticated, (req, res) => {
+module.exports.getQuestionsHandler = function(req, res) {
     const userid = req.user.id;
     Ques.find({}, ).populate({
         path: 'userId',
@@ -26,14 +21,12 @@ router.get("/", isAuthenticated, (req, res) => {
             res.send({ questions: getArrayOfQues(questions), isAuthenticated: true });
         }
     });
-});
+}
 
-router.get("/:id", isAuthenticated, (req, res) => {
+module.exports.getOneQuestionHandler = function(req, res) {
     const id = req.params.id;
     Ques.findById(id).populate("answers").exec((err, ques) => {
         if (err) return res.send({ err: err });
         res.send({ ques: ques });
     })
-});
-
-module.exports = router;
+}

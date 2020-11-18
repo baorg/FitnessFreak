@@ -3,6 +3,7 @@ function isAuthenticated(req, res, next) {
         console.log("authentication error = ");
         return res.send({ isAuthenticated: false, error: 'Not authenticated' });
     } else {
+        res.data = { isAuthenticated: true };
         next();
     }
 }

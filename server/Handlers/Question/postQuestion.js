@@ -1,12 +1,7 @@
-const express = require("express");
-const router = express.Router();
-const bodyParser = require("body-parser");
 const CLIENT_LOGIN_PAGE_URL = "http://localhost:3000";
 const CLIENT_HOME_PAGE_URL = "http://localhost:3000/feed/app";
 const { Ques, User } = require("../../Models");
-router.use(bodyParser.urlencoded({ extended: true }));
-router.use(bodyParser.json());
-router.post("/", (req, res) => {
+module.exports = function(req, res) {
 
     const user_id = req.user.id;
     const category = req.body.category;
@@ -34,8 +29,4 @@ router.post("/", (req, res) => {
             });
         });
     });
-});
-
-
-
-module.exports = router
+}
