@@ -4,6 +4,7 @@ import axios from "axios";
 import { useRoutes } from 'hookrouter';
 import {HTML404 } from './ErrorPage/Error';
 import PostQuestion from "./Main/Postques";
+import Profile from "./Main/profile";
 
 
 
@@ -17,7 +18,8 @@ function getRoutes(user) {
   return {
     '/': () => <App user={user}/>,
     '/app': () => <App user={user}/>,
-    '/post-question':()=><PostQuestion user={user} />
+    '/post-question':()=><PostQuestion user={user} />,
+    '/profile':()=><Profile user={user}/>
   }
 }
 

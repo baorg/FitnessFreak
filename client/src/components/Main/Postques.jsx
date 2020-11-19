@@ -24,7 +24,7 @@ function PostQuestion(props){
       <MyNav user={props.user} />
       <SideNavBar disableaddbutton="false" />
       <form method="post" action="/Question/postQuestion" className="quesdiv" style={{marginTop:"20px"}} >
-        <h1>Post a Question</h1>
+        <h1 style={{marginBottom:"40px"}}>Post a Question</h1>
         <div className="box">  
           <h5 className="title" >Enter the title of your question   </h5> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <input type="text" name="title" placeholder="Enter title"></input><br />
@@ -41,16 +41,17 @@ function PostQuestion(props){
           </select>
         </div>
         <div className="searchdiv">
+          <h5 className="title" >Select Tags   </h5> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <Searchdiv tags={tags} selectedTags={selectedTags} change={change} type="tags" />
         </div>
-        <button type="submit">Post</button>
         <div className="selectedtags" >
           {selectedTags.map((el, index) =>
-            <div className="element" key={index}>
+            <div className="element2" key={index}>
               <a href="#">{el}</a>
-              <button type="button" onClick={() => deltags(index)}><ion-icon name="trash-outline"></ion-icon></button>
+              <button type="button" onClick={() => deltags(index)}><ion-icon name="trash-outline" className="trash"></ion-icon></button>
             </div>)}
         </div>
+        <button type="submit">Post</button>
       </form>
     </>);
 }

@@ -14,3 +14,22 @@
     width: 800px;
     text-align: center;
 }
+.selectedtags{
+    display: flex;
+    justify-content: flex-start;
+}
+.element2{
+    border-radius: 100px;
+    background-color: gray;
+    cursor: pointer;
+    width: auto;
+    
+}
+.element2 a{
+    display: inline-block;
+    color: white;
+    text-decoration: none;
+}
+.trash{
+    border-radius: 1000px;
+}
