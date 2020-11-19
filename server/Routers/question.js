@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
-
-
+const { isAuthenticated } = require("../Middlewares");
 const {
     postAnswerHandler,
     postQuestionHandler,
@@ -12,7 +11,6 @@ const {
 } = require('../Handlers').QuestionHandler;
 
 
-const { isAuthenticated } = require("../Middlewares");
 router.use(isAuthenticated);
 router.get("/getQuestions", getQuestionsHandler);
 router.get("/:id", getOneQuestionHandler);
