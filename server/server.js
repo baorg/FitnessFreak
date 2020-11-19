@@ -16,6 +16,8 @@ const { User, Ques, Ans, Tag, Comment, } = require("./Models");
 
 
 const app = express();
+app.use(logging);
+
 (async() => {
     mongoose.set("useCreateIndex", true);
     const CLIENT_URL = "http://localhost:3000";
@@ -60,7 +62,6 @@ const app = express();
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
 
-    app.use(logging);
     app.use(session({
         secret: "MY POST",
         resave: false,

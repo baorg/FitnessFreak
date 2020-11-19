@@ -18,8 +18,8 @@ router.use(isAuthenticated);
 
 router.get('/check-following', isFollowingHandler, finalHandler);
 router.post('/add-following', addFollowingHandler, finalHandler);
-router.delete('/remove-following', removeFollowingHandler, finalHandler);
-router.get('/get-followers-list', getFollowersHandler, finalHandler);
-router.get('/get-following-list', getFollowingsHandler, finalHandler);
+router.post('/remove-following', removeFollowingHandler, finalHandler);
+router.get('/get-followers-list/:user', getFollowersHandler, finalHandler);
+router.get('/get-following-list/:user', getFollowingsHandler, finalHandler);
 
 module.exports = router;

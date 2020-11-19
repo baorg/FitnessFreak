@@ -10,7 +10,7 @@ import {
 } from "react-bootstrap";
 import './styles.css'
 import {ENDPOINT} from '../utils'
-import { A } from 'hookrouter';
+import { A, navigate } from 'hookrouter';
 import Searchdiv from "../Main/searchdiv";
 
 const MyNav = function(props) {
@@ -18,7 +18,7 @@ const MyNav = function(props) {
   return (
     <div>
     <Navbar sticky="top" bg="light" expand="lg" >
-      <A href="/"><Navbar.Brand >Ugly's</Navbar.Brand></A>
+      <A href="/feed"><Navbar.Brand >Ugly's</Navbar.Brand></A>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
@@ -48,25 +48,20 @@ const MyNav = function(props) {
           </Form>
           {props.user.userName ?
             <div style={{display:"flex",  alignItems:"center"}}>
-            <Button variant="primary" className="mx-1" >
-              <A href="/user-profile" className="login-link"><AccountCircleIcon  /></A>
-              
+            <Button variant="primary" className="mx-1" onClick={() => navigate("/feed/profile/" + props.user._id)} >
+              <AccountCircleIcon  />
+                {/* <h4 style={{display:"inline-block"}}></h4> */}
+                {props.user.userName}
             </Button>
-            <h4 style={{display:"inline-block"}}>{props.user.userName}</h4>
             </div> :
             <Button variant="primary" className="mx-1">
               <a href={`${ENDPOINT}/auth/google`} className="login-link">Login</a>
             </Button>
             
           }
-
-        
       </Navbar.Collapse>
-     
     </Navbar>
-    </div> 
-    
-  );
+    </div> );
 };
 
 export default MyNav;

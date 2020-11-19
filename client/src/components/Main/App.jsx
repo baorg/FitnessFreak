@@ -30,7 +30,7 @@ const App = function(props) {
 
   return (
     <>
-      <MyNav  user={props.user} showuploadbox={showuploadbox} />
+      <MyNav user={props.user} showuploadbox={showuploadbox} />
       <div ref={uploadRef} className="nodisplay" ></div>
       <SideNavPage />
       <div style={{marginTop:"10px" , textAlign:"center"}}>

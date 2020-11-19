@@ -3,11 +3,11 @@ const { Tag } = require("../../Models");
 module.exports = {
     resource: Tag,
     options: {
-        title: 'tagName',
-        listProperties: ['_id', 'tagName', 'score.totalScore', ],
-        showProperties: ['_id', 'tagName', 'quesId'],
-        editProperties: ['_id', 'tagName'],
-        filterProperties: ['_id', 'tagName', 'quesId']
+        title: 'tagname',
+        listProperties: ['_id', 'tagname'],
+        showProperties: ['_id', 'tagname', 'quesId'],
+        editProperties: ['_id', 'tagname'],
+        filterProperties: ['_id', 'tagname', 'quesId']
     },
 };
 

@@ -15,11 +15,12 @@ const userSchema = new mongoose.Schema({
     bookmarks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Ques' }],
     followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-    score: { totalScore: Number },
+    score: { totalScore: { type: Number, default: 0 } },
     notifications: []
 });
 userSchema.statics.getUserData = async function(userId) {
-    let user = await this.findOne({ _id: mongoose.Types.ObjectId(userId) }).select(['userName']).exec();
+    let user = await this.findOne({ _id: mongoose.Types.ObjectId(userId) }).select(['userName', 'firstName', 'lastName', 'createdAt', 'profileImage', 'bio'])
+        .exec();
     return user;
 }
 
