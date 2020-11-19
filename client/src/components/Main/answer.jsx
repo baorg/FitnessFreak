@@ -7,7 +7,7 @@ function Answer(props){
    
     return (
     <div>{props.answer}
-    <UpvoteDownvote />
+    <UpvoteDownvote quesId = {props.answerId} isQues = {false}/>
     </div>
     )
     

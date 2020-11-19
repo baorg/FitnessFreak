@@ -1,17 +1,22 @@
 const { Ques } = require("../../../Models");
+const { Ans} = require("../../../Models");
 
 module.exports = function(req, res) {
     const userId = req.user.id;
     const quesId = req.body.quesId;
     const up = req.body.up;
     const down = req.body.down;
-    console.log("up = ", up);
-    console.log("down = ", down);
-    Ques.findById(quesId, 'upDown', (err, ques) => {
+    const isQues = req.body.isQues;
 
-        if (err) {
-            return res.send({ err: err });
-        } else {
+    let query;
+    if(isQues)
+    query =  Ques.findById(quesId, 'upDown');
+    else
+    query =  Ans.findById(quesId, 'upDown');
+    const promise = query.exec();
+    promise.then((ques) => {
+
+        
             let arr = ques.upDown;
             let index = arr.findIndex((element) => element.userId === userId);
             let result = { upvote: false, downvote: false };
@@ -38,13 +43,16 @@ module.exports = function(req, res) {
                 arr.push({ userId: userId, value: value })
 
             }
-            console.log("updown = ", ques.upDown);
-            console.log("arr = ", arr);
             ques.save((err) => {
                 if (err) return res.send("Error in recording response");
                 return res.send("Your respnose has been submitted succesully");
             })
 
-        }
-    });
+        
+    })
+    .catch( (err) =>  {
+        return res.send({ err: err });
+    })
+  
+    
 }

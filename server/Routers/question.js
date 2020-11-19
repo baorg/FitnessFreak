@@ -13,7 +13,7 @@ const {
 
 router.use(isAuthenticated);
 router.get("/getQuestions", getQuestionsHandler);
-router.get("/:id", getOneQuestionHandler);
+router.get("/getQuestions/:id", getOneQuestionHandler);
 router.post("/postQuestion", postQuestionHandler);
 router.post("/postAnswer", postAnswerHandler);
 router.post("/votes/byUser", addVoteHandler);

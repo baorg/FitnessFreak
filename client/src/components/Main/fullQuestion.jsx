@@ -18,10 +18,10 @@ function FullQuestion(props){
     return (
     <div>
     <h3>{question.question}</h3>
-    <UpvoteDownvote quesId = {props.quesId} />
+    <UpvoteDownvote quesId = {props.quesId} isQues = {true}/>
     <PostAnswer id = {props.quesId}/>
     {answers.map((el, index) => {
-      return <Answer key = {index} answer = {el.answer}/>
+      return <Answer key = {index} answer = {el.answer} answerId = {el._id}/>
     })}
     </div>
 

@@ -11,7 +11,7 @@ const upRef=useRef(null);
 const downRef=useRef(null);
 
 useEffect(() => {
-    axiosCall('post', `${ENDPOINT}/Question/votes/byUser`, {quesId : props.quesId})
+    axiosCall('post', `${ENDPOINT}/Question/votes/byUser`, {quesId : props.quesId, isQues : props.isQues})
       .then(res => {
         console.log("upvotedata = " ,res.data);
         if(res.data.upvote)
@@ -35,7 +35,7 @@ function upvoted(){
      
     //if(!up===true) axios call to add upvote 
     //else axios call to remove upvote
-    axiosCall('post', `${ENDPOINT}/Question/votes/editVote`, {quesId : props.quesId, up : !up})
+    axiosCall('post', `${ENDPOINT}/Question/votes/editVote`, {quesId : props.quesId, up : !up, isQues : props.isQues})
       .then(() => {
           setUp(!up);
       });
@@ -53,7 +53,7 @@ function downvoted(){
     
     //if(!down===true) axios call to add downvote 
     //else axios call to remove downvote
-    axiosCall('post', `${ENDPOINT}/Question/votes/editVote`, {quesId : props.quesId, down : !down})
+    axiosCall('post', `${ENDPOINT}/Question/votes/editVote`, {quesId : props.quesId, down : !down,isQues : props.isQues})
       .then(() => {
           setDown(!down);
       });

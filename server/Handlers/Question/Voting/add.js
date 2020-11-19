@@ -1,16 +1,21 @@
 const CLIENT_LOGIN_PAGE_URL = "http://localhost:3000";
 const CLIENT_HOME_PAGE_URL = "http://localhost:3000/feed/app";
 const { Ques } = require("../../../Models");
-
+const { Ans} = require("../../../Models");
 
 module.exports = function(req, res) {
     const userId = req.user.id;
     const quesId = req.body.quesId;
-    Ques.findById(quesId, 'upDown', (err, ques) => {
+    const isQues = req.body.isQues;
 
-        if (err) {
-            return res.send({ err: err });
-        } else {
+    let query;
+    if(isQues)
+    query =  Ques.findById(quesId, 'upDown');
+    else
+    query =  Ans.findById(quesId, 'upDown');
+
+    const promise = query.exec();
+    promise.then((ques) => {
             console.log("updown = ", ques.upDown);
             let arr = ques.upDown;
             console.log("arr = ", arr);
@@ -22,7 +27,9 @@ module.exports = function(req, res) {
                 else
                     result.downvote = true;
             }
-            return res.send(result);
-        }
-    });
+            return res.send(result);  
+    })
+    .catch ((err) => {
+        return res.send({ err: err });
+    })
 }
