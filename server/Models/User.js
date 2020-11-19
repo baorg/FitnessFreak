@@ -1,4 +1,3 @@
-const { defaultLocale } = require("admin-bro");
 const mongoose = require("mongoose");
 const findOrCreate = require("mongoose-findorcreate");
 
@@ -43,7 +42,6 @@ userSchema.statics.isFollowing = async function(followerId, followeeId) {
 userSchema.statics.addFollowing = async function(followerId, followeeId) {
     let follower = await this.getUserData(mongoose.Types.ObjectId(followerId));
     let followee = await this.getUserData(mongoose.Types.ObjectId(followeeId));
-    console.log("Follower:", follower, "\nFollowee:", followee);
     if (followee && follower) {
         let alreadyFollowing = await this.isFollowing(followerId, followeeId);
         if (!alreadyFollowing) {
