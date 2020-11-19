@@ -17,5 +17,5 @@ router.get("/:id", getOneQuestionHandler);
 router.post("/postQuestion", postQuestionHandler);
 router.post("/postAnswer", postAnswerHandler);
 router.post("/votes/byUser", addVoteHandler);
-router.post("/votes/editVot", editVoteHandler);
+router.post("/votes/editVote", editVoteHandler);
 module.exports = router;
