@@ -4,6 +4,7 @@ import SideNavBar from "../SideNav/SideNav";
 import Searchdiv from "./searchdiv";
 import './styles.css'
 import './Postques.css'
+import CloseIcon from '@material-ui/icons/Close';
 let selectedtagss=[];
 function PostQuestion(props){
     const tags=["#yoga","#bodybuilding","#gymnastics","#zumba"];
@@ -48,7 +49,7 @@ function PostQuestion(props){
           {selectedTags.map((el, index) =>
             <div className="element2" key={index}>
               <a href="#">{el}</a>
-              <button type="button" onClick={() => deltags(index)}><ion-icon name="trash-outline" className="trash"></ion-icon></button>
+              <button type="button" onClick={() => deltags(index)}><CloseIcon /></button>
             </div>)}
         </div>
         <button type="submit">Post</button>

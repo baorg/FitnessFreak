@@ -70,8 +70,8 @@ function addTag(el){
     
 
 return (
-    <div>
-    <FormControl type="text" placeholder="Search" className="mr-sm-2" name="tags" onFocus={mouseov} onChange={fil} autoComplete="off" value={searchTag}/>
+    <div style={{width:"206px"}}>
+    <FormControl style={{width:"206px" ,margin:"auto"}} type="text" placeholder="Search" className="mr-sm-2" name="tags" onFocus={mouseov} onChange={fil} autoComplete="off" value={searchTag}/>
     <div className="tagsearch" >
         {filterArr.map((el,index)=><div className="element" key={index} ><a href="#" onClick={()=>addTag(el)}>{el}</a></div>)}  
     </div>
