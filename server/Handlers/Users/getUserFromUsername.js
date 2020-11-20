@@ -8,9 +8,6 @@ module.exports = function(req, res, next) {
         (err,user) => {
             if(err) return res.send({err:err});
             else{
-                console.log(user);
-                console.log(user.id);
-                console.log(user[0]._id);
                 return res.send({userid:user[0]._id});
             }
         }

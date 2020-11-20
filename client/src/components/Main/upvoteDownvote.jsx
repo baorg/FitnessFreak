@@ -61,9 +61,10 @@ function downvoted(){
 }
 
   return (
-    <div>
-        <button type="button" onClick={upvoted} ><ion-icon name= {!up ? "arrow-up-circle-outline" : "arrow-up-circle"} className="upvote" ref={upRef} style={{fontSize:"30px"}}></ion-icon></button>
-        <button type="button" onClick={downvoted}><ion-icon name={!down ? "arrow-down-circle-outline" : "arrow-down-circle"} className="downvote" ref={downRef} style={{fontSize:"30px"}}></ion-icon></button>
+    <div style={{display:"flex",alignItems:"center"}}>
+        <p style={{display:"inline-block"}} >Upvotes/Downvotes</p> &nbsp;&nbsp;&nbsp;&nbsp;
+        <button type="button" onClick={upvoted} ><ion-icon name= {!up ? "arrow-up-circle-outline" : "arrow-up-circle"} className="upvote" ref={upRef} style={{fontSize:"20px"}}></ion-icon></button>
+        <button type="button" onClick={downvoted}><ion-icon name={!down ? "arrow-down-circle-outline" : "arrow-down-circle"} className="downvote" ref={downRef} style={{fontSize:"20px"}}></ion-icon></button>
     </div>
   );
 

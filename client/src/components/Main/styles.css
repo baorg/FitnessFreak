@@ -33,3 +33,8 @@
     flex-direction: column;
     align-items: center;
 }
+
+.shiny:hover{
+background-color:#E0E0E0;
+transition-delay: 0.5;
+}

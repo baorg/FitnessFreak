@@ -16,10 +16,14 @@ function FullQuestion(props){
           });
       }, []);
     return (
-    <div>
+    <div style={{marginLeft:"10px",marginTop:"10px"}}>
+    <h1>{question.title}</h1>
     <h3>{question.question}</h3>
     <UpvoteDownvote quesId = {props.quesId} isQues = {true}/>
+    <h5>Write Your Answer</h5>
     <PostAnswer id = {props.quesId}/>
+    <br /><br /><br /><br />
+    {answers.length!==0?<h4 style={{marginBottom:"30px"}}>Answers</h4>:null }
     {answers.map((el, index) => {
       return <Answer key = {index} answer = {el.answer} answerId = {el._id}/>
     })}

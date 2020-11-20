@@ -1,7 +1,7 @@
 import React, {useState,useEffect} from "react"
 import MyNav from "../navbar/navbar";
 import './profile.css'
-import logo from './dbo1f27-d3eff51b-1f9b-4402-b8af-1198513508a6.jpg'
+import logo from './download (1).jpg'
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import axios from 'axios';
 import PersonAddDisabledIcon from '@material-ui/icons/PersonAddDisabled';
@@ -68,8 +68,8 @@ function Profile(props){
                     {profileUser._id == props.user._id ?
                         <button>Edit Profile</button>:
                         (isFollowing ?
-                            <button onClick={handleUnfollow}>Unfollow</button>
-                        :   <button onClick={handleFollow}><PersonAddIcon /></button>)
+                            <button onClick={handleUnfollow}>Unfollow <PersonAddDisabledIcon /></button>
+                        :   <button onClick={handleFollow}>Follow <PersonAddIcon /></button>)
                     }
             </div>
             <div className="right" >

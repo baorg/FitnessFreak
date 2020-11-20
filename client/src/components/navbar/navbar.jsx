@@ -18,13 +18,13 @@ const MyNav = function(props) {
   return (
     <div>
     <Navbar sticky="top" bg="light" expand="lg" >
-      <A href="/feed"><Navbar.Brand >Ugly's</Navbar.Brand></A>
+      <A href="/feed"><Navbar.Brand >Fitness Freak</Navbar.Brand></A>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
           <Nav.Link href="#home">Home</Nav.Link>
-          <Nav.Link href="#link">Link</Nav.Link>
-          <Nav.Link href="#" onClick={props.showuploadbox}>Upload Image</Nav.Link>
+          {/* <Nav.Link href="#link">Link</Nav.Link>
+          <Nav.Link href="#" onClick={props.showuploadbox}>Upload Image</Nav.Link> */}
           <NavDropdown title="Dropdown" id="basic-nav-dropdown">
             <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
             <NavDropdown.Item href="#action/3.2">
@@ -42,9 +42,9 @@ const MyNav = function(props) {
               {/* <FormControl type="text" placeholder="Search" className="mr-sm-2" /> */}
               <Searchdiv type="users" user={props.user} />
             </div>
-          <Button variant="outline-success" className="mx-1">
+          {/* <Button variant="outline-success" className="mx-1">
               Search
-          </Button>
+          </Button> */}
           </Form>
           {props.user.userName ?
             <div style={{display:"flex",  alignItems:"center"}}>

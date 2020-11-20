@@ -29,7 +29,7 @@ const PostAnswer = (props) => {
     }
 
     return (   
-        <form onSubmit = {postAnswer}>
+        <form onSubmit = {postAnswer} style={{display:"flex",alignItems:"center"}}>
         <textarea placeholder="Write your answer" value = {answer} onChange = {handleChange}></textarea>
         <button type="submit">Post</button>
         </form>
