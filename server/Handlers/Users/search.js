@@ -6,8 +6,8 @@ module.exports = function(req, res) {
         if (err) return res.send(err);
         else {
             let filter = req.body.username;
-            console.log("body is" + req.body)
-            console.log("hi the filter is" + filter);
+            // console.log("body is" + req.body)
+            // console.log("hi the filter is" + filter);
             if (filter === " ")
                 res.send({ newArr: [] });
             else {
@@ -19,7 +19,7 @@ module.exports = function(req, res) {
                             newArr.push(el.userName);
                     }
                 })
-                console.log(newArr);
+                // console.log(newArr);
                 res.send({ newArr: newArr });
             }
         }

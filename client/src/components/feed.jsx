@@ -27,6 +27,7 @@ function getRoutes(user) {
 
 async function getUserName(setUser){
     const res = await axios.get("/Users/get-userdata", {withCredentials : true})
+    console.log(res.data);
     setUser(res.data);
 }
 

@@ -2,6 +2,7 @@ import React,{useState} from "react";
 import { FormControl } from "react-bootstrap";
 import axiosCall from "../../ajaxRequest"
 import { ENDPOINT } from "../utils";
+import {navigate} from "hookrouter";
 
 
 function Searchdiv(props){
@@ -33,12 +34,12 @@ function fil(event){
     else if(props.type==="users"){
         let url = `${ENDPOINT}/Users/searchusers`;
         let obj={username:x}
-        console.log(obj)
+        // console.log(obj)
         if(x==="")
             setFilterArr([]);
         else{
             axiosCall('POST', url, obj).then(res => {
-                console.log(res.data);
+                // console.log(res.data);
                 setFilterArr(res.data.newArr);
             });
         } 
@@ -53,6 +54,16 @@ function addTag(el){
     props.change(a);
     setSearchTag("")
     setFilterArr([]);
+    }
+    else if(props.type==="users"){
+        let url = `${ENDPOINT}/Users/get-userdata-username`;
+        let obj={username:el}
+        // console.log(obj);
+        axiosCall('POST', url, obj).then(res => {
+            // console.log(res.data);
+            let url2=`/feed/profile/${res.data.userid}`
+            navigate(url2)
+        });
     }
     
 }

@@ -40,7 +40,7 @@ const MyNav = function(props) {
           <Form inline >
             <div>
               {/* <FormControl type="text" placeholder="Search" className="mr-sm-2" /> */}
-              <Searchdiv type="users" />
+              <Searchdiv type="users" user={props.user} />
             </div>
           <Button variant="outline-success" className="mx-1">
               Search
