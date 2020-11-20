@@ -23,10 +23,33 @@ module.exports.getQuestionsHandler = function(req, res) {
     });
 }
 
+
+function getCount(ques){
+
+    let arr = ques.upDown;
+    let count = 0;
+    for(let i = 0; i < arr.length; i++){
+            count += arr[i].value;
+    }
+
+    let obj = {
+        answers : ques.answers,
+        upDownCount : count,
+        question : {
+            title : ques.title,
+            question : ques.question
+        }   
+    }
+
+    return obj;
+
+}
 module.exports.getOneQuestionHandler = function(req, res) {
     const id = req.params.id;
     Ques.findById(id).populate("answers").exec((err, ques) => {
         if (err) return res.send({ err: err });
-        res.send({ ques: ques });
+
+        let obj = getCount(ques)
+        res.send({ ques: obj });
     })
 }
