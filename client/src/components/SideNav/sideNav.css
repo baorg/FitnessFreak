@@ -1,0 +1,28 @@
+.sidenav{
+    height:100vh;
+    float:left;
+    width:15%;
+    border-right:2px solid #e0e0e0ce;
+    z-index:5;
+    position:fixed ;
+    display:flex; 
+    align-items:center;
+    background-color:white;
+    justify-content: center;
+}
+.sidenav a{
+    display: block;
+    font-size: 20px;
+    margin-bottom: 10px;
+    /* width: 225px; */
+    /* border: 2px solid red; */
+}
+.sidenav div{
+    text-align: center;
+    /* border: 2px solid blue; */
+}
+.sidenav a:hover{
+    background-color:#E0E0E0;
+    transition-delay: 0.5;
+    cursor: pointer;
+}

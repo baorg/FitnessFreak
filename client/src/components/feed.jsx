@@ -7,6 +7,7 @@ import PostQuestion from "./Main/Postques";
 import Profile from "./Main/profile";
 import Followers from './Main/followers';
 import Following from './Main/following';
+import FullQuestion from './Main/fullQuestion';
 
 const tmpUser = {
   userName: 'Anonymous',
@@ -21,7 +22,8 @@ function getRoutes(user) {
     '/post-question':()=><PostQuestion user={user} />,
     '/profile/:userId': ({ userId }) => <Profile user={user} userId={userId} />,
     '/followers/:userId': ({ userId }) => <Followers userId={userId} />,
-    '/following/:userId': ({ userId }) => <Following userId={userId}/>
+    '/following/:userId': ({ userId }) => <Following userId={userId}/>,
+    '/viewFullQuestion/:quesId' :({quesId}) => <FullQuestion quesId = {quesId} user={user}/>,
   }
 }
 

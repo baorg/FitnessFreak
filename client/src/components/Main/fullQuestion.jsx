@@ -4,6 +4,9 @@ import { ENDPOINT } from "../utils";
 import Answer from "./answer";
 import PostAnswer from "./postAnswer";
 import UpvoteDownvote from "./upvoteDownvote";
+import MyNav from "../navbar/navbar";
+import SideNavBar from "../SideNav/SideNav";
+import './styles.css'
 function FullQuestion(props){
     const [question, setQuestion] = useState([])
     const [answers, setAnswers] = useState([])
@@ -18,9 +21,13 @@ function FullQuestion(props){
           });
       }, []);
     return (
-    <div style={{marginLeft:"10px",marginTop:"10px"}}>
+    <div>
+    <MyNav user={props.user} />
+    <SideNavBar />
+    <div className="maindivofeverypage" >
     <h1>{question.title}</h1>
     <h3>{question.question}</h3>
+    <br /> <br />
     <UpvoteDownvote quesId = {props.quesId} isQues = {true} totalCount = {totalCount}/>
     <h5>Write Your Answer</h5>
     <PostAnswer id = {props.quesId}/>
@@ -30,7 +37,7 @@ function FullQuestion(props){
       return <Answer key = {index} answer = {el.answer} answerId = {el._id}/>
     })}
     </div>
-
+    </div>
     );
 }
 

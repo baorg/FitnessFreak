@@ -10,7 +10,7 @@ function getRoutes() {
   return {
     '/' : () => <Login />,
     '/feed*': () =>  <Feed/>,
-    '/viewFullQuestion/:quesId' :({quesId}) => <FullQuestion quesId = {quesId}/>,
+    
     '/first-time-setup' : () => <FirstTimeSetup />
   }
 }

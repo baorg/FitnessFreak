@@ -16,8 +16,8 @@ import Searchdiv from "../Main/searchdiv";
 const MyNav = function(props) {
 
   return (
-    <div>
-    <Navbar sticky="top" bg="light" expand="lg" >
+    <div style={{position:"fixed",zIndex:"10",width:"100%",marginTop:"0px"}}>
+    <Navbar  bg="light" expand="lg" >
       <A href="/feed"><Navbar.Brand >Fitness Freak</Navbar.Brand></A>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
