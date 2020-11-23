@@ -8,6 +8,8 @@ import Profile from "./Main/profile";
 import Followers from './Main/followers';
 import Following from './Main/following';
 import FullQuestion from './Main/fullQuestion';
+import TypeOfPage from "./Main/typeofpage";
+import TypeOfPageRoutes from "./typeofpageroutes";
 
 const tmpUser = {
   userName: 'Anonymous',
@@ -24,6 +26,7 @@ function getRoutes(user) {
     '/followers/:userId': ({ userId }) => <Followers userId={userId} />,
     '/following/:userId': ({ userId }) => <Following userId={userId}/>,
     '/viewFullQuestion/:quesId' :({quesId}) => <FullQuestion quesId = {quesId} user={user}/>,
+    '/:typeofpage*':({typeofpage}) => <TypeOfPageRoutes typeofpage={typeofpage} user={user} />
   }
 }
 

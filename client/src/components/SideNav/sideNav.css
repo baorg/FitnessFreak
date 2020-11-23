@@ -14,15 +14,32 @@
     display: block;
     font-size: 20px;
     margin-bottom: 10px;
-    /* width: 225px; */
+    width:100%;
+    text-align: center;
     /* border: 2px solid red; */
 }
 .sidenav div{
     text-align: center;
+    width: 100%;
     /* border: 2px solid blue; */
 }
 .sidenav a:hover{
-    background-color:#E0E0E0;
+    background-color:black;
+    color:white;
+    font-size: 22px ;
     transition-delay: 0.5;
     cursor: pointer;
+}
+.categorybox{
+    display: none;
+    position: absolute;
+    left: 77%;
+    z-index: 100;
+    background-color: gray;
+}
+.categorybox a{
+    color:white;
+    font-size: 20px;
+    border: 2px solid black;
+    margin: 0px;
 }

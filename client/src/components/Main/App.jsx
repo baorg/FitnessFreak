@@ -33,7 +33,7 @@ const App = function(props) {
       <MyNav user={props.user} showuploadbox={showuploadbox} />
       <div ref={uploadRef} className="nodisplay" ></div>
       <SideNavPage />
-      <div className="maindivofeverypage" style={{position:"absolute",top:"100px",left:"50%", textAlign:"center",width:"800px"}}>
+      <div className="maindivofeverypage">
         { ques.map((item, index) => <Question key={index}  ques={item}/>)}
       </div>
     </>

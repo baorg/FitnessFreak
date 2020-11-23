@@ -5,6 +5,8 @@ import Searchdiv from "./searchdiv";
 import './styles.css'
 import './Postques.css'
 import CloseIcon from '@material-ui/icons/Close';
+import { CKEditor, CKEditorContext } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 let selectedtagss=[];
 function PostQuestion(props){
     const tags=["#yoga","#bodybuilding","#gymnastics","#zumba"];
@@ -24,6 +26,7 @@ function PostQuestion(props){
     <>
       <MyNav user={props.user} />
       <SideNavBar disableaddbutton="false" />
+      <div className="maindivofeverypage">
       <form method="post" action="/Question/postQuestion" className="quesdiv" style={{marginTop:"20px"}} >
         <h1 style={{marginBottom:"40px"}}>Post a Question</h1>
         <div className="box">  
@@ -32,7 +35,25 @@ function PostQuestion(props){
         </div>
         <div style={{display:"flex", alignItems:"center",justifyContent:"center"}} className="box" >
           <h5 className="title" >Enter your Question  </h5> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <textarea name="Ques" placeholder="Ask Your Question"></textarea><br />
+            <CKEditor
+              editor={ ClassicEditor }
+              data="<p>Enter your Question</p>"
+              onReady={ editor => {
+              // You can store the "editor" and use when it is needed.
+              console.log( 'Editor is ready to use!', editor );
+              } }
+              onChange={ ( event, editor ) => {
+              const data = editor.getData();
+              console.log( { event, editor, data } );
+              } }
+              onBlur={ ( event, editor ) => {
+              console.log( 'Blur.', editor );
+              } }
+              onFocus={ ( event, editor ) => {
+              console.log( 'Focus.', editor );
+              } }
+            />
+          <br />
         </div>
         <div className="box">
           <h5 className="title" >Select a Category   </h5> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -54,7 +75,9 @@ function PostQuestion(props){
         </div>
         <button type="submit">Post</button>
       </form>
-    </>);
+      </div>
+    </>
+    );
 }
 
 export default PostQuestion;
