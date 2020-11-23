@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema({
     question: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Ques' }],
     answer: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Ans' }],
     bio: String,
-    bookmarks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Ques' }],
+    bookmarks: [],
     followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     score: { totalScore: { type: Number, default: 0 } },

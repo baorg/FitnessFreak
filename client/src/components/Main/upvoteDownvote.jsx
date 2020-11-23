@@ -9,7 +9,8 @@ const [up,setUp]= useState(false);
 const [down,setDown]=useState(false);
 const upRef=useRef(null);
 const downRef=useRef(null);
-const totalRef=useRef(null);
+const totalUpRef=useRef(null);
+const totalDownRef=useRef(null);
 useEffect(() => {
     axiosCall('post', `${ENDPOINT}/Question/votes/byUser`, {quesId : props.quesId, isQues : props.isQues})
       .then(res => {
@@ -28,15 +29,17 @@ function upvoted(){
     if(!up===true){
         upRef.current.name='arrow-up-circle';
         downRef.current.name='arrow-down-circle-outline';
-        let num = Number(totalRef.current.innerText);
-        if(down) num += 2;
-        else num += 1
-        totalRef.current.innerText = num
+        const num = Number(totalUpRef.current.innerText) + 1;
+        totalUpRef.current.innerText = num
+        if(down){
+          const num = Number(totalDownRef.current.innerText) - 1;
+          totalDownRef.current.innerText = num
+        }
     }
     else{
         upRef.current.name='arrow-up-circle-outline';
-        const num = Number(totalRef.current.innerText) - 1;
-        totalRef.current.innerText = num
+        const num = Number(totalUpRef.current.innerText) - 1;
+        totalUpRef.current.innerText = num
     }
      
     //if(!up===true) axios call to add upvote 
@@ -63,15 +66,19 @@ function downvoted(){
     if(!down===true){
         downRef.current.name='arrow-down-circle';
         upRef.current.name='arrow-up-circle-outline';
-        let num = Number(totalRef.current.innerText);
-        if(up) num -= 2;
-        else num -= 1
-        totalRef.current.innerText = num
+        const num = Number(totalDownRef.current.innerText) + 1;
+        totalDownRef.current.innerText = num
+        //means upvoted
+        if(up){
+          const num = Number(totalUpRef.current.innerText) - 1;
+          totalUpRef.current.innerText = num
+        }
+
     }
     else{
         downRef.current.name='arrow-down-circle-outline';
-        const num = Number(totalRef.current.innerText) + 1;
-        totalRef.current.innerText = num
+        const num = Number(totalDownRef.current.innerText) - 1;
+        totalDownRef.current.innerText = num
     }
     
     //if(!down===true) axios call to add downvote 
@@ -88,8 +95,9 @@ function downvoted(){
   return (
     <div style={{display:"flex",alignItems:"center"}}>
         <p style={{display:"inline-block"}} >Upvotes/Downvotes</p> &nbsp;&nbsp;&nbsp;&nbsp;
-        <span ref = {totalRef}>{props.totalCount}</span>
+        <span ref = {totalUpRef}>{props.totalCount.up}</span>
         <button type="button" onClick={upvoted} ><ion-icon name= {!up ? "arrow-up-circle-outline" : "arrow-up-circle"} className="upvote" ref={upRef} style={{fontSize:"20px"}}></ion-icon></button>
+        <span ref = {totalDownRef}>{props.totalCount.down}</span>
         <button type="button" onClick={downvoted}><ion-icon name={!down ? "arrow-down-circle-outline" : "arrow-down-circle"} className="downvote" ref={downRef} style={{fontSize:"20px"}}></ion-icon></button>
     </div>
   );

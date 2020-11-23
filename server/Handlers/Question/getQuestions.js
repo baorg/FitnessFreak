@@ -27,14 +27,20 @@ module.exports.getQuestionsHandler = function(req, res) {
 function getCount(ques){
 
     let arr = ques.upDown;
-    let count = 0;
+    let upCount = 0;
+    let downCount = 0;
     for(let i = 0; i < arr.length; i++){
-            count += arr[i].value;
+            if(arr[i].value == 1)
+            upCount++;
+            else
+            downCount++;
+            
     }
 
     let obj = {
         answers : ques.answers,
-        upDownCount : count,
+        upCount : upCount,
+        downCount: downCount,
         question : {
             title : ques.title,
             question : ques.question
