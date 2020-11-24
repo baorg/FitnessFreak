@@ -7,6 +7,7 @@ import {
   Form,
   FormControl,
   Button,
+  CloseButton
 } from "react-bootstrap";
 import './styles.css'
 import {ENDPOINT} from '../utils'
@@ -18,7 +19,7 @@ const MyNav = function(props) {
   return (
     <div>
     <Navbar sticky="top" bg="light" expand="lg" >
-      <A href="/feed"><Navbar.Brand >Fitness Freak</Navbar.Brand></A>
+      <A href="/"><Navbar.Brand >Fitness Freak</Navbar.Brand></A>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
@@ -46,18 +47,20 @@ const MyNav = function(props) {
               Search
           </Button> */}
           </Form>
-          {props.user.userName ?
+          {props.user ?
             <div style={{display:"flex",  alignItems:"center"}}>
-            <Button variant="primary" className="mx-1" onClick={() => navigate("/feed/profile/" + props.user._id)} >
+              <Button variant="primary" className="mx-1" onClick={() => navigate("/profile/" + props.user._id)} >
               <AccountCircleIcon  />
                 {/* <h4 style={{display:"inline-block"}}></h4> */}
-                {props.user.userName}
-            </Button>
+                {props.user.username}
+              </Button>
+              <Button variant="danger" className="mx-1" onClick={() => navigate(`${ENDPOINT}/auth/logout`)} >
+                Logout
+              </Button>
             </div> :
             <Button variant="primary" className="mx-1">
-              <a href={`${ENDPOINT}/auth/google`} className="login-link">Login</a>
+              <a onClick={()=>navigate("/auth")} className="login-link">Login/Register</a>
             </Button>
-            
           }
       </Navbar.Collapse>
     </Navbar>

@@ -1,5 +1,5 @@
 const CLIENT_LOGIN_PAGE_URL = "http://localhost:3000";
-const CLIENT_HOME_PAGE_URL = "http://localhost:3000/feed/app";
+const CLIENT_HOME_PAGE_URL = "http://localhost:3000";
 const { Ques, User } = require("../../Models");
 module.exports = function(req, res) {
 

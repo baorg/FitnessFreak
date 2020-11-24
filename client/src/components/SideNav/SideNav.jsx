@@ -8,7 +8,7 @@ import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 const SideNavBar = function(props) {
 
     function navigateToPostQues(){
-        navigate('/feed/post-question');
+        navigate('/post-question');
     }
   return (
 

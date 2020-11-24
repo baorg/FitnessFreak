@@ -14,13 +14,18 @@
     "@admin-bro/mongoose": "^1.1.0",
     "admin-bro": "^3.3.1",
     "body-parser": "^1.19.0",
+    "connect": "^3.7.0",
+    "connect-mongo": "^3.2.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-formidable": "^1.2.0",
     "express-session": "^1.17.1",
+    "express-validator": "^6.6.1",
     "mongoose": "^5.10.13",
     "mongoose-findorcreate": "^3.0.0",
     "passport": "^0.4.1",
-    "passport-google-oauth20": "^2.0.0"
+    "passport-google-oauth20": "^2.0.0",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^6.0.1"
   }
 }

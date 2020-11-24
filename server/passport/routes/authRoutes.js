@@ -10,7 +10,7 @@ const CLIENT_USERNAME_SET_PAGE = "http://localhost:3000/first-time-setup";
 // const User = require("../../Users/model").User;
 
 const bodyParser = require("body-parser");
-const app = express();
+
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json())
 router.get("/", passport.authenticate('google', {

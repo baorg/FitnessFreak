@@ -5,11 +5,12 @@ import Searchdiv from "./searchdiv";
 import './styles.css'
 import './Postques.css'
 import CloseIcon from '@material-ui/icons/Close';
-let selectedtagss=[];
+
+
 function PostQuestion(props){
     const tags=["#yoga","#bodybuilding","#gymnastics","#zumba"];
-    const [searchTag, setSearchTag] = useState("");
-    const [filterArr,setFilterArr]=useState([ ]);
+    // const [searchTag, setSearchTag] = useState("");
+    // const [filterArr,setFilterArr]=useState([ ]);
     const [selectedTags,setSelectedTags]=useState([ ]);
     function deltags(index){
     let a=[];
@@ -26,7 +27,7 @@ function PostQuestion(props){
       <SideNavBar disableaddbutton="false" />
       <form method="post" action="/Question/postQuestion" className="quesdiv" style={{marginTop:"20px"}} >
         <h1 style={{marginBottom:"40px"}}>Post a Question</h1>
-        <div className="box">  
+        <div className="box">
           <h5 className="title" >Enter the title of your question   </h5> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <input type="text" name="title" placeholder="Enter title"></input><br />
         </div>

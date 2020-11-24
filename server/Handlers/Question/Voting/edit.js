@@ -1,5 +1,5 @@
 const { Ques } = require("../../../Models");
-const { Ans} = require("../../../Models");
+const { Ans } = require("../../../Models");
 
 module.exports = function(req, res) {
     const userId = req.user.id;
@@ -9,16 +9,14 @@ module.exports = function(req, res) {
     const isQues = req.body.isQues;
 
     let query;
-    if(isQues)
-    query =  Ques.findById(quesId, 'upDown');
+    if (isQues)
+        query = Ques.findById(quesId, 'upDown');
     else
-    query =  Ans.findById(quesId, 'upDown');
+        query = Ans.findById(quesId, 'upDown');
     const promise = query.exec();
     promise.then((ques) => {
-
-        
             let arr = ques.upDown;
-            let index = arr.findIndex((element) => element.userId === userId);
+            let index = arr.findIndex((element) => element.user_id === userId);
             let result = { upvote: false, downvote: false };
             if (index != -1) {
 
@@ -48,11 +46,11 @@ module.exports = function(req, res) {
                 return res.send("Your respnose has been submitted succesully");
             })
 
-        
-    })
-    .catch( (err) =>  {
-        return res.send({ err: err });
-    })
-  
-    
+
+        })
+        .catch((err) => {
+            return res.send({ err: err });
+        })
+
+
 }

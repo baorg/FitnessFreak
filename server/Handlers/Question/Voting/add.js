@@ -1,7 +1,7 @@
 const CLIENT_LOGIN_PAGE_URL = "http://localhost:3000";
 const CLIENT_HOME_PAGE_URL = "http://localhost:3000/feed/app";
 const { Ques } = require("../../../Models");
-const { Ans} = require("../../../Models");
+const { Ans } = require("../../../Models");
 
 module.exports = function(req, res) {
     const userId = req.user.id;
@@ -9,17 +9,17 @@ module.exports = function(req, res) {
     const isQues = req.body.isQues;
 
     let query;
-    if(isQues)
-    query =  Ques.findById(quesId, 'upDown');
+    if (isQues)
+        query = Ques.findById(quesId, 'upDown');
     else
-    query =  Ans.findById(quesId, 'upDown');
+        query = Ans.findById(quesId, 'upDown');
 
     const promise = query.exec();
     promise.then((ques) => {
             console.log("updown = ", ques.upDown);
             let arr = ques.upDown;
             console.log("arr = ", arr);
-            let index = arr.findIndex((element) => element.userId === userId);
+            let index = arr.findIndex((element) => element.user_id === userId);
             let result = { upvote: false, downvote: false };
             if (index != -1) {
                 if (arr[index].value == 1)
@@ -27,9 +27,9 @@ module.exports = function(req, res) {
                 else
                     result.downvote = true;
             }
-            return res.send(result);  
-    })
-    .catch ((err) => {
-        return res.send({ err: err });
-    })
+            return res.send(result);
+        })
+        .catch((err) => {
+            return res.send({ err: err });
+        })
 }

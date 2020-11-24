@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useRoutes } from 'hookrouter';
-import Login from "./Login/Login";
+import Auth from "./Auth";
 import Feed from "./feed";
 import {HTML404 } from './ErrorPage/Error';
 import FullQuestion from "./Main/fullQuestion"
@@ -8,10 +8,10 @@ import FirstTimeSetup from "./FirstTimeSetup/firstTimeSetup";
 
 function getRoutes() {
   return {
-    '/' : () => <Login />,
-    '/feed*': () =>  <Feed/>,
+    '/auth*': () =>  <Auth/>,
     '/viewFullQuestion/:quesId' :({quesId}) => <FullQuestion quesId = {quesId}/>,
-    '/first-time-setup' : () => <FirstTimeSetup />
+    '/first-time-setup' : () => <FirstTimeSetup />,
+    '/*' : () => <Feed />,
   }
 }
 

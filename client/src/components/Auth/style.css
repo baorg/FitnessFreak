@@ -1,0 +1,149 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+.auth {
+    background-color: rgb(85, 80, 74);
+    color: rgb(170, 175, 181);
+}
+
+.container {
+    position: relative;
+    display: grid;
+    column-gap: 2px;
+    grid-template-columns: auto 3em auto;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas: "register split login" "register split login";
+    /* place-items: center; */
+    justify-items: center;
+    top: 5vh;
+    min-height: 80vh;
+}
+
+.div-register {
+    grid-area: register;
+}
+
+.div-login {
+    grid-area: login;
+}
+
+.btn {
+    background-color: rgb(0, 195, 255);
+    cursor: pointer;
+}
+
+.split {
+    font-size: 3em;
+    grid-area: split;
+    place-self: center;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    width: 4px;
+    background-color: black;
+    transform: rotate(5deg);
+}
+
+.split span {
+    margin: 5px;
+    position: relative;
+    left: -50%;
+    background-color: white;
+    opacity: 1;
+    transform: rotate(-5deg);
+}
+
+@media(max-width: 992px) {
+    .container {
+        row-gap: 3em;
+        grid-template-columns: auto auto;
+        grid-template-rows: 1fr 3em 1fr;
+        grid-template-areas: "register register" "split split" "login login";
+    }
+    .split {
+        align-items: center;
+        width: 100%;
+        height: 4px;
+        place-items: center;
+        transform: rotate(0deg);
+    }
+    .split span {
+        left: 0;
+        top: -50%;
+        text-align: center;
+        width: 3em;
+        transform: rotate(0deg);
+    }
+}
+
+.rgt-msg {
+    position: fixed;
+    width: 100vw;
+    top: 2em;
+    height: 2em;
+    display: grid;
+    z-index: 4;
+    place-items: center;
+}
+
+.rgt-msg span {
+    opacity: 0;
+    position: absolute;
+    animation: show 4s linear 1s 1 forwards;
+    border: black;
+    border-radius: 5px;
+    color: rgb(238, 180, 233);
+    padding: 2px 20px 2px 20px;
+}
+
+.success {
+    background-color: rgb(20, 125, 245);
+}
+
+.failed {
+    background-color: rgb(245, 35, 20);
+}
+
+@keyframes show {
+    0% {
+        top: -1em;
+        opacity: 0.5;
+    }
+    50% {
+        top: 0em;
+        opacity: 1;
+    }
+    75% {
+        top: 0em;
+        opacity: 1;
+    }
+    100% {
+        display: none;
+        top: -1em;
+        opacity: 0;
+    }
+}
+
+.google-btn {
+    margin-top: 2em;
+}
+
+.google-btn-img:hover {
+    cursor: pointer;
+}
+
+.err-dialog {
+    font-size: 0.8em;
+    color: rgb(18, 26, 37);
+    margin: 0 2px 0 2px;
+    border-radius: 3px;
+    border-color: rgba(48, 22, 22, 0.699);
+    border-style: solid;
+    min-width: fit-content;
+    max-width: 10em;
+    border-width: 2px;
+    background-color: rgba(236, 114, 114, 0.911);
+}

@@ -11,7 +11,7 @@ module.exports.getQuestionsHandler = function(req, res) {
         path: 'userId',
         model: User,
         options: {
-            select: 'userName firstName lastName'
+            select: 'username first_name last_name'
         },
     }).exec((err, questions) => {
         if (err) {
@@ -24,21 +24,21 @@ module.exports.getQuestionsHandler = function(req, res) {
 }
 
 
-function getCount(ques){
+function getCount(ques) {
 
     let arr = ques.upDown;
     let count = 0;
-    for(let i = 0; i < arr.length; i++){
-            count += arr[i].value;
+    for (let i = 0; i < arr.length; i++) {
+        count += arr[i].value;
     }
 
     let obj = {
-        answers : ques.answers,
-        upDownCount : count,
-        question : {
-            title : ques.title,
-            question : ques.question
-        }   
+        answers: ques.answers,
+        upDownCount: count,
+        question: {
+            title: ques.title,
+            question: ques.question
+        }
     }
 
     return obj;
