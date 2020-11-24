@@ -8,7 +8,7 @@ import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 const SideNavBar = function(props) {
     const categories=["Yoga","Bodybuilding","Beauty","Fashion","Health"]
     function navigateToPostQues(){
-        navigate('/feed/post-question');
+        navigate('/post-question');
     }
     function hover() {
       document.querySelector('.categorybox').style.display='inline-block';

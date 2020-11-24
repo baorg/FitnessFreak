@@ -7,7 +7,7 @@ function HTML404() {
         <div className="error-page">
             <h1 className="error-heading">404 Error</h1>
             <p className="error-body">Page not found</p>
-            <A href='/'>Redirect to main page</A>
+            <a href='/'>Redirect to main page</a>
         </div>
     );
 }

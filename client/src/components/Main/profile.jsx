@@ -9,10 +9,10 @@ import {A, navigate} from 'hookrouter';
 
 const AnonymousUser = {
     _id:0,
-    firstName: "Anonymous",
-    lastName: "User",
-    userName: "Anonymous",
-    profileImage: logo
+    first_name: "Anonymous",
+    last_name: "User",
+    username: "Anonymous",
+    profile_image: logo
 }
 
 function Profile(props){
@@ -22,7 +22,9 @@ function Profile(props){
 
     useEffect(async () => {
         //axios call
+        console.log("User:", props.user, profileUser);
         let res = await axios.post(`/Users/get-userdata-id`, { user_id: props.userId }, { withCredentials: true, });
+        console.log(res.data);
         if (res.data.isAuthenticated)
             setProfileUser(res.data.user);
         else
@@ -48,35 +50,34 @@ function Profile(props){
             console.log("Some error occured ", res);
         }
     }
+    console.log("User:", props.user, profileUser);
 
     return (
-    <div>
-        <MyNav user={props.user} />
-        <div style={{display:"flex"}}>
-            <div className="sidebar" >
-                <div>
-                    <A href={`/feed/followers/${profileUser._id}`}>Followers</A>
-                    <A href={`/feed/following/${profileUser._id}`}>Following</A>
-                    <A href="/feed/app">Questions Asked</A>
-                    <a>Answers Given</a>
+        <>
+            <MyNav user={props.user} />
+            <div style={{ display: "flex" }}>
+                <div className="sidebar" >
+                    <div>
+                        <A href={`/followers/${profileUser._id}`}>Followers</A>
+                        <A href={`/following/${profileUser._id}`}>Following</A>
+                        <A href="/feed/app">Questions Asked</A>
+                        <a>Answers Given</a>
+                    </div>
                 </div>
-            </div>
-            <div className="main" >
-                <img src={profileUser.profileImage|| AnonymousUser.profileImage} alt="profilepic" className="profilepic"></img>
-                <h1>{profileUser.userName}</h1>
-                
-                    {profileUser._id == props.user._id ?
-                        <button>Edit Profile</button>:
+                <div className="main" >
+                    <img src={profileUser.profile_image || AnonymousUser.profile_image} alt="profilepic" className="profilepic"></img>
+                    <h1>{profileUser.username}</h1>
+                    {props.user && profileUser._id === props.user._id ?
+                        <button>Edit Profile</button> :
                         (isFollowing ?
                             <button onClick={handleUnfollow}>Unfollow <PersonAddDisabledIcon /></button>
-                        :   <button onClick={handleFollow}>Follow <PersonAddIcon /></button>)
+                            : <button onClick={handleFollow}>Follow <PersonAddIcon /></button>)
                     }
+                </div>
             </div>
-            <div className="right" >
-            </div>
-        </div>
-    </div>
-    )
+            <div className="right" ></div>
+        </>
+    );
     
 }
 
