@@ -17,13 +17,13 @@ const SideNavBar = function(props) {
       document.querySelector('.categorybox').style.display='none';
     }
     function navigateToCategory(el){
-      navigate(`/feed/category/${el}`);
+      navigate(`/category/${el}`);
     }
     function navigateToHotQuestions(){
-      navigate("/feed/hot-questions");
+      navigate("/hot-questions");
     }
     function navigateToBookmarks(){
-      navigate("/feed/bookmarks");
+      navigate("/bookmarks");
     }
   return (
 

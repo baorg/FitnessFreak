@@ -19,7 +19,7 @@ module.exports = function(req, res) {
             console.log("updown = ", ques.upDown);
             let arr = ques.upDown;
             console.log("arr = ", arr);
-            let index = arr.findIndex((element) => element.user_id === userId);
+            let index = arr.findIndex((element) => element.userId === userId);
             let result = { upvote: false, downvote: false };
             if (index != -1) {
                 if (arr[index].value == 1)

@@ -36,6 +36,7 @@ async function getUserName(setUser){
 function Feed() {
   const [user, setUser] = useState(null);
   useEffect(() => {
+    //isAuthenitaced
     getUserName(setUser);
     console.log("User:", user, ">");
   }, [])

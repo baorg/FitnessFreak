@@ -56,6 +56,7 @@ function upvoted(){
         // the upstate == true then downstate == true then as upstate == true we will again decrement the
         // vote thinking that someone is removing its upvote rather increment the votes
         // so that's why we need to set state setUp false in downvoted function
+        
         setDown(false);
           setUp(!up);
       });

@@ -14,7 +14,7 @@ const TypeOfPage = function(props) {
 
   useEffect(() => {
     //axios call
-    let url=`${ENDPOINT}/Questions/:`;
+    let url=`${ENDPOINT}/Question/:`;
     console.log("Calling resOfTypeOfpage");
     console.log("typeogPage = ", props.typeofpage)
     axios.get(url + props.typeofpage)

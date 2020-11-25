@@ -16,7 +16,7 @@ module.exports = function(req, res) {
     const promise = query.exec();
     promise.then((ques) => {
             let arr = ques.upDown;
-            let index = arr.findIndex((element) => element.user_id === userId);
+            let index = arr.findIndex((element) => element.userId === userId);
             let result = { upvote: false, downvote: false };
             if (index != -1) {
 

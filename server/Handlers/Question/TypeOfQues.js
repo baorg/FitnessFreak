@@ -44,7 +44,7 @@ function getHandlerForTheAskedType(name){
 
         case "questionsByMe" : return questionsByMe;
         
-        default : notValid;
+        default : return notValid;
     }
 
 }
@@ -56,9 +56,8 @@ module.exports.getTypeOfQuestionsHandler = function(req, res){
     const userId = req.user.id;
 
     console.log("typeofQues = ", name)
-    const fun = getHandlerForTheAskedType(name);
-
-    const result = fun(userId)
+    // const fun = getHandlerForTheAskedType(name);
+    // const result = fun(userId)
     
     return res.send(result);
 }
