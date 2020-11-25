@@ -12,14 +12,22 @@ const TypeOfPage = function(props) {
 
   const [ques, setQues] = useState([]);
 
-  // useEffect(() => {
-  //   //axios call
-  //   let url=``;
-  //   axiosCall('get', url, {userid:props.user.id})
-  //     .then((res) => {
-  //       setQues(res.data.questions);
-  //   })
-  // }, []);
+  useEffect(() => {
+    //axios call
+    let url=`${ENDPOINT}/Questions/:`;
+    console.log("Calling resOfTypeOfpage");
+    console.log("typeogPage = ", props.typeofpage)
+    axios.get(url + props.typeofpage)
+    .then((res) => {
+      console.log("resOfTypeOfpage = ", res.data)
+      //setQues(res.data.questions);
+  })
+    // axiosCall('get', url, {"name": props.typeofpage})
+    //   .then((res) => {
+    //     console.log("resOfTypeOfpage = ", res.data)
+    //     //setQues(res.data.questions);
+    // })
+  }, []);
 
   return (
     <>

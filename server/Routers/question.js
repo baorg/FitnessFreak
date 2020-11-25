@@ -9,7 +9,8 @@ const {
     addVoteHandler,
     editVoteHandler,
     saveBookMark,
-    isBookMarked
+    isBookMarked,
+    getTypeOfQuestionsHandler 
 } = require('../Handlers').QuestionHandler;
 
 
@@ -22,4 +23,5 @@ router.post("/votes/byUser", addVoteHandler);
 router.post("/votes/editVote", editVoteHandler);
 router.post("/saveBookMark",saveBookMark);
 router.post("/isBookMarked",isBookMarked);
+router.get("/:name", getTypeOfQuestionsHandler);
 module.exports = router;
