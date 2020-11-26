@@ -57,7 +57,7 @@ async function hotQuestions(obj){
     console.log("inside hot ")
     const query = Ques.find({}, "title question created_at categoryName upDown").populate(obj)
     const promise = query.exec()
-    return response = promise.then( (ques) =>{
+    return response = promise.then((ques) =>{
         console.log("find Ques")
         ques.sort( (a, b) => {
 
@@ -69,30 +69,35 @@ async function hotQuestions(obj){
         
         return ({questions : getArrayOfQues(ques)});
     
-})
+    })
+    .catch((err) => ({"err" : err}))
+
 }
 async function latest(obj){
 
-    Ques.find({}, "title question created_at categoryName").populate(obj)
-    .exec(function(err, ques) {
+    const query = Ques.find({}, "title question created_at categoryName").populate(obj)
+    const promise = query.exec()
+    return response = promise.then(function(ques) {
 
-        if(err)
-            return {err : err}
         ques.sort(function(a, b) {
             return a.created_at > b.created_at
         })
         return {questions : getArrayOfQues(ques)}
     })
+    .catch((err) => ({"err" : err}))
 }
 
 async function unanswered(obj){
 
-    Ques.find({answers : []}, "title question created_at categoryName").populate(obj).exec(function(err, ques) {
+    const query = Ques.find({answers : []}, "title question created_at categoryName").populate(obj)
+    const promise = query.exec()
+    return response = promise.then(function(ques) {
 
         if(err)
             return {err : err}
         return {questions : getArrayOfQues(ques)};
     })
+    .catch((err) => ({"err" : err}))
 
 }
 function getHandlerForTheAskedType(name){
@@ -121,7 +126,6 @@ module.exports.getTypeOfQuestionsHandler = function(req, res){
     }
     
     const fun = getHandlerForTheAskedType(name);
-
     const promise = fun(obj)
     
     promise.then((response) => {
