@@ -14,10 +14,11 @@ const TypeOfPage = function(props) {
 
   useEffect(() => {
     //axios call
-    let url=`${ENDPOINT}/Question/:`;
+    if(props.user != null){
+    let url=`${ENDPOINT}/Question/`;
     console.log("Calling resOfTypeOfpage");
     console.log("typeogPage = ", props.typeofpage)
-    axios.get(url + props.typeofpage)
+    axios.get(url + props.typeofpage, {withCredentials : true})
     .then((res) => {
       console.log("resOfTypeOfpage = ", res.data)
       //setQues(res.data.questions);
@@ -27,6 +28,7 @@ const TypeOfPage = function(props) {
     //     console.log("resOfTypeOfpage = ", res.data)
     //     //setQues(res.data.questions);
     // })
+}
   }, []);
 
   return (

@@ -53,14 +53,12 @@ function likes(ques){
     return count;
     
 }
-function hotQuestions(obj){
-
-    Ques.find({}, "title question created_at categoryName upDown").populate(obj)
-    .exec(function(err, ques) {
-
-        if(err)
-        return {err : err}
-        
+async function hotQuestions(obj){
+    console.log("inside hot ")
+    const query = Ques.find({}, "title question created_at categoryName upDown").populate(obj)
+    const promise = query.exec()
+    return response = promise.then( (ques) =>{
+        console.log("find Ques")
         ques.sort( (a, b) => {
 
             const x = likes(a);
@@ -68,12 +66,12 @@ function hotQuestions(obj){
 
             return x > y;
         })
-
-        return {questions : getArrayOfQues(ques)}
-})
+        
+        return ({questions : getArrayOfQues(ques)});
     
+})
 }
-function latest(obj){
+async function latest(obj){
 
     Ques.find({}, "title question created_at categoryName").populate(obj)
     .exec(function(err, ques) {
@@ -87,7 +85,7 @@ function latest(obj){
     })
 }
 
-function unanswered(obj){
+async function unanswered(obj){
 
     Ques.find({answers : []}, "title question created_at categoryName").populate(obj).exec(function(err, ques) {
 
@@ -98,7 +96,7 @@ function unanswered(obj){
 
 }
 function getHandlerForTheAskedType(name){
-
+   
     switch(name){
 
         case "hot-questions" : return hotQuestions;
@@ -121,11 +119,15 @@ module.exports.getTypeOfQuestionsHandler = function(req, res){
             select: 'username first_name last_name'
         },
     }
-    console.log("typeofQues = ", name)
-
-    const fun = getHandlerForTheAskedType(name);
-    const result = fun(obj)
     
-    return res.send(result);
+    const fun = getHandlerForTheAskedType(name);
+
+    const promise = fun(obj)
+    
+    promise.then((response) => {
+        console.log("response = ", response)
+        return res.send(response)
+    })
+    
 }
 

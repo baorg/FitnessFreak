@@ -26,7 +26,9 @@ function getRoutes(user) {
 }
 
 async function getUserName(setUser){
+  console.count("getuserName");
     const res = await axios.get("/Users/get-userdata", {withCredentials : true})
+    console.count("getuserName");
     if(res.data.isAuthenticated===true)
         setUser(res.data.user);
     console.log(res.data);
@@ -35,8 +37,10 @@ async function getUserName(setUser){
 
 function Feed() {
   const [user, setUser] = useState(null);
+
   useEffect(() => {
     //isAuthenitaced
+    console.count("getuserName");
     getUserName(setUser);
     console.log("User:", user, ">");
   }, [])
