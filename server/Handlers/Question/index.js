@@ -6,6 +6,7 @@ const postQuestionHandler = require('./postQuestion');
 const { addVoteHandler, editVoteHandler } = require("./Voting");
 const {saveBookMark, isBookMarked} = require("./bookmark");
 const {getTypeOfQuestionsHandler} = require("./TypeOfQues");
+const uploadAttachmentsHandler=require("./uploadAttachments")
 module.exports = {
     getOneQuestionHandler,
     getQuestionsHandler,
@@ -15,5 +16,6 @@ module.exports = {
     editVoteHandler,
     saveBookMark,
     isBookMarked,
-    getTypeOfQuestionsHandler 
+    getTypeOfQuestionsHandler,
+    uploadAttachmentsHandler
 }

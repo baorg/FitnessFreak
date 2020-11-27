@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const multiparty=require('connect-multiparty');
+const MultipartyMiddleware=multiparty({uploadDir:'./images'});
 const { isAuthenticated } = require("../Middlewares");
 const {
     postAnswerHandler,
@@ -10,7 +12,8 @@ const {
     editVoteHandler,
     saveBookMark,
     isBookMarked,
-    getTypeOfQuestionsHandler 
+    getTypeOfQuestionsHandler,
+    uploadAttachmentsHandler
 } = require('../Handlers').QuestionHandler;
 
 
@@ -24,4 +27,5 @@ router.post("/votes/editVote", editVoteHandler);
 router.post("/saveBookMark",saveBookMark);
 router.post("/isBookMarked",isBookMarked);
 router.get("/:name", getTypeOfQuestionsHandler);
+router.post("/upload",MultipartyMiddleware,uploadAttachmentsHandler);
 module.exports = router;
