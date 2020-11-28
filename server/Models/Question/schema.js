@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 
-const questionSchema = new mongoose.Schema({
+module.exports = new mongoose.Schema({
     upDown: [],
+    vote_count: { upvote: { type: Number, default: 0 }, downvote: { type: Number, default: 0 } },
     title: String,
     question: String,
     answers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Ans' }],
@@ -9,11 +10,5 @@ const questionSchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     tags: [String],
     attachments: [{ url: String, type: String }],
-    created_at: Date
+    created_at: { type: Date, default: () => new Date(0) }
 });
-const Question = new mongoose.model("Ques", questionSchema);
-
-module.exports = {
-    questionSchema,
-    Ques: Question
-}

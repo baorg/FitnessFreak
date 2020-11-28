@@ -5,9 +5,9 @@ module.exports = {
     options: {
         title: 'title',
         listProperties: ['_id', 'title', 'userId', 'categoryName', 'created_at'],
-        filterProperties: ['_id', 'title', 'categoryName', 'created_at'],
-        // showProperties:[],
-        // editProperties: [],
+        filterProperties: ['_id', 'title', 'categoryName', 'created_at', 'userId'],
+        listProperties: ['_id', 'title', 'userId', 'categoryName', 'created_at'],
+        listProperties: ['_id', 'title', 'userId', 'categoryName', 'created_at'],
     }
 };
 

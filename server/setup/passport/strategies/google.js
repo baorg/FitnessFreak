@@ -21,7 +21,6 @@ function getStrategy() {
                     if (user.google_setup.setup == false) {
                         User.getUniqueUsername(user.username || profile._json.name).then(
                             username => {
-
                                 user.username = username;
                                 user.profile_image = profile._json.picture;
                                 user.first_name = profile._json.given_name;

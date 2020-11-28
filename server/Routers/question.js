@@ -1,27 +1,19 @@
 const express = require("express");
 const router = express.Router();
 const { isAuthenticated } = require("../Middlewares");
-const {
-    postAnswerHandler,
-    postQuestionHandler,
-    getOneQuestionHandler,
-    getQuestionsHandler,
-    addVoteHandler,
-    editVoteHandler,
-    saveBookMark,
-    isBookMarked,
-    getTypeOfQuestionsHandler 
-} = require('../Handlers').QuestionHandler;
+const QuestionHandler = require('../Handlers').QuestionHandler;
 
 
-router.use(isAuthenticated);
-router.get("/getQuestions", getQuestionsHandler);
-router.get("/getQuestions/:id", getOneQuestionHandler);
-router.post("/postQuestion", postQuestionHandler);
-router.post("/postAnswer", postAnswerHandler);
-router.post("/votes/byUser", addVoteHandler);
-router.post("/votes/editVote", editVoteHandler);
-router.post("/saveBookMark",saveBookMark);
-router.post("/isBookMarked",isBookMarked);
-router.get("/:name", getTypeOfQuestionsHandler);
+// router.use();
+router.get("/getQuestions", isAuthenticated, QuestionHandler.getQuestionsHandler);
+router.get("/getQuestions/:id", isAuthenticated, QuestionHandler.getOneQuestionHandler);
+router.post("/postQuestion", isAuthenticated, QuestionHandler.postQuestionHandler);
+router.post("/postAnswer", isAuthenticated, QuestionHandler.postAnswerHandler);
+router.post("/votes/byUser", isAuthenticated, QuestionHandler.addVoteHandler);
+router.post("/votes/editVote", isAuthenticated, QuestionHandler.editVoteHandler);
+router.post("/saveBookMark", isAuthenticated, QuestionHandler.saveBookMark);
+router.post("/isBookMarked", isAuthenticated, QuestionHandler.isBookMarked);
+router.get("/get-feed-question", QuestionHandler.getFeedQuestion);
+router.get("/:name", QuestionHandler.getTypeOfQuestionsHandler);
+
 module.exports = router;

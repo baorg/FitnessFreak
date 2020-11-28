@@ -6,21 +6,21 @@ import Question from "./ques";
 import { ENDPOINT } from "../utils";
 import axios from "axios";
 import { navigate } from 'hookrouter';
-
+import axiosCall from './../../ajaxRequest';
 const App = function(props) {
 
-  const [ques, setQues] = useState([]);
+  const [questions, setQuestions] = useState([]);
 
-  useEffect(() => {
-    axios.get(`${ENDPOINT}/Question/getQuestions`,{ withCredentials: true })
-      .then(res => {
-        if (res.data.isAuthenticated) {
-          console.log("res.data = " ,res.data);
-          setQues(res.data.questions);
-        } else {
-          navigate('/');
-        }
-      });
+
+  useEffect(async () => {
+    let res = await axiosCall('GET', `${ENDPOINT}/feed/get-feed`);
+    // console.log(res.data.questions);
+    if (res.data.questions.length == 0) {
+      let refresh_res = await axiosCall('POST', `${ENDPOINT}/feed/refresh-feed`);
+      if (refresh_res.data.feed == 'refreshed')
+          res = await axiosCall('GET', `${ENDPOINT}/feed/get-feed`);
+    } 
+    setQuestions(res.data.questions);
   }, []);
 
   const uploadRef = useRef(null);
@@ -34,7 +34,7 @@ const App = function(props) {
       <div ref={uploadRef} className="nodisplay" ></div>
       <SideNavPage />
       <div className="maindivofeverypage">
-        { ques.map((item, index) => <Question key={index}  ques={item}/>)}
+        { questions.map(question => <Question key={question._id}  ques={question}/>)}
       </div>
     </>
   );

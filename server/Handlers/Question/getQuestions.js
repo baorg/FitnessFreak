@@ -25,7 +25,6 @@ module.exports.getQuestionsHandler = function(req, res) {
 
 
 function getCount(ques) {
-
     let arr = ques.upDown;
     let upCount = 0;
     let downCount = 0;
@@ -34,7 +33,6 @@ function getCount(ques) {
             upCount++;
         else
             downCount++;
-
     }
 
     let obj = {
@@ -46,10 +44,9 @@ function getCount(ques) {
             question: ques.question
         }
     }
-
     return obj;
-
 }
+
 module.exports.getOneQuestionHandler = function(req, res) {
     const id = req.params.id;
     Ques.findById(id).populate("answers").exec((err, ques) => {
@@ -58,4 +55,23 @@ module.exports.getOneQuestionHandler = function(req, res) {
         let obj = getCount(ques)
         res.send({ ques: obj });
     })
+}
+
+module.exports.getFeedQuestion = async function(req, res) {
+    const { feedQuestionSerializer } = require('../../Serializers').QuestionSerializers;
+    const id = req.query.id;
+
+    question = await Ques.findOne({ _id: id })
+        .populate({
+            path: "userId",
+            select: 'username'
+        })
+        .select('id vote_count title question categoryName userId tags created_at')
+        .exec();
+
+    serialized_data = feedQuestionSerializer(question);
+    return res.send({
+        isAuthenticated: req.isAuthenticated(),
+        question: serialized_data
+    });
 }

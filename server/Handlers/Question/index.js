@@ -1,11 +1,28 @@
 const { request } = require("express");
 
-const { getOneQuestionHandler, getQuestionsHandler } = require('./getQuestions');
+const {
+    getOneQuestionHandler,
+    getQuestionsHandler,
+    getFeedQuestion
+} = require('./getQuestions');
+
 const postAnswerHandler = require('./postAnswer');
 const postQuestionHandler = require('./postQuestion');
-const { addVoteHandler, editVoteHandler } = require("./Voting");
-const {saveBookMark, isBookMarked} = require("./bookmark");
-const {getTypeOfQuestionsHandler} = require("./TypeOfQues");
+
+const {
+    addVoteHandler,
+    editVoteHandler
+} = require("./Voting");
+
+const {
+    saveBookMark,
+    isBookMarked
+} = require("./bookmark");
+
+const {
+    getTypeOfQuestionsHandler
+} = require("./TypeOfQues");
+
 module.exports = {
     getOneQuestionHandler,
     getQuestionsHandler,
@@ -15,5 +32,6 @@ module.exports = {
     editVoteHandler,
     saveBookMark,
     isBookMarked,
-    getTypeOfQuestionsHandler 
-}
+    getTypeOfQuestionsHandler,
+    getFeedQuestion
+};

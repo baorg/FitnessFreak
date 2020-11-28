@@ -12,6 +12,12 @@ const {
     getUniqueUsername
 } = require("./statics");
 
+const {
+    getAllQuestionsOfFollowings,
+    refreshFeed,
+    getFeed
+} = require('./methods');
+
 const userSchema = require("./schema");
 
 userSchema.statics = {
@@ -23,6 +29,13 @@ userSchema.statics = {
     findUserByUserName,
     getUniqueUsername
 };
+
+userSchema.methods = {
+    getAllQuestionsOfFollowings,
+    refreshFeed,
+    getFeed
+}
+
 
 userSchema.plugin(findOrCreate);
 userSchema.plugin(passportLocalMongoose);

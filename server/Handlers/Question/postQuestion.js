@@ -16,7 +16,8 @@ module.exports = function(req, res) {
         answers: [],
         categoryName: category,
         userId: user_id,
-        tags: tags
+        tags: tags,
+        created_at: new Date(Date.now())
     })
 
     ques.save(err => {

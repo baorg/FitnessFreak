@@ -21,6 +21,7 @@
     "express-formidable": "^1.2.0",
     "express-session": "^1.17.1",
     "express-validator": "^6.6.1",
+    "faker": "^5.1.0",
     "mongoose": "^5.10.13",
     "mongoose-findorcreate": "^3.0.0",
     "passport": "^0.4.1",
