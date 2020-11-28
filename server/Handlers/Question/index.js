@@ -8,20 +8,10 @@ const {
 
 const postAnswerHandler = require('./postAnswer');
 const postQuestionHandler = require('./postQuestion');
-
-const {
-    addVoteHandler,
-    editVoteHandler
-} = require("./Voting");
-
-const {
-    saveBookMark,
-    isBookMarked
-} = require("./bookmark");
-
-const {
-    getTypeOfQuestionsHandler
-} = require("./TypeOfQues");
+const { addVoteHandler, editVoteHandler } = require("./Voting");
+const { saveBookMark, isBookMarked } = require("./bookmark");
+const { getTypeOfQuestionsHandler } = require("./TypeOfQues");
+const uploadAttachmentsHandler = require("./uploadAttachments")
 
 module.exports = {
     getOneQuestionHandler,
@@ -33,5 +23,6 @@ module.exports = {
     saveBookMark,
     isBookMarked,
     getTypeOfQuestionsHandler,
-    getFeedQuestion
-};
+    getFeedQuestion,
+    uploadAttachmentsHandler
+}

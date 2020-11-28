@@ -5,7 +5,7 @@ import Searchdiv from "./searchdiv";
 import './styles.css'
 import './Postques.css'
 import CloseIcon from '@material-ui/icons/Close';
-import { CKEditor, CKEditorContext } from '@ckeditor/ckeditor5-react';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 let selectedtagss=[];
@@ -23,6 +23,27 @@ function PostQuestion(props){
   function change(a){
     setSelectedTags(a);
   }
+  // CKEDITOR.editorConfig = function( config ) {
+  //   config.toolbarGroups = [
+  //     { name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
+  //     { name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
+  //     { name: 'editing', groups: [ 'find', 'selection', 'spellchecker', 'editing' ] },
+  //     { name: 'forms', groups: [ 'forms' ] },
+  //     '/',
+  //     { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+  //     { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi', 'paragraph' ] },
+  //     { name: 'links', groups: [ 'links' ] },
+  //     { name: 'insert', groups: [ 'insert' ] },
+  //     '/',
+  //     { name: 'styles', groups: [ 'styles' ] },
+  //     { name: 'colors', groups: [ 'colors' ] },
+  //     { name: 'tools', groups: [ 'tools' ] },
+  //     { name: 'others', groups: [ 'others' ] },
+  //     { name: 'about', groups: [ 'about' ] }
+  //   ];
+  
+  //   config.removeButtons = 'Source,Save,Templates,Cut,Copy,Paste,PasteText,PasteFromWord,Undo,Redo,NewPage,ExportPdf,Preview,Print,Find,Replace,Scayt,SelectAll,Form,Checkbox,Radio,TextField,Textarea,Button,Select,ImageButton,HiddenField,JustifyLeft,JustifyCenter,JustifyRight,JustifyBlock,BidiLtr,BidiRtl,Link,Anchor,Unlink,Image,Flash,Table,HorizontalRule,PageBreak,Iframe,Maximize,About,ShowBlocks,BGColor,TextColor,Styles,Format,Font';
+  // };
   return (
     <>
       <MyNav user={props.user} />
@@ -36,23 +57,14 @@ function PostQuestion(props){
         </div>
         <div style={{display:"flex", alignItems:"center",justifyContent:"center"}} className="box" >
           <h5 className="title" >Enter your Question  </h5> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            
             <CKEditor
               editor={ ClassicEditor }
-              data="<p>Enter your Question</p>"
-              onReady={ editor => {
-              // You can store the "editor" and use when it is needed.
-              console.log( 'Editor is ready to use!', editor );
-              } }
-              onChange={ ( event, editor ) => {
-              const data = editor.getData();
-              console.log( { event, editor, data } );
-              } }
-              onBlur={ ( event, editor ) => {
-              console.log( 'Blur.', editor );
-              } }
-              onFocus={ ( event, editor ) => {
-              console.log( 'Focus.', editor );
-              } }
+              config={{         
+                toolbar: ['heading', '|', 'bold', 'italic', 'blockQuote',  'numberedList', 'bulletedList', '|', 'undo', 'redo','imageUpload'],
+                ckfinder:{uploadUrl:'/Question/upload'}
+              }} 
+              onChange={(event,editor)=>{let data=editor.getData();console.log(data)}}
             />
           <br />
         </div>

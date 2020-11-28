@@ -20,8 +20,8 @@ const TypeOfPage = function(props) {
     console.log("typeogPage = ", props.typeofpage)
     axios.get(url + props.typeofpage, {withCredentials : true})
     .then((res) => {
-      console.log("resOfTypeOfpage = ", res.data)
-      //setQues(res.data.questions);
+      console.log("resOfTypeOfpage = ", res.data.questions)
+      setQues(res.data.questions);
   })
     // axiosCall('get', url, {"name": props.typeofpage})
     //   .then((res) => {
@@ -38,9 +38,9 @@ const TypeOfPage = function(props) {
       <div className="maindivofeverypage">
         <h2>{props.typeofpage}</h2>
         <h2>{props.categoryname}</h2>
-        {/* <div>
+        <div>
         { ques.map((item, index) => <Question key={index}  ques={item}/>)}
-        </div> */}
+        </div>
       </div>
     </>
   );
