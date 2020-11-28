@@ -22,8 +22,11 @@ const SideNavBar = function(props) {
     function navigateToHotQuestions(){
       navigate("/hot-questions");
     }
-    function navigateToBookmarks(){
-      navigate("/bookmarks");
+    function navigateToUnansweredQuestions(){
+      navigate("/unanswered-questions");
+    }
+    function navigateToLatestQuestions(){
+      navigate("/latest-questions");
     }
   return (
 
@@ -36,7 +39,8 @@ const SideNavBar = function(props) {
           {categories.map((el,index)=><a key={index} onClick={()=>navigateToCategory(el)}>{el}</a>)}
         </div>
         <a onClick={navigateToHotQuestions}>Hot Questions</a>
-        <a onClick={navigateToBookmarks}>Bookmarks</a>
+        <a onClick={navigateToUnansweredQuestions}>Unanswered Questions</a>
+        <a onClick={navigateToLatestQuestions}>Latest Questions</a>
     </div>
 </div>
 

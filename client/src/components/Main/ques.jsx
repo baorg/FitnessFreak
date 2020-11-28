@@ -12,6 +12,8 @@ function Question(props) {
 
     useEffect(async () => {
         let res = await ajaxRequest('GET', `${ENDPOINT}/Question/get-feed-question?id=${props.ques._id}`);
+        console.log("res= ",res);
+        console.log("props= ",props)
         setQuestion(res.data.question);
     }, []);
 

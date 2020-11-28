@@ -1,6 +1,6 @@
 function getArrayOfQues(arr) {
     return arr.map((ques) => ({
-        id: ques._id,
+        _id: ques._id,
         title: ques.title,
         question: ques.question,
         category: ques.categoryName,
