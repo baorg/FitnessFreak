@@ -13,13 +13,13 @@ const App = function(props) {
 
 
   useEffect(async () => {
-    let res = await axiosCall('GET', `${ENDPOINT}/profilePrivileges/bookmarks`);
-    console.log(res.data.questions);
-    // if (res.data.questions.length == 0) {
-    //   let refresh_res = await axiosCall('POST', `${ENDPOINT}/feed/refresh-feed`);
-    //   if (refresh_res.data.feed == 'refreshed')
-    //       res = await axiosCall('GET', `${ENDPOINT}/feed/get-feed`);
-    // } 
+    let res = await axiosCall('GET', `${ENDPOINT}/feed/get-feed`);
+    // console.log(res.data.questions);
+    if (res.data.questions.length == 0) {
+      let refresh_res = await axiosCall('POST', `${ENDPOINT}/feed/refresh-feed`);
+      if (refresh_res.data.feed == 'refreshed')
+          res = await axiosCall('GET', `${ENDPOINT}/feed/get-feed`);
+    } 
     setQuestions(res.data.questions);
   }, []);
 
