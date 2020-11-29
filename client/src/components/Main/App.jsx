@@ -13,7 +13,7 @@ const App = function(props) {
 
 
   useEffect(async () => {
-    let res = await axiosCall('GET', `${ENDPOINT}/profilePrivileges/bookmarks`);
+    let res = await axiosCall('GET', `${ENDPOINT}/Question/profilePrivileges/bookmarks`);
     console.log(res.data.questions);
     // if (res.data.questions.length == 0) {
     //   let refresh_res = await axiosCall('POST', `${ENDPOINT}/feed/refresh-feed`);
