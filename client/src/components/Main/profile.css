@@ -3,10 +3,9 @@
     height:200px ;
 }
 
-.sidebar,
-.main,
-.right{
-    /* border:2px solid red; */
+/* .sidebar,
+.main{
+    border:2px solid red;
     margin:2px;
     flex-grow: 1;
     height: 100vh;
@@ -16,7 +15,7 @@
     flex-grow: 3;
 }
 .sidebar div{
-    /* border: 2px solid blue; */
+    border: 2px solid blue;
     margin-left:10px ;
 }
 .sidebar a{
@@ -29,4 +28,4 @@
     display: flex;
     align-items: center;
     
-}
+} */

@@ -1,6 +1,6 @@
 import React, { useState,useRef,useEffect } from "react"
 import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
-import { navigate } from 'hookrouter';
+import {A, navigate } from 'hookrouter';
 import './sideNav.css'
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 
@@ -32,7 +32,15 @@ const SideNavBar = function(props) {
 
 
 <div className="sidenav">
-    <div>
+    {props.type==="profile"
+    ?<div>
+      <A href={`/followers/${props.profileid}`}>Followers</A>
+      <A href={`/following/${props.profileid}`}>Following</A>
+      {/* <A href="/feed/app">Questions Asked</A> */}
+      <a>Answers Given</a>
+      <A href="/" >Bookmarks</A>
+    </div>
+    :<div>
         <a onClick={navigateToPostQues}>Add Question</a>
         <a  style={{display: "inline-block"}} onMouseOver={hover} onMouseOut={unhover}>Categories <ArrowRightIcon /></a>
         <div className="categorybox" onMouseOver={hover} onMouseOut={unhover}>
@@ -41,7 +49,7 @@ const SideNavBar = function(props) {
         <a onClick={navigateToHotQuestions}>Hot Questions</a>
         <a onClick={navigateToUnansweredQuestions}>Unanswered Questions</a>
         <a onClick={navigateToLatestQuestions}>Latest Questions</a>
-    </div>
+    </div>}
 </div>
 
   );
