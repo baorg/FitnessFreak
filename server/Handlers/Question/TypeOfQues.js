@@ -91,8 +91,8 @@ async function unanswered(obj) {
     const promise = query.exec()
     return response = promise.then(function(ques) {
 
-            if (err)
-                return { err: err }
+            // if (err)
+            //     return { err: err }
             return { questions: getArrayOfQues(ques) };
         })
         .catch((err) => ({ "err": err }))
@@ -105,9 +105,9 @@ function getHandlerForTheAskedType(name) {
 
         case "hot-questions":
             return hotQuestions;
-        case "unanswered":
+        case "unanswered-questions":
             return unanswered;
-        case "latest":
+        case "latest-questions":
             return latest;
 
         default:

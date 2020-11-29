@@ -6,6 +6,7 @@ import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import axios from 'axios';
 import PersonAddDisabledIcon from '@material-ui/icons/PersonAddDisabled';
 import {A, navigate} from 'hookrouter';
+import SideNavBar from "../SideNav/SideNav";
 
 const AnonymousUser = {
     _id:0,
@@ -55,16 +56,8 @@ function Profile(props){
     return (
         <>
             <MyNav user={props.user} />
-            <div style={{ display: "flex" }}>
-                <div className="sidebar" >
-                    <div>
-                        <A href={`/followers/${profileUser._id}`}>Followers</A>
-                        <A href={`/following/${profileUser._id}`}>Following</A>
-                        <A href="/feed/app">Questions Asked</A>
-                        <a>Answers Given</a>
-                    </div>
-                </div>
-                <div className="main" >
+            <SideNavBar type="profile" profileid={profileUser._id} />
+                <div className="maindivofeverypage" >
                     <img src={profileUser.profile_image || AnonymousUser.profile_image} alt="profilepic" className="profilepic"></img>
                     <h1>{profileUser.username}</h1>
                     {props.user && profileUser._id === props.user._id ?
@@ -74,8 +67,6 @@ function Profile(props){
                             : <button onClick={handleFollow}>Follow <PersonAddIcon /></button>)
                     }
                 </div>
-            </div>
-            <div className="right" ></div>
         </>
     );
     
