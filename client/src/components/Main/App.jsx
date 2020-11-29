@@ -13,7 +13,6 @@ const App = function(props) {
 
 
   useEffect(async () => {
-<<<<<<< HEAD
     let res = await axiosCall('GET', `${ENDPOINT}/feed/get-feed`);
     // console.log(res.data.questions);
     if (res.data.questions.length == 0) {
@@ -21,15 +20,6 @@ const App = function(props) {
       if (refresh_res.data.feed == 'refreshed')
           res = await axiosCall('GET', `${ENDPOINT}/feed/get-feed`);
     } 
-=======
-    let res = await axiosCall('GET', `${ENDPOINT}/Question/profilePrivileges/bookmarks`);
-    console.log(res.data.questions);
-    // if (res.data.questions.length == 0) {
-    //   let refresh_res = await axiosCall('POST', `${ENDPOINT}/feed/refresh-feed`);
-    //   if (refresh_res.data.feed == 'refreshed')
-    //       res = await axiosCall('GET', `${ENDPOINT}/feed/get-feed`);
-    // } 
->>>>>>> f0207fb38eb23957b3c041e0cb856645c2088f8f
     setQuestions(res.data.questions);
   }, []);
 
