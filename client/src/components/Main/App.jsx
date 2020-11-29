@@ -37,8 +37,8 @@ const App = function(props) {
 
     return (
       <>
-        <MyNav user={props.user} showuploadbox={showuploadbox} />
-        <div ref={uploadRef} className="nodisplay" ></div>
+        <MyNav user={props.user} />
+        <div className="nodisplay" ></div>
         <SideNavPage />
         <div className="maindivofeverypage">
           {questions ? questions.map(question => <Question key={question._id}  ques={question}/>): <></>}
