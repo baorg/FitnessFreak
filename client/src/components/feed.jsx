@@ -4,12 +4,9 @@ import axios from "axios";
 import { useRoutes } from 'hookrouter';
 import {HTML404 } from './ErrorPage/Error';
 import PostQuestion from "./Main/Postques";
-import Profile from "./Main/profile";
-import Followers from './Main/followers';
-import Following from './Main/following';
 import FullQuestion from './Main/fullQuestion';
-import TypeOfPage from "./Main/typeofpage";
 import TypeOfPageRoutes from "./typeofpageroutes";
+import ProfileRoutes from "./profileroutes";
 
 
 function getRoutes(user) {
@@ -17,9 +14,8 @@ function getRoutes(user) {
     '/': () => <App user={user}/>,
     'app': () => <App user={user}/>,
     'post-question':()=><PostQuestion user={user} />,
-    'profile/:userId': ({ userId }) => <Profile user={user} userId={userId} />,
-    'followers/:userId': ({ userId }) => <Followers userId={userId} />,
-    'following/:userId': ({ userId }) => <Following userId={userId}/>,
+    'profile/:userId*': ({ userId }) => <ProfileRoutes user={user} userId={userId} />,
+    
     'viewFullQuestion/:quesId' :({quesId}) => <FullQuestion quesId = {quesId} user={user}/>,
     ':typeofpage*':({typeofpage}) => <TypeOfPageRoutes typeofpage={typeofpage} user={user} />
   }

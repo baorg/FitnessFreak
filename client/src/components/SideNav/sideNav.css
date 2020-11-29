@@ -10,7 +10,9 @@
     background-color:white;
     justify-content: center;
 }
-.sidenav a{
+.sidenav A{
+    text-decoration: none;
+    color: black;
     display: block;
     font-size: 20px;
     margin-bottom: 10px;
