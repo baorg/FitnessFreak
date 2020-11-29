@@ -13,6 +13,7 @@ const { saveBookMark, isBookMarked } = require("./bookmark");
 const { getTypeOfQuestionsHandler } = require("./TypeOfQues");
 const uploadAttachmentsHandler = require("./uploadAttachments");
 const {profilePrivileges} = require("./bookmarks")
+const {getCategory} = require("./category")
 
 module.exports = {
     getOneQuestionHandler,
@@ -26,5 +27,6 @@ module.exports = {
     getTypeOfQuestionsHandler,
     getFeedQuestion,
     uploadAttachmentsHandler,
-    profilePrivileges
+    profilePrivileges,
+    getCategory
 }
