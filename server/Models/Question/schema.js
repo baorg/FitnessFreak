@@ -6,7 +6,7 @@ module.exports = new mongoose.Schema({
     title: String,
     question: String,
     answers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Ans' }],
-    categoryName: { type: mongoose.Schema.Types.ObjectId, ref: 'Category'},
+    categoryName: String,
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     tags: [String],
     attachments: [{ url: String, type: String }],

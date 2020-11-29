@@ -45,7 +45,7 @@ function Searchdiv(props){
             props.setSelectedTags(Array.from(new Set([...props.selectedTags, el])));
             setSearchTag("")
             setFilterArr([]);
-        }else if(props.type==="users"){
+        }else if(props.type==="users"){ 
             let url2 = `/profile/${el._id}`;
             navigate(url2);
         }
