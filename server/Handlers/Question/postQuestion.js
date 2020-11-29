@@ -14,7 +14,7 @@ module.exports = function(req, res) {
         question: question,
         upDown: [],
         answers: [],
-        categoryName: category,
+        // categoryName: category,
         userId: user_id,
         tags: tags,
         created_at: new Date(Date.now())
