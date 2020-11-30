@@ -12,7 +12,7 @@ import {
 import './styles.css'
 import {ENDPOINT} from '../utils'
 import { A, navigate } from 'hookrouter';
-import Searchdiv from "../Main/searchdiv";
+import Searchdiv from "../Searchdiv/searchdiv";
 
 const MyNav = function(props) {
 

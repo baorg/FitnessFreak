@@ -1,8 +1,8 @@
 import React,{useState} from "react";
 import MyNav from "../navbar/navbar"
 import SideNavBar from "../SideNav/SideNav";
-import Searchdiv from "./searchdiv";
-import './styles.css'
+import Searchdiv from "../Searchdiv/searchdiv";
+import '../styles.css'
 import './Postques.css'
 import CloseIcon from '@material-ui/icons/Close';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -10,7 +10,7 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import ajaxRequest from '../../ajaxRequest';
-import { API_DOMAIN } from './../../config';
+import { API_DOMAIN } from '../../config';
 
 
 let selectedtagss=[];

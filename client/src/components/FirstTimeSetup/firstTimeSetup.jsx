@@ -1,6 +1,6 @@
 import React , {useEffect,useState}  from "react";
 import axiosCall from "../../ajaxRequest"
-import EditProfile from "../Main/editProfile";
+import EditProfile from "../EditProfile/editProfile";
 import { ENDPOINT } from "../utils";
 import {navigate} from 'hookrouter'
 

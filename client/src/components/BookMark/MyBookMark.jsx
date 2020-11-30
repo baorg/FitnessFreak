@@ -1,7 +1,7 @@
 import React,{useState,useEffect,useRef} from "react"
 import axios from "axios"
 import { ENDPOINT } from "../utils";
-import './styles.css'
+import '../styles.css'
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 import axiosCall from "../../ajaxRequest";

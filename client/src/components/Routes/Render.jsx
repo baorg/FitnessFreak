@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useRoutes } from 'hookrouter';
-import Auth from "./Auth";
+import Auth from "../Auth";
 import Feed from "./feed";
-import {HTML404 } from './ErrorPage/Error';
-import FullQuestion from "./Main/fullQuestion"
-import FirstTimeSetup from "./FirstTimeSetup/firstTimeSetup";
+import {HTML404 } from '../ErrorPage/Error';
+import FullQuestion from "../FullQuestion/fullQuestion"
+import FirstTimeSetup from "../FirstTimeSetup/firstTimeSetup";
 
 function getRoutes() {
   return {

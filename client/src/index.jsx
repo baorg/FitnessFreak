@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Render from "./components/Render";
+import Render from "./components/Routes/Render";
 
 const root = document.getElementById("root");
 
