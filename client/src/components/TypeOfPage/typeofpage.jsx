@@ -1,29 +1,27 @@
 import React, { useState,useRef,useEffect } from "react"
 import MyNav from "../navbar/navbar"
 import SideNavPage from "../SideNav/SideNav";
-import './styles.css'
-import Question from "./ques";
+import '../styles.css'
+import Question from "../Question/ques";
 import { ENDPOINT } from "../utils";
 import axios from "axios";
 import { navigate } from 'hookrouter';
 import axiosCall from "../../ajaxRequest";
 
-const ProfilePrivileges = function(props) {
+const TypeOfPage = function(props) {
 
   const [ques, setQues] = useState([]);
 
   useEffect(() => {
     //axios call
     if(props.user != null){
-    let url=`${ENDPOINT}/Question/profilePrivileges`;
+    let url=`${ENDPOINT}/Question/`;
     console.log("Calling resOfTypeOfpage");
     console.log("typeogPage = ", props.typeofpage)
-    // console.log("props=",props.user)
-    // console.log("props2=",props.userID)
-    axios.get(url + props.privilege, {withCredentials : true})
+    axios.get(url + props.typeofpage, {withCredentials : true})
     .then((res) => {
       console.log("resOfTypeOfpage = ", res.data.questions)
-    //   setQues(res.data.questions);
+      setQues(res.data.questions);
   })
     // axiosCall('get', url, {"name": props.typeofpage})
     //   .then((res) => {
@@ -38,7 +36,8 @@ const ProfilePrivileges = function(props) {
       <MyNav user={props.user} />
       <SideNavPage />
       <div className="maindivofeverypage">
-        <h2>{props.privilege} </h2>
+        <h2>{props.typeofpage}</h2>
+        <h2>{props.categoryname}</h2>
         <div>
         { ques.map((item, index) => <Question key={index}  ques={item}/>)}
         </div>
@@ -47,4 +46,4 @@ const ProfilePrivileges = function(props) {
   );
 };
 
-export default ProfilePrivileges;
+export default TypeOfPage;

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import App from "./Main/App";
+import App from "../App/App";
 import axios from "axios";
 import { useRoutes } from 'hookrouter';
-import {HTML404 } from './ErrorPage/Error';
-import TypeOfPage from "./Main/typeofpage";
+import {HTML404 } from '../ErrorPage/Error';
+import TypeOfPage from "../TypeOfPage/typeofpage";
 
 
 

@@ -1,13 +1,13 @@
 import React,{useState,useEffect,useRef} from "react"
 import axios from "axios"
 import { ENDPOINT } from "../utils";
-import Answer from "./answer";
-import PostAnswer from "./postAnswer";
-import UpvoteDownvote from "./upvoteDownvote";
+import Answer from "../Answer/answer";
+import PostAnswer from "../PostAnswer/postAnswer";
+import UpvoteDownvote from "../UpvoteDownvote/upvoteDownvote";
 import MyNav from "../navbar/navbar";
 import SideNavBar from "../SideNav/SideNav";
-import './styles.css'
-import BookMark from "./MyBookMark"
+import '../styles.css'
+import BookMark from "../BookMark/MyBookMark"
 function FullQuestion(props){
     const [question, setQuestion] = useState([])
     const [answers, setAnswers] = useState([])

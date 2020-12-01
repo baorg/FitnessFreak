@@ -1,12 +1,12 @@
 import React, { useState,useRef,useEffect } from "react"
 import MyNav from "../navbar/navbar"
 import SideNavPage from "../SideNav/SideNav";
-import './styles.css'
-import Question from "./ques";
+import '../styles.css'
+import Question from "../Question/ques";
 import { ENDPOINT } from "../utils";
 import axios from "axios";
 import { navigate } from 'hookrouter';
-import axiosCall from './../../ajaxRequest';
+import axiosCall from '../../ajaxRequest';
 const App = function(props) {
 
     const [questions, setQuestions] = useState([]);

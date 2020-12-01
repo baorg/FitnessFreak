@@ -1,7 +1,7 @@
 import React, {useState,useEffect} from "react"
 import MyNav from "../navbar/navbar";
 import './profile.css'
-import logo from './download (1).jpg'
+import logo from '../download (1).jpg'
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import axios from 'axios';
 import PersonAddDisabledIcon from '@material-ui/icons/PersonAddDisabled';
