@@ -2,14 +2,15 @@ const { Ques, Ans, User, Tag } = require("../../Models");
 
 function getArray(arr, page){
     
-    return arr.map((ques) => ({
-        _id: ques[page]._id,
-        title: ques[page].title,
-        question: ques[page].question,
-        category: ques[page].categoryName,
-        user: {_id : ques._id,
-                username : ques.username},
-        created_at: ques[page].created_at
+    const user = {_id : arr._id,
+        username : arr.username}
+    return arr[page].map((ques) => ({
+        _id: ques._id,
+        title: ques.title,
+        question: ques.question,
+        category: ques.categoryName,
+        user: user,
+        created_at: ques.created_at
     }));
 }
 
@@ -19,7 +20,7 @@ console.log("get Bookmarks")
     const promise = User.findById(userId, 'username first_name last_name').populate(obj).exec()
     return response = promise.then((ques) => {
         console.log("bookmarks = ", ques);
-        return {question : getArray(ques, obj.path)}
+        return {question : getArray(ques, obj.path) }
 
     })
     .catch((err) => ({err : err}));
