@@ -4,12 +4,12 @@ const multiparty = require('connect-multiparty');
 const MultipartyMiddleware = multiparty({ uploadDir: './tmpfiles' });
 const { isAuthenticated } = require("../Middlewares");
 const QuestionHandler = require('../Handlers').QuestionHandler;
-
+const { postQuestionValidator } = require('./../Validators').QuestionValidators
 
 // router.use();
 router.get("/getQuestions", isAuthenticated, QuestionHandler.getQuestionsHandler);
 router.get("/getQuestions/:id", isAuthenticated, QuestionHandler.getOneQuestionHandler);
-router.post("/postQuestion", isAuthenticated, QuestionHandler.postQuestionHandler);
+router.post("/postQuestion", isAuthenticated, postQuestionValidator, QuestionHandler.postQuestionHandler);
 router.post("/postAnswer", isAuthenticated, QuestionHandler.postAnswerHandler);
 router.post("/votes/byUser", isAuthenticated, QuestionHandler.addVoteHandler);
 router.post("/votes/editVote", isAuthenticated, QuestionHandler.editVoteHandler);

@@ -21,7 +21,8 @@ function Question(props) {
         question ?
             <div>
                 <h3>{question.title || "--No title--"} </h3>
-                <p style={{wordBreak:"break-word"}}>{question.question}</p>
+                {/* <p style={{wordBreak:"break-word"}}>{question.question}</p> */}
+                <div dangerouslySetInnerHTML={{__html:question.question}} ></div>
                 <A href={`/profile/${question.user._id}`}>- @{question.user.username}</A>
                 <br/>
                 {/* <A href = {"/viewFullQuestion/" + props.ques.id }>viewFullAnswer</A> */}

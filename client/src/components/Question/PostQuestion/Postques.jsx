@@ -32,11 +32,26 @@ function PostQuestion(props){
     }
     function selectTag(a){
         setSelectedTags(a);
-    }
+  }
+  
+  function handleEditorChange(event, editor) {
+    console.log(editor);
+    setEditorData(editor.getData());
+  }
 
-    async function handleTagChange(event){
-        
-    }
+  function handleEditorBlur(event, editor) {
+    let data = editor.getData();
+    console.log('Editor Blur');
+  }
+
+  function handleEditorFocus(event, editor) {
+    let data = editor.getData();
+    console.log('Editor Focus');
+  }
+
+  async function handleTagChange(event){
+    
+  }
 
     async function handleTitleChange(event) {
         let changedTitle = event.target.value;
@@ -69,12 +84,14 @@ function PostQuestion(props){
         <div style={{display:"flex", alignItems:"center",justifyContent:"center"}} className="box" >
           <h5 className="title" >Enter your Question  </h5> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <CKEditor
-              editor={ ClassicEditor }
-              config={{         
-                toolbar: ['heading', '|', 'bold', 'italic', 'blockQuote', 'numberedList', 'bulletedList', '|', 'undo', 'redo','imageUpload'],
-                ckfinder:{uploadUrl:'/Question/upload'}
-              }} 
-              onChange={(event, editor) => { let data = editor.getData(); setEditorData(editor.getData());}}
+              editor={ClassicEditor}
+              config={{
+                toolbar: ['heading', '|', 'bold', 'italic', 'blockQuote', 'numberedList', 'bulletedList', '|', 'undo', 'redo', 'imageUpload'],
+                ckfinder: { uploadUrl: '/Question/upload' }
+              }}
+              onChange={handleEditorChange}
+              onBlur={handleEditorBlur}
+              onFocus={handleEditorFocus}
             />
           <br />
         </div>
