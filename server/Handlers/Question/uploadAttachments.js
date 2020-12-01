@@ -10,6 +10,6 @@ module.exports = function(req, res) {
     if (path.extname(tempFile.originalFilename).toLowerCase() === ".png " || ".jpg") {
         fs.rename(tempFilePath, targetPathUrl, err => {
             if (err) return console.log(err)
-        })
+        });
     }
 }
