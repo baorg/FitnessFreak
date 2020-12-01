@@ -3,7 +3,7 @@ import { useRoutes } from 'hookrouter';
 import Auth from "../Auth";
 import Feed from "./feed";
 import {HTML404 } from '../ErrorPage/Error';
-import FullQuestion from "../FullQuestion/fullQuestion"
+import FullQuestion from "../Question/FullQuestion/fullQuestion"
 import FirstTimeSetup from "../FirstTimeSetup/firstTimeSetup";
 
 function getRoutes() {

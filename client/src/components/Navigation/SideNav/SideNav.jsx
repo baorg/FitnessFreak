@@ -1,5 +1,4 @@
 import React, { useState,useRef,useEffect } from "react"
-import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 import {A, navigate } from 'hookrouter';
 import './sideNav.css'
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';

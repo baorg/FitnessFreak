@@ -1,7 +1,7 @@
 import React, {useState} from "react"
 // import {navigate, A } from 'hookrouter';
-import UpvoteDownvote from "../UpvoteDownvote/upvoteDownvote";
-import '../styles.css'
+import UpvoteDownvote from "../../UpvoteDownvote/upvoteDownvote";
+import '../../styles.css'
 
 function Answer(props){
     // const [click, setClick] = useState(false);

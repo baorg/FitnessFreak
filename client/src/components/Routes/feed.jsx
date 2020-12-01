@@ -3,8 +3,8 @@ import App from "../App/App";
 import axios from "axios";
 import { useRoutes } from 'hookrouter';
 import {HTML404 } from '../ErrorPage/Error';
-import PostQuestion from "../PostQuestion/Postques";
-import FullQuestion from '../FullQuestion/fullQuestion';
+import PostQuestion from "../Question/PostQuestion/Postques";
+import FullQuestion from '../Question/FullQuestion/fullQuestion';
 import TypeOfPageRoutes from "./typeofpageroutes";
 import ProfileRoutes from "./profileroutes";
 

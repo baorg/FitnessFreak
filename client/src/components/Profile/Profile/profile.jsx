@@ -1,12 +1,12 @@
 import React, {useState,useEffect} from "react"
-import MyNav from "../navbar/navbar";
+import MyNav from "../../Navigation/navbar/navbar";
 import './profile.css'
-import logo from '../download (1).jpg'
+import logo from '../../download (1).jpg'
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import axios from 'axios';
 import PersonAddDisabledIcon from '@material-ui/icons/PersonAddDisabled';
 import {A, navigate} from 'hookrouter';
-import SideNavBar from "../SideNav/SideNav";
+import SideNavBar from "../../Navigation/SideNav/SideNav";
 
 const AnonymousUser = {
     _id:0,

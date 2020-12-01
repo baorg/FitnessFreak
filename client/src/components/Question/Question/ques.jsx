@@ -2,8 +2,8 @@ import React, {useState, useEffect}  from "react"
 import {navigate, A} from 'hookrouter';
 import { Button } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner'
-import ajaxRequest from '../../ajaxRequest';
-import { ENDPOINT } from "../utils";
+import ajaxRequest from '../../../ajaxRequest';
+import { ENDPOINT } from "../../utils";
 
 
 // import { MDBSpinner } from 'mdbreact';

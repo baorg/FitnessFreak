@@ -1,6 +1,6 @@
 import React,{useState} from "react"
-import { ENDPOINT } from "../utils";
-import axiosCall from "../../ajaxRequest"
+import { ENDPOINT } from "../../utils";
+import axiosCall from "../../../ajaxRequest"
 import {navigate} from "hookrouter"
 
 const PostAnswer = (props) => {

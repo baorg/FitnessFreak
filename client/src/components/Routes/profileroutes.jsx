@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useRoutes } from 'hookrouter';
 import {HTML404 } from '../ErrorPage/Error';
-import Profile from '../Profile/profile';
-import Following from '../Following/following';
-import Followers from '../Followers/followers';
-import ProfilePrivileges from "../ProfilePrivileges/profileprivileges";
+import Profile from '../Profile/Profile/profile';
+import Following from '../Profile/Following/following';
+import Followers from '../Profile/Followers/followers';
+import ProfilePrivileges from "../Profile/ProfilePrivileges/profileprivileges";
 
 
 function getRoutes(props) {

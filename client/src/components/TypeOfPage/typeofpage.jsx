@@ -1,8 +1,8 @@
 import React, { useState,useRef,useEffect } from "react"
-import MyNav from "../navbar/navbar"
-import SideNavPage from "../SideNav/SideNav";
+import MyNav from "../Navigation/navbar/navbar"
+import SideNavPage from "../Navigation/SideNav/SideNav";
 import '../styles.css'
-import Question from "../Question/ques";
+import Question from "../Question/Question/ques";
 import { ENDPOINT } from "../utils";
 import axios from "axios";
 import { navigate } from 'hookrouter';
