@@ -1,14 +1,12 @@
-
 let category = [
-                "Beauty",
-	            "fashion",
-	            "fitness",
-                "nutrition",
-                "health",
-                "lifestyle",
-                "sports",
-                "yoga"
-            ]
+    "Beauty",
+    "fashion",
+    "fitness",
+    "nutrition",
+    "health",
+    "lifestyle",
+    "sports",
+    "yoga"
+];
 
-
-module.exports = {category : category}
+module.exports = { category: category }

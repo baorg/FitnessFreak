@@ -11,17 +11,25 @@ const App = function(props) {
 
     const [questions, setQuestions] = useState([]);
 
-    useEffect(async () => {
-      // let res = await axiosCall('GET', `${ENDPOINT}/Question/profilePrivileges/bookmarks`);
-      let res = await axiosCall('GET', `${ENDPOINT}/feed/get-feed`);
-      console.log(res.data.questions);
-      if (res.data.questions.length == 0) {
-          let refresh_res = await axiosCall('POST', `${ENDPOINT}/feed/refresh-feed`);
-          if (refresh_res.data.feed == 'refreshed')
-              res = await axiosCall('GET', `${ENDPOINT}/feed/get-feed`);
-      } 
-      setQuestions(res.data.questions);
-    }, []);
+    async function refreshFeed(event){
+      let refresh_res = await axiosCall('POST', `${ENDPOINT}/feed/refresh-feed`);
+      if (refresh_res.data.feed == 'refreshed'){
+          let res = await axiosCall('GET', `${ENDPOINT}/feed/get-feed`);
+          setQuestions(res.data.questions);
+      }
+    }
+
+    // useEffect(async () => {
+    //   // let res = await axiosCall('GET', `${ENDPOINT}/Question/profilePrivileges/bookmarks`);
+    //   let res = await axiosCall('GET', `${ENDPOINT}/feed/get-feed`);
+    //   console.log(res.data.questions);
+    //   if (res.data.questions.length == 0) {
+    //       let refresh_res = await axiosCall('POST', `${ENDPOINT}/feed/refresh-feed`);
+    //       if (refresh_res.data.feed == 'refreshed')
+    //           res = await axiosCall('GET', `${ENDPOINT}/feed/get-feed`);
+    //   } 
+    //   setQuestions(res.data.questions);
+    // }, []);
 
 
   useEffect(async () => {
@@ -41,6 +49,7 @@ const App = function(props) {
         <div className="nodisplay" ></div>
         <SideNavPage />
         <div className="maindivofeverypage">
+          <button onClick={refreshFeed}>Refresh</button>
           {questions ? questions.map(question => <Question key={question._id}  ques={question}/>): <></>}
         </div>
       </>);
