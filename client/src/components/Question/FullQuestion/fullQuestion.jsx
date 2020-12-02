@@ -11,7 +11,7 @@ import BookMark from "../../BookMark/MyBookMark"
 function FullQuestion(props){
     const [question, setQuestion] = useState([])
     const [answers, setAnswers] = useState([])
-    const [totalCount, setTotalCount] = useState({});
+    const [totalCount, setTotalCount] = useState(null);
     useEffect(() => {
         axios.get(`${ENDPOINT}/Question/getQuestions/${props.quesId}`,{ withCredentials: true })
           .then(res => {

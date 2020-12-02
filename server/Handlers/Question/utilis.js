@@ -14,7 +14,7 @@ async function isSameUser(quesId, userId, sign, name){
 
     const promise = Ques.findById(quesId, "userId").exec();
     return response = promise.then((ques) => {
-        if(ques.userId !== userId)
+        if(ques.userId != userId)
             {
                 User.findById(ques.userId, "score").exec((err, user) => {
                     console.log("score[name] ", score[name]);
