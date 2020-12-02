@@ -86,7 +86,7 @@ function PostQuestion(props){
             <CKEditor
               editor={ClassicEditor}
               config={{
-                toolbar: ['heading', '|', 'bold', 'italic', 'blockQuote', 'numberedList', 'bulletedList', '|', 'undo', 'redo', 'imageUpload'],
+                toolbar: ['heading', '|', 'bold', 'italic', 'blockQuote', 'numberedList', 'bulletedList', '|', 'undo', 'redo', 'imageUpload', 'Link'],
                 ckfinder: { uploadUrl: '/Question/upload' }
               }}
               onChange={handleEditorChange}

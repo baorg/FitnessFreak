@@ -11,7 +11,7 @@ import BookMark from "../../BookMark/MyBookMark"
 function FullQuestion(props){
     const [question, setQuestion] = useState([])
     const [answers, setAnswers] = useState([])
-    const [totalCount, setTotalCount] = useState({});
+    const [totalCount, setTotalCount] = useState(null);
     useEffect(() => {
         axios.get(`${ENDPOINT}/Question/getQuestions/${props.quesId}`,{ withCredentials: true })
           .then(res => {
@@ -34,7 +34,7 @@ function FullQuestion(props){
     <div dangerouslySetInnerHTML={{__html:question.question}}></div>
     <br /> <br />
     <UpvoteDownvote quesId = {props.quesId} isQues = {true} totalCount = {totalCount}/>
-    <BookMark quesId = {props.quesId} username = {props.username}/>
+    <BookMark quesId = {props.quesId}/>
     <h5>Write Your Answer</h5>
     <PostAnswer id = {props.quesId}/>
     <br /><br /><br /><br />

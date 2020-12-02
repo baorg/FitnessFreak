@@ -10,9 +10,9 @@ import ProfilePrivileges from "../Profile/ProfilePrivileges/profileprivileges";
 function getRoutes(props) {
   return {
     '/': () => <Profile user={props.user} userId={props.userId} />,
-    '/followers': () => <Followers userId={props.userId} />,
-    '/following': () => <Following userId={props.userId}/>,
-    '/:privilege':({privilege})=><ProfilePrivileges user={props.user} privilege={privilege} />
+    '/followers': () => <Followers userId={props.userId} user={props.user}/>,
+    '/following': () => <Following userId={props.userId} user={props.user}/>,
+    '/:privilege':({privilege})=><ProfilePrivileges user={props.user} privilege={privilege} userId={props.userId}/>
   }
 }
 

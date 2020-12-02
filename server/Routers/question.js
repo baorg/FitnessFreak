@@ -18,7 +18,8 @@ router.post("/isBookMarked", isAuthenticated, QuestionHandler.isBookMarked);
 router.get("/get-feed-question", QuestionHandler.getFeedQuestion);
 router.post("/upload", isAuthenticated, MultipartyMiddleware, QuestionHandler.uploadAttachmentsHandler);
 router.get("/profilePrivileges/:name", QuestionHandler.profilePrivileges)
-router.get("/:name", QuestionHandler.getTypeOfQuestionsHandler);
 router.get("/getCategory", QuestionHandler.getCategory)
+router.get("/:name", QuestionHandler.getTypeOfQuestionsHandler);
+
 
 module.exports = router;
