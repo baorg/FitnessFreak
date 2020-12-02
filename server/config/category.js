@@ -1,12 +1,13 @@
 let category = [
     "Beauty",
-    "fashion",
-    "fitness",
-    "nutrition",
-    "health",
-    "lifestyle",
-    "sports",
-    "yoga"
+    "Fashion",
+    "Fitness",
+    "Nutrition",
+    "Health",
+    "Lifestyle",
+    "Sports",
+    "Yoga",
+    "Entertainment"
 ];
 
 module.exports = { category: category }
