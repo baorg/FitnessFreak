@@ -39,7 +39,7 @@ const TypeOfPage = function(props) {
         <h2>{props.typeofpage}</h2>
         <h2>{props.categoryname}</h2>
         <div>
-        { ques.map((item, index) => <Question key={index}  ques={item}/>)}
+        { ques.map((item, index) => <Question key={index}  question={item}/>)}
         </div>
       </div>
     </>

@@ -25,12 +25,8 @@ const userSchema = new mongoose.Schema({
     following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     score: { totalScore: { type: Number, default: 0 } },
     notifications: [],
-    feed: {
-        questions_list: [{
-            question: { type: mongoose.Schema.Types.ObjectId, ref: 'Ques' },
-        }],
-        last_updated: { type: Date, default: new Date(0) }
-    }
+    feed: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Ques' }],
+    feed_last_updated: { type: Date, default: new Date(0) },
 });
 
 module.exports = userSchema;

@@ -31,7 +31,7 @@ function FullQuestion(props){
     <SideNavBar />
     <div className="maindivofeverypage" >
     <h1>{question.title}</h1>
-    <h3>{question.question}</h3>
+    <div dangerouslySetInnerHTML={{__html:question.question}}></div>
     <br /> <br />
     <UpvoteDownvote quesId = {props.quesId} isQues = {true} totalCount = {totalCount}/>
     <BookMark quesId = {props.quesId} username = {props.username}/>
