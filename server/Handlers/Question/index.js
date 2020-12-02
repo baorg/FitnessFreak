@@ -12,7 +12,7 @@ const { addVoteHandler, editVoteHandler } = require("./Voting");
 const { saveBookMark, isBookMarked } = require("./bookmark");
 const { getTypeOfQuestionsHandler } = require("./TypeOfQues");
 const uploadAttachmentsHandler = require("./uploadAttachments");
-const {profilePrivileges} = require("./bookmarks")
+const {profilePrivileges} = require("./profilePrivileges")
 const {getCategory} = require("./category")
 
 module.exports = {

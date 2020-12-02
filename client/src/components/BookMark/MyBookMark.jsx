@@ -23,7 +23,7 @@ const BookMark = function(props){
 
     function saveBookMark(){
 
-        axiosCall('post', `${ENDPOINT}/Question/saveBookMark`, {quesId : props.quesId})
+        axiosCall('post', `${ENDPOINT}/Question/saveBookMark`, {quesId : props.quesId, username : props.username})
         .then((res) => {
           if(res.data.err)
             navigate("/")
@@ -33,8 +33,9 @@ const BookMark = function(props){
 
     }
     return(
-<button onClick = {saveBookMark}>{marked ? <BookmarkIcon/>  : <BookmarkBorderIcon />}</button>
-    )
+  <button onClick = {saveBookMark}>{marked ? <BookmarkIcon/>  : <BookmarkBorderIcon />}</button>
+  )
+    
 }
 
 export default BookMark

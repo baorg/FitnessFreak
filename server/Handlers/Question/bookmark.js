@@ -1,40 +1,66 @@
 const { Ques, Ans, User, Tag } = require("../../Models");
+const score = require("../../config").score;
 
+async function isSameUser(username, userId, sign){
 
+    const promise = User.findById(userId).exec();
+    
+    return response = promise
+                      .then((user) => {
+                            if(user.username !== username){
+                                user.score.totalScore += sign*(score.bookmark)
+
+                            }
+                             return user;})
+                      .catch((err) => (err))
+}
 
 module.exports.saveBookMark = function(req, res){
 
     const userId = req.user.id
     const quesId = req.body.quesId
+    const username = req.body.username;
+    console.log("username in bookmark ", username)
     const obj = {err : true}
     console.log("typeofQuesID = ", typeof quesId )
     const promise = User.findById(userId).populate("bookmarks").exec()
     promise.then((user) => {
-        console.log("user = ", user)
+        // console.log("user = ", user)
         const arr = user.bookmarks
         const index = arr.findIndex((ele) => {
-            console.log("ele = ",ele)
-            console.log("typeofele = ", typeof ele._id  )
+            // console.log("ele = ",ele)
+            // console.log("typeofele = ", typeof ele._id  )
         return ele._id === quesId
 
         })
         console.log("saveIndex = ", index)
+        let sign = 1;
         if(index === -1)
         arr.push(quesId)
-        else
+        else{
         arr.splice(index, 1)
+        sign  = -1;
+        }
 
-        user.save((err) => {
-        if(err) 
-        return res.send(obj)
-        // obj.err = false;
-        return res.send({err : false})
+        //Checking whether the user is bookmarking his own question or not
+        const promise = isSameUser(username, userId,sign);
+        promise.then((response) => {
+            
+            user.save((err) => {
+                if(err) 
+                return res.send(obj)
+                // obj.err = false;
+                return res.send({err : false})
+                })
+        }).
+        catch((err) => {
+            console.log("err");
+            return res.send(obj)
         })
         
-
     })
     .catch((err) => {
-        console.log("err = ", err)
+        console.log("err in saving Bookmark = ", err)
         return res.send(obj)
         
     })
