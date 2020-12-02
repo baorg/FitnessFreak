@@ -2,10 +2,24 @@ import React, { useState,useRef,useEffect } from "react"
 import {A, navigate } from 'hookrouter';
 import './sideNav.css'
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import { ENDPOINT } from "../../utils";
+import axiosCall from '../../../ajaxRequest'
 
 
 const SideNavBar = function(props) {
-    const categories=["Yoga","Bodybuilding","Beauty","Fashion","Health"]
+    const [categories,setCategories]=useState([]);
+    useEffect(() => {
+      let url=`${ENDPOINT}/Question/getCategory`
+      async function fun(){
+      await axiosCall('GET', url)
+            .then(function (resp) {
+                    setCategories(resp.data);
+                    console.log(categories);
+                  }
+            )
+      }
+      fun(); 
+    },[])
     function hover() {
       document.querySelector('.categorybox').style.display='inline-block';
     }

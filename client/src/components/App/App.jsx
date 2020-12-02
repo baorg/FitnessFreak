@@ -50,7 +50,7 @@ const App = function(props) {
         <SideNavPage />
         <div className="maindivofeverypage">
           <button onClick={refreshFeed}>Refresh</button>
-          {questions ? questions.map(question => <Question key={question._id}  ques={question}/>): <></>}
+          {questions ? questions.map((question,index) => <Question key={index}  ques={question}/>): <></>}
         </div>
       </>);
 };
