@@ -34,7 +34,7 @@ function FullQuestion(props){
     <h3>{question.question}</h3>
     <br /> <br />
     <UpvoteDownvote quesId = {props.quesId} isQues = {true} totalCount = {totalCount}/>
-    <BookMark quesId = {props.quesId} username = {props.username}/>
+    <BookMark quesId = {props.quesId}/>
     <h5>Write Your Answer</h5>
     <PostAnswer id = {props.quesId}/>
     <br /><br /><br /><br />

@@ -26,7 +26,7 @@ function Question(props) {
                 <A href={`/profile/${question.user._id}`}>- @{question.user.username}</A>
                 <br/>
                 {/* <A href = {"/viewFullQuestion/" + props.ques.id }>viewFullAnswer</A> */}
-                <Button variant="info" onClick={() => navigate("/viewFullQuestion/" + question._id + "/" + question.user.username )}>View Full Answer</Button>
+                <Button variant="info" onClick={() => navigate("/viewFullQuestion/" + question._id )}>View Full Answer</Button>
                 <br/><hr/>
             </div> :
             <div>

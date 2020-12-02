@@ -23,7 +23,7 @@ const BookMark = function(props){
 
     function saveBookMark(){
 
-        axiosCall('post', `${ENDPOINT}/Question/saveBookMark`, {quesId : props.quesId, username : props.username})
+        axiosCall('post', `${ENDPOINT}/Question/saveBookMark`, {quesId : props.quesId})
         .then((res) => {
           if(res.data.err)
             navigate("/")
