@@ -4,20 +4,26 @@
 .display{
     display: block;
 }
-.tagsearch {
+.notis{
+    position: absolute;
     display: flex;
     flex-direction: column;
     max-height: 10em;
     overflow-y: scroll;
-    width: 206px;
-    position: absolute;
-    margin: 0px;
+    width: 300px;
+    margin-top: 20px;
     padding: 0px;
     border: 0px;
     z-index: 100;
+    border: 2px solid red;
 }
 
-.element {
+.elem {
     background-color: gray;
     cursor: pointer;
+}
+
+.elem p {
+    font-size: 20px;
+    color: white;
 }
