@@ -6,21 +6,22 @@ import {navigate} from "hookrouter"
 const PostComment = (props) => {
     const [comment, setComment] = useState("")
     function postComment(e){
-        // e.preventDefault();
-        // const url = `${ENDPOINT}/Question/postAnswer`;
-        // const obj = {
-        //     quesId : props.id,
-        //     answer : answer
+        e.preventDefault();
+        const url = `${ENDPOINT}/Question/postComment`;
+        const obj = {
+            answerId : props.answerId,
+            comment : comment
             
-        // }
-        // axiosCall('post', url, obj).then(res => {
-        //     console.log(res.data);
-        //     // if (res.data.isAuthenticated) {
-        //     // } else {
-        //     //     console.log("Not Authenticated")
-        //     // }
-        //     navigate(res.data);
-        // });
+        }
+        axiosCall('post', url, obj).then(res => {
+            console.log("postComment response ",res.data);
+            if (res.data.isAuthenticated) {
+                console.log("succesfully added")
+            } else {
+                console.log("Not Authenticated")
+            }
+            // navigate("/");
+        });
     }
 
     function handleChange(e){
