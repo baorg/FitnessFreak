@@ -2,6 +2,8 @@ import React,{useState} from "react";
 import MyNav from "../../Navigation/navbar/navbar"
 import SideNavBar from "../../Navigation/SideNav/SideNav";
 import Searchdiv from "../../Searchdiv/searchdiv";
+import UploadImage from './UploadImage';
+
 import '../../styles.css'
 import './Postques.css'
 import CloseIcon from '@material-ui/icons/Close';
@@ -15,23 +17,28 @@ import { API_DOMAIN } from '../../../config';
 
 let selectedtagss=[];
 function PostQuestion(props){
-    const availabeTags = ["#yoga", "#bodybuilding", "#gymnastics", "#zumba"];
-    const [editorData, setEditorData] = useState("");
-    const [title, setTitle] = useState("");
-    const [category, setCategory] = useState("");
-    const [selectedTags, setSelectedTags] = useState([]);
+  const availabeTags = ["#yoga", "#bodybuilding", "#gymnastics", "#zumba"];
+  const [editorData, setEditorData] = useState("");
+  const [title, setTitle] = useState("");
+  const [category, setCategory] = useState("");
+  const [selectedTags, setSelectedTags] = useState([]);
+  const [images, setImages] = useState([
+    "https://picsum.photos/200",
+    "https://picsum.photos/200"
+  ]);
 
     // const [searchTag, setSearchTag] = useState("");
     // const [filterArr,setFilterArr]=useState([ ]);
 
-    function deltags(index){
-        let a=[];
-        a=selectedTags.map((el)=>el);
-        a.splice(index, 1);
-        setSelectedTags(a);
-    }
-    function selectTag(a){
-        setSelectedTags(a);
+  function deltags(index){
+      let a=[];
+      a=selectedTags.map((el)=>el);
+      a.splice(index, 1);
+      setSelectedTags(a);
+  }
+
+  function selectTag(a) {
+      setSelectedTags(a);
   }
   
   function handleEditorChange(event, editor) {
@@ -93,8 +100,9 @@ function PostQuestion(props){
               onBlur={handleEditorBlur}
               onFocus={handleEditorFocus}
             />
-          <br />
+            <br />
         </div>
+          <UploadImage images={images} setImages={setImages} />
         <div className="box">
           <h5 className="title" >Select a Category   </h5> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <select name="category">

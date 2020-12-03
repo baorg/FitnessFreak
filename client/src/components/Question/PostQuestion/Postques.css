@@ -1,35 +1,77 @@
-.box{
+.box {
     margin-bottom: 20px;
     /* border: 2px solid blue; */
     text-align: center;
 }
-.title{
+
+.title {
     display: inline-block;
-} 
+}
 
 .quesdiv {
     /* border: 2px solid red; */
-    margin:auto;
+    margin: auto;
     height: 800px;
     width: 800px;
     text-align: center;
 }
-.selectedtags{
+
+.selectedtags {
     display: flex;
     justify-content: flex-start;
 }
-.element2{
+
+.element2 {
     border-radius: 100px;
     background-color: gray;
     cursor: pointer;
     width: auto;
-    
 }
-.element2 a{
+
+.element2 a {
     display: inline-block;
     color: white;
     text-decoration: none;
 }
-.trash{
+
+.trash {
     border-radius: 1000px;
+}
+
+.upload-images-container {
+    height: fit-content;
+    min-height: 8em;
+    background-color: gray;
+    display: flex;
+    align-items: center;
+    padding: 0.3em;
+    flex-wrap: wrap;
+}
+
+.upload-img-box {
+    height: 8em;
+    width: fit-content;
+    margin: 1em;
+}
+
+.upload-img {
+    height: 100%;
+    width: auto;
+    border-radius: 5px;
+}
+
+.remove-img-btn {
+    z-index: 2;
+    position: relative;
+    top: -35%;
+    left: -20%;
+    color: white;
+    font-size: 8px;
+    border-radius: 100%;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.add-img {
+    cursor: pointer;
 }

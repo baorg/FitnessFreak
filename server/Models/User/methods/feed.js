@@ -31,14 +31,14 @@ async function refreshFeed() {
     new_feed = new_feed.concat(old_feed ? old_feed : []).slice(0, 200);
 
     this.feed_last_updated = new Date(Date.now() - 1000 * 60);
-    this.feed = new_feed;
+    this.feed = Array.from(new Set(new_feed));
 
     await this.save();
 }
 
 async function getFeed(skip, count) {
     const { User, Ques } = require('./../../');
-    let { feed_last_updated, feed } = await User.findOne({ _id: this._id}).select('feed_last_updated feed').populate({
+    let { feed_last_updated, feed } = await User.findOne({ _id: this._id }).select('feed_last_updated feed').populate({
         path: 'feed',
         model: Ques,
         select: 'title question categoryName userId tags vote_count',

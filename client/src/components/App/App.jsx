@@ -1,4 +1,4 @@
-import React, { useState,useRef,useEffect } from "react"
+import React, { useState } from "react"
 import MyNav from "../Navigation/navbar/navbar"
 import SideNavPage from "../Navigation/SideNav/SideNav";
 import '../styles.css'
@@ -9,25 +9,28 @@ import { navigate } from 'hookrouter';
 import axiosCall from '../../ajaxRequest';
 import Spinner from 'react-bootstrap/Spinner'
 
+import { Button } from '@material-ui/core'
 import InfiniteScroll from 'react-infinite-scroller';
-// import InfiniteScroll from 'react-infinite-scroll-component';
 
 const App = function(props) {
 
-  const [questions, setQuestions] = useState([]);
+  const [feed, setFeed] = useState({questions:[], current_page: 0 });
   const [hasMore, setHasMore] = useState(true);
-  const [initialLoad, setInitialLoad] = useState(true);
 
   async function refreshFeed(event) {
-    setHasMore(true);
     let refresh_res = await axiosCall('POST', `${ENDPOINT}/feed/refresh-feed`);
-    setQuestions([]);
+    setFeed({questions:[], current_page: 0});
+    setHasMore(true);
   }
   
-  async function handleLoadMore(page) {
+  async function handleLoadMore(page_) {
+    let page = feed.current_page+1;
     let newQuestions = await axiosCall('GET', `${ENDPOINT}/feed/get-feed?page=${page}`);
     if (newQuestions.data.questions.length > 0) {
-      return setQuestions(questions.concat(newQuestions.data.questions));
+      return setFeed({
+        questions: feed.questions.concat(newQuestions.data.questions),
+        current_page: feed.current_page+1
+      });
     } else {
       return setHasMore(false);
     }
@@ -47,16 +50,15 @@ const App = function(props) {
               <Spinner animation="border" role="status">
                 <span className="sr-only">Loading...</span>
               </Spinner>}
-            initialLoad={initialLoad}
           >
             
-            {questions.map(question => <Question key={question._id} question={question} />)}
+            {feed.questions.map(question => <Question key={question._id} question={question} />)}
           </InfiniteScroll>
           {hasMore == false &&
             <p style={{ textAlign: 'center' }}>
-            <b>Yay! You have seen it all</b>
-            <br/>
-              <button onClick={refreshFeed}>Refresh page</button>
+              <b>Yay! You have seen it all</b>
+              <br/>
+              <Button  onClick={refreshFeed} variant="contained" color="primary" href="#contained-buttons">Refresh page</Button>
             </p>}
         </div>
       </>);

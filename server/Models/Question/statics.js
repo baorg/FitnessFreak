@@ -11,7 +11,6 @@ async function getQuestionsInBetween(start_timestamp = null, end_timestamp = nul
         .limit(limit)
         .select(select)
         .exec();
-
     return questions;
 }
 

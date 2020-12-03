@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-// const { methods } = require('../../Question/schema');
-// const { Ques, User } = require('./../../');
 
 async function getAllQuestionsOfFollowings(start_timestamp, end_timestamp, select = 'id', populate = []) {
     const { User, Ques } = require('./../../../Models');
