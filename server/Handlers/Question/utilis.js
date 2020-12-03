@@ -16,7 +16,7 @@ async function isSameUser(quesId, userId, sign, name){
     return response = promise.then((ques) => {
         if(ques.userId != userId)
             {
-                User.findById(ques.userId, "score").exec((err, user) => {
+                User.findById(ques.userId, "score notifications").exec((err, user) => {
                     console.log("score[name] ", score[name]);
                     user.score.totalScore += (sign)*score[name];
                     user.notifications.push(`Someone has ${name}ed your question`)

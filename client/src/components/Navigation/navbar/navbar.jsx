@@ -9,7 +9,7 @@ import {
   Button,
   CloseButton
 } from "react-bootstrap";
-import './styles.css'
+import './navbar.css'
 import {ENDPOINT} from '../../utils'
 import { A, navigate } from 'hookrouter';
 import Searchdiv from "../../Searchdiv/searchdiv";
@@ -17,6 +17,11 @@ import Notification from "../../Notification/notification";
 
 const MyNav = function(props) {
 
+  const [searchparam,setSearchParam]=useState();
+  function handlechange(e){
+    let x=e.target.value;
+    setSearchParam(x)
+  }
   return (
     <div style={{position:"fixed",zIndex:"10",width:"100%",marginTop:"0px"}}>
     <Navbar  bg="light" expand="lg" >
@@ -39,16 +44,25 @@ const MyNav = function(props) {
             </NavDropdown.Item>
           </NavDropdown>
         </Nav>
+        <Form.Control as="select" style={{width:"105px",marginRight:"20px",fontSize:"12px"}} value={searchparam} onChange={handlechange}>
+        <option>--</option>
+        <option>Search for User</option>
+        <option>Search By Tag</option>
+        </Form.Control>
           {/* <Form inline > */}
-            <div style={{marginRight:"40px"}}>
+            <div style={{marginRight:"50px"}}>
               {/* <FormControl type="text" placeholder="Search" className="mr-sm-2" /> */}
-              <Searchdiv type="users" user={props.user} />
+              <Searchdiv type={searchparam} user={props.user} />
             </div>
           {/* <Button variant="outline-success" className="mx-1">
               Search
           </Button> */}
           {/* </Form> */}
+          {props.user ?
+          <div style={{marginRight:"20px"}}>
           <Notification />
+          </div>
+          :null}
           {props.user ?
             <div style={{display:"flex",  alignItems:"center"}}>
               <Button variant="primary" className="mx-1" onClick={() => navigate("/profile/" + props.user._id)} >
