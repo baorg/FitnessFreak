@@ -1,0 +1,23 @@
+.nodisplay{
+    display: none;
+}
+.display{
+    display: block;
+}
+.tagsearch {
+    display: flex;
+    flex-direction: column;
+    max-height: 10em;
+    overflow-y: scroll;
+    width: 206px;
+    position: absolute;
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+    z-index: 100;
+}
+
+.element {
+    background-color: gray;
+    cursor: pointer;
+}

@@ -13,6 +13,7 @@ import './styles.css'
 import {ENDPOINT} from '../../utils'
 import { A, navigate } from 'hookrouter';
 import Searchdiv from "../../Searchdiv/searchdiv";
+import Notification from "../../Notification/notification";
 
 const MyNav = function(props) {
 
@@ -38,15 +39,16 @@ const MyNav = function(props) {
             </NavDropdown.Item>
           </NavDropdown>
         </Nav>
-          <Form inline >
-            <div>
+          {/* <Form inline > */}
+            <div style={{marginRight:"40px"}}>
               {/* <FormControl type="text" placeholder="Search" className="mr-sm-2" /> */}
               <Searchdiv type="users" user={props.user} />
             </div>
           {/* <Button variant="outline-success" className="mx-1">
               Search
           </Button> */}
-          </Form>
+          {/* </Form> */}
+          <Notification />
           {props.user ?
             <div style={{display:"flex",  alignItems:"center"}}>
               <Button variant="primary" className="mx-1" onClick={() => navigate("/profile/" + props.user._id)} >

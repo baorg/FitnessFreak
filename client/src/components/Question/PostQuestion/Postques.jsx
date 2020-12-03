@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import MyNav from "../../Navigation/navbar/navbar"
 import SideNavBar from "../../Navigation/SideNav/SideNav";
 import Searchdiv from "../../Searchdiv/searchdiv";
@@ -11,6 +11,8 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import ajaxRequest from '../../../ajaxRequest';
 import { API_DOMAIN } from '../../../config';
+import { ENDPOINT } from "../../utils";
+import axiosCall from '../../../ajaxRequest';
 
 
 let selectedtagss=[];
@@ -18,11 +20,25 @@ function PostQuestion(props){
     const availabeTags = ["#yoga", "#bodybuilding", "#gymnastics", "#zumba"];
     const [editorData, setEditorData] = useState("");
     const [title, setTitle] = useState("");
-    const [category, setCategory] = useState("");
+    // const [category, setCategory] = useState("");
     const [selectedTags, setSelectedTags] = useState([]);
 
     // const [searchTag, setSearchTag] = useState("");
     // const [filterArr,setFilterArr]=useState([ ]);
+    const [categories,setCategories]=useState([]);
+    useEffect(() => {
+      let url=`${ENDPOINT}/Question/getCategory`
+      async function fun(){
+      await axiosCall('GET', url)
+            .then(function (resp) {
+                    console.log(resp.data);
+                    setCategories(resp.data);
+                    console.log(categories);
+                  }
+            )
+      }
+      fun(); 
+    },[])
 
     function deltags(index){
         let a=[];
@@ -86,7 +102,7 @@ function PostQuestion(props){
             <CKEditor
               editor={ClassicEditor}
               config={{
-                toolbar: ['heading', '|', 'bold', 'italic', 'blockQuote', 'numberedList', 'bulletedList', '|', 'undo', 'redo', 'imageUpload', 'Link'],
+                toolbar: ['heading', '|', 'bold', 'italic', 'blockQuote', 'numberedList', 'bulletedList', '|', 'undo', 'redo', 'Link'],
                 ckfinder: { uploadUrl: '/Question/upload' }
               }}
               onChange={handleEditorChange}
@@ -97,10 +113,12 @@ function PostQuestion(props){
         </div>
         <div className="box">
           <h5 className="title" >Select a Category   </h5> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <select name="category">
-            <option value="yoga">Yoga</option>
-            <option value="bodyBuilding">BodyBuilding</option>
-          </select>
+          {categories.map((el,index)=>
+            <div style={{display:"inline-block"}}>
+              <input type="checkbox" name={el}/>
+              <label >{el}</label> &nbsp;&nbsp;&nbsp;
+            </div>
+          )}
         </div>
         <div className="searchdiv">
           <h5 className="title" >Select Tags   </h5> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
