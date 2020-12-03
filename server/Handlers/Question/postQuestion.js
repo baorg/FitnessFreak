@@ -1,7 +1,7 @@
 const CLIENT_LOGIN_PAGE_URL = "http://localhost:3000";
 const CLIENT_HOME_PAGE_URL = "http://localhost:3000";
 const { Ques, User } = require("../../Models");
-
+const score = require("../../config").score;
 module.exports = async function(req, res) {
 
     const user_id = req.user.id;
@@ -13,6 +13,7 @@ module.exports = async function(req, res) {
     const ques = new Ques({
         title: title,
         question: question,
+        vote_count :{},
         upDown: [],
         answers: [],
         categoryName: category,
@@ -29,7 +30,18 @@ module.exports = async function(req, res) {
     try {
         let questionSave = await ques.save()
         let userUpdate = await User.updateOne({ _id: user_id }, { $push: { question: ques._id } }).exec();
-        console.log('Question saved: ', questionSave, userUpdate);
+        let scoreUpdate = await User.findById(user_id, "score").exec((err, user) => {
+
+            user.score.totalScore += score.question
+            category.forEach((ele) => {
+                if(!user.score.hasOwnProperty(ele))
+                    user.score[ele] = 0;
+                user.score[ele] +=  score.question
+            })
+            
+
+        })
+        console.log('Question saved: ', questionSave, userUpdate, scoreUpdate);
         data = "question saved";
     } catch (err) {
         console.log('[ERROR] ', __filename, err);

@@ -13,7 +13,7 @@ function getRoutes(user) {
   return {
     '/': () => <App user={user}/>,
     'app': () => <App user={user}/>,
-    'post-question':()=><PostQuestion user={user} />,
+    'post-question': ()=><PostQuestion user={user} />,
     'profile/:userId*': ({ userId }) => <ProfileRoutes user={user} userId={userId} />,
     
     'viewFullQuestion/:quesId' :({quesId}) => <FullQuestion quesId = {quesId} user={user}/>,

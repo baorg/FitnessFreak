@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import MyNav from "../../Navigation/navbar/navbar"
 import SideNavBar from "../../Navigation/SideNav/SideNav";
 import Searchdiv from "../../Searchdiv/searchdiv";
@@ -13,6 +13,8 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import ajaxRequest from '../../../ajaxRequest';
 import { API_DOMAIN } from '../../../config';
+import { ENDPOINT } from "../../utils";
+import axiosCall from '../../../ajaxRequest';
 
 
 let selectedtagss=[];
@@ -20,7 +22,7 @@ function PostQuestion(props){
   const availabeTags = ["#yoga", "#bodybuilding", "#gymnastics", "#zumba"];
   const [editorData, setEditorData] = useState("");
   const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("");
+  // const [category, setCategory] = useState("");
   const [selectedTags, setSelectedTags] = useState([]);
   const [images, setImages] = useState([
     "https://picsum.photos/200",
@@ -29,6 +31,20 @@ function PostQuestion(props){
 
     // const [searchTag, setSearchTag] = useState("");
     // const [filterArr,setFilterArr]=useState([ ]);
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    console.log('User:', props.user);
+  }, [])
+
+
+  useEffect(async () => {
+    let url = `${ENDPOINT}/Question/getCategory`
+    let resp = await axiosCall('GET', url);
+    // console.log("RESP: ", resp.data.map(val=>({name: val, selected: false})));
+    setCategories(resp.data.map(val => ({ name: val, selected: false })));
+    // console.log(categories);
+  }, []);
 
   function deltags(index){
       let a=[];
@@ -62,21 +78,27 @@ function PostQuestion(props){
 
     async function handleTitleChange(event) {
         let changedTitle = event.target.value;
-        setTitle(changedTitle);
-        // console.log('ChangedTitle: ', changedTitle);
+      setTitle(changedTitle);
     }
 
+  async function selectCategory(cat) {
+    setCategories(categories.map(val => val.name == cat ? { name: val.name, selected: !val.selected } : val));
+  }
 
-    async function handleSubmit(event) {
-        event.preventDefault();
-        console.log('Data: ', editorData);
-        let res = ajaxRequest("POST", `${API_DOMAIN}/Question/postQuestion`, {
-            category: "Fitness",
-            tags: [],
-            question: editorData,
-            title: "Hey"});
-        // console.log('DATA from backend: ', res.data);
-    }
+  async function handleSubmit(event) {
+    event.preventDefault();
+    let res = await ajaxRequest("POST", `${API_DOMAIN}/Question/postQuestion`, {
+      categories: categories.filter(cat => cat.selected).map(val => val.name),
+      tags: selectedTags,
+      question: editorData,
+      title: title
+    });
+
+    if (res.data.isSaved)
+      alert('Question submitted successfully');
+    else
+      alert('Errr..., some error occured on our side!');
+  }
   return (
     <>
       <MyNav user={props.user} />
@@ -93,7 +115,7 @@ function PostQuestion(props){
             <CKEditor
               editor={ClassicEditor}
               config={{
-                toolbar: ['heading', '|', 'bold', 'italic', 'blockQuote', 'numberedList', 'bulletedList', '|', 'undo', 'redo', 'imageUpload', 'Link'],
+                toolbar: ['heading', '|', 'bold', 'italic', 'blockQuote', 'numberedList', 'bulletedList', '|', 'undo', 'redo', 'Link'],
                 ckfinder: { uploadUrl: '/Question/upload' }
               }}
               onChange={handleEditorChange}
@@ -105,10 +127,12 @@ function PostQuestion(props){
           <UploadImage images={images} setImages={setImages} />
         <div className="box">
           <h5 className="title" >Select a Category   </h5> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <select name="category">
-            <option value="yoga">Yoga</option>
-            <option value="bodyBuilding">BodyBuilding</option>
-          </select>
+          {categories.map((el,index)=>
+            <div style={{display:"inline-block"}}>
+              <input type="checkbox" name={el.name} checked={el.selected} onClick={() => { selectCategory(el.name);}}/>
+              <label >{el.name}</label> &nbsp;&nbsp;&nbsp;
+            </div>
+          )}
         </div>
         <div className="searchdiv">
           <h5 className="title" >Select Tags   </h5> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

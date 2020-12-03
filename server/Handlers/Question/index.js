@@ -14,6 +14,7 @@ const { getTypeOfQuestionsHandler } = require("./TypeOfQues");
 const uploadAttachmentsHandler = require("./uploadAttachments");
 const {profilePrivileges} = require("./profilePrivileges")
 const {getCategory} = require("./category")
+const {getNotifications} = require("./getNotifications")
 
 module.exports = {
     getOneQuestionHandler,
@@ -28,5 +29,6 @@ module.exports = {
     getFeedQuestion,
     uploadAttachmentsHandler,
     profilePrivileges,
-    getCategory
+    getCategory,
+    getNotifications
 }
