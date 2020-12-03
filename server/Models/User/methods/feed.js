@@ -38,7 +38,7 @@ async function refreshFeed() {
 
 async function getFeed(skip, count) {
     const { User, Ques } = require('./../../');
-    let { feed_last_updated, feed } = await User.findOne({ _id: "5fc0ebb6ba93e2a8d0e892cf" }).select('feed_last_updated feed').populate({
+    let { feed_last_updated, feed } = await User.findOne({ _id: this._id}).select('feed_last_updated feed').populate({
         path: 'feed',
         model: Ques,
         select: 'title question categoryName userId tags vote_count',
