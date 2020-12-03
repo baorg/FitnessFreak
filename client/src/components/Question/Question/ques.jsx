@@ -11,7 +11,7 @@ function Question(props) {
             <div dangerouslySetInnerHTML={{__html:props.question.question}} style={{wordBreak:"break-word"}} ></div>
             <A href={`/profile/${props.question.user._id}`}>- @{props.question.user.username}</A>
             <br/>
-            <Button variant="info" onClick={() => navigate("/viewFullQuestion/" + props.question._id + "/" + props.question.user.username )}>View Full Answer</Button>
+            <Button variant="info" onClick={() => navigate("/viewFullQuestion/" + props.question._id )}>View Full Answer</Button>
             <br/><hr/>
         </div>
     );

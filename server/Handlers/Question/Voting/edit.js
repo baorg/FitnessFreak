@@ -21,7 +21,7 @@ function isNotUndefined(down){
 function setData(arr,index, obj, typeOfValue){
 
     if (isNotUndefined(typeOfValue)) {
-        obj.value = -obj.value
+        // obj.value = -obj.value
         arr.set(index, obj);
     } else
         arr.splice(index, 1);
@@ -44,7 +44,7 @@ module.exports = function(req, res) {
     const isQues = req.body.isQues;
 
     const model = getModel(isQues);
-    const query = model.findById(quesId, 'upDown');
+    const query = model.findById(quesId, 'upDown vote_count');
     const promise = query.exec();
 
 
@@ -56,20 +56,27 @@ module.exports = function(req, res) {
 
             // if already in the array
             if (index != -1) {
-
+                console.log("enterring IF");
                 const typeOfValue =  isUpvoted(arr, index) ? down : up; 
                 const typeOfVote = isUpvoted(arr, index) ? "upvote" : "downvote"; 
                 setData(arr, index, obj, typeOfValue)
                 setVoteCount(ques, typeOfVote, typeOfValue)
-                
+                console.log("exiting IF");
             }
             // if absent in the array
-             else 
-                arr.push(obj)
+             else{
+                arr.push(obj);
+                const typeOfVote = isUpvoted(arr, index) ? "upvote" : "downvote"; 
+                ques.vote_count[typeOfVote]++;
+             }
 
         
             ques.save((err) => {
-                if (err) return res.send("Error in recording response");
+                console.log("afterIf")
+                if (err) {
+                    console.log("Err in recording ", err);
+                    return res.send("Error in recording response");
+                }
                 return res.send("Your respnose has been submitted succesully");
             })
 
