@@ -13,6 +13,7 @@ module.exports = async function(req, res) {
     const ques = new Ques({
         title: title,
         question: question,
+        vote_count :{},
         upDown: [],
         answers: [],
         categoryName: category,

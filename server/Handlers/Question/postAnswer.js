@@ -11,6 +11,7 @@ module.exports = function(req, res) {
     const ans = new Ans({
         answer: answer,
         upDown: [],
+        vote_count : {},
         comments: [],
         userId: userId,
         quesId: quesId
