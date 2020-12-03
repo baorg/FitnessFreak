@@ -1,8 +1,10 @@
 const { Ques } = require("../../../Models");
-const { Ans } = require("../../../Models");
+const { Ans, Comment } = require("../../../Models");
 
 
 function getModel(flag){
+    if(flag == 2)
+    return Comment;
     return (flag) ? Ques : Ans;
 }
 
@@ -59,7 +61,7 @@ module.exports = function(req, res) {
                 console.log("enterring IF");
                 const typeOfValue =  isUpvoted(arr, index) ? down : up; 
                 const typeOfVote = isUpvoted(arr, index) ? "upvote" : "downvote"; 
-                setData(arr, index, obj, typeOfValue)
+                setData(arr, index, obj, typeOfValue, -1)
                 setVoteCount(ques, typeOfVote, typeOfValue)
                 console.log("exiting IF");
             }
