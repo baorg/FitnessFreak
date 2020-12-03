@@ -43,13 +43,16 @@ module.exports = async function(req, res) {
         })
         console.log('Question saved: ', questionSave, userUpdate, scoreUpdate);
         data = "question saved";
+        isSaved = true;
     } catch (err) {
         console.log('[ERROR] ', __filename, err);
         data = "some error occured";
+        isSaved = false;
     } finally {
         return res.send({
             isAuthenticated,
-            data
+            data,
+            isSaved
         });
     }
 }
