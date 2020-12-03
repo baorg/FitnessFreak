@@ -16,7 +16,7 @@ function Answer(props){
     <div>
         {props.answer.comments.map((item,index)=><Comment key={index} comment={item} />)}
     </div>
-    <PostComment /> */}
+    <PostComment answerId = {props.answerId} /> */}
     </div>
     )
     
