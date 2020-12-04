@@ -30,15 +30,62 @@ module.exports = async function(req, res) {
     try {
         let questionSave = await ques.save()
         let userUpdate = await User.updateOne({ _id: user_id }, { $push: { question: ques._id } }).exec();
-        let scoreUpdate = await User.findById(user_id, "score category").exec((err, user) => {
+        let scoreUpdate = User.findById(user_id, "score").exec()
+        scoreUpdate.then(async(user) => {
 
-            user.score.totalScore += score.question
-            category.forEach((ele) => {
-                if(!user.score.hasOwnProperty(ele))
-                    user.score[ele] = 0;
-                user.score[ele] +=  score.question
-            })
+           
+            // user.score.totalScore += score.question
+            // console.log("category in postring answer , ",category)
+            // console.log("score.question is  , ",score.question)
+
+            // category.forEach((ele) => {
+            //     console.log("ele = ",ele);
+            //     console.log("typeofele = ", typeof ele)
+            //     if(!(user.score.hasOwnProperty(ele)))
+            //         user.score[ele] = 0
+            //     console.log(`user.score${ele} = `, user.score[ele])
+            //     user.score[ele] +=  score.question
+            //     console.log("after user.score[ele] = ", user.score[ele])
+            //     console.log("new user.score data is", user.score);
+            // })
+            // //deep copy
+            // let obj = JSON.parse(JSON.stringify(user));
+            // obj.score.totalScore += score.question
+            // console.log("category in postring answer , ",category)
+            // console.log("score.question is  , ",score.question)
+
+            // category.forEach((ele) => {
+            //     console.log("ele = ",ele);
+            //     console.log("typeofele = ", typeof ele)
+            //     if(!(obj.score.hasOwnProperty(ele)))
+            //         obj.score[ele] = 0
+            //     console.log(`user.score${ele} = `, obj.score[ele])
+            //     obj.score[ele] +=  score.question
+            //     console.log("after user.score[ele] = ", obj.score[ele])
+            //     console.log("new user.score data is", obj.score);
+            // })
+             //deep copy
+             let obj = JSON.parse(JSON.stringify(user.score));
+             obj.totalScore += score.question
+             console.log("category in postring answer , ",category)
+             console.log("score.question is  , ",score.question)
+ 
+             category.forEach((ele) => {
+                 console.log("ele = ",ele);
+                 console.log("typeofele = ", typeof ele)
+                 if(!(obj.hasOwnProperty(ele)))
+                     obj[ele] = 0
+                 console.log(`user.score${ele} = `, obj[ele])
+                 obj[ele] +=  score.question
+                 console.log("after user.score[ele] = ", obj[ele])
+                 console.log("new user.score data is", obj);
+             })
             
+            //  user.set("score",obj);
+            // await User.updateOne({ _id: user_id }, { $set: { score: obj } }).exec();
+            // await user.save((err) => {
+            // console.log("saving user and obj", user, obj)
+            // })
 
         })
         console.log('Question saved: ', questionSave, userUpdate, scoreUpdate);
