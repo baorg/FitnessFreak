@@ -30,7 +30,7 @@ module.exports = async function(req, res) {
     try {
         let questionSave = await ques.save()
         let userUpdate = await User.updateOne({ _id: user_id }, { $push: { question: ques._id } }).exec();
-        let scoreUpdate = await User.findById(user_id, "score").exec((err, user) => {
+        let scoreUpdate = await User.findById(user_id, "score category").exec((err, user) => {
 
             user.score.totalScore += score.question
             category.forEach((ele) => {
