@@ -88,7 +88,7 @@ function PostQuestion(props){
   async function handleSubmit(event) {
     event.preventDefault();
     let res = await ajaxRequest("POST", `${API_DOMAIN}/Question/postQuestion`, {
-      categories: categories.filter(cat => cat.selected).map(val => val.name),
+      category: categories.filter(cat => cat.selected).map(val => val.name),
       tags: selectedTags,
       question: editorData,
       title: title

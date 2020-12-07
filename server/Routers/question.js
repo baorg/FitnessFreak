@@ -20,7 +20,7 @@ router.post("/upload", isAuthenticated, MultipartyMiddleware, QuestionHandler.up
 router.get("/profilePrivileges/:name", QuestionHandler.profilePrivileges)
 router.get("/getCategory", QuestionHandler.getCategory)
 router.get("/getNotifications", QuestionHandler.getNotifications);
-router.get("/postComment",QuestionHandler.postComment);
+router.post("/postComment",QuestionHandler.postComment);
 router.get("/:name", QuestionHandler.getTypeOfQuestionsHandler);
 
 

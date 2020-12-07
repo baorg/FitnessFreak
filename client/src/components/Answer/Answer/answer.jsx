@@ -15,8 +15,9 @@ function Answer(props){
     {/* {props.answers.comments.length!==0?<h4 style={{marginBottom:"30px"}}>Comments</h4>:null }
     <div>
         {props.answer.comments.map((item,index)=><Comment key={index} comment={item} />)}
-    </div>
-    <PostComment answerId = {props.answerId} /> */}
+    </div> */}
+    <h6>Add Your Comment</h6>
+    <PostComment answerId = {props.answerId} />
     </div>
     )
     

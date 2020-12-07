@@ -19,7 +19,7 @@ module.exports.postComment = async (req, res) => {
 
     try{
     const CommentSave = await saveComment.save() 
-    const AnsUpdate = await Ans.updateOne({ _id: answerId }, { $push: { comments: comment } }).exec();
+    const AnsUpdate = await Ans.updateOne({ _id: answerId }, { $push: { comments: saveComment } }).exec();
     }
     catch(err){
         setResult(result, err);

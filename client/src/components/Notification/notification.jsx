@@ -34,6 +34,9 @@ const Notification = function(props){
                     <div key={index} className="elem"><p>{el}</p></div>
                 )
                 :
+                noti.length===0?
+                <div className="elem"><p>No Notifications Yet</p></div>
+                :
                 noti.map((el,index) => 
                 <div key={index} className="elem"><p>{el}</p></div>
                 )

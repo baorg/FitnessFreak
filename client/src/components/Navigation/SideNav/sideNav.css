@@ -41,7 +41,20 @@
 }
 .categorybox a{
     color:white;
-    font-size: 20px;
+    font-size: 16px;
+    border: 2px solid black;
+    margin: 0px;
+}
+.rankingbox{
+    display: none;
+    position: absolute;
+    left: 77%;
+    z-index: 100;
+    background-color: gray;
+}
+.rankingbox a{
+    color:white;
+    font-size: 16px;
     border: 2px solid black;
     margin: 0px;
 }
