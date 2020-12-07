@@ -29,7 +29,7 @@ const Ranking = function(props) {
         // else{
 
         // }
-        //setQues(res.data.questions);
+        setRank(res.data.data);
     })
 
   }, []);

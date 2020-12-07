@@ -68,7 +68,7 @@ module.exports = function(req, res) {
             // if absent in the array
              else{
                 arr.push(obj);
-                const typeOfVote = isUpvoted(arr, index) ? "upvote" : "downvote"; 
+                const typeOfVote = (up === undefined) ? "upvote" : "downvote"; 
                 ques.vote_count[typeOfVote]++;
              }
 

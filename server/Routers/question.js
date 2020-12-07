@@ -7,8 +7,8 @@ const QuestionHandler = require('../Handlers').QuestionHandler;
 const { postQuestionValidator } = require('./../Validators').QuestionValidators
 
 // router.use();
-router.get("/getQuestions", isAuthenticated, QuestionHandler.getQuestionsHandler);
-router.get("/getQuestions/:id", isAuthenticated, QuestionHandler.getOneQuestionHandler);
+router.get("/getQuestions", QuestionHandler.getQuestionsHandler);
+router.get("/getQuestions/:id", QuestionHandler.getOneQuestionHandler);
 router.post("/postQuestion", isAuthenticated, postQuestionValidator, QuestionHandler.postQuestionHandler);
 router.post("/postAnswer", isAuthenticated, QuestionHandler.postAnswerHandler);
 router.post("/votes/byUser", isAuthenticated, QuestionHandler.addVoteHandler);
@@ -19,8 +19,8 @@ router.get("/get-feed-question", QuestionHandler.getFeedQuestion);
 router.post("/upload", isAuthenticated, MultipartyMiddleware, QuestionHandler.uploadAttachmentsHandler);
 router.get("/profilePrivileges/:name", QuestionHandler.profilePrivileges)
 router.get("/getCategory", QuestionHandler.getCategory)
-router.get("/getNotifications", QuestionHandler.getNotifications);
-router.post("/postComment",QuestionHandler.postComment);
+router.get("/getNotifications",isAuthenticated, QuestionHandler.getNotifications);
+router.post("/postComment",isAuthenticated, QuestionHandler.postComment);
 router.get("/:name", QuestionHandler.getTypeOfQuestionsHandler);
 
 
