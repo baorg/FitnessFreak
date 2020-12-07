@@ -1,17 +1,21 @@
 import React, {useState, useEffect}  from "react"
 import {navigate, A} from 'hookrouter';
 import { Button } from 'react-bootstrap';
+import './style.css';
 
 
 function Question(props) { 
+    console.log(props);
 
     return (
         <div>
-            <h3>{props.question.title || "--No title--"} </h3>
-            <div dangerouslySetInnerHTML={{__html:props.question.question}} style={{wordBreak:"break-word"}} ></div>
+            <A href={`/viewFullQuestion/${props.question._id}`}><h3>{props.question.title} </h3></A>
+            <div className="category-container">
+                {props.question.category.map(category => (
+                    <span className="category-span">{category}</span>
+                ))}
+            </div>
             <A href={`/profile/${props.question.user._id}`}>- @{props.question.user.username}</A>
-            <br/>
-            <Button variant="info" onClick={() => navigate("/viewFullQuestion/" + props.question._id )}>View Full Answer</Button>
             <br/><hr/>
         </div>
     );

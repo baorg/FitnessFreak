@@ -2,7 +2,7 @@ import React,{useState,useEffect} from "react";
 import MyNav from "../../Navigation/navbar/navbar"
 import SideNavBar from "../../Navigation/SideNav/SideNav";
 import Searchdiv from "../../Searchdiv/searchdiv";
-import UploadImage from './UploadImage';
+import ImagesTile from './ImagesTile';
 
 import '../../styles.css'
 import './Postques.css'
@@ -124,7 +124,7 @@ function PostQuestion(props){
             />
             <br />
         </div>
-          <UploadImage images={images} setImages={setImages} />
+          <ImagesTile images={images} setImages={setImages} />
         <div className="box">
           <h5 className="title" >Select a Category   </h5> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           {categories.map((el,index)=>
