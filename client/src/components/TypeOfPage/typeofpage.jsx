@@ -34,7 +34,7 @@ const TypeOfPage = function(props) {
   return (
     <>
       <MyNav user={props.user} />
-      <SideNavPage />
+      <SideNavPage user={props.user}/>
       <div className="maindivofeverypage">
         <h2>{props.typeofpage}</h2>
         <h2>{props.categoryname}</h2>

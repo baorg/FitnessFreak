@@ -40,7 +40,7 @@ const App = function(props) {
       <>
         <MyNav user={props.user} />
         <div className="nodisplay" ></div>
-        <SideNavPage />
+        <SideNavPage user={props.user}/>
         <div className="maindivofeverypage">
           <InfiniteScroll
             pageStart={0}

@@ -102,7 +102,7 @@ function PostQuestion(props){
   return (
     <>
       <MyNav user={props.user} />
-      <SideNavBar disableaddbutton="false" />
+      <SideNavBar disableaddbutton="false" user={props.user} />
       <div className="maindivofeverypage">
       <form method="post" onSubmit={handleSubmit} className="quesdiv" style={{marginTop:"20px"}} >
         <h1 style={{marginBottom:"40px"}}>Post a Question</h1>

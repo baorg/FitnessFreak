@@ -2,6 +2,7 @@ import React,{useState,useEffect, useRef} from "react"
 import { ENDPOINT } from "../utils";
 import axiosCall from "../../ajaxRequest"
 import {navigate} from "hookrouter"
+import notLoggedIn from "../../notloggedin";
 
 const UpvoteDownvote = (props) =>{
 
@@ -97,9 +98,9 @@ function downvoted(){
     <div style={{display:"flex",alignItems:"center"}}>
         <p style={{display:"inline-block"}} >Upvotes/Downvotes</p> &nbsp;&nbsp;&nbsp;&nbsp;
         <span ref = {totalUpRef}>{props.totalCount ? props.totalCount.up : null}</span>
-        <button type="button" onClick={upvoted} ><ion-icon name= {!up ? "arrow-up-circle-outline" : "arrow-up-circle"} className="upvote" ref={upRef} style={{fontSize:"20px"}}></ion-icon></button>
+        <button type="button" onClick={props.user===null?notLoggedIn:upvoted} ><ion-icon name= {!up ? "arrow-up-circle-outline" : "arrow-up-circle"} className="upvote" ref={upRef} style={{fontSize:"20px"}}></ion-icon></button>
         <span ref = {totalDownRef}>{props.totalCount ? props.totalCount.down : null}</span>
-        <button type="button" onClick={downvoted}><ion-icon name={!down ? "arrow-down-circle-outline" : "arrow-down-circle"} className="downvote" ref={downRef} style={{fontSize:"20px"}}></ion-icon></button>
+        <button type="button" onClick={props.user===null?notLoggedIn:downvoted}><ion-icon name={!down ? "arrow-down-circle-outline" : "arrow-down-circle"} className="downvote" ref={downRef} style={{fontSize:"20px"}}></ion-icon></button>
     </div>
   );
 

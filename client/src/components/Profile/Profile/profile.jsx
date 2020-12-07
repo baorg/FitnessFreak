@@ -56,7 +56,7 @@ function Profile(props){
     return (
         <>
             <MyNav user={props.user} />
-            <SideNavBar type="profile" profileid={profileUser._id} />
+            <SideNavBar type="profile" profileid={profileUser._id} user={props.user} />
                 <div className="maindivofeverypage" >
                     <img src={profileUser.profile_image || AnonymousUser.profile_image} alt="profilepic" className="profilepic"></img>
                     <h1>{profileUser.username}</h1>

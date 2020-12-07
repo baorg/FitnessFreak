@@ -10,14 +10,14 @@ function Answer(props){
     return (
     <div style={{marginBottom:"20px"}} className="shiny">
     <p>{props.answer}</p>
-    <UpvoteDownvote quesId = {props.answerId} isQues = {false}/>
+    <UpvoteDownvote quesId = {props.answerId} isQues = {false} user={props.user}/>
     <hr />
     {/* {props.answers.comments.length!==0?<h4 style={{marginBottom:"30px"}}>Comments</h4>:null }
     <div>
-        {props.answer.comments.map((item,index)=><Comment key={index} comment={item} />)}
+        {props.answer.comments.map((item,index)=><Comment key={index} comment={item} user={props.user}/>)}
     </div> */}
     <h6>Add Your Comment</h6>
-    <PostComment answerId = {props.answerId} />
+    <PostComment answerId = {props.answerId} user={props.user} />
     </div>
     )
     

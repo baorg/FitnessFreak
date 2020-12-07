@@ -38,7 +38,7 @@ const ProfilePrivileges = function(props) {
   return (
     <>
       <MyNav user={props.user} />
-      <SideNavPage type="profile" profileid={props.userId}/>
+      <SideNavPage type="profile" profileid={props.userId} user={props.user}/>
       <div className="maindivofeverypage">
         <h2>{props.privilege} </h2>
         <div>

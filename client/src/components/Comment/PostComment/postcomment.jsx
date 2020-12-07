@@ -2,6 +2,7 @@ import React,{useState} from "react"
 import { ENDPOINT } from "../../utils";
 import axiosCall from "../../../ajaxRequest"
 import {navigate} from "hookrouter"
+import notLoggedIn from "../../../notloggedin";
 
 const PostComment = (props) => {
     const [comment, setComment] = useState("")
@@ -31,8 +32,8 @@ const PostComment = (props) => {
 
     return (   
         <form onSubmit = {postComment} style={{display:"flex",alignItems:"center"}}>
-        <textarea placeholder="Write your comment" value = {comment} onChange = {handleChange}></textarea>
-        <button type="submit">Post</button>
+        <textarea placeholder="Write your comment" value = {comment} onChange = {handleChange} onClick={props.user===null?notLoggedIn:null}></textarea>
+        <button type="submit" onClick={props.user===null?notLoggedIn:null}>Post</button>
         </form>
     )
    
