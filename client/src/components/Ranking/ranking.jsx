@@ -18,8 +18,11 @@ const Ranking = function(props) {
     console.log("typeogPage = ", props.typeofranking)
     if(props.typeofranking==="Total")
     url=url+"totalScore";
+    else if(props.typeofranking==="Followers")
+    url=url+"followers";
     else
     url=url+props.typeofranking;
+
     axiosCall('GET', url)
       .then((res) => {
         console.log("resOfTypeOfpage = ", res.data)

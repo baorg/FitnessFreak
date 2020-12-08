@@ -14,7 +14,6 @@ const ProfilePrivileges = function(props) {
   const defaultMessage = useRef(null);
   useEffect(() => {
     //axios call
-    if(props.user != null){
     let url=`${ENDPOINT}/Question/profilePrivileges/`;
   
     // console.log("props=",props.user)
@@ -22,17 +21,32 @@ const ProfilePrivileges = function(props) {
     axios.get(url + props.privilege, {withCredentials : true})
     .then((res) => {
       console.log("resOfTypeOfpage = ", res.data)
-      if(!res.data.question.length)
-      defaultMessage.current.innerText = "NO Data"
-      else
-         setQues(res.data.question);
+      if(props.privilege==="answer"){
+        if(!res.data.question.answer.length)
+        defaultMessage.current.innerText = "No Data"
+        else
+        {
+            console.log("hi1");
+            setQues(res.data.question.answer);
+        }
+        
+      }
+      else{
+        if(!res.data.question.length)
+          defaultMessage.current.innerText = "No Data"
+          else
+          {
+              console.log("hi2");
+              setQues(res.data.question);
+          }
+      } 
+         console.log(res.data.question);
   })
     // axiosCall('get', url, {"name": props.typeofpage})
     //   .then((res) => {
     //     console.log("resOfTypeOfpage = ", res.data)
     //     //setQues(res.data.questions);
     // })
-}
   }, []);
 
   return (
@@ -43,7 +57,7 @@ const ProfilePrivileges = function(props) {
         <h2>{props.privilege} </h2>
         <div>
         <h3 ref = {defaultMessage}></h3>
-        { ques.map((item, index) => <Question key={index}  ques={item}/>)}
+        { ques.map((item, index) => <Question key={index}  question={item}/>)}
         </div>
       </div>
     </>
