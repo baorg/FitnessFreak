@@ -25,13 +25,31 @@ async function refreshFeed() {
         }]);
 
 
-    newFeedSet = new Set((topQuestions.concat(followingQuestions)).map(ques => (ques._id)));
-    let new_feed = Array.from(newFeedSet).map(ques => ({ _id: ques }));
+    let new_feed = followingQuestions.map(q => q._id); // Feed list with new questions.
+    let questions_count = new_feed.length; // Count of questions in new feed.
 
-    new_feed = new_feed.concat(old_feed ? old_feed : []).slice(0, 200);
+    // To add unique questions only.
+    let feedSet = new Set(new_feed);
+
+
+    // Adding top-questions to our feed list.
+    for (var i = 0; i < topQuestions.length; i++) {
+        if (!feedSet.has(topQuestions[i]._id)) {
+            feedSet.add(topQuestions[i]._id);
+            new_feed.push(topQuestions[i]._id);
+        }
+    }
+
+    questions_count = new_feed.length;
+
+    for (var i = 0; i < old_feed.length && questions_count < 200; i++) {
+        new_feed.push(old_feed[i]);
+        feedSet.add(old_feed[i]);
+        questions_count++;
+    }
 
     this.feed_last_updated = new Date(Date.now() - 1000 * 60);
-    this.feed = Array.from(new Set(new_feed));
+    this.feed = new_feed;
 
     await this.save();
 }
@@ -50,7 +68,7 @@ async function getFeed(skip, count) {
         options: {
             limit: count,
             skip: skip,
-            select: "title vote_count"
+            select: "title vote_count created_at"
         }
     }).exec();
 

@@ -8,7 +8,7 @@ import '../../styles.css'
 import './Postques.css'
 import CloseIcon from '@material-ui/icons/Close';
 import CancelIcon from '@material-ui/icons/Cancel';
-
+import { Button } from '@material-ui/core';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import ajaxRequest from '../../../ajaxRequest';
@@ -17,21 +17,18 @@ import { ENDPOINT } from "../../utils";
 import axiosCall from '../../../ajaxRequest';
 
 
-let selectedtagss=[];
 function PostQuestion(props){
   const availabeTags = ["#yoga", "#bodybuilding", "#gymnastics", "#zumba"];
   const [editorData, setEditorData] = useState("");
   const [title, setTitle] = useState("");
   // const [category, setCategory] = useState("");
   const [selectedTags, setSelectedTags] = useState([]);
-  const [images, setImages] = useState([
-    "https://picsum.photos/200",
-    "https://picsum.photos/200"
-  ]);
+  const [images, setImages] = useState([]);
 
     // const [searchTag, setSearchTag] = useState("");
     // const [filterArr,setFilterArr]=useState([ ]);
-  const [categories, setCategories] = useState([]);
+  const [submitting, setSubmitting] = useState(false);
+    const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     console.log('User:', props.user);
@@ -84,21 +81,70 @@ function PostQuestion(props){
   async function selectCategory(cat) {
     setCategories(categories.map(val => val.name == cat ? { name: val.name, selected: !val.selected } : val));
   }
+  async function submit() {
+    console.log('Submitting....');
+    setSubmitting(true);
+    
+    let images_count = images.length;
+    let images_url = [];
 
-  async function handleSubmit(event) {
-    event.preventDefault();
+    for (var i = 0; i < images_count; i++){
+      let image = images[i];
+      if (image.uploaded) {
+        images_url.push(image);
+      } else {
+        let formData = new FormData();
+        formData.append('file', images[i].file);
+        let res = await fetch('/upload/image-upload', {
+          method: 'POST',
+          body: formData
+        });
+
+        let data = await res.json();
+        if (data.success) {
+          images_url.push({ url: data.url, type: 'image' });
+          await setImages(images.map((img, ind) => {
+            if (ind === i)
+              return {
+                src: data.url,
+                file: img.file,
+                uploaded: true
+              };
+            else
+              return img;
+          }));
+        } else {
+          alert('Some error occured in submitting question.');
+          setSubmitting(false);
+          return;
+        }
+      }
+    }
+
     let res = await ajaxRequest("POST", `${API_DOMAIN}/Question/postQuestion`, {
       category: categories.filter(cat => cat.selected).map(val => val.name),
       tags: selectedTags,
       question: editorData,
-      title: title
+      title: title,
+      attachments: images_url
     });
 
-    if (res.data.isSaved)
+    if (res.data.isSaved) {
       alert('Question submitted successfully');
-    else
+      return;
+    }
+    else {
       alert('Errr..., some error occured on our side!');
+      setSubmitting(false);
+      return;
+    }
   }
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    return submit();
+  }
+
   return (
     <>
       <MyNav user={props.user} />
@@ -124,7 +170,7 @@ function PostQuestion(props){
             />
             <br />
         </div>
-          <ImagesTile images={images} setImages={setImages} />
+          <ImagesTile images={images} setImages={setImages} submitting={submitting} />
         <div className="box">
           <h5 className="title" >Select a Category   </h5> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           {categories.map((el,index)=>
@@ -135,7 +181,7 @@ function PostQuestion(props){
           )}
         </div>
         <div className="searchdiv">
-          <h5 className="title" >Select Tags   </h5> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <h5 className="title" >Select Tags </h5> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <Searchdiv tags={availabeTags} selectedTags={selectedTags} setSelectedTags={setSelectedTags} change={selectTag} type="tags" />
         </div>
         <div className="selectedtags" >
@@ -144,8 +190,11 @@ function PostQuestion(props){
               <a href="#">{el}</a>
                   <CancelIcon onClick={() => deltags(index)} />
             </div>)}
-        </div>
-        <button type="submit">Post</button>
+          </div>
+          <br/>
+          {submitting ?
+            <Button color="primary" disabled variant="contained" >Post</Button>
+            : <Button color="primary" variant="contained" onClick={submit}>Post</Button>}
       </form>
       </div>
     </>

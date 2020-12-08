@@ -41,7 +41,9 @@
 .images-container {
     height: fit-content;
     min-height: 8em;
-    background-color: gray;
+    background-color: rgb(228, 222, 222);
+    border: 3px solid #22251a;
+    border-radius: 5px;
     display: flex;
     align-items: center;
     padding: 0.3em;
@@ -50,26 +52,50 @@
 
 .img-box {
     height: 8em;
-    width: fit-content;
+    width: 8em;
     margin: 1em;
+    border-radius: 10px;
 }
 
 .img {
+    z-index: 1;
     height: 100%;
     width: auto;
     border-radius: 5px;
 }
 
-.remove-img-btn {
+.img-ovr {
     z-index: 2;
     position: relative;
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: max-content auto max-content;
+    grid-template-areas: ". . remo" ". . ." ". upload .";
+    background-color: rgba(56, 50, 50, 0.452);
+}
+
+.remove-img-btn {
+    /* z-index: 2; */
+    /* position: relative;
     top: -35%;
-    left: -20%;
+    left: -20%; */
     color: white;
-    font-size: 8px;
+    font-size: 25px;
     border-radius: 100%;
     cursor: pointer;
     border-radius: 5px;
+    grid-area: remo;
+    align-self: center;
+    justify-self: center;
+    margin: 5px;
+}
+
+.submit-btn {
+    grid-area: upload;
+    margin-bottom: 0.7em;
 }
 
 .add-img {

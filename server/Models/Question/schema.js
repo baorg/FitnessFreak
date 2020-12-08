@@ -9,6 +9,6 @@ module.exports = new mongoose.Schema({
     categoryName: [],
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     tags: [String],
-    attachments: [{ url: String, type: String }],
+    attachments: [{ url: String, type_: String }],
     created_at: { type: Date, default: () => new Date(0) }
 });
