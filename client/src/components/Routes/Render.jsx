@@ -9,7 +9,7 @@ import FirstTimeSetup from "../FirstTimeSetup/firstTimeSetup";
 function getRoutes() {
   return {
     '/auth*': () =>  <Auth/>,
-    '/viewFullQuestion/:quesId' :({quesId}) => <FullQuestion quesId = {quesId} />,
+    // '/viewFullQuestion/:quesId' :({quesId}) => <FullQuestion quesId = {quesId} />,
     '/first-time-setup' : () => <FirstTimeSetup />,
     '/*' : () => <Feed />,
   }

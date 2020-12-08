@@ -14,7 +14,7 @@ const TypeOfPage = function(props) {
 
   useEffect(() => {
     //axios call
-    if(props.user != null){
+    //if(props.user != null){
     let url=`${ENDPOINT}/Question/`;
     console.log("Calling resOfTypeOfpage");
     console.log("typeogPage = ", props.typeofpage)
@@ -28,13 +28,13 @@ const TypeOfPage = function(props) {
     //     console.log("resOfTypeOfpage = ", res.data)
     //     //setQues(res.data.questions);
     // })
-}
+//}
   }, []);
 
   return (
     <>
       <MyNav user={props.user} />
-      <SideNavPage />
+      <SideNavPage user={props.user}/>
       <div className="maindivofeverypage">
         <h2>{props.typeofpage}</h2>
         <h2>{props.categoryname}</h2>

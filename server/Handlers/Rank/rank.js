@@ -1,24 +1,31 @@
 const { Ques, Ans, User, Tag } = require("../../Models");
+const hasUserOwnProperty = require("../Question/utilis").hasUserOwnProperty
 
 module.exports.getRankByCategory = async function(req, res) {
 
     const category = req.params.name;
-    const obj = {isAuthenticated : true,
-                    data : ""}
+    let obj = {isAuthenticated : true,
+                    data : []}
     try{
-        const promise = User.find({}, "username score").exec()
-        promise.then((users) => {
-                        console.log("users = ", users)
-                        let result =  users.map((user) => {
-                                if(user.score.hasOwnProperty(category))
-                                {
-                                    return {_id : user._id, username : user.username, score : user.score[category]};
-                                }
-                            })
-
-                            result.sort((x, y) => x.score > y.score);
-                            obj.data = result;
-                        })
+        const users = await User.find({}, "username score").exec()
+    
+        console.log("users = ", users)
+        let result = []
+        users.forEach((user) => {
+        let index = hasUserOwnProperty(user, category)
+        console.log(`category = ${category} and index = ${index}`)
+        if(index !== -1)
+        {
+            console.log("userScore = ",user.score[index].score)
+            result.push({_id : user._id, username : user.username, score : user.score[index].score});
+        }
+         })
+        console.log("result = ", result)
+        result.sort((x, y) => x.score > y.score);
+        if(result.length){
+        obj.data = result;
+        console.log("obj.data = ", obj.data)
+        }
     }
     catch(err){
          console.log("err in getting Rank By category ", err);

@@ -29,7 +29,7 @@ const Ranking = function(props) {
         // else{
 
         // }
-        //setQues(res.data.questions);
+        setRank(res.data.data);
     })
 
   }, []);
@@ -37,7 +37,7 @@ const Ranking = function(props) {
   return (
     <>
       <MyNav user={props.user} />
-      <SideNavPage />
+      <SideNavPage user={props.user}/>
       <div className="maindivofeverypage">
         <h2>Ranking of {props.typeofranking}</h2>
         <div>

@@ -6,6 +6,7 @@ import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 import axiosCall from "../../ajaxRequest";
 import { navigate } from "hookrouter";
+import notLoggedIn from "../../notloggedin";
 
 const BookMark = function(props){
 
@@ -33,7 +34,7 @@ const BookMark = function(props){
 
     }
     return(
-  <button onClick = {saveBookMark}>{marked ? <BookmarkIcon/>  : <BookmarkBorderIcon />}</button>
+  <button onClick = {props.user===null?notLoggedIn:saveBookMark}>{marked ? <BookmarkIcon/>  : <BookmarkBorderIcon />}</button>
   )
     
 }

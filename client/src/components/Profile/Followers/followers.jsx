@@ -21,7 +21,7 @@ function Followers(props) {
     return (
         <>
             <MyNav user={props.user} />
-            <SideNavPage type="profile" profileid={props.userId}/>
+            <SideNavPage type="profile" profileid={props.userId} user={props.user}/>
             <div className="maindivofeverypage">
             <h1>Followers</h1>
             <li>
