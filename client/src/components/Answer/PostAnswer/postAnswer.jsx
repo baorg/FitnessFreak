@@ -32,7 +32,7 @@ const PostAnswer = (props) => {
     return (   
         <form onSubmit = {postAnswer} style={{display:"flex",alignItems:"center"}}>
         <textarea placeholder="Write your answer" value = {answer} onChange = {handleChange} onClick={props.user===null?notLoggedIn:null}></textarea>
-        <button type="submit" onClick={props.user===null?notLoggedIn:null} >Post</button>
+        <button type={props.user===null?"button":"submit"} onClick={props.user===null?notLoggedIn:null} >Post</button>
         </form>
     )
    

@@ -14,7 +14,7 @@ const TypeOfPage = function(props) {
 
   useEffect(() => {
     //axios call
-    if(props.user != null){
+    //if(props.user != null){
     let url=`${ENDPOINT}/Question/`;
     console.log("Calling resOfTypeOfpage");
     console.log("typeogPage = ", props.typeofpage)
@@ -28,7 +28,7 @@ const TypeOfPage = function(props) {
     //     console.log("resOfTypeOfpage = ", res.data)
     //     //setQues(res.data.questions);
     // })
-}
+//}
   }, []);
 
   return (
