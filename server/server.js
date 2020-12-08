@@ -4,20 +4,20 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 const { mongooseSetup, passportSetup, adminbroSetup } = require('./setup');
 const mongoose = require('mongoose');
+require('dotenv').config();
 
 const MongoStore = require("connect-mongo")(session);
 const cors = require("cors");
 const Router = require('./Routers');
 // const passportRouter = require("./passport/routes/authRoutes");
-
 const logging = require("./Middlewares").logging;
+
 
 
 const app = express();
 app.use(logging);
 
 (async() => {
-
     const CLIENT_URL = "http://localhost:3000";
     const PORT = process.env.PORT || 5000;
 
@@ -38,8 +38,8 @@ app.use(logging);
     await passportSetup(app);
     await adminbroSetup(app, connection);
 
-    app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(bodyParser.json());
 
     // set up cors to allow us to accept requests from our client
     app.use(

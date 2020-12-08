@@ -5,12 +5,17 @@ const questionRouter = require('./question');
 const usersRouter = require('./users');
 const authRouter = require('./auth');
 const feedRouter = require('./feed');
-const rankRouter  = require("./rank")
+const rankRouter = require("./rank")
+const uploadRouter = require("./upload");
+
+
 
 router.use('/auth', authRouter);
 router.use('/following', followingRouter);
 router.use('/feed', feedRouter);
 router.use('/Question', questionRouter);
 router.use('/Users', usersRouter);
-router.use("/Rank",rankRouter);
+router.use("/Rank", rankRouter);
+router.use('/upload', uploadRouter);
+
 module.exports = router

@@ -35,7 +35,7 @@ module.exports = async function(req, res, next) {
         let user = req.user;
         let { last_updated, feed } = await req.user.getFeed(
             (page - 1) * count, count,
-            'vote_count title question userId tags categoryName', [{
+            'vote_count title question userId tags categoryName created_at', [{
                 path: 'userId',
                 model: User,
                 select: 'username'
@@ -45,7 +45,7 @@ module.exports = async function(req, res, next) {
             await user.refreshFeed();
             feed = await req.user.getFeed(
                 (page - 1) * count, count,
-                'vote_count title question userId tags categoryName', [{
+                'vote_count title question userId tags categoryName created_at', [{
                     path: 'userId',
                     model: User,
                     select: 'username'
@@ -55,7 +55,7 @@ module.exports = async function(req, res, next) {
     } else {
         questions = await Ques.getTopQuestions(new Date(0), new Date(Date.now()),
             (page - 1) * count, count,
-            'vote_count title question userId tags categoryName', [{
+            'vote_count title question userId tags categoryName created_at', [{
                 path: 'userId',
                 model: User,
                 select: 'username'

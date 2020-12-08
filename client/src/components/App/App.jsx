@@ -8,12 +8,10 @@ import axios from "axios";
 import { navigate } from 'hookrouter';
 import axiosCall from '../../ajaxRequest';
 import Spinner from 'react-bootstrap/Spinner'
-
 import { Button } from '@material-ui/core'
 import InfiniteScroll from 'react-infinite-scroller';
 
 const App = function(props) {
-
   const [feed, setFeed] = useState({questions:[], current_page: 0 });
   const [hasMore, setHasMore] = useState(true);
 
@@ -51,7 +49,6 @@ const App = function(props) {
                 <span className="sr-only">Loading...</span>
               </Spinner>}
           >
-            
             {feed.questions.map(question => <Question key={question._id} question={question} />)}
           </InfiniteScroll>
           {hasMore == false &&

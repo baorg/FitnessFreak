@@ -26,4 +26,8 @@ module.exports = function(app) {
         '/admin',
         createProxyMiddleware(obj)
     );
+    app.use(
+        '/upload/image-upload',
+        createProxyMiddleware(obj)
+    )
 };

@@ -1,11 +1,15 @@
-import React, {useState, useEffect}  from "react"
-import {navigate, A} from 'hookrouter';
-import { Button } from 'react-bootstrap';
+import React from "react"
+import { A } from 'hookrouter';
 import './style.css';
-
+import TimeAgo from 'javascript-time-ago'
+// English.
+import en from 'javascript-time-ago/locale/en'
+TimeAgo.addLocale(en)
 
 function Question(props) { 
-    console.log(props);
+    // console.log(props);
+    const timeAgo = new TimeAgo('en');
+    console.log('Created At : ',new Date(props.question.posted_at));
 
     return (
         <div>
@@ -15,6 +19,7 @@ function Question(props) {
                     <span className="category-span">{category}</span>
                 ))}
             </div>
+            <div> - {timeAgo.format(new Date(props.question.posted_at))}</div>
             <A href={`/profile/${props.question.user._id}`}>- @{props.question.user.username}</A>
             <br/><hr/>
         </div>
