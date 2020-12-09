@@ -41,7 +41,11 @@ function getCount(ques) {
         downCount: downCount,
         question: {
             title: ques.title,
-            question: ques.question
+            question: ques.question,
+            posted_at: ques.created_at,
+            tags: ques.tags,
+            categories: ques.categoryName,
+            attachments: ques.attachments
         }
     }
     return obj;

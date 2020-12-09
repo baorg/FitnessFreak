@@ -7,6 +7,8 @@ import UpvoteDownvote from "../../UpvoteDownvote/upvoteDownvote";
 import MyNav from "../../Navigation/navbar/navbar";
 import SideNavBar from "../../Navigation/SideNav/SideNav";
 import '../../styles.css'
+import './style.css'
+
 import BookMark from "../../BookMark/MyBookMark"
 function FullQuestion(props){
     const [question, setQuestion] = useState([])
@@ -27,22 +29,22 @@ function FullQuestion(props){
    
     return (
     <div>
-    <MyNav user={props.user} />
-    <SideNavBar user={props.user}/>
-    <div className="maindivofeverypage" >
-    <h1>{question.title}</h1>
-    <div dangerouslySetInnerHTML={{__html:question.question}}></div>
-    <br /> <br />
-    <UpvoteDownvote quesId = {props.quesId} isQues = {true} totalCount = {totalCount} user={props.user}/>
-    <BookMark quesId = {props.quesId} user={props.user}/>
-    <h5>Write Your Answer</h5>
-    <PostAnswer id = {props.quesId} user={props.user}/>
-    <br /><br /><br /><br />
-    {answers.length!==0?<h4 style={{marginBottom:"30px"}}>Answers</h4>:null }
-    {answers.map((el, index) => {
-      return <Answer key = {index} answer = {el.answer} answerId = {el._id} user={props.user}/>
-    })}
-    </div>
+      <MyNav user={props.user} />
+      <SideNavBar user={props.user}/>
+      <div className="maindivofeverypage" >
+        <h1>{question.title}</h1>
+        <div dangerouslySetInnerHTML={{__html:question.question}} className="question-box"></div>
+        <br /> <br />
+        <UpvoteDownvote quesId = {props.quesId} isQues = {true} totalCount = {totalCount} user={props.user}/>
+        <BookMark quesId = {props.quesId} user={props.user}/>
+        <h5>Write Your Answer</h5>
+        <PostAnswer id = {props.quesId} user={props.user}/>
+        <br /><br /><br /><br />
+        {answers.length!==0?<h4 style={{marginBottom:"30px"}}>Answers</h4>:null }
+        {answers.map((el, index) => {
+          return <Answer key = {index} answer = {el.answer} answerId = {el._id} user={props.user}/>
+        })}
+      </div>
     </div>
     );
 }

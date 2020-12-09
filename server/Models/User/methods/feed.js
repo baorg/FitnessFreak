@@ -42,6 +42,7 @@ async function refreshFeed() {
 
     questions_count = new_feed.length;
 
+    // Add from old feed till we reach 200 max limit.
     for (var i = 0; i < old_feed.length && questions_count < 200; i++) {
         new_feed.push(old_feed[i]);
         feedSet.add(old_feed[i]);
