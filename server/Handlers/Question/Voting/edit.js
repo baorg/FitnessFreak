@@ -1,8 +1,8 @@
 const { Ques } = require("../../../Models");
-const { Ans, Comment } = require("../../../Models");
+const { Ans, Comment, User} = require("../../../Models");
 const { addScore } = require("../utilis");
 const {score} = require("../../../config/score");
-const User = require("../../../Models/User");
+// const User = require("../../../Models/User");
 
 
 function getModel(flag){
@@ -51,26 +51,26 @@ module.exports = async function(req, res) {
     const down = req.body.down;
     const isQues = req.body.isQues;
     const model = getModel(isQues);
-    const ques= await model.findById(quesId, 'upDown vote_count').exec();
+    const ques= await model.findById(quesId, 'upDown vote_count userId').exec();
 
-    
     let arr = ques.upDown 
     let index = getIndex(arr, userId);
     let value = (up === undefined) ? -1 : 1;
     let obj = {userId, value}
     //changes
-    let whoPostedId = ques.userId;
+    const whoPostedId = String(ques.userId);
     const Score = isQues == 2 ? score.upvoteOnComment : score.upvote;
+    
     let sign = value
     // if already in the array
     if (index != -1) {
         
         const typeOfValue =  isUpvoted(arr, index) ? down : up; 
         const typeOfVote = isUpvoted(arr, index) ? "upvote" : "downvote"; 
-        setData(arr, index, obj, typeOfValue, -1)
-        setVoteCount(ques, typeOfVote, typeOfValue)
         //Adding Score to the database
         sign = isUpvoted(arr, index) ? -1 : 1;
+        setData(arr, index, obj, typeOfValue, -1) 
+        setVoteCount(ques, typeOfVote, typeOfValue)         
     }
     // if absent in the array
     else{
@@ -79,13 +79,13 @@ module.exports = async function(req, res) {
     ques.vote_count[typeOfVote]++;
     }
 
-
-    const user = await User.findById(whoPostedId).exec();
+    let user = await User.findById(whoPostedId).exec(); 
     addScore(user, "totalScore", sign*Score)
-    ques.save()
-        
+    await ques.save()
+    await user.save();
+      
     }
-    catch{
+    catch(err){
         data = "Error Occured while saving respnose"
     }
     finally{
