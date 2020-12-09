@@ -24,18 +24,17 @@ async function refreshFeed() {
             select: 'username'
         }]);
 
-
     let new_feed = followingQuestions.map(q => q._id); // Feed list with new questions.
     let questions_count = new_feed.length; // Count of questions in new feed.
 
     // To add unique questions only.
-    let feedSet = new Set(new_feed);
-
+    let feedSet = new Set(new_feed.map(q => q.toString()));
 
     // Adding top-questions to our feed list.
     for (var i = 0; i < topQuestions.length; i++) {
-        if (!feedSet.has(topQuestions[i]._id)) {
-            feedSet.add(topQuestions[i]._id);
+        console.log(typeof(new_feed[i]));
+        if (!feedSet.has(topQuestions[i]._id)) {;
+            feedSet.add(topQuestions[i]._id.toString());
             new_feed.push(topQuestions[i]._id);
         }
     }
@@ -43,11 +42,16 @@ async function refreshFeed() {
     questions_count = new_feed.length;
 
     // Add from old feed till we reach 200 max limit.
-    for (var i = 0; i < old_feed.length && questions_count < 200; i++) {
-        new_feed.push(old_feed[i]);
-        feedSet.add(old_feed[i]);
-        questions_count++;
+    var i = 0;
+    while (i < old_feed.length && questions_count < 200) {
+        if (!feedSet.has(old_feed[i].toString())) {
+            new_feed.push(old_feed[i]);
+            feedSet.add(old_feed[i].toString());
+            questions_count++;
+        }
+        i++;
     }
+
 
     this.feed_last_updated = new Date(Date.now() - 1000 * 60);
     this.feed = new_feed;

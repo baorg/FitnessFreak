@@ -23,9 +23,11 @@ const userSchema = new mongoose.Schema({
     bookmarks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Ques' }],
     followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-    score: [{name : {type: String},
-             score : { type: Number, default: 0 },
-            _id : false  }],
+    score: [{
+        name: { type: String },
+        score: { type: Number, default: 0 },
+        _id: false
+    }],
     notifications: [],
     feed: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Ques' }],
     feed_last_updated: { type: Date, default: new Date(0) },
