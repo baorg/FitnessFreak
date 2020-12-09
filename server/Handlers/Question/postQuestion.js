@@ -45,38 +45,16 @@ module.exports = async function(req, res) {
                 })
 
 
-                let questionSave = await ques.save()
-                let userUpdate = await User.updateOne({ _id: user_id }, { $push: { question: ques._id } }).exec();
-                let scoreUpdate = User.findById(user_id, "score").exec()
-                scoreUpdate.then(async(user) => {
+                await ques.save()
+                await User.updateOne({ _id: user_id }, { $push: { question: ques._id } }).exec();
 
-                        addScore(user, "totalScore", score.question)
-                            // user.score.totalScore += score.question
-                        console.log("category in postring answer , ", category)
-                        console.log("score.question is  , ", score.question)
-
-                        category.forEach((ele) => {
-                            addScore(user, ele, score.question)
-                        })
-                        user.save()
-                            
-                        let obj = JSON.parse(JSON.stringify(user.score));
-                        obj.totalScore += score.question
-                            // console.log("category in postring answer , ", category)
-                            // console.log("score.question is  , ", score.question)
-
-                        category.forEach((ele) => {
-                            // console.log("ele = ", ele);
-                            // console.log("typeofele = ", typeof ele)
-                            if (!(obj.hasOwnProperty(ele)))
-                                obj[ele] = 0
-                                // console.log(`user.score${ele} = `, obj[ele])
-                            obj[ele] += score.question
-                                // console.log("after user.score[ele] = ", obj[ele])
-                                // console.log("new user.score data is", obj);
-                        });
-                    })
-                    // console.log('Question saved: ', questionSave, userUpdate, scoreUpdate);
+                let user = await User.findById(user_id, "score").exec()
+                addScore(user, "totalScore", score.question)
+                category.forEach((ele) => {
+                    addScore(user, ele, score.question)
+                })
+                await user.save()
+                
                 data = "question saved";
                 isSaved = true;
             } catch (err) {
