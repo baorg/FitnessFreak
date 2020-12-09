@@ -14,7 +14,9 @@ module.exports.postComment = async (req, res) => {
     const result = {isAuthenticated : true, err : false}
     const saveComment = new Comment({
         comment : comment,
-        userId : userId
+        userId : userId,
+        vote_count: {},
+        upDown: []
     })
 
     try{

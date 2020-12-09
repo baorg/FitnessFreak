@@ -28,7 +28,7 @@
 .sidenav a:hover{
     background-color:black;
     color:white;
-    font-size: 22px ;
+    /* font-size: 22px ; */
     transition-delay: 0.5;
     cursor: pointer;
 }

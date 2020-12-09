@@ -15,19 +15,11 @@ const SideNavBar = function(props) {
       async function fun(){
       await axiosCall('GET', url)
             .then(function (resp) {
-                    let b=resp.data;
+                    let b=JSON.parse(JSON.stringify(resp.data));
+                    setCategories(b);
                     let a=resp.data;
-                    a.push("Total");
+                     a.push("Total","Followers");
                     setRanking(a);
-                    // setCategories(b);
-                    a.pop();
-                    setCategories(a)
-                    
-                    
-                    console.log(categories);
-                    console.log("1",a)
-                    console.log("2",categories)
-                    console.log("3",ranking)
                   }
             )
       }

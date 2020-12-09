@@ -7,8 +7,6 @@ import UpvoteDownvote from "../../UpvoteDownvote/upvoteDownvote";
 import MyNav from "../../Navigation/navbar/navbar";
 import SideNavBar from "../../Navigation/SideNav/SideNav";
 import '../../styles.css'
-import './style.css'
-
 import BookMark from "../../BookMark/MyBookMark"
 function FullQuestion(props){
     const [question, setQuestion] = useState([])
@@ -40,10 +38,11 @@ function FullQuestion(props){
     <h5>Write Your Answer</h5>
     <PostAnswer id = {props.quesId} user={props.user}/>
     <br /><br /><br /><br />
-    {answers.length!==0?<h4 style={{marginBottom:"30px"}}>Answers</h4>:<h4>No Answers Yet</h4> }
+    {answers.length!==0?<h4 style={{marginBottom:"30px"}}>Username's answer</h4>:<h4>No Answers Yet</h4> }
     {answers.map((el, index) => {
       return <Answer key = {index} answer = {el.answer} answerId = {el._id} user={props.user}/>
     })}
+    <button>view other answers</button>
     </div>
     </div>
     );
