@@ -25,7 +25,7 @@ const Notification = function(props){
     }
     return(
         <div>
-        <button onClick={handleclick}><NotificationsIcon /></button>
+        <NotificationsIcon onClick={handleclick} style={{color:"red"}}/>
         <br />
         <div className="nodisplay">
             {

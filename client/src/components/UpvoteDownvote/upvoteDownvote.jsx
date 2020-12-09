@@ -3,13 +3,15 @@ import { ENDPOINT } from "../utils";
 import axiosCall from "../../ajaxRequest"
 import {navigate} from "hookrouter"
 import notLoggedIn from "../../notloggedin";
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const UpvoteDownvote = (props) =>{
 
 const [up,setUp]= useState(false);
 const [down,setDown]=useState(false);
-const upRef=useRef(null);
-const downRef=useRef(null);
+// const upRef=useRef(null);
+// const downRef=useRef(null);
 const totalUpRef=useRef(null);
 const totalDownRef=useRef(null);
 useEffect(() => {
@@ -28,8 +30,8 @@ useEffect(() => {
 function upvoted(){
     
     if(!up===true){
-        upRef.current.name='arrow-up-circle';
-        downRef.current.name='arrow-down-circle-outline';
+        // upRef.current.name='arrow-up-circle';
+        // downRef.current.name='arrow-down-circle-outline';
         const num = Number(totalUpRef.current.innerText) + 1;
         totalUpRef.current.innerText = num
         if(down){
@@ -38,7 +40,7 @@ function upvoted(){
         }
     }
     else{
-        upRef.current.name='arrow-up-circle-outline';
+        // upRef.current.name='arrow-up-circle-outline';
         const num = Number(totalUpRef.current.innerText) - 1;
         totalUpRef.current.innerText = num
     }
@@ -66,8 +68,8 @@ function upvoted(){
 function downvoted(){
   
     if(!down===true){
-        downRef.current.name='arrow-down-circle';
-        upRef.current.name='arrow-up-circle-outline';
+        // downRef.current.name='arrow-down-circle';
+        // upRef.current.name='arrow-up-circle-outline';
         const num = Number(totalDownRef.current.innerText) + 1;
         totalDownRef.current.innerText = num
         //means upvoted
@@ -78,7 +80,7 @@ function downvoted(){
 
     }
     else{
-        downRef.current.name='arrow-down-circle-outline';
+        // downRef.current.name='arrow-down-circle-outline';
         const num = Number(totalDownRef.current.innerText) - 1;
         totalDownRef.current.innerText = num
     }
@@ -96,11 +98,17 @@ function downvoted(){
 
   return (
     <div style={{display:"flex",alignItems:"center"}}>
-        <p style={{display:"inline-block"}} >Upvotes/Downvotes</p> &nbsp;&nbsp;&nbsp;&nbsp;
-        <span ref = {totalUpRef}>{props.totalCount ? props.totalCount.up : null}</span>
-        <button type="button" onClick={props.user===null?notLoggedIn:upvoted} style={!up ? { color:'black ' } : { color:'green' }} ><ion-icon name= {!up ? "arrow-up-circle-outline" : "arrow-up-circle"}  className="upvote" ref={upRef} style={{fontSize:"20px"}}></ion-icon></button>
-        <span ref = {totalDownRef}>{props.totalCount ? props.totalCount.down : null}</span>
-        <button type="button" onClick={props.user===null?notLoggedIn:downvoted} style={!down ? { color:'black ' } : { color:'#8b0000' }}><ion-icon name={!down ? "arrow-down-circle-outline" : "arrow-down-circle"} className="downvote" ref={downRef} style={{fontSize:"20px"}}></ion-icon></button>
+        {/* <p style={{display:"inline-block"}} >Upvotes/Downvotes</p> &nbsp;&nbsp;&nbsp;&nbsp; */}
+        <span ref = {totalUpRef} style={{fontSize:20 }}>{props.totalCount ? props.totalCount.up : null}</span>
+        {/* <button type="button" onClick={props.user===null?notLoggedIn:upvoted} style={{backgroundColor:"white",border:"0px solid white"}} style={!up ? { color:'black ' } : { color:'green' }} >
+          <ion-icon name={!up ? "chevron-up-circle-outline" : "chevron-up-circle"}  className="upvote"  style={{fontSize:"20px"}}></ion-icon>
+        </button> */}
+        <ExpandLessIcon  style={!up ? { color:'black ',fontSize:40  } : { color:'green',fontSize:40  }} onClick={props.user===null?notLoggedIn:upvoted}/>
+        <span ref = {totalDownRef} style={{fontSize:20 }}>{props.totalCount ? props.totalCount.down : null}</span>
+        {/* <button type="button" onClick={props.user===null?notLoggedIn:downvoted} style={!down ? { color:'black ' } : { color:'#8b0000' }}>
+          <ion-icon name={!down? "chevron-down-circle-outline" : "chevron-down-circle"}  className="downvote" style={{fontSize:"20px"}}></ion-icon>
+        </button> */}
+        <ExpandMoreIcon  style={!down ? { color:'black ',fontSize:40 } : { color:'red',fontSize:40 }} onClick={props.user===null?notLoggedIn:downvoted}/>
     </div>
   );
 

@@ -32,18 +32,24 @@ function FullQuestion(props){
     <MyNav user={props.user} />
     <SideNavBar user={props.user}/>
     <div className="maindivofeverypage" >
-    <h1>{question.title}</h1>
-    <div dangerouslySetInnerHTML={{__html:question.question}}></div>
-    <br /> <br />
-    <UpvoteDownvote quesId = {props.quesId} isQues = {true} totalCount = {totalCount} user={props.user}/>
-    <BookMark quesId = {props.quesId} user={props.user}/>
-    <h5>Write Your Answer</h5>
-    <PostAnswer id = {props.quesId} user={props.user}/>
-    <br /><br /><br /><br />
-    {answers.length!==0?<h4 style={{marginBottom:"30px"}}>Answers</h4>:<h4>No Answers Yet</h4> }
-    {answers.map((el, index) => {
-      return <Answer key = {index} answer = {el.answer} answerId = {el._id} user={props.user}/>
-    })}
+      <div style={{textAlign:"left"}}>
+        <div style={{display:"flex",alignItems:"center"}}>
+          <h1 style={{display:"inline-block"}}>{question.title}</h1>
+          <BookMark quesId = {props.quesId} user={props.user}/>
+        </div>
+        <div dangerouslySetInnerHTML={{__html:question.question}}></div>
+        <br /> <br />
+        <UpvoteDownvote quesId = {props.quesId} isQues = {true} totalCount = {totalCount} user={props.user}/>
+      </div>
+      <div style={{textAlign:"left"}} >
+        <h5>Write Your Answer</h5>
+        <PostAnswer id = {props.quesId} user={props.user}/>
+        <br /><br /><br /><br />
+        {answers.length!==0?<h4 style={{marginBottom:"30px"}}>Answers</h4>:<h4>No Answers Yet</h4> }
+        {answers.map((el, index) => {
+          return <Answer key = {index} answer = {el.answer} answerId = {el._id} user={props.user}/>
+          })}
+      </div>
     </div>
     </div>
     );

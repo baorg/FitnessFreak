@@ -15,7 +15,7 @@ async function UploadFileHandler(req, res) {
             res.json({ url: image.url, success: true })
         })
         .catch(err => {
-            console.error(`ERROR: ${err}`);
+            console.error(`ERROR: `,err);
             res.json({ success: false, url: null })
         });
 }
