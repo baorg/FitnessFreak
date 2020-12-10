@@ -10,10 +10,10 @@ function Following(props) {
 
     useEffect(async () => {
         let res = await axios.get(`/following/get-following-list/${props.userId}`, { withCredentials: true });
-        if (res.data.isAuthenticated) {
+        // if (res.data.isAuthenticated) {
             setfollowingList(res.data.following);
-        } else
-            navigate('/');
+        // } else
+            // navigate('/');
     }, []);
 
     return (

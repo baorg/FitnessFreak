@@ -8,7 +8,7 @@ import MyNav from "../../Navigation/navbar/navbar";
 import SideNavBar from "../../Navigation/SideNav/SideNav";
 import '../../styles.css'
 import './style.css'
-
+import ajaxRequest from '../../../ajaxRequest';
 
 import Attachments from './attachments';
 import BookMark from "../../BookMark/MyBookMark";
@@ -30,6 +30,12 @@ function FullQuestion(props) {
         setAnswers(res.data.ques.answers)
         console.log(res.data.ques);
       });
+      ajaxRequest("GET", `${ENDPOINT}/Question/getAnswersByQuesId`, {
+        quesId:props.quesId
+      }).then(res=>{
+        console.log(res.data);
+      })
+      
   }, []);
 
     

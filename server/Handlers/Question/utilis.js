@@ -27,7 +27,7 @@ function addScore(user, property, Score){
     }
 }
 async function isSameUser(quesId, userId, sign, name){
-    
+    const { Ques, Ans, User, Tag } = require("../../Models");
     console.log("Err in QUes in utilis");
     console.log(`ques = ${Ques} and user =  ${User}`)
     const promise = Ques.findById(quesId, "userId").exec();
