@@ -1,4 +1,5 @@
 const { Ques, Ans, User, Tag } = require("../../Models");
+const Question = require("../../Models/Question");
 const { getArrayOfQues } = require("./utilis");
 // function getArrayOfQues(arr) {
 //     return arr.map((ques) => ({
@@ -30,73 +31,65 @@ const { getArrayOfQues } = require("./utilis");
 //             return ({ questions: getArrayOfQues(questions), isAuthenticated: true });
 //         }
 //     })
-
-
 // }
+
+
 async function notValid() {
     return { err: "notValid" };
 }
 
 function likes(ques) {
-
     let arr = ques.upDown;
-
     let count = 0;
     arr.forEach((ele) => {
-
         if (ele.value > 0)
             count++;
-    })
-
+    });
     return count;
-
 }
-async function hotQuestions(obj) {
-    console.log("inside hot ")
-    const query = Ques.find({}, "title question created_at categoryName upDown").populate(obj)
-    const promise = query.exec()
-    return response = promise.then((ques) => {
-            console.log("find Ques")
-            ques.sort((a, b) => {
 
+
+async function hotQuestions(obj, page, count) {
+    let query = Ques.find({},
+        "title question created_at categoryName upDown", {
+            sort: {},
+            limit: count,
+            skip: (page - 1) * count
+        }
+    ).populate(obj)
+    let promise = query.exec();
+    return response = promise.then((ques) => {
+            console.log("find Ques");
+            ques.sort((a, b) => {
                 const x = likes(a);
                 const y = likes(b);
-
                 return x > y;
-            })
-
-            return ({ questions: getArrayOfQues(ques) });
-
+            });
+            return {
+                questions: getArrayOfQues(ques.slice((page - 1) * count, page * count))
+            };
         })
-        .catch((err) => ({ "err": err }))
-
-}
-async function latest(obj) {
-
-    const query = Ques.find({}, "title question created_at categoryName").populate(obj)
-    const promise = query.exec()
-    return response = promise.then(function(ques) {
-
-            ques.sort(function(a, b) {
-                return a.created_at > b.created_at
-            })
-            return { questions: getArrayOfQues(ques) }
-        })
-        .catch((err) => ({ "err": err }))
+        .catch((err) => ({ "err": err }));
 }
 
-async function unanswered(obj) {
+async function latest(obj, page, count) {
+    let questions = await Ques.find({}, "title question created_at categoryName", {
+        sort: { created_at: -1 },
+        limit: count,
+        skip: (page - 1) * count,
+    }).populate(obj).exec();
+    return { questions: getArrayOfQues(questions) };
+}
 
-    const query = Ques.find({ answers: [] }, "title question created_at categoryName").populate(obj)
-    const promise = query.exec()
-    return response = promise.then(function(ques) {
-
-            // if (err)
-            //     return { err: err }
-            return { questions: getArrayOfQues(ques) };
-        })
-        .catch((err) => ({ "err": err }))
-
+async function unanswered(obj, page, count) {
+    let questions = await Ques.find({
+            answers: [],
+        },
+        "title question created_at categoryName", {
+            limit: count,
+            skip: (page - 1) * count
+        }).populate(obj).exec();
+    return { questions: getArrayOfQues(questions) };
 }
 
 function getHandlerForTheAskedType(name) {
@@ -119,7 +112,8 @@ function getHandlerForTheAskedType(name) {
 
 module.exports.getTypeOfQuestionsHandler = function(req, res) {
 
-    const name = req.params.name;
+    let name = req.params.name;
+    let { page = 1 } = req.query;
     const obj = {
         path: 'userId',
         model: User,
@@ -129,11 +123,14 @@ module.exports.getTypeOfQuestionsHandler = function(req, res) {
     }
 
     const fun = getHandlerForTheAskedType(name);
-    const promise = fun(obj)
+
+    const page_size = 20;
+
+    const promise = fun(obj, page, 20);
 
     promise.then((response) => {
-        console.log("response = ", response)
-        return res.send(response)
+        // console.log("response = ", response)
+        return res.send(response);
     })
 
 }

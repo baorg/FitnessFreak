@@ -41,7 +41,7 @@ module.exports = async function(req, res) {
         let userUpdate = await User.updateOne({ _id: user_id }, { $push: { question: ques._id } }).exec();
 
         let user = await User.findById(user_id, "score").exec()
-        addScore(user, "totalScore", score.question)
+        addScore(user, "totalScore", score.question);
         category.forEach((ele) => {
             addScore(user, ele, score.question)
         })

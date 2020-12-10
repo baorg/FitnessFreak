@@ -7,29 +7,25 @@ import { ENDPOINT } from "../utils";
 import axios from "axios";
 import { navigate } from 'hookrouter';
 import axiosCall from "../../ajaxRequest";
+import InfiniteScroll from 'react-infinite-scroller';
+import Spinner from 'react-bootstrap/Spinner'
+
 
 const TypeOfPage = function(props) {
-
   const [ques, setQues] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
 
-  useEffect(() => {
-    //axios call
-    //if(props.user != null){
+  async function handleLoadMore(page_) {
+
     let url=`${ENDPOINT}/Question/`;
-    console.log("Calling resOfTypeOfpage");
-    console.log("typeogPage = ", props.typeofpage)
-    axios.get(url + props.typeofpage, {withCredentials : true})
-    .then((res) => {
-      console.log("resOfTypeOfpage = ", res.data.questions)
-      setQues(res.data.questions);
-  })
-    // axiosCall('get', url, {"name": props.typeofpage})
-    //   .then((res) => {
-    //     console.log("resOfTypeOfpage = ", res.data)
-    //     //setQues(res.data.questions);
-    // })
-//}
-  }, []);
+    let newQuestions = await axios.get(`${url}${props.typeofpage}?page=${page_}`, { withCredentials: true })
+    
+    if (newQuestions.data.questions.length > 0) {
+      return setQues(ques.concat(newQuestions.data.questions));
+    } else {
+      return setHasMore(false);
+    }
+  }
 
   return (
     <>
@@ -38,10 +34,26 @@ const TypeOfPage = function(props) {
       <div className="maindivofeverypage">
         <h2>{props.typeofpage}</h2>
         <h2>{props.categoryname}</h2>
-        <div>
+        {/* <div>
         { ques.map((item, index) => <Question key={index}  question={item}/>)}
+        </div> */}
+        <InfiniteScroll
+            pageStart={0}
+            loadMore={handleLoadMore}
+            hasMore={hasMore}
+            loader={
+              <Spinner animation="border" role="status">
+                <span className="sr-only">Loading...</span>
+              </Spinner>}
+          >
+            {ques.map(question => <Question key={question._id} question={question} />)}
+          </InfiniteScroll>
+        {hasMore == false &&
+          <p style={{ textAlign: 'center' }}>
+            <b>Yay! You have seen it all</b>
+            <br />
+          </p>}
         </div>
-      </div>
     </>
   );
 };
