@@ -6,6 +6,7 @@ module.exports = async function(req, res, next) {
         .select('following')
         .populate({ path: 'following', model: User, options: { select: 'username' } })
         .exec();
+    console.log('User:', user_data);
     res.data.following = user_data.following;
     return next();
 }

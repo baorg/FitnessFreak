@@ -12,13 +12,13 @@ async function refreshFeed() {
     let old_feed = feed;
 
     let followingQuestions = await this.getAllQuestionsOfFollowings(feed_last_updated, current_time, 'id vote_count created_at',
-        'title question categoryName userId tags vote_count', [{
+        'id', [{
             path: 'userId',
             model: User,
             select: 'username'
         }]);
     let topQuestions = await Ques.getTopQuestions(feed_last_updated, current_time, 0, 50,
-        'title question categoryName userId tags vote_count', [{
+        'id', [{
             path: 'userId',
             model: User,
             select: 'username'

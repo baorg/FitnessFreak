@@ -14,11 +14,9 @@ function finalHandler(req, res) {
 }
 
 
-router.use(isAuthenticated);
-
-router.get('/check-following', isFollowingHandler, finalHandler);
-router.post('/add-following', addFollowingHandler, finalHandler);
-router.post('/remove-following', removeFollowingHandler, finalHandler);
+router.get('/check-following', isAuthenticated, isFollowingHandler, finalHandler);
+router.post('/add-following', isAuthenticated, addFollowingHandler, finalHandler);
+router.post('/remove-following', isAuthenticated, removeFollowingHandler, finalHandler);
 router.get('/get-followers-list/:user', getFollowersHandler, finalHandler);
 router.get('/get-following-list/:user', getFollowingsHandler, finalHandler);
 

@@ -8,7 +8,9 @@ const feedRouter = require('./feed');
 const rankRouter = require("./rank")
 const uploadRouter = require("./upload");
 
+const { initRequest } = require('../Middlewares');
 
+router.use(initRequest);
 
 router.use('/auth', authRouter);
 router.use('/following', followingRouter);
