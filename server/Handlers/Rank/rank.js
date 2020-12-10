@@ -7,7 +7,7 @@ module.exports.getRankByCategory = async function(req, res) {
     let obj = {isAuthenticated : true,
                     data : []}
     try{
-        const users = await User.find({}, "username score").exec()
+        const users = await User.find({}, "username score profile_image").exec()
     
         console.log("users = ", users)
         let result = []
@@ -17,7 +17,7 @@ module.exports.getRankByCategory = async function(req, res) {
         if(index !== -1)
         {
             console.log("userScore = ",user.score[index].score)
-            result.push({_id : user._id, username : user.username, score : user.score[index].score});
+            result.push({_id : user._id, username : user.username, score : user.score[index].score,profile_image:user.profile_image});
         }
          })
         console.log("result = ", result)

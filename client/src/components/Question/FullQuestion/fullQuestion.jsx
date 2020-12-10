@@ -27,13 +27,13 @@ function FullQuestion(props) {
         const obj = { up: res.data.ques.upCount, down: res.data.ques.downCount }
         setTotalCount(obj);
         setQuestion(res.data.ques.question);
-        setAnswers(res.data.ques.answers)
-        console.log(res.data.ques);
       });
       ajaxRequest("post", `${ENDPOINT}/Question/getAnswersByQuesId`, {
         quesId:props.quesId
       }).then(res=>{
         console.log(res.data);
+        console.log(typeof(res.data));
+        setAnswers(res.data.data);
       })
       
   }, []);
@@ -54,6 +54,11 @@ function FullQuestion(props) {
           <br /> <br />
           <UpvoteDownvote quesId={props.quesId} isQues={true} totalCount={totalCount} user={props.user} />
         </div>
+        {/* <div className="category-container">
+                {props.question.category.map(category => (
+                    <span className="category-span">{category}</span>
+                ))}
+        </div> */}
         <Attachments attachments={question.attachments} />
         <div style={{ textAlign: "left" }} >
           <h5>Write Your Answer</h5>
@@ -61,7 +66,7 @@ function FullQuestion(props) {
           <br /><br /><br /><br />
           {answers.length !== 0 ? <h4 style={{ marginBottom: "30px" }}>Answers</h4> : <h4>No Answers Yet</h4>}
           {answers.map((el, index) => {
-            return <Answer key={index} answer={el.answer} answerId={el._id} user={props.user} />
+            return <Answer key={index} answer={el}  user={props.user} />
           })}
         </div>
       </div>

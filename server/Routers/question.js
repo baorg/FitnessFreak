@@ -22,7 +22,7 @@ router.get("/getCategory", QuestionHandler.getCategory)
 router.get("/getNotifications",isAuthenticated, QuestionHandler.getNotifications);
 router.post("/postComment",isAuthenticated, QuestionHandler.postComment);
 router.post("/getAnswersByQuesId", QuestionHandler.getAnswersByQuesId)
-router.post("/getCommentsByAnswerId ", QuestionHandler.getCommentsByAnswerId )
+router.post("/getCommentsByAnswerId", QuestionHandler.getCommentsByAnswerId )
 router.get("/:name", QuestionHandler.getTypeOfQuestionsHandler);
 
 

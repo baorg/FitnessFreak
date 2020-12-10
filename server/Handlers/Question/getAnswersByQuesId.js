@@ -3,10 +3,10 @@ const {getArrayOfAns} = require("./utilis");
 
 module.exports.getAnswersByQuesId = async (req, res)=>{
 
-    let data = ""
+    let data = []
     let err = false;
     try{
-    const userId = req.user.id;
+    // const userId = req.user.id;
     const quesId = req.body.quesId;
     const obj = {
         path: 'userId',
@@ -23,6 +23,7 @@ module.exports.getAnswersByQuesId = async (req, res)=>{
     }
     catch(err){
         console.log("err in getting answers");
+        console.log(err);
         err = true;
     }
     finally{

@@ -4,8 +4,10 @@ const {getArrayOfAns} = require("./utilis")
 
 module.exports.getCommentsByAnswerId = async (req, res) => {
 
+    let data = []
+    let err = false;
     try{
-        const userId = req.user.id;
+        // const userId = req.user.id;
         const answerId = req.body.answerId;
         const obj = {
             path: 'userId',
@@ -14,8 +16,7 @@ module.exports.getCommentsByAnswerId = async (req, res) => {
                 select: 'username first_name last_name'
             },
         }
-        let data = ""
-        let err = false;
+        
         comments = await Comment.find({answerId : answerId}).populate(obj).exec()
         
         data = getArrayOfAns(comments, "comment"); 
