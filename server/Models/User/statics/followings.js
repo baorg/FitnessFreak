@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-
+const {addScore} = require("../../../Handlers/Question/utilis")
+const {score} = require("../../../config/score")
 async function isFollowing(followerId, followeeId) {
     let follower = await this.findOne({ _id: followerId, following: { $in: [followeeId] } })
         .select([]).exec();
@@ -23,6 +24,11 @@ async function addFollowing(followerId, followeeId) {
         if (!alreadyFollowing) {
             const updateFollower = await this.updateOne({ _id: followerId }, { $push: { following: followeeId } }).exec();
             const updateFollowee = await this.updateOne({ _id: followeeId }, { $push: { followers: followerId } }).exec();
+            const user = await this.findById(followeeId).exec();
+            addScore(user, "totalScore", score.followerGained );
+            addScore(user, "Followers", score.followerGained);
+            user.notifications.push(`Someone started following you`)
+            await user.save();
         }
         return { follower, followee };
     } else {
@@ -35,6 +41,11 @@ async function removeFollowing(followerId, followeeId) {
     followerId = mongoose.Types.ObjectId(followerId);
     let deleteFollower = await this.updateOne({ _id: followerId }, { $pull: { following: followeeId } }).exec();
     let deleteFollowee = await this.updateOne({ _id: followeeId }, { $pull: { followers: followerId } }).exec();
+    const user = await this.findById(followeeId).exec();
+    addScore(user, "totalScore", -score.followerGained);
+    addScore(user, "Followers", -score.followerGained);
+    user.notifications.push(`Someone unfollowed you`)
+    await user.save();
 }
 
 module.exports = {
