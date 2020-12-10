@@ -16,7 +16,8 @@ const {profilePrivileges} = require("./profilePrivileges")
 const {getCategory} = require("./category")
 const {getNotifications} = require("./getNotifications")
 const {postComment} = require("./postComment")
-
+const {getAnswersByQuesId} = require("./getAnswersByQuesId"); 
+const {getCommentsByAnswerId } = require("./getCommentsByAnswerId");
 module.exports = {
     getOneQuestionHandler,
     getQuestionsHandler,
@@ -32,5 +33,7 @@ module.exports = {
     profilePrivileges,
     getCategory,
     getNotifications,
-    postComment
+    postComment,
+    getAnswersByQuesId,
+    getCommentsByAnswerId 
 }

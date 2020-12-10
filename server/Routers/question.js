@@ -21,6 +21,8 @@ router.get("/profilePrivileges/:name", QuestionHandler.profilePrivileges)
 router.get("/getCategory", QuestionHandler.getCategory)
 router.get("/getNotifications",isAuthenticated, QuestionHandler.getNotifications);
 router.post("/postComment",isAuthenticated, QuestionHandler.postComment);
+router.get("/getAnswersByQuesId", QuestionHandler.getAnswersByQuesId)
+router.get("/getCommentsByAnswerId ", QuestionHandler.getCommentsByAnswerId )
 router.get("/:name", QuestionHandler.getTypeOfQuestionsHandler);
 
 

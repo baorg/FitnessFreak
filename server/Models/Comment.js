@@ -11,7 +11,8 @@ const commentSchema = new mongoose.Schema({
         }
     }],
     vote_count: { upvote: { type: Number, default: 0 }, downvote: { type: Number, default: 0 } },
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    asnwerId : {type: mongoose.Schema.Types.ObjectId, ref: 'Ans'}
 });
 const Comment = new mongoose.model("Comment", commentSchema);
 

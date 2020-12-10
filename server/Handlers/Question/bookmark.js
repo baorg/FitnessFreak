@@ -7,11 +7,11 @@ module.exports.saveBookMark = function(req, res){
 
     const userId = req.user.id
     const quesId = req.body.quesId
-    const obj = {err : true}
+    let obj = {err : true}
     const name = "bookmark"
     const promise = User.findById(userId).exec()
     promise.then((user) => {
-        const arr = user.bookmarks
+        let arr = user.bookmarks
         const index = arr.findIndex((ele) =>  ele._id == quesId)
 
         console.log("saveIndex = ", index)
@@ -30,7 +30,11 @@ module.exports.saveBookMark = function(req, res){
                 return res.send(obj) 
                 })     
         })
-        .catch((err) => res.send(obj))
+        .catch((err) => {
+            console.log("err = ",err)
+            return res.send(obj)
+            
+        })
         
     })
     .catch((err) => {

@@ -27,12 +27,16 @@ function addScore(user, property, Score){
     }
 }
 async function isSameUser(quesId, userId, sign, name){
-
+    
+    console.log("Err in QUes in utilis");
+    console.log(`ques = ${Ques} and user =  ${User}`)
     const promise = Ques.findById(quesId, "userId").exec();
-    return response = promise.then((ques) => {
-        if(ques.userId != userId)
+    console.log("Err in User in utilis");
+    return response = promise.then(async(ques) => {
+        if(String(ques.userId) != userId)
             {
-                User.findById(ques.userId, "score notifications").exec((err, user) => {
+                console.log("Error in USer")
+                await User.findById(String(ques.userId), "score notifications").exec((err, user) => {
                     console.log("score[name] ", score[name]);
                     // user.score.totalScore += (sign)*score[name];
                     addScore(user, "totalScore", (sign)*score[name]);
@@ -40,9 +44,12 @@ async function isSameUser(quesId, userId, sign, name){
                     user.save((err) => {
                         if(err)
                         return err;
+                        
                     })
                 })
+                return user;
             }
+            else
             return user;
     })
     .catch((err) => (err));
@@ -56,4 +63,19 @@ async function saveChanges(quesId, userId, sign, name){
    return promise;
 }
 
-module.exports = { getArrayOfQues, isSameUser, saveChanges, addScore, hasUserOwnProperty}
+
+function getArrayOfAns(answers, name){
+
+
+    return answers.map((ans) => ({
+
+        _id: ans._id,
+        answer: ans[name],
+        user: ans.userId,
+        vote_count : ans.vote_count,
+        upDown : ans.upDown
+    })
+    )
+}
+
+module.exports = { getArrayOfQues, isSameUser, saveChanges, addScore, hasUserOwnProperty, getArrayOfAns}

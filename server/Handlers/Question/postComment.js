@@ -16,7 +16,8 @@ module.exports.postComment = async (req, res) => {
         comment : comment,
         userId : userId,
         vote_count: {},
-        upDown: []
+        upDown: [],
+        answerId : answerId
     })
 
     try{
