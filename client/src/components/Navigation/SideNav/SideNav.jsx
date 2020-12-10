@@ -56,13 +56,13 @@ const SideNavBar = function(props) {
         <div className="categorybox" onMouseOver={hover} onMouseOut={unhover}>
           {categories.map((el,index)=><A key={index} href={`/questions/category/${el}`}>{el}</A>)}
         </div>
-        <A href="" onClick={()=>navigate("/questions/hot-questions")}>Hot Questions</A>
-        <A href="" onClick={()=>navigate("/questions/unanswered-questions")}>Unanswered Questions</A>
-        <A href="" onClick={()=>navigate("/questions/latest-questions")}>Latest Questions</A>
         <a style={{display: "inline-block"}} onMouseOver={hover2} onMouseOut={unhover2}>Rankings <ArrowRightIcon /></a>
         <div className="rankingbox" onMouseOver={hover2} onMouseOut={unhover2}>
           {ranking.map((el,index)=><A key={index} href={`/rankings/${el}`}>{el}</A>)}
         </div>
+        <A href="" onClick={()=>navigate("/questions/hot-questions")}>Hot Questions</A>
+        <A href="" onClick={()=>navigate("/questions/unanswered-questions")}>Unanswered Questions</A>
+        <A href="" onClick={()=>navigate("/questions/latest-questions")}>Latest Questions</A>
     </div>}
 </div>
 

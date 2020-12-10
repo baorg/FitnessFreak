@@ -60,11 +60,19 @@ function Profile(props){
                 <div className="maindivofeverypage" >
                     <img src={profileUser.profile_image || AnonymousUser.profile_image} alt="profilepic" className="profilepic"></img>
                     <h1>{profileUser.username}</h1>
-                    {props.user && profileUser._id === props.user._id ?
+                    {/* {props.user && profileUser._id === props.user._id ?
                         <button>Edit Profile</button> :
+                        (props.user===null?null:
                         (isFollowing ?
-                            <button onClick={handleUnfollow}>Unfollow <PersonAddDisabledIcon /></button>
-                            : <button onClick={handleFollow}>Follow <PersonAddIcon /></button>)
+                            <PersonAddDisabledIcon onClick={handleUnfollow}/>
+                            : <PersonAddIcon onClick={handleFollow} />)
+                        )
+                    } */}
+                    {
+                        props.user==undefined?<></>:(props.user._id===profileUser._id?<button>Edit Profile</button>:(isFollowing ?
+                            <PersonAddDisabledIcon onClick={handleUnfollow}/>
+                            : <PersonAddIcon onClick={handleFollow} />)
+                        )
                     }
                 </div>
         </>

@@ -10,10 +10,10 @@ function Followers(props) {
     useEffect(() => {
         async function fetchData(props){
             let res = await axios.get(`/following/get-followers-list/${props.userId}`, { withCredentials: true });
-            if (res.data.isAuthenticated)
+            // if (res.data.isAuthenticated)
                 setFollowersList(res.data.followers);
-            else
-                navigate('/');
+            // else
+                // navigate('/');
         }
         fetchData(props);
     }, []);
