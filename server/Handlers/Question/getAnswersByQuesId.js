@@ -1,6 +1,5 @@
 const { Ques, Ans, User, Tag } = require("../../Models");
-const {getArrayOfAns} = require("./utilis")
-const mongoose=require('mongoose');
+const {getArrayOfAns} = require("./utilis");
 
 module.exports.getAnswersByQuesId = async (req, res)=>{
 
@@ -8,8 +7,7 @@ module.exports.getAnswersByQuesId = async (req, res)=>{
     let err = false;
     try{
     const userId = req.user.id;
-    const quesId = mongoose.Types.ObjectId(req.body.quesId);
-        console.log("quesid=",quesId);
+    const quesId = req.body.quesId;
     const obj = {
         path: 'userId',
         model: User,

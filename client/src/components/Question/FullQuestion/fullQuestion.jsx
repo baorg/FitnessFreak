@@ -30,7 +30,7 @@ function FullQuestion(props) {
         setAnswers(res.data.ques.answers)
         console.log(res.data.ques);
       });
-      ajaxRequest("GET", `${ENDPOINT}/Question/getAnswersByQuesId`, {
+      ajaxRequest("post", `${ENDPOINT}/Question/getAnswersByQuesId`, {
         quesId:props.quesId
       }).then(res=>{
         console.log(res.data);
