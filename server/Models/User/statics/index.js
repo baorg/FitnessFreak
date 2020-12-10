@@ -1,4 +1,4 @@
-const { getUserData, getUniqueUsername, findUserByEmail, findUserByUserName } = require('./userdata');
+const { getUserData, getUniqueUsername, findUserByEmail, findUserByUserName,findUserByUserId } = require('./userdata');
 const { isFollowing, addFollowing, removeFollowing } = require('./followings');
 
 module.exports = {
@@ -8,5 +8,6 @@ module.exports = {
     findUserByUserName,
     isFollowing,
     addFollowing,
-    removeFollowing
+    removeFollowing,
+    findUserByUserId
 }

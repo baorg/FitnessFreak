@@ -10,7 +10,7 @@ function getArray(arr, page){
         question: ques.question,
         category: ques.categoryName,
         user: user,
-        created_at: ques.created_at
+        posted_at: ques.created_at
     }));
 }
 

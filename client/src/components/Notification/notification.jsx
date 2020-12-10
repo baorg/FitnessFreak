@@ -31,14 +31,14 @@ const Notification = function(props){
             {
                 noti.length>5?
                 noti.slice((noti.length)-5,noti.length).map((el,index) => 
-                    <div key={index} className="elem"><p>{el}</p></div>
+                    <div key={index} className="elem"><div dangerouslySetInnerHTML={{ __html: el }}></div></div>
                 )
                 :
                 noti.length===0?
                 <div className="elem"><p>No Notifications Yet</p></div>
                 :
                 noti.map((el,index) => 
-                <div key={index} className="elem"><p>{el}</p></div>
+                <div key={index} className="elem"><div dangerouslySetInnerHTML={{ __html: el }}></div></div>
                 )
             }
         </div> 

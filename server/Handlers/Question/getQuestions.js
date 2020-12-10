@@ -24,40 +24,48 @@ module.exports.getQuestionsHandler = function(req, res) {
 }
 
 
-function getCount(ques) {
-    let arr = ques.upDown;
-    let upCount = 0;
-    let downCount = 0;
-    for (let i = 0; i < arr.length; i++) {
-        if (arr[i].value == 1)
-            upCount++;
-        else
-            downCount++;
-    }
+// function getCount(ques) {
+//     let arr = ques.upDown;
+//     let upCount = 0;
+//     let downCount = 0;
+//     for (let i = 0; i < arr.length; i++) {
+//         if (arr[i].value == 1)
+//             upCount++;
+//         else
+//             downCount++;
+//     }
 
-    let obj = {
-        answers: ques.answers,
-        upCount: upCount,
-        downCount: downCount,
-        question: {
-            title: ques.title,
-            question: ques.question,
-            posted_at: ques.created_at,
-            tags: ques.tags,
-            categories: ques.categoryName,
-            attachments: ques.attachments
-        }
-    }
-    return obj;
-}
+//     let obj = {
+//         answers: ques.answers,
+//         upCount: upCount,
+//         downCount: downCount,
+//         question: {
+//             title: ques.title,
+//             question: ques.question,
+//             posted_at: ques.created_at,
+//             tags: ques.tags,
+//             categories: ques.categoryName,
+//             attachments: ques.attachments
+//         }
+//     }
+//     return obj;
+// }
 
 module.exports.getOneQuestionHandler = function(req, res) {
     const id = req.params.id;
-    Ques.findById(id).populate("answers").exec((err, ques) => {
+    const obj = {
+        path: 'userId',
+        model: User,
+        options: {
+            select: 'username first_name last_name'
+        },
+    }
+
+    Ques.find({_id : id}).populate(obj).exec((err, ques) => {
         if (err) return res.send({ err: err });
 
-        let obj = getCount(ques)
-        res.send({ ques: obj });
+        // let obj = getCount(ques)
+        res.send({ ques:  getArrayOfQues(ques)[0] });
     })
 }
 

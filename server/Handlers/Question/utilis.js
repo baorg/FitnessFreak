@@ -8,7 +8,8 @@ function getArrayOfQues(arr) {
         question: ques.question,
         category: ques.categoryName,
         user: ques.userId,
-        posted_at: ques.created_at
+        posted_at: ques.created_at,
+        attachments : ques.attachments
     }));
 }
 
@@ -35,11 +36,13 @@ async function isSameUser(quesId, userId, sign, name){
     return response = promise.then(async(ques) => {
             if (String(ques.userId) != userId) {
                 console.log("Error in USer")
-                await User.findById(String(ques.userId), "score notifications").exec((err, user) => {
+                await User.findById(String(ques.userId), "score notifications").exec(async(err, user) => {
                     console.log("score[name] ", score[name]);
                     // user.score.totalScore += (sign)*score[name];
                     addScore(user, "totalScore", (sign) * score[name]);
-                    user.notifications.push(`Someone has ${name}ed your question`)
+                    const username = await User.findUserByUserId(userId)
+                    console.log("username in utilis = ", username)
+                    sign > 0 ? user.notifications.push(`<p><A href = "/profile/${userId}">${username}</A> has ${name}ed your question</p>`) : null
                     user.save((err) => {
                         if (err)
                             return err;

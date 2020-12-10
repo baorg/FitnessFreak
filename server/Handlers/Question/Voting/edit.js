@@ -80,7 +80,7 @@ module.exports = async function(req, res) {
     }
 
     let user = await User.findById(whoPostedId).exec(); 
-    addScore(user, "totalScore", sign*Score)
+    await isSameUser(quesId, userId, sign,"totalScore")
     await ques.save()
     await user.save();
       
