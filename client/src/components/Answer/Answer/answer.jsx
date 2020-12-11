@@ -11,9 +11,12 @@ import { ENDPOINT } from "../../utils";
 function Answer(props){
     // const [click, setClick] = useState(false);
     const [comments,setComments]=useState([]);
+    const [totalCount, setTotalCount] = useState(null);
     console.log(props);
 
     useEffect(() => {
+      const obj = { up: props.answer.vote_count.upvote, down: props.answer.vote_count.downvote }
+      setTotalCount(obj);
         ajaxRequest("post", `${ENDPOINT}/Question/getCommentsByAnswerId`, {
             answerId:props.answer.answerId
           }).then(res=>{
@@ -27,7 +30,7 @@ function Answer(props){
     <div style={{marginBottom:"20px",borderBottom:"2px solid #B8B8B8", padding:"10px"}}  >
     Answered by <A href={`/profile/${props.answer.user._id}`}>@{props.answer.user.username}</A>
     <div dangerouslySetInnerHTML={{__html:props.answer.answer}}></div>
-    <UpvoteDownvote quesId = {props.answerId} isQues = {false} user={props.user}/>
+    <UpvoteDownvote quesId = {props.answer._id} isQues = {false} user={props.user} totalCount={totalCount}/>
     <hr />
     <div style={{marginLeft:"200px" ,borderLeft:"2px solid #B8B8B8",padding:"20px"}}>
     {comments.length!==0?<h4 style={{marginBottom:"30px"}}>Comments</h4>:null }
@@ -35,7 +38,7 @@ function Answer(props){
         {comments.map((item,index)=><Comment key={index} comment={item} user={props.user}/>)}
     </div>
     <h6>Add Your Comment</h6>
-    <PostComment answerId = {props.answerId} user={props.user} />
+    <PostComment answerId = {props.answer._id} user={props.user} />
     </div>
     </div>
     )

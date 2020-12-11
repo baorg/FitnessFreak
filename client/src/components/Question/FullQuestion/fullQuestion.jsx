@@ -24,17 +24,17 @@ function FullQuestion(props) {
     axios.get(`${ENDPOINT}/Question/getQuestions/${props.quesId}`, { withCredentials: true })
       .then(res => {
         console.log("res.data = ", res.data);
-        const obj = { up: res.data.ques.upCount, down: res.data.ques.downCount }
+        const obj = { up: res.data.ques.vote_count.upvote, down: res.data.ques.vote_count.downvote }
         setTotalCount(obj);
         setQuestion(res.data.ques);
       });
-      // ajaxRequest("post", `${ENDPOINT}/Question/getAnswersByQuesId`, {
-      //   quesId:props.quesId
-      // }).then(res=>{
-      //   console.log(res.data);
-      //   console.log(typeof(res.data));
-      //   setAnswers(res.data.data);
-      // })
+      ajaxRequest("post", `${ENDPOINT}/Question/getAnswersByQuesId`, {
+        quesId:props.quesId
+      }).then(res=>{
+        console.log(res.data);
+        console.log(typeof(res.data));
+        setAnswers(res.data.data);
+      })
       
   }, []);
 
@@ -64,10 +64,10 @@ function FullQuestion(props) {
           <h5>Write Your Answer</h5>
           <PostAnswer id={props.quesId} user={props.user} />
           <br /><br /><br /><br />
-          {/* {answers.length !== 0 ? <h4 style={{ marginBottom: "30px" }}>Answers</h4> : <h4>No Answers Yet</h4>}
+          {answers.length !== 0 ? <h4 style={{ marginBottom: "30px" }}>Answers</h4> : <h4>No Answers Yet</h4>}
           {answers.map((el, index) => {
             return <Answer key={index} answer={el}  user={props.user} />
-          })} */}
+          })}
         </div>
       </div>
     </div>) : <Spinner />;

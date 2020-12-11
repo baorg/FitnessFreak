@@ -46,10 +46,10 @@ const PostComment = (props) => {
               config={{
                 toolbar: ['heading', '|', 'bold', 'italic', 'blockQuote', 'numberedList', 'bulletedList', '|', 'undo', 'redo', 'Link']
               }}
-              onChange={handleEditorChange}
+              onChange={props.user===undefined?notLoggedIn:handleEditorChange}
             />
         {/* <button type={props.user===null?"button":"submit"} onClick={props.user===null?notLoggedIn:null}>Post</button> */}
-        <Button variant="primary" type={props.user===null?"button":"submit"} onClick={props.user===null?notLoggedIn:null} style={{margin:"10px"}}>Post</Button>
+        <Button variant="primary" type={props.user===undefined?"button":"submit"} onClick={props.user===undefined?notLoggedIn:null} style={{margin:"10px"}}>Post</Button>
         </form>
     )
    
