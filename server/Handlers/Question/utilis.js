@@ -9,7 +9,8 @@ function getArrayOfQues(arr) {
         category: ques.categoryName,
         user: ques.userId,
         posted_at: ques.created_at,
-        attachments : ques.attachments
+        attachments : ques.attachments,
+        vote_count: ques.vote_count,
     }));
 }
 
@@ -51,7 +52,7 @@ async function isSameUser(quesId, userId, sign, name){
                 })
                 return user;
             } else
-                return user;
+                return userId;
         })
         .catch((err) => (err));
 

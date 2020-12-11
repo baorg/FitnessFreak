@@ -3,6 +3,7 @@ const { Ans, Comment, User} = require("../../../Models");
 const { addScore } = require("../utilis");
 const {score} = require("../../../config/score");
 // const User = require("../../../Models/User");
+const {isSameUser} = require("../utilis")
 
 
 function getModel(flag){
@@ -75,14 +76,17 @@ module.exports = async function(req, res) {
     // if absent in the array
     else{
     arr.push(obj);
-    const typeOfVote = (up === undefined) ? "upvote" : "downvote"; 
+    const typeOfVote = (up === undefined) ? "downvote" : "upvote"; 
     ques.vote_count[typeOfVote]++;
     }
 
-    let user = await User.findById(whoPostedId).exec(); 
-    await isSameUser(quesId, userId, sign,"totalScore")
+    let user = await User.findById(whoPostedId).exec();
+    console.log("error after user") 
+    const isSame = await isSameUser(quesId, userId, sign,"totalScore")
+    console.log("error after IssameUser = ", isSame)
     await ques.save()
     await user.save();
+    console.log("err after saving user")
       
     }
     catch(err){
