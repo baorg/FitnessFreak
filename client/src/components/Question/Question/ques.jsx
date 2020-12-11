@@ -10,7 +10,9 @@ function Question(props) {
     // console.log(props);
     const timeAgo = new TimeAgo('en');
     console.log('Created At : ',new Date(props.question.posted_at));
-
+    let url="";
+    if(props.type==="answerasked")
+    url=`/`
     return (
         <div>
             <A href={`/viewFullQuestion/${props.question._id}`}><h3>{props.question.title} </h3></A>

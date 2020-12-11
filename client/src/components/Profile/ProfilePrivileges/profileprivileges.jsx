@@ -12,10 +12,11 @@ const ProfilePrivileges = function(props) {
 
   const [ques, setQues] = useState([]);
   const defaultMessage = useRef(null);
+  let type=""
   useEffect(() => {
     //axios call
     let url=`${ENDPOINT}/Question/profilePrivileges/`;
-  
+    
     // console.log("props=",props.user)
     // console.log("props2=",props.userID)
     axios.get(url + props.privilege, {withCredentials : true})
@@ -27,7 +28,8 @@ const ProfilePrivileges = function(props) {
         else
         {
             console.log("hi1");
-            setQues(res.data.question.answer);
+            type="answerasked"
+            setQues(res.data.question.quesId);
         }
         
       }
@@ -57,7 +59,7 @@ const ProfilePrivileges = function(props) {
         <h2>{props.privilege} </h2>
         <div>
         <h3 ref = {defaultMessage}></h3>
-        { ques.map((item, index) => <Question key={index}  question={item}/>)}
+        { ques.map((item, index) => <Question key={index}  question={item} type={type}/>)}
         </div>
       </div>
     </>

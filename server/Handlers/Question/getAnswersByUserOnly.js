@@ -1,5 +1,5 @@
 const { Ques, Ans, User, Tag } = require("../../Models");
-module.exports.getAnswersByQuesId = async (req, res)=>{
+module.exports.getAnswersByUserOnly = async (req, res)=>{
 
     let data = {user : "", answer : []}
     let err = false;

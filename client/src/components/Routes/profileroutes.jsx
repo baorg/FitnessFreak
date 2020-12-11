@@ -5,6 +5,7 @@ import Profile from '../Profile/Profile/profile';
 import Following from '../Profile/Following/following';
 import Followers from '../Profile/Followers/followers';
 import ProfilePrivileges from "../Profile/ProfilePrivileges/profileprivileges";
+import AnswerAsked from "../Profile/AnswersAsked/answersAsked";
 
 
 function getRoutes(props) {

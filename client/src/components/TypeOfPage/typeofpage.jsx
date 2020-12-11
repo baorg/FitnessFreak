@@ -16,12 +16,17 @@ const TypeOfPage = function(props) {
   const [hasMore, setHasMore] = useState(true);
 
   async function handleLoadMore(page_) {
-
-    let url=`${ENDPOINT}/Question/`;
-    let newQuestions = await axios.get(`${url}${props.typeofpage}?page=${page_}`, { withCredentials: true })
-    
-    if (newQuestions.data.questions.length > 0) {
-      return setQues(ques.concat(newQuestions.data.questions));
+    let url;
+    if(props.categoryname)
+    url=`${ENDPOINT}/Question/getQuestionsCategoryWise/${props.categoryname}`;
+    else
+    url=`${ENDPOINT}/Question/${props.typeofpage}`
+    let newQuestions = await axios.get(`${url}?page=${page_}`, { withCredentials: true })
+    if(newQuestions.data.err){
+      navigate("/");
+    }
+    if (newQuestions.data.data.length > 0) {
+      return setQues(ques.concat(newQuestions.data.data));
     } else {
       return setHasMore(false);
     }

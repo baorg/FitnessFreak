@@ -47,6 +47,7 @@ const Ranking = function(props) {
         <div>
             {rank.map((el,index)=>
               <div style={{textAlign:"left",borderBottom:"2px solid #B8B8B8", padding:"5px"}} className="shiny">
+              <p style={{display:"inline-block",fontSize:"20px" ,paddingRight:"10px"}}>#{index+1}</p>
               <img src={el.profile_image} style={{height:"50px",borderRadius:"1000px"}} />
               <A href={`/profile/${el._id}`} style={{fontSize:"20px",padding:"10px",color:"black"}}>{el.username}</A>
               <p style={{display:"inline-block",fontSize:"20px"}}>: {el.score}</p>
