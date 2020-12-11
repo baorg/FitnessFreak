@@ -65,9 +65,10 @@ async function hotQuestions(obj, page, count) {
                 const y = likes(b);
                 return x > y;
             });
-            return {
-                questions: getArrayOfQues(ques.slice((page - 1) * count, page * count))
-            };
+            return ({
+                data: getArrayOfQues(ques.slice((page - 1) * count, page * count)), 
+                err : false
+            });
         })
         .catch((err) => ({ "err": err }));
 }
@@ -78,7 +79,7 @@ async function latest(obj, page, count) {
         limit: count,
         skip: (page - 1) * count,
     }).populate(obj).exec();
-    return { questions: getArrayOfQues(questions) };
+    return ({ data: getArrayOfQues(questions) , err : false });
 }
 
 async function unanswered(obj, page, count) {
@@ -89,7 +90,7 @@ async function unanswered(obj, page, count) {
             limit: count,
             skip: (page - 1) * count
         }).populate(obj).exec();
-    return { questions: getArrayOfQues(questions) };
+    return ({ data: getArrayOfQues(questions), err : false });
 }
 
 function getHandlerForTheAskedType(name) {
@@ -131,6 +132,10 @@ module.exports.getTypeOfQuestionsHandler = function(req, res) {
     promise.then((response) => {
         // console.log("response = ", response)
         return res.send(response);
+    })
+    .catch((err) => {
+        console.log("error in getting type of ques");
+        return {data : "", err : true}
     })
 
 }
