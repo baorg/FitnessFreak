@@ -40,15 +40,26 @@ async function answers(userId){
         },
         model: Ans,
         options: {
-            select: 'comments'
+            select: 'userId'
         },
     }
 
     const promise = User.findById(userId, 'username first_name last_name').populate(obj).exec()
     return response = promise.then((ques) => {
-        console.log("answers = ", ques);
-        // return {question : getArray(ques, obj.path)}
-        return {question : ques}
+        
+        const user = {userId : ques._id, username : ques.username}
+        return ques.answer.map((question) => ({
+
+            _id: question.quesId_id,
+            title: question.quesIdtitle,
+            question: question.quesIdquestion,
+            category: question.quesIdcategoryName,
+            user: user,
+            posted_at: question.quesIdcreated_at
+
+        })
+        )
+
     })
     .catch((err) => ({err : err}));
 
