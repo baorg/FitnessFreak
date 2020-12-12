@@ -4,6 +4,7 @@ const { getArrayOfQues } = require("./utilis");
 async function getQuestions(obj, page, count, name) {
 
     const questions = await Ques.find({categoryName : name},
+        "title question categoryName vote_count attachments created_at userId",
         {
         limit: count,
         skip: (page - 1) * count
