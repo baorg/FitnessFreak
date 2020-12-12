@@ -16,12 +16,17 @@ const TypeOfPage = function(props) {
   const [hasMore, setHasMore] = useState(true);
 
   async function handleLoadMore(page_) {
-
-    let url=`${ENDPOINT}/Question/`;
-    let newQuestions = await axios.get(`${url}${props.typeofpage}?page=${page_}`, { withCredentials: true })
-    
-    if (newQuestions.data.questions.length > 0) {
-      return setQues(ques.concat(newQuestions.data.questions));
+    let url;
+    if(props.categoryname)
+    url=`${ENDPOINT}/Question/getQuestionsCategoryWise/${props.categoryname}`;
+    else
+    url=`${ENDPOINT}/Question/${props.typeofpage}`
+    let newQuestions = await axios.get(`${url}?page=${page_}`, { withCredentials: true })
+    if(newQuestions.data.err){
+      navigate("/");
+    }
+    if (newQuestions.data.data.length > 0) {
+      return setQues(ques.concat(newQuestions.data.data));
     } else {
       return setHasMore(false);
     }
@@ -31,9 +36,9 @@ const TypeOfPage = function(props) {
     <>
       <MyNav user={props.user} />
       <SideNavPage user={props.user}/>
-      <div className="maindivofeverypage">
-        <h2>{props.typeofpage}</h2>
-        <h2>{props.categoryname}</h2>
+      <div className="maindivofeverypage" style={{textAlign:"left"}}>
+        <h2 style={{marginBottom:"40px"}}>{props.typeofpage}{props.categoryname?` : ${props.categoryname}`:null}</h2>
+        {/* <h2>{props.categoryname}</h2> */}
         {/* <div>
         { ques.map((item, index) => <Question key={index}  question={item}/>)}
         </div> */}

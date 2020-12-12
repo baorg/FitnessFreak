@@ -3,6 +3,7 @@ import { useRoutes } from 'hookrouter';
 
 import { Register, Login } from './Local';
 import GoogleAuth from "./google";
+import FacebookAuth from "./facebook";
 import Logout from './logout';
 
 import './style.css'
@@ -25,6 +26,7 @@ function Main(props) {
             <div className="div-login">
                 <Login />
                 <GoogleAuth />
+                <FacebookAuth />
             </div>
         </div>);
 }

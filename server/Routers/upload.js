@@ -6,6 +6,6 @@ const { isAuthenticated } = require("../Middlewares");
 
 router.use(formData.parse())
 
-router.post("/image-upload", isAuthenticated, FileUploadHandler.UploadFileHandler);
+router.post("/image-upload", isAuthenticated , FileUploadHandler.UploadFileHandler);
 
 module.exports = router;

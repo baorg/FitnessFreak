@@ -51,7 +51,7 @@ const SideNavBar = function(props) {
       <A href={`/profile/${props.profileid}/answer`} >Answer</A>
     </div>
     :<div>
-        <A href="" onClick={props.user===null?notLoggedIn:()=>navigate("/post-question")}>Add Question</A>
+        <A href="" onClick={props.user===undefined?notLoggedIn:()=>navigate("/post-question")}>Add Question</A>
         <a  style={{display: "inline-block"}} onMouseOver={hover} onMouseOut={unhover}>Categories <ArrowRightIcon /></a>
         <div className="categorybox" onMouseOver={hover} onMouseOut={unhover}>
           {categories.map((el,index)=><A key={index} href={`/questions/category/${el}`}>{el}</A>)}

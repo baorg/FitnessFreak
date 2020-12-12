@@ -18,6 +18,8 @@ const {getNotifications} = require("./getNotifications")
 const {postComment} = require("./postComment")
 const {getAnswersByQuesId} = require("./getAnswersByQuesId"); 
 const {getCommentsByAnswerId } = require("./getCommentsByAnswerId");
+const {getQuestionsCategoryWise } = require("./getQuestionsCategoryWise");
+const {getAnswersByUserOnly} = require("./getAnswersByUserOnly");
 module.exports = {
     getOneQuestionHandler,
     getQuestionsHandler,
@@ -35,5 +37,7 @@ module.exports = {
     getNotifications,
     postComment,
     getAnswersByQuesId,
-    getCommentsByAnswerId 
+    getCommentsByAnswerId,
+    getQuestionsCategoryWise,
+    getAnswersByUserOnly
 }

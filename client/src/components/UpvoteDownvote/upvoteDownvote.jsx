@@ -97,18 +97,18 @@ function downvoted(){
 }
 
   return (
-    <div style={{display:"flex",alignItems:"center"}}>
+    <div style={{display:"flex",alignItems:"center",marginTop:"20px"}}>
         {/* <p style={{display:"inline-block"}} >Upvotes/Downvotes</p> &nbsp;&nbsp;&nbsp;&nbsp; */}
         <span ref = {totalUpRef} style={{fontSize:20 }}>{props.totalCount ? props.totalCount.up : null}</span>
         {/* <button type="button" onClick={props.user===null?notLoggedIn:upvoted} style={{backgroundColor:"white",border:"0px solid white"}} style={!up ? { color:'black ' } : { color:'green' }} >
           <ion-icon name={!up ? "chevron-up-circle-outline" : "chevron-up-circle"}  className="upvote"  style={{fontSize:"20px"}}></ion-icon>
         </button> */}
-        <ExpandLessIcon  style={!up ? { color:'black ',fontSize:40  } : { color:'green',fontSize:40  }} onClick={props.user===null?notLoggedIn:upvoted}/>
+        <ExpandLessIcon  style={!up ? { color:'black ',fontSize:40  } : { color:'green',fontSize:40  }} onClick={props.user===undefined?notLoggedIn:upvoted}/>
         <span ref = {totalDownRef} style={{fontSize:20 }}>{props.totalCount ? props.totalCount.down : null}</span>
         {/* <button type="button" onClick={props.user===null?notLoggedIn:downvoted} style={!down ? { color:'black ' } : { color:'#8b0000' }}>
           <ion-icon name={!down? "chevron-down-circle-outline" : "chevron-down-circle"}  className="downvote" style={{fontSize:"20px"}}></ion-icon>
         </button> */}
-        <ExpandMoreIcon  style={!down ? { color:'black ',fontSize:40 } : { color:'red',fontSize:40 }} onClick={props.user===null?notLoggedIn:downvoted}/>
+        <ExpandMoreIcon  style={!down ? { color:'black ',fontSize:40 } : { color:'red',fontSize:40 }} onClick={props.user===undefined?notLoggedIn:downvoted}/>
     </div>
   );
 

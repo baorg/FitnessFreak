@@ -5,7 +5,7 @@ module.exports = async function(req, res, next) {
     console.log('User Id', user_id);
     user_data = await User.findOne({ _id: user_id })
         .select('followers')
-        .populate({ path: 'followers', model: User, options: { select: 'username' } })
+        .populate({ path: 'followers', model: User, options: { select: 'username profile_image' } })
         .exec();
     console.log('User: ', user_data);
     res.data.followers = user_data.followers;

@@ -9,7 +9,8 @@ const {
     removeFollowing,
     findUserByEmail,
     findUserByUserName,
-    getUniqueUsername
+    getUniqueUsername,
+    findUserByUserId
 } = require("./statics");
 
 const {
@@ -27,7 +28,8 @@ userSchema.statics = {
     removeFollowing,
     findUserByEmail,
     findUserByUserName,
-    getUniqueUsername
+    getUniqueUsername,
+    findUserByUserId
 };
 
 userSchema.methods = {

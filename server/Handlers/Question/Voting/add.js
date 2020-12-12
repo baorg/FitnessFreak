@@ -1,19 +1,23 @@
 const CLIENT_LOGIN_PAGE_URL = "http://localhost:3000";
 const CLIENT_HOME_PAGE_URL = "http://localhost:3000/feed/app";
-const { Ques } = require("../../../Models");
+const { Ques, Comment} = require("../../../Models");
 const { Ans } = require("../../../Models");
 
+
+function getModel(flag){
+    if(flag == 2)
+    return Comment;
+    return (flag) ? Ques : Ans;
+}
 module.exports = function(req, res) {
     const userId = req.user.id;
     const quesId = req.body.quesId;
     const isQues = req.body.isQues;
 
-    let query;
-    if (isQues)
-        query = Ques.findById(quesId, 'upDown');
-    else
-        query = Ans.findById(quesId, 'upDown');
-
+    
+    const model = getModel(isQues)
+    const query = model.findById(quesId, 'upDown');
+   
     const promise = query.exec();
     promise.then((ques) => {
             console.log("updown = ", ques.upDown);

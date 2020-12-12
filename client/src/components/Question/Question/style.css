@@ -1,11 +1,11 @@
 .category-container {
     position: relative;
-    display: flex;
-    justify-content: center;
+    /* display: flex;
+    justify-content: center; */
 }
 
 .category-span {
-    font-size: small;
+    font-size: 15px;
     font-weight: 100;
     width: fit-content;
     background-color: rgb(142, 238, 238);

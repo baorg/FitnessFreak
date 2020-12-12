@@ -5,6 +5,7 @@ const {score} = require("../../../config/score");
 // const User = require("../../../Models/User");
 
 
+
 function getModel(flag){
     if(flag == 2)
     return Comment;
@@ -41,6 +42,7 @@ function setVoteCount(ques,typeOfVote, typeOfValue){
     }
 
 }
+
 module.exports = async function(req, res) {
     let data = "Your respnose has been submitted succesully"
     try
@@ -59,8 +61,8 @@ module.exports = async function(req, res) {
     let obj = {userId, value}
     //changes
     const whoPostedId = String(ques.userId);
-    const Score = isQues == 2 ? score.upvoteOnComment : score.upvote;
-    
+    const name = isQues == 2 ? "upvoteOnComment" : "upvote";
+    const property = isQues == 2 ? "Comment" : isQues ? "Question" : "Answer"
     let sign = value
     // if already in the array
     if (index != -1) {
@@ -75,14 +77,21 @@ module.exports = async function(req, res) {
     // if absent in the array
     else{
     arr.push(obj);
-    const typeOfVote = (up === undefined) ? "upvote" : "downvote"; 
+    const typeOfVote = (up === undefined) ? "downvote" : "upvote"; 
     ques.vote_count[typeOfVote]++;
     }
 
-    let user = await User.findById(whoPostedId).exec(); 
-    addScore(user, "totalScore", sign*Score)
+    let user = await User.findById(whoPostedId).exec();
+    if(userId != whoPostedId){
+        addScore(user, "totalScore", sign*score[name])
+        if(sign > 0){
+            const username = await User.findUserByUserId(userId)
+            user.notifications.push(`${username} has upvoted your ${property}`);
+        }
+    }
     await ques.save()
     await user.save();
+    console.log("err after saving user")
       
     }
     catch(err){

@@ -24,16 +24,16 @@ function FullQuestion(props) {
     axios.get(`${ENDPOINT}/Question/getQuestions/${props.quesId}`, { withCredentials: true })
       .then(res => {
         console.log("res.data = ", res.data);
-        const obj = { up: res.data.ques.upCount, down: res.data.ques.downCount }
+        const obj = { up: res.data.ques.vote_count.upvote, down: res.data.ques.vote_count.downvote }
         setTotalCount(obj);
-        setQuestion(res.data.ques.question);
-        setAnswers(res.data.ques.answers)
-        console.log(res.data.ques);
+        setQuestion(res.data.ques);
       });
       ajaxRequest("post", `${ENDPOINT}/Question/getAnswersByQuesId`, {
         quesId:props.quesId
       }).then(res=>{
         console.log(res.data);
+        console.log(typeof(res.data));
+        setAnswers(res.data.data);
       })
       
   }, []);
@@ -42,7 +42,7 @@ function FullQuestion(props) {
    
   return question ?
     (<div>
-      < MyNav user={props.user} />
+      <MyNav user={props.user} />
       <SideNavBar user={props.user} />
       <div className="maindivofeverypage" >
         <div style={{ textAlign: "left" }}>
@@ -50,22 +50,29 @@ function FullQuestion(props) {
             <h1 style={{ display: "inline-block" }}>{question.title}</h1>
             <BookMark quesId={props.quesId} user={props.user} />
           </div>
-          <div dangerouslySetInnerHTML={{ __html: question.question }}></div>
+          <div dangerouslySetInnerHTML={{ __html: question.question }} style={{marginTop:"40px"}}></div>
           <br /> <br />
-          <UpvoteDownvote quesId={props.quesId} isQues={true} totalCount={totalCount} user={props.user} />
+          
+        </div>
+        <div className="category-container" style={{textAlign:"left",marginBottom:"40px"}}>
+          {question.category.length!==0?<p style={{fontSize:"20px"}}>Categories</p>:null}
+                {question.category.map(category => (
+                    <span className="category-span">{category}</span>
+                ))}
         </div>
         <Attachments attachments={question.attachments} />
-        <div style={{ textAlign: "left" }} >
+        <UpvoteDownvote quesId={props.quesId} isQues={true} totalCount={totalCount} user={props.user} />
+        <div style={{ textAlign: "left",marginTop:"40px" }} >
           <h5>Write Your Answer</h5>
           <PostAnswer id={props.quesId} user={props.user} />
           <br /><br /><br /><br />
           {answers.length !== 0 ? <h4 style={{ marginBottom: "30px" }}>Answers</h4> : <h4>No Answers Yet</h4>}
           {answers.map((el, index) => {
-            return <Answer key={index} answer={el.answer} answerId={el._id} user={props.user} />
+            return <Answer key={index} answer={el}  user={props.user} />
           })}
         </div>
       </div>
-    </div >) : <Spinner />;
+    </div>) : <Spinner />;
         
 }
 

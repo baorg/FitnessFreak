@@ -15,16 +15,18 @@
     padding: 0px;
     border: 0px;
     z-index: 100;
-    /* border: 2px solid red; */
+    background-color: white;
+    /* border: 2px solid black; */
 }
 
 .elem {
-    background-color: gray;
+    /* background-color: gray; */
     cursor: pointer;
-    border: 1px solid black;
+    border-bottom: 1px solid black;
+    margin-bottom: 25px;
 }
 
 .elem p {
     font-size: 15px;
-    color: white;
+    /* color: white; */
 }

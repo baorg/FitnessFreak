@@ -28,19 +28,21 @@ const Notification = function(props){
         <NotificationsIcon onClick={handleclick} style={{color:"red"}}/>
         <br />
         <div className="nodisplay">
+            <h3 style={{paddingBottom:"10px"}}>Notifications</h3>
             {
                 noti.length>5?
                 noti.slice((noti.length)-5,noti.length).map((el,index) => 
-                    <div key={index} className="elem"><p>{el}</p></div>
+                    <div key={index} className="elem"><div dangerouslySetInnerHTML={{ __html: el }}></div></div>
                 )
                 :
                 noti.length===0?
                 <div className="elem"><p>No Notifications Yet</p></div>
                 :
                 noti.map((el,index) => 
-                <div key={index} className="elem"><p>{el}</p></div>
+                <div key={index} className="elem"><div dangerouslySetInnerHTML={{ __html: el }}></div></div>
                 )
             }
+            <a style={{marginRight:"0px"}}>See all Notifications</a>
         </div> 
         </div>
   )

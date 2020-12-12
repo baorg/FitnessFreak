@@ -27,7 +27,8 @@ async function addFollowing(followerId, followeeId) {
             const user = await this.findById(followeeId).exec();
             addScore(user, "totalScore", score.followerGained );
             addScore(user, "Followers", score.followerGained);
-            user.notifications.push(`Someone started following you`)
+            const username = await this.findUserByUserId(followerId)
+            user.notifications.push(`${username} has started following you`)
             await user.save();
         }
         return { follower, followee };
@@ -44,7 +45,8 @@ async function removeFollowing(followerId, followeeId) {
     const user = await this.findById(followeeId).exec();
     addScore(user, "totalScore", -score.followerGained);
     addScore(user, "Followers", -score.followerGained);
-    user.notifications.push(`Someone unfollowed you`)
+    const username = await this.findUserByUserId(followerId)
+    user.notifications.push(`${username} has unfollowed you`)
     await user.save();
 }
 

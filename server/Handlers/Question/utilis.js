@@ -8,7 +8,9 @@ function getArrayOfQues(arr) {
         question: ques.question,
         category: ques.categoryName,
         user: ques.userId,
-        posted_at: ques.created_at
+        posted_at: ques.created_at,
+        attachments: ques.attachments,
+        vote_count: ques.vote_count,
     }));
 }
 
@@ -26,41 +28,54 @@ function addScore(user, property, Score) {
         user.score.set(index, { name: property, score: newScore })
     }
 }
-
-async function isSameUser(quesId, userId, sign, name) {
+async function makeChanges(quesId, userId, sign, name, property) {
     const { Ques, Ans, User, Tag } = require("../../Models");
-
-    console.log("Err in QUes in utilis");
-    console.log(`ques = ${Ques} and user =  ${User}`)
-    const promise = Ques.findById(quesId, "userId").exec();
-    console.log("Err in User in utilis");
-    return response = promise.then(async(ques) => {
-            if (String(ques.userId) != userId) {
-                console.log("Error in USer")
-                await User.findById(String(ques.userId), "score notifications").exec((err, user) => {
-                    console.log("score[name] ", score[name]);
-                    // user.score.totalScore += (sign)*score[name];
-                    addScore(user, "totalScore", (sign) * score[name]);
-                    user.notifications.push(`Someone has ${name}ed your question`)
-                    user.save((err) => {
-                        if (err)
-                            return err;
-
-                    })
-                })
-                return user;
-            } else
-                return user;
-        })
-        .catch((err) => (err));
+    try {
+        const ques = await model.findById(quesId, "userId").exec();
+        const user = await User.findById(String(ques.userId), "score notifications").exec()
+        addScore(user, "totalScore", (sign) * score[name]);
+        const username = await User.findUserByUserId(userId)
+        console.log("username in utilis = ", username)
+        sign > 0 ? user.notifications.push(`<p><A href = "/profile/${userId}">${username}</A> has ${name}ed your ${property}</p>`) : null
+        await user.save();
+        return user;
+    } catch (err) {
+        return err;
+    }
 
 
 }
 
-async function saveChanges(quesId, userId, sign, name) {
+async function isSameUser(quesId, userId) {
+    const { Ques, Ans, User, Tag } = require("../../Models");
+    let data = false;
+
+    try {
+        const ques = await Ques.findById(quesId, "userId").exec();
+        if (String(ques.userId) == userId)
+            data = true;
+    } catch (err) {
+        data = err;
+    } finally {
+        return data;
+    }
+
+
+}
+
+
+async function saveChanges(quesId, userId, sign, name, property = "Question") {
     //Checking whether the user is bookmarking his own question or not
-    const promise = await isSameUser(quesId, userId, sign, name);
-    return promise;
+    try {
+        const isSame = await isSameUser(quesId, userId, sign, name);
+        console.log(`is Same output ${isSame}`)
+        if (!isSame)
+            await makeChanges(quesId, userId, sign, name, property, model);
+
+        return isSame;
+    } catch (err) {
+        return err;
+    }
 }
 
 

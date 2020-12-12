@@ -95,9 +95,10 @@ function PostQuestion(props){
       } else {
         let formData = new FormData();
         formData.append('file', images[i].file);
-        let res = await fetch('https://api.cloudinary.com/v1_1/drc8u0jpr/upload', {
+        let res = await fetch('http://localhost:5000/upload/image-upload', {
           method: 'POST',
-          body: formData
+          body: formData,
+          credentials: 'include'
         });
 
         let data = await res.json();

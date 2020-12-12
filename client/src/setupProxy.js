@@ -11,6 +11,10 @@ module.exports = function(app) {
         createProxyMiddleware(obj)
     );
     app.use(
+        '/auth/facebook',
+        createProxyMiddleware(obj)
+    );
+    app.use(
         '/Question/postQuestion',
         createProxyMiddleware(obj)
     );

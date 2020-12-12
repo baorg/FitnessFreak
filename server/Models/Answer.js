@@ -2,13 +2,14 @@ const mongoose = require("mongoose");
 const { commentSchema } = require("./Comment")
 
 const answerSchema = new mongoose.Schema({
-    upDown: [{
-        value: Number,
-        userId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
-        }
-    }],
+    upDown: [],
+    // {
+    //     value: Number,
+    //     userId: {
+    //         type: mongoose.Schema.Types.ObjectId,
+    //         ref: 'User'
+    //     }
+    // }
     vote_count: { upvote: { type: Number, default: 0 }, downvote: { type: Number, default: 0 } },
     answer: String,
     comments: [commentSchema],

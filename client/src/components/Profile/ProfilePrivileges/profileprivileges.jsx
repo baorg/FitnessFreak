@@ -5,62 +5,61 @@ import '../../styles.css'
 import Question from "../../Question/Question/ques";
 import { ENDPOINT } from "../../utils";
 import axios from "axios";
-import { navigate } from 'hookrouter';
+import {A, navigate } from 'hookrouter';
 import axiosCall from "../../../ajaxRequest";
+import SentimentVeryDissatisfiedIcon from '@material-ui/icons/SentimentVeryDissatisfied';
+import { Spinner } from "react-bootstrap";  
 
 const ProfilePrivileges = function(props) {
 
   const [ques, setQues] = useState([]);
-  const defaultMessage = useRef(null);
+  const [type,setType]=useState("");
+  const [userDetails,setUserDetails] = useState("");
+  const [defaultMessage,setDefaultMessage] = useState("");
+
   useEffect(() => {
     //axios call
     let url=`${ENDPOINT}/Question/profilePrivileges/`;
-  
+    
     // console.log("props=",props.user)
     // console.log("props2=",props.userID)
-    axios.get(url + props.privilege, {withCredentials : true})
+    axiosCall('post',url + props.privilege, {id:props.userId})
     .then((res) => {
-      console.log("resOfTypeOfpage = ", res.data)
+      // console.log("resOfTypeOfpage = ", res.data)
       if(props.privilege==="answer"){
-        if(!res.data.question.answer.length)
-        defaultMessage.current.innerText = "No Data"
-        else
-        {
-            console.log("hi1");
-            setQues(res.data.question.answer);
-        }
-        
-      }
-      else{
+        // console.log("fjwnkjfenwkdjnwkjcnwejkfwnfjn")
+            setType("answerasked")
+          }
         if(!res.data.question.length)
-          defaultMessage.current.innerText = "No Data"
+          setDefaultMessage("No Data")
           else
           {
-              console.log("hi2");
+              // console.log("hi2");
               setQues(res.data.question);
           }
-      } 
-         console.log(res.data.question);
+        //  console.log(res.data.question);
   })
-    // axiosCall('get', url, {"name": props.typeofpage})
-    //   .then((res) => {
-    //     console.log("resOfTypeOfpage = ", res.data)
-    //     //setQues(res.data.questions);
-    // })
+  let url2=`${ENDPOINT}/Users/get-userdata-id`
+    axiosCall('post', url2, {user_id: props.userId})
+      .then((res) => {
+        // console.log("resOfTypeOfpage = ", res.data)
+        //setQues(res.data.questions);
+        setUserDetails(res.data.user);
+    })
   }, []);
 
-  return (
-    <>
+  return (ques && userDetails?
+    (<>
       <MyNav user={props.user} />
       <SideNavPage type="profile" profileid={props.userId} user={props.user}/>
       <div className="maindivofeverypage">
-        <h2>{props.privilege} </h2>
+        <h2 style={{marginBottom:"40px"}}>{props.privilege} of <A href={`/profile/${userDetails._id}`}>{userDetails.username}</A></h2>
         <div>
-        <h3 ref = {defaultMessage}></h3>
-        { ques.map((item, index) => <Question key={index}  question={item}/>)}
+        <h5>{defaultMessage} {defaultMessage!==""?<SentimentVeryDissatisfiedIcon />:null }</h5>
+        { ques.map((item, index) => <Question key={index}  question={item} type={type}/>)}
         </div>
       </div>
-    </>
+    </>):<Spinner />
   );
 };
 

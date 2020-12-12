@@ -34,7 +34,7 @@ export default function Attachments(props) {
     const classes = useStyles();
     
     return (
-      <div className={classes.root} >
+      <div className={classes.root}>
         <GridList cellHeight={300} className={classes.gridList} style={{width:"500px"}}>
           {props.attachments.map((tile) => (
             <GridListTile >

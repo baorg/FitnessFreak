@@ -1,4 +1,4 @@
-.nodisplay {
+/* .nodisplay {
     display: none;
 }
 
@@ -28,11 +28,11 @@
 
 
 .searchdiv {
-    /* border: 2px solid blue; */
+    border: 2px solid blue;
     display: flex;
     flex-direction: column;
     align-items: center;
-}
+} */
 
 .shiny:hover{
 background-color:#E0E0E0;
@@ -43,7 +43,7 @@ transition-delay: 0.5;
     top:100px;
     left:16%;
     /* transform: translate(-50%); */
-    text-align:center;
+    text-align:left;
     width:84%;
     /* border:2px solid red; */
 }

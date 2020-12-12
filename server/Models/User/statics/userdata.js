@@ -17,6 +17,11 @@ async function findUserByUserName(username) {
     return user;
 }
 
+async function findUserByUserId(userId) {
+    let user = await this.findOne({_id: userId}).select(['username', 'email']).exec();
+    return user.username;
+}
+
 function getRandInt(digits) {
     res = "";
     for (var i = 0; i < digits; i++)
@@ -37,5 +42,6 @@ module.exports = {
     getUserData,
     getUniqueUsername,
     findUserByEmail,
-    findUserByUserName
+    findUserByUserName,
+    findUserByUserId
 }
