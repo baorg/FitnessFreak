@@ -1,14 +1,16 @@
 const passport = require("passport");
 const { set } = require("../../Models/User/schema");
-const { getGoogleStrategy, getLocalStrategy } = require('./strategies');
+const { getGoogleStrategy, getLocalStrategy, getFacebookStrategy } = require('./strategies');
 const { User } = require('../../Models');
 
 async function setup(app) {
     const googleStrategy = getGoogleStrategy();
     const localStrategy = getLocalStrategy();
+    const facebookStrategy = getFacebookStrategy();
 
-    passport.use(googleStrategy);
     passport.use(localStrategy);
+    passport.use(googleStrategy);
+    passport.use(facebookStrategy);
 
     passport.serializeUser(function(user, done) {
         // console.log(user, user.id, user._id);

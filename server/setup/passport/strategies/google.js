@@ -9,40 +9,32 @@ function getStrategy() {
             clientSecret: googleKey.googleClientSecret,
             callbackURL: "http://localhost:5000/auth/google/callback",
         },
-        (accessToken, refreshToken, profile, cb) => {
+        async(accessToken, refreshToken, profile, cb) => {
             // console.log(accessToken, refreshToken);
             // console.log("User : ", profile);
-            User.findOrCreate({ google_id: profile.id }, function(err, user) {
-                if (err) {
-                    console.log("Error during signing-up with google : ", err);
-                    return;
-                } else {
+            try {
+                let user = await User.findOne({ google_id: profile.id }).exec();
+                if (user === null) {
+                    let username = await User.getUniqueUsername(profile._json.name);
 
-                    if (user.google_setup.setup == false) {
-                        User.getUniqueUsername(user.username || profile._json.name).then(
-                            username => {
-                                user.username = username;
-                                user.profile_image = profile._json.picture;
-                                user.first_name = profile._json.given_name;
-                                user.last_name = profile._json.family_name;
-                                user.google_setup.access_token = accessToken;
-                                user.google_setup.refresh_token = refreshToken;
-                                user.google_setup.setup = true;
-
-                                return user.save(
-                                    user => {
-                                        console.log("User saved.");
-                                        return cb(err, user)
-                                    }
-                                );
-                            }
-                        );
-                    } else {
-                        console.log('User already exists.');
-                        return cb(err, user);
-                    }
+                    user = new User({
+                        username: username,
+                        profile_image: profile._json.picture,
+                        first_name: profile._json.given_name,
+                        last_name: profile._json.family_name,
+                        google_setup: {
+                            access_token: accessToken,
+                            refresh_token: refreshToken,
+                            setup: true
+                        }
+                    });
+                    await user.save();
                 }
-            });
+                return cb(null, user);
+            } catch (err) {
+                return cb(err, null);
+            }
+
         });
     return googleStrategy;
 }
