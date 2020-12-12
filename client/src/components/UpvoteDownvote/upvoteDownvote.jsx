@@ -97,7 +97,7 @@ function downvoted(){
 }
 
   return (
-    <div style={{display:"flex",alignItems:"center"}}>
+    <div style={{display:"flex",alignItems:"center",marginTop:"20px"}}>
         {/* <p style={{display:"inline-block"}} >Upvotes/Downvotes</p> &nbsp;&nbsp;&nbsp;&nbsp; */}
         <span ref = {totalUpRef} style={{fontSize:20 }}>{props.totalCount ? props.totalCount.up : null}</span>
         {/* <button type="button" onClick={props.user===null?notLoggedIn:upvoted} style={{backgroundColor:"white",border:"0px solid white"}} style={!up ? { color:'black ' } : { color:'green' }} >

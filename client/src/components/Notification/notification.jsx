@@ -42,7 +42,7 @@ const Notification = function(props){
                 <div key={index} className="elem"><div dangerouslySetInnerHTML={{ __html: el }}></div></div>
                 )
             }
-            <a style={{position:"absolute",marginTop:"10px",right:"0%",bottom:"0%"}}>See all Notifications</a>
+            <a style={{marginRight:"0px"}}>See all Notifications</a>
         </div> 
         </div>
   )

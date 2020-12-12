@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
         flexWrap: 'wrap',
-        justifyContent: 'space-around',
+        justifyContent: 'flex-start',
         overflow: 'hidden',
         backgroundColor: theme.palette.background.paper,
     },
@@ -34,8 +34,8 @@ export default function Attachments(props) {
     const classes = useStyles();
     
     return (
-      <div className={classes.root}>
-        <GridList cellHeight={300} className={classes.gridList}>
+      <div className={classes.root} >
+        <GridList cellHeight={300} className={classes.gridList} style={{width:"500px"}}>
           {props.attachments.map((tile) => (
             <GridListTile >
               <img src={tile.url} />

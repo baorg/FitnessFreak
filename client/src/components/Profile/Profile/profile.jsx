@@ -7,7 +7,8 @@ import axios from 'axios';
 import PersonAddDisabledIcon from '@material-ui/icons/PersonAddDisabled';
 import {A, navigate} from 'hookrouter';
 import SideNavBar from "../../Navigation/SideNav/SideNav";
-
+import { Spinner } from "react-bootstrap";
+import { Button } from 'react-bootstrap'
 const AnonymousUser = {
     _id:0,
     first_name: "Anonymous",
@@ -18,7 +19,7 @@ const AnonymousUser = {
 
 function Profile(props){
     const [follow, setFollow] = useState(false);
-    const [profileUser, setProfileUser] = useState(AnonymousUser);
+    const [profileUser, setProfileUser] = useState(null);
     const [isFollowing, setIsFollowing] = useState(false);
 
     useEffect(async () => {
@@ -53,8 +54,8 @@ function Profile(props){
     }
     console.log("User:", props.user, profileUser);
 
-    return (
-        <>
+    return profileUser?
+        (<>
             <MyNav user={props.user} />
             <SideNavBar type="profile" profileid={profileUser._id} user={props.user} />
                 <div className="maindivofeverypage" >
@@ -69,14 +70,14 @@ function Profile(props){
                         )
                     } */}
                     {
-                        props.user==undefined?<></>:(props.user._id===profileUser._id?<button>Edit Profile</button>:(isFollowing ?
+                        props.user==undefined?<></>:(props.user._id===profileUser._id?<Button variant="primary">Edit Profile</Button>:(isFollowing ?
                             <PersonAddDisabledIcon onClick={handleUnfollow}/>
                             : <PersonAddIcon onClick={handleFollow} />)
                         )
                     }
                 </div>
         </>
-    );
+    ) : <Spinner />;
     
 }
 

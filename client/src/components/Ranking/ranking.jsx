@@ -41,9 +41,9 @@ const Ranking = function(props) {
     <>
       <MyNav user={props.user} />
       <SideNavPage user={props.user}/>
-      <div className="maindivofeverypage">
+      <div className="maindivofeverypage" style={{textAlign:"left"}}>
         <h2>Ranking of {props.typeofranking}</h2>
-        <br /><br /><br />
+        <br /><br />
         <div>
             {rank.map((el,index)=>
               <div style={{textAlign:"left",borderBottom:"2px solid #B8B8B8", padding:"5px"}} className="shiny">

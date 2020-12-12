@@ -1,1 +1,16 @@
-.question-box {}
+/* .question-box {} */
+.category-container {
+    position: relative;
+    /* display: flex;
+    justify-content: center; */
+}
+
+.category-span {
+    font-size: 15px;
+    font-weight: 100;
+    width: fit-content;
+    background-color: rgb(142, 238, 238);
+    padding: 0 4px 0 4px;
+    margin: 0 2px 0 2px;
+    border-radius: 3px;
+}

@@ -32,7 +32,7 @@ const MyNav = function(props) {
           <Nav.Link href="#home">Home</Nav.Link>
           {/* <Nav.Link href="#link">Link</Nav.Link>
           <Nav.Link href="#" onClick={props.showuploadbox}>Upload Image</Nav.Link> */}
-          <NavDropdown title="Dropdown" id="basic-nav-dropdown">
+          {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
             <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
             <NavDropdown.Item href="#action/3.2">
               Another action
@@ -42,7 +42,7 @@ const MyNav = function(props) {
             <NavDropdown.Item href="#action/3.4">
               Separated link
             </NavDropdown.Item>
-          </NavDropdown>
+          </NavDropdown> */}
         </Nav>
         <Form.Control as="select" style={{width:"105px",marginRight:"20px",fontSize:"12px"}} value={searchparam} onChange={handlechange}>
         <option>--</option>

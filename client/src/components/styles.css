@@ -43,7 +43,7 @@ transition-delay: 0.5;
     top:100px;
     left:16%;
     /* transform: translate(-50%); */
-    text-align:center;
+    text-align:left;
     width:84%;
     /* border:2px solid red; */
 }

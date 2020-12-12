@@ -53,18 +53,20 @@ function AnswerAsked(props) {
             <h1 style={{ display: "inline-block" }}>{question.title}</h1>
             <BookMark quesId={props.quesId} user={props.user} />
           </div>
-          <div dangerouslySetInnerHTML={{ __html: question.question }}></div>
+          <div dangerouslySetInnerHTML={{ __html: question.question }} style={{marginTop:"40px"}}></div>
           <br /> <br />
-          <UpvoteDownvote quesId={props.quesId} isQues={true} totalCount={totalCount} user={props.user} />
+          
         </div>
-        <div className="category-container">
+        <div className="category-container" style={{textAlign:"left",marginBottom:"40px"}}>
+        {question.category.length!==0?<p style={{fontSize:"20px"}}>Categories</p>:null}
                 {question.category.map(category => (
                     <span className="category-span">{category}</span>
                 ))}
         </div>
         <Attachments attachments={question.attachments} />
-        <div style={{ textAlign: "left" }} >
-          <br /><br /><br /><br />
+        <UpvoteDownvote quesId={props.quesId} isQues={true} totalCount={totalCount} user={props.user} />
+        <div style={{ textAlign: "left",marginTop:"40px" }} >
+          
           {answers.length !== 0 ? <h4 style={{ marginBottom: "30px" }}>Answers</h4> : <h4>No Answers Yet</h4>}
           {answers.map((el, index) => {
             return <Answer key={index} answer={el}  user={props.user} />
