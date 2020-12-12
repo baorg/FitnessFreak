@@ -11,29 +11,22 @@ import axiosCall from "../../../ajaxRequest";
 const ProfilePrivileges = function(props) {
 
   const [ques, setQues] = useState([]);
+  const [type,setType]=useState("");
   const defaultMessage = useRef(null);
-  let type=""
+
   useEffect(() => {
     //axios call
     let url=`${ENDPOINT}/Question/profilePrivileges/`;
     
     // console.log("props=",props.user)
     // console.log("props2=",props.userID)
-    axios.get(url + props.privilege, {withCredentials : true})
+    axiosCall('post',url + props.privilege, {id:props.userId})
     .then((res) => {
       console.log("resOfTypeOfpage = ", res.data)
       if(props.privilege==="answer"){
-        if(!res.data.question.answer.length)
-        defaultMessage.current.innerText = "No Data"
-        else
-        {
-            console.log("hi1");
-            type="answerasked"
-            setQues(res.data.question.quesId);
-        }
-        
-      }
-      else{
+        console.log("fjwnkjfenwkdjnwkjcnwejkfwnfjn")
+            setType("answerasked")
+          }
         if(!res.data.question.length)
           defaultMessage.current.innerText = "No Data"
           else
@@ -41,7 +34,6 @@ const ProfilePrivileges = function(props) {
               console.log("hi2");
               setQues(res.data.question);
           }
-      } 
          console.log(res.data.question);
   })
     // axiosCall('get', url, {"name": props.typeofpage})

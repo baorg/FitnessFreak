@@ -1,34 +1,35 @@
 const { Ques, Ans, User, Tag } = require("../../Models");
 module.exports.getAnswersByUserOnly = async (req, res)=>{
-
-    let data = {user : "", answer : []}
+    const { Ques, Ans, User, Tag } = require("../../Models");
+    let data = []
     let err = false;
     try{
     // const userId = req.user.id;
+
     const quesId = req.params.quesId;
-    const userId = req.user.id;
+    const userId = req.body.id;
     const obj = {
         path: 'answer',
-        model: User,
-        match :{quesId : quesId},
-        options: {
-            select: 'username first_name last_name'
-        },
+        model: Ans,
+        match :{quesId : quesId}
+        // options: {
+        //     select: 'username first_name last_name'
+        // },
     }
     
-    const user = await User.findById(userId, "username").populate(obj).exec();
-    const User = {userId : userId, username : user.username}
-    // return user.answers.map((ans) => ({
-    //     _id: ans._id,
-    //     answer: ans.answer,
-    //     user: User,
-    //     vote_count: ans.vote_count,
-    //     upDown: ans.upDown
-    //     })
-    // )
+    const user = await User.findById(userId, "username answer").populate(obj).exec();
+    const UserDetails = {_id : userId, username : user.username}
+    data= user.answer.map((ans) => ({
+        _id: ans._id,
+        answer: ans.answer,
+        user: UserDetails,
+        vote_count: ans.vote_count,
+        upDown: ans.upDown
+        })
+    )
 
-    data =  {user : User, answer : user.answers}
-    err =  false
+    // data =  {user : UserDetails, answer : user.answer}
+    // err =  false
     }
     catch(err){
         console.log("err in getting answers by user only");

@@ -17,14 +17,14 @@ router.post("/saveBookMark", isAuthenticated, QuestionHandler.saveBookMark);
 router.post("/isBookMarked", isAuthenticated, QuestionHandler.isBookMarked);
 router.get("/get-feed-question", QuestionHandler.getFeedQuestion);
 router.post("/upload", isAuthenticated, MultipartyMiddleware, QuestionHandler.uploadAttachmentsHandler);
-router.get("/profilePrivileges/:name", QuestionHandler.profilePrivileges)
+router.post("/profilePrivileges/:name", QuestionHandler.profilePrivileges)
 router.get("/getCategory", QuestionHandler.getCategory)
 router.get("/getNotifications",isAuthenticated, QuestionHandler.getNotifications);
 router.post("/postComment",isAuthenticated, QuestionHandler.postComment);
 router.post("/getAnswersByQuesId", QuestionHandler.getAnswersByQuesId)
 router.post("/getCommentsByAnswerId", QuestionHandler.getCommentsByAnswerId)
 router.get("/getQuestionsCategoryWise/:name", QuestionHandler.getQuestionsCategoryWise);
-router.get("/getAnswersByUserOnly/:quesId",QuestionHandler.getAnswersByUserOnly);
+router.post("/getAnswersByUserOnly/:quesId",QuestionHandler.getAnswersByUserOnly);
 router.get("/:name", QuestionHandler.getTypeOfQuestionsHandler);
 
 

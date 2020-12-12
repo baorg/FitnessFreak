@@ -48,17 +48,17 @@ async function answers(userId){
     return response = promise.then((ques) => {
         
         const user = {userId : ques._id, username : ques.username}
-        return ques.answer.map((question) => ({
+        return {question:ques.answer.map((question) => ({
 
-            _id: question.quesId_id,
-            title: question.quesIdtitle,
-            question: question.quesIdquestion,
-            category: question.quesIdcategoryName,
+            _id: question.quesId._id,
+            title: question.quesId.title,
+            question: question.quesId.question,
+            category: question.quesId.categoryName,
             user: user,
-            posted_at: question.quesIdcreated_at
+            posted_at: question.quesId.created_at
 
         })
-        )
+        )}
 
     })
     .catch((err) => ({err : err}));
@@ -68,7 +68,7 @@ async function answers(userId){
 module.exports.profilePrivileges = function(req, res){
 
     const name = req.params.name;
-    const userId = req.user.id;
+    const userId = req.body.id;
     console.log("privilege name" , name)
     let promise;
     if(name !== "answer"){

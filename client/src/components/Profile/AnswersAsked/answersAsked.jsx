@@ -9,10 +9,11 @@ import SideNavBar from "../../Navigation/SideNav/SideNav";
 import '../../styles.css'
 import './style.css'
 import ajaxRequest from '../../../ajaxRequest';
-
+import {A, navigate } from 'hookrouter'
 import Attachments from './attachments';
 import BookMark from "../../BookMark/MyBookMark";
 import { Spinner } from "react-bootstrap";
+import { Button } from 'react-bootstrap'
 
 
 
@@ -21,6 +22,7 @@ function AnswerAsked(props) {
   const [question, setQuestion] = useState(null)
   const [answers, setAnswers] = useState([])
   const [totalCount, setTotalCount] = useState(null);
+  // const [user,setUser]=useState(null);
   useEffect(() => {
     axios.get(`${ENDPOINT}/Question/getQuestions/${props.quesId}`, { withCredentials: true })
       .then(res => {
@@ -29,19 +31,19 @@ function AnswerAsked(props) {
         setTotalCount(obj);
         setQuestion(res.data.ques);
       });
-      ajaxRequest("get", `${ENDPOINT}/Question/getAnswersByUserOnly`, {
-        quesId:props.quesId
-      }).then(res=>{
+      ajaxRequest("post", `${ENDPOINT}/Question/getAnswersByUserOnly/${props.quesId}`,{id:props.userId})
+      .then(res=>{
         console.log(res.data);
         console.log(typeof(res.data));
         setAnswers(res.data.data);
+        // setUser(res.data.data.user);
       })
       
   }, []);
 
-    
+    console.log(props)
    
-  return question ?
+  return question && answers ?
     (<div>
       <MyNav user={props.user} />
       <SideNavBar user={props.user} />
@@ -68,6 +70,7 @@ function AnswerAsked(props) {
             return <Answer key={index} answer={el}  user={props.user} />
           })}
         </div>
+        <Button variant="primary" onClick={()=>navigate(`/viewFullQuestion/${props.quesId}`)} style={{margin:"10px"}}>View All Answers</Button>
       </div>
     </div>) : <Spinner />;
         

@@ -13,6 +13,7 @@ function getRoutes(props) {
     '/': () => <Profile user={props.user} userId={props.userId} />,
     '/followers': () => <Followers userId={props.userId} user={props.user}/>,
     '/following': () => <Following userId={props.userId} user={props.user}/>,
+    '/answer-asked/:quesId':({quesId})=><AnswerAsked userId={props.userId} user={props.user} quesId={quesId}/>,
     '/:privilege':({privilege})=><ProfilePrivileges user={props.user} privilege={privilege} userId={props.userId}/>
   }
 }
