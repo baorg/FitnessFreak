@@ -3,8 +3,8 @@ const router = express.Router();
 const passport = require("passport");
 const { googleCallbackHandlerfunction, logoutHandler } = require("../../Handlers/Auth");
 
-const CLIENT_LOGIN_PAGE_URL = "http://localhost:3000/auth";
-const CLIENT_HOME_PAGE_URL = "http://localhost:3000";
+const CLIENT_HOME_PAGE_URL = process.env.CLIENT_DOMAIN;
+const CLIENT_LOGIN_PAGE_URL = `${CLIENT_HOME_PAGE_URL}/auth`;
 
 router.get("", passport.authenticate('google', {
     scope: ["profile"],

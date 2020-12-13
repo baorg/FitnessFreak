@@ -1,5 +1,5 @@
-const CLIENT_LOGIN_PAGE_URL = "http://localhost:3000/auth";
-const CLIENT_HOME_PAGE_URL = "http://localhost:3000/";
+const CLIENT_HOME_PAGE_URL = process.env.CLIENT_DOMAIN;
+const CLIENT_LOGIN_PAGE_URL = `${CLIENT_HOME_PAGE_URL}/auth`;
 const { Ques, Ans, User } = require("../../Models");
 const saveChanges = require("./utilis").saveChanges;
 module.exports = function(req, res) {
@@ -11,7 +11,7 @@ module.exports = function(req, res) {
     const ans = new Ans({
         answer: answer,
         upDown: [],
-        vote_count : {},
+        vote_count: {},
         comments: [],
         userId: userId,
         quesId: quesId
@@ -29,8 +29,8 @@ module.exports = function(req, res) {
                             ques.save(err => {
                                 if (err) return res.redirect(CLIENT_LOGIN_PAGE_URL)
                                 const promise = saveChanges(quesId, userId, 1, name)
-                                .then((response) => res.send(CLIENT_HOME_PAGE_URL))
-                                .catch((err) => res.redirect(CLIENT_LOGIN_PAGE_URL))
+                                    .then((response) => res.send(CLIENT_HOME_PAGE_URL))
+                                    .catch((err) => res.redirect(CLIENT_LOGIN_PAGE_URL))
                             })
                         })
                     }

@@ -1,5 +1,5 @@
-const CLIENT_LOGIN_PAGE_URL = "http://localhost:3000";
-const CLIENT_HOME_PAGE_URL = "http://localhost:3000/feed/app";
+const CLIENT_LOGIN_PAGE_URL = process.env.CLIENT_DOMAIN;
+const CLIENT_HOME_PAGE_URL = `${CLIENT_LOGIN_PAGE_URL}/feed/app`;
 const { isAuthenticated } = require("../../Middlewares");
 
 const { Ques, Ans, User, Tag } = require("../../Models");
@@ -61,11 +61,11 @@ module.exports.getOneQuestionHandler = function(req, res) {
         },
     }
 
-    Ques.find({_id : id}).populate(obj).exec((err, ques) => {
+    Ques.find({ _id: id }).populate(obj).exec((err, ques) => {
         if (err) return res.send({ err: err });
 
         // let obj = getCount(ques)
-        res.send({ ques:  getArrayOfQues(ques)[0] });
+        res.send({ ques: getArrayOfQues(ques)[0] });
     })
 }
 

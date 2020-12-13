@@ -1,7 +1,7 @@
 module.exports = {
-    CLIENT_DOMAIN: 'http://localhost:3000',
-    API_DOMAIN: 'http://localhost:5000',
+    CLIENT_DOMAIN: process.env.CLIENT_DOMAIN,
+    API_DOMAIN: process.env.API_DOMAIN,
     key: require('./key'),
-    category : require('./category').category,
-    score : require('./score').score
+    category: require('./category').category,
+    score: require('./score').score
 }

@@ -17,7 +17,7 @@ const app = express();
 app.use(logging);
 
 (async() => {
-    const CLIENT_URL = "http://localhost:3000";
+    const CLIENT_URL = process.env.CLIENT_DOMAIN;
     const PORT = process.env.PORT || 5000;
 
     const connection = await mongooseSetup();
@@ -43,7 +43,7 @@ app.use(logging);
     // set up cors to allow us to accept requests from our client
     app.use(
         cors({
-            origin: "http://localhost:3000", // allow to server to accept request from different origin
+            origin: CLIENT_URL, // allow to server to accept request from different origin
             methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
             credentials: true // allow session cookie from browser to pass through
         })

@@ -1,12 +1,12 @@
-const CLIENT_LOGIN_PAGE_URL = "http://localhost:3000";
-const CLIENT_HOME_PAGE_URL = "http://localhost:3000/feed/app";
-const { Ques, Comment} = require("../../../Models");
+const CLIENT_LOGIN_PAGE_URL = process.env.CLIENT_DOMAIN;
+const CLIENT_HOME_PAGE_URL = `${CLIENT_LOGIN_PAGE_URL}/feed/app`;
+const { Ques, Comment } = require("../../../Models");
 const { Ans } = require("../../../Models");
 
 
-function getModel(flag){
-    if(flag == 2)
-    return Comment;
+function getModel(flag) {
+    if (flag == 2)
+        return Comment;
     return (flag) ? Ques : Ans;
 }
 module.exports = function(req, res) {
@@ -14,10 +14,10 @@ module.exports = function(req, res) {
     const quesId = req.body.quesId;
     const isQues = req.body.isQues;
 
-    
+
     const model = getModel(isQues)
     const query = model.findById(quesId, 'upDown');
-   
+
     const promise = query.exec();
     promise.then((ques) => {
             console.log("updown = ", ques.upDown);

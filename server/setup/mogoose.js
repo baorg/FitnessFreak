@@ -4,7 +4,7 @@ async function setup() {
     mongoose.set("useCreateIndex", true);
     try {
         const connection = await mongoose.connect(
-            'mongodb://localhost:27017/FitnessFreakDB', {
+            `mongodb://${process.env.DATABASE_DOMAIN}/${process.env.DATABASE}`, {
                 useNewUrlParser: true,
                 useUnifiedTopology: true
             });

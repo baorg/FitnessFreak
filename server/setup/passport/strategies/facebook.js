@@ -2,7 +2,7 @@ const FacebookStrategy = require("passport-facebook").Strategy;
 const findOrCreate = require("mongoose-findorcreate");
 const { User } = require("../../../Models");
 
-const facebook_callback = 'http://localhost:5000/auth/facebook/callback';
+const facebook_callback = `${process.env.API_DOMAIN}/auth/facebook/callback`;
 
 function getStrategy() {
     const facebookStrategy = new FacebookStrategy({
