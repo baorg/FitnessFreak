@@ -63,7 +63,9 @@ async function hotQuestions(obj, page, count) {
             ques.sort((a, b) => {
                 const x = likes(a);
                 const y = likes(b);
-                return x > y;
+                if(x > y) return -1;
+                if(x == y) return 0;
+                return 1;
             });
             return ({
                 data: getArrayOfQues(ques.slice((page - 1) * count, page * count)), 

@@ -17,14 +17,27 @@ module.exports.getAnswersByQuesId = async(req, res) => {
         }
 
         const answers = await Ans.find({ quesId: quesId }).populate(obj).exec()
-        const newAnswers = answers.sort((x, y) => {
-            if(x.marked == y.marked)
-            return x.vote_count.upvote > y.vote_count.upvote
+        answers.sort((x, y) => {
+            console.log(`${x} and ${y}`)
+            if(x.marked == y.marked){
+                console.log(`votecount = ${x.vote_count.upvote} and ${y.vote_count.upvote}`)
+                const xcount = x.vote_count.upvote
+                const ycount = y.vote_count.upvote
+                
+                if(xcount > ycount) return -1;
+                if(xcount == ycount) return 0;
+                return 1;
+            }
             else
-            return x.marked
+            {
+                if(x.marked)
+                    return -1;
+                return 1;
+            }
         })
         console.log("answers=", answers);
-        data = getArrayOfAns(newAnswers, "answer");
+       
+        data = getArrayOfAns(answers, "answer");
 
     } catch (err) {
         console.log("err in getting answers");
