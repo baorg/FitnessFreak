@@ -13,7 +13,7 @@ import ajaxRequest from '../../../ajaxRequest';
 import Attachments from './attachments';
 import BookMark from "../../BookMark/MyBookMark";
 import { Spinner } from "react-bootstrap";
-import { navigate } from "hookrouter";
+import { A,navigate } from "hookrouter";
 
 
 
@@ -23,6 +23,7 @@ function FullQuestion(props) {
   const [totalCount, setTotalCount] = useState(null);
   const [satisfactory,setSatisfactory]=useState(false);
   useEffect(() => {
+    console.log("in us eseffec");
     axios.get(`${ENDPOINT}/Question/getQuestions/${props.quesId}`, { withCredentials: true })
       .then(res => {
         console.log("res.data = ", res.data);
@@ -38,32 +39,39 @@ function FullQuestion(props) {
         setAnswers(res.data.data);
       })
       if(props.user!==undefined){
+        console.log(props.user)
         console.log("inside")
         ajaxRequest("post",`${ENDPOINT}/Question/isQuestionAskedByUser`,{
           quesId:props.quesId
         }).then(res=>{
             if(res.data.err){
-              navigate("/")
+              // navigate("/")
             }
             else if(res.data.data){
               setSatisfactory(true)
             }
         })
       }
-  }, []);
-  function selectedSatisfactoryAnswer(answerId){
-    ajaxRequest("post",`${ENDPOINT}/Question/markAnswer`,{
-      quesId:props.quesId,
-      answerId:answerId
-    }).then(res=>{
-      if(res.data){
-        navigate("/")
-      }
-      else{
-        setSatisfactory(false);
-        navigate(`/viewFullQuestion/${props.quesId}`)
-      }
-    })
+  }, [satisfactory]);
+   function selectedSatisfactoryAnswer(answerId){
+    if (window.confirm("Are you sure you want to mark this answer as the Satisfactory Answer")) {
+      // txt = "You pressed OK!";
+      ajaxRequest("post",`${ENDPOINT}/Question/markAnswer`,{
+        quesId:props.quesId,
+        answerId:answerId
+      }).then(async(res)=>{
+        if(res.data){
+          navigate("/")
+        }
+        else{
+          await setSatisfactory(false);
+          navigate(`/viewFullQuestion/${props.quesId}`)
+        }
+      })
+    } else {
+      // txt = "You pressed Cancel!";
+    }
+    
   }
     
    
@@ -77,6 +85,7 @@ function FullQuestion(props) {
             <h1 style={{ display: "inline-block" }}>{question.title}</h1>
             <BookMark quesId={props.quesId} user={props.user} />
           </div>
+          <p>Asked by <A href={`/profile/${question.user._id}`}>@{question.user.username}</A></p>
           <div dangerouslySetInnerHTML={{ __html: question.question }} style={{marginTop:"40px"}}></div>
           <br /> <br />
           

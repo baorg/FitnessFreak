@@ -15,6 +15,7 @@ import ajaxRequest from '../../../ajaxRequest';
 import { API_DOMAIN } from '../../../config';
 import { ENDPOINT } from "../../utils";
 import axiosCall from '../../../ajaxRequest';
+import { navigate } from "hookrouter";
 
 
 function PostQuestion(props){
@@ -132,6 +133,7 @@ function PostQuestion(props){
 
     if (res.data.isSaved) {
       alert('Question submitted successfully');
+      navigate("/");
       return;
     }
     else {
@@ -183,7 +185,9 @@ function PostQuestion(props){
         </div>
         <div className="searchdiv">
           <h5 className="title" >Select Tags </h5> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <Searchdiv tags={availabeTags} selectedTags={selectedTags} setSelectedTags={setSelectedTags} change={selectTag} type="tags" />
+          <div style={{display:"flex",justifyContent:"center"}}>
+          <Searchdiv tags={availabeTags} selectedTags={selectedTags} setSelectedTags={setSelectedTags} change={selectTag} type="tags"  />
+          </div>
         </div>
         <div className="selectedtags" >
           {selectedTags.map((el, index) =>

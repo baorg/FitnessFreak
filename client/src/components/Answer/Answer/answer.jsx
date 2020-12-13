@@ -6,7 +6,8 @@ import '../../styles.css'
 import PostComment from "../../Comment/PostComment/postcomment";
 import ajaxRequest from '../../../ajaxRequest';
 import { ENDPOINT } from "../../utils";
-// let comments=["Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?","Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?","Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"]
+import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
+import DoneIcon from '@material-ui/icons/Done';
 
 function Answer(props){
     // const [click, setClick] = useState(false);
@@ -28,10 +29,12 @@ function Answer(props){
       }, []);
     return (
     <div style={{marginBottom:"20px",borderBottom:"2px solid #B8B8B8", padding:"10px"}}  >
-      Answered by <A href={`/profile/${props.answer.user._id}`}>@{props.answer.user.username}</A>
+      {props.answer.marked?<VerifiedUserIcon style={{color:"green"}}/>:null}
+      Answered by <A href={`/profile/${props.answer.user._id}`} style={{display:"inline-block"}}>@{props.answer.user.username}</A>
+      {props.satisfactory?<DoneIcon onClick={()=>{props.selectedSatisfactoryAnswer(props.answer._id)}} style={{display:"inline-block",color:"green",marginLeft:"20px"}}/>:null}
       <div style={{marginTop:"20px"}} dangerouslySetInnerHTML={{__html:props.answer.answer}}></div>
+
       <UpvoteDownvote quesId = {props.answer._id} isQues = {false} user={props.user} totalCount={totalCount}/>
-      {props.satisfactory?<a onClick={()=>{props.selectedSatisfactoryAnswer(props.answer._id)}}>Mark as Satisfactory</a>:null}
       <hr />
       <div style={{marginLeft:"200px" ,borderLeft:"2px solid #B8B8B8",padding:"20px"}}>
         {comments.length!==0?<h4 style={{marginBottom:"30px"}}>Comments</h4>:null }

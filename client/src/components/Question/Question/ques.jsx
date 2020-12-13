@@ -16,7 +16,7 @@ function Question(props) {
     else
     url=`/viewFullQuestion/${props.question._id}`
     return (
-        <div style={{textAlign:"left"}}>
+        <div>
             <A href={url}><h3>{props.question.title} </h3></A>
             <div className="category-container">
                 {props.question.category.map(category => (

@@ -36,8 +36,8 @@ const TypeOfPage = function(props) {
     <>
       <MyNav user={props.user} />
       <SideNavPage user={props.user}/>
-      <div className="maindivofeverypage" style={{textAlign:"left"}}>
-        <h2 style={{marginBottom:"40px"}}>{props.typeofpage}{props.categoryname?` : ${props.categoryname}`:null}</h2>
+      <div className="maindivofeverypage">
+        <h2 style={{marginBottom:"40px"}}>{props.typeofpage.toUpperCase() }{props.categoryname?` : ${props.categoryname}`:null}</h2>
         {/* <h2>{props.categoryname}</h2> */}
         {/* <div>
         { ques.map((item, index) => <Question key={index}  question={item}/>)}
