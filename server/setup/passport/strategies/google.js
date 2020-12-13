@@ -27,8 +27,9 @@ function getStrategy() {
                             access_token: accessToken,
                             refresh_token: refreshToken,
                             setup: true
-                        }
+                        },
                     });
+
                     await user.save();
                 }
                 return cb(null, user);

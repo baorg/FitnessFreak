@@ -17,6 +17,7 @@ function getStrategy() {
                 let user = await User.findOne({ facebook_id: profile.id }).exec();
                 if (user === null) {
                     let username = await User.getUniqueUsername(profile._json.name);
+
                     user = new User({
                         username: username,
                         facebook_id: profile.id,
@@ -25,6 +26,7 @@ function getStrategy() {
                         // first_name: profile._json.given_name,
                         // last_name: profile._json.family_name
                     });
+
                     await user.save();
                 }
                 // console.log('User profile: ', user.profile_image);

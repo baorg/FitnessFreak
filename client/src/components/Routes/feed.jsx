@@ -8,7 +8,7 @@ import FullQuestion from '../Question/FullQuestion/fullQuestion';
 import TypeOfPageRoutes from "./typeofpageroutes";
 import ProfileRoutes from "./profileroutes";
 import Ranking from '../Ranking/ranking';
-
+import UpdateProfile from '../Profile/EditProfile';
 
 function getRoutes(user) {
   return {
@@ -16,7 +16,7 @@ function getRoutes(user) {
     'app': () => <App user={user}/>,
     'post-question': ()=><PostQuestion user={user} />,
     'profile/:userId*': ({ userId }) => <ProfileRoutes user={user} userId={userId} />,
-    
+    'update-profile': ()=> <UpdateProfile />,
     'viewFullQuestion/:quesId' :({quesId}) => <FullQuestion quesId = {quesId} user={user}/>,
     'rankings/:typeofranking':({typeofranking})=><Ranking typeofranking={typeofranking} user={user}/>,
     'questions/:typeofpage*':({typeofpage}) => <TypeOfPageRoutes typeofpage={typeofpage} user={user} />
