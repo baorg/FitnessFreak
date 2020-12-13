@@ -1,9 +1,10 @@
-const { Ques, Ans, User, Tag, Comment } = require("../../Models");
+
 const {getArrayOfAns} = require("./utilis")
 
 
 module.exports.getCommentsByAnswerId = async (req, res) => {
 
+    const { Ques, Ans, User, Tag, Comment } = require("../../Models");
     let data = []
     let err = false;
     try{
@@ -17,8 +18,8 @@ module.exports.getCommentsByAnswerId = async (req, res) => {
             },
         }
         
-        comments = await Comment.find({answerId : answerId}).populate(obj).exec()
-        
+        comments = await Comment.find({answerId : answerId}, "upDown comment answerId userId vote_count").populate(obj).exec()
+        console.log(`COmments = ${comments}`)
         data = getArrayOfAns(comments, "comment"); 
         
         }
