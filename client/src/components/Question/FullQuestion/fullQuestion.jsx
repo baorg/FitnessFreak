@@ -13,6 +13,7 @@ import ajaxRequest from '../../../ajaxRequest';
 import Attachments from './attachments';
 import BookMark from "../../BookMark/MyBookMark";
 import { Spinner } from "react-bootstrap";
+import { A,navigate } from "hookrouter";
 
 
 
@@ -20,10 +21,12 @@ function FullQuestion(props) {
   const [question, setQuestion] = useState(null)
   const [answers, setAnswers] = useState([])
   const [totalCount, setTotalCount] = useState(null);
+  const [satisfactory,setSatisfactory]=useState(false);
   useEffect(() => {
+    console.log("in us eseffec");
     axios.get(`${ENDPOINT}/Question/getQuestions/${props.quesId}`, { withCredentials: true })
       .then(res => {
-        console.log("res.data in Full question= ", res.data);
+        console.log("res.data = ", res.data);
         const obj = { up: res.data.ques.vote_count.upvote, down: res.data.ques.vote_count.downvote }
         setTotalCount(obj);
         setQuestion(res.data.ques);
@@ -35,9 +38,41 @@ function FullQuestion(props) {
         console.log(typeof(res.data));
         setAnswers(res.data.data);
       })
-      
-  }, []);
-
+      if(props.user!==undefined){
+        console.log(props.user)
+        console.log("inside")
+        ajaxRequest("post",`${ENDPOINT}/Question/isQuestionAskedByUser`,{
+          quesId:props.quesId
+        }).then(res=>{
+            if(res.data.err){
+              // navigate("/")
+            }
+            else if(res.data.data){
+              setSatisfactory(true)
+            }
+        })
+      }
+  }, [satisfactory]);
+   function selectedSatisfactoryAnswer(answerId){
+    if (window.confirm("Are you sure you want to mark this answer as the Satisfactory Answer")) {
+      // txt = "You pressed OK!";
+      ajaxRequest("post",`${ENDPOINT}/Question/markAnswer`,{
+        quesId:props.quesId,
+        answerId:answerId
+      }).then(async(res)=>{
+        if(res.data){
+          navigate("/")
+        }
+        else{
+          await setSatisfactory(false);
+          navigate(`/viewFullQuestion/${props.quesId}`)
+        }
+      })
+    } else {
+      // txt = "You pressed Cancel!";
+    }
+    
+  }
     
    
   return question ?
@@ -50,6 +85,7 @@ function FullQuestion(props) {
             <h1 style={{ display: "inline-block" }}>{question.title}</h1>
             <BookMark quesId={props.quesId} user={props.user} />
           </div>
+          <p>Asked by <A href={`/profile/${question.user._id}`}>@{question.user.username}</A></p>
           <div dangerouslySetInnerHTML={{ __html: question.question }} style={{marginTop:"40px"}}></div>
           <br /> <br />
           
@@ -68,7 +104,7 @@ function FullQuestion(props) {
           <br /><br /><br /><br />
           {answers.length !== 0 ? <h4 style={{ marginBottom: "30px" }}>Answers</h4> : <h4>No Answers Yet</h4>}
           {answers.map((el, index) => {
-            return <Answer key={index} answer={el}  user={props.user} />
+            return <Answer key={index} answer={el}  user={props.user} satisfactory={satisfactory} selectedSatisfactoryAnswer={selectedSatisfactoryAnswer}/>
           })}
         </div>
       </div>

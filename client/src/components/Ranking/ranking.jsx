@@ -41,16 +41,19 @@ const Ranking = function(props) {
     <>
       <MyNav user={props.user} />
       <SideNavPage user={props.user}/>
-      <div className="maindivofeverypage" style={{textAlign:"left"}}>
+      <div className="maindivofeverypage">
         <h2>Ranking of {props.typeofranking}</h2>
         <br /><br />
         <div>
             {rank.map((el,index)=>
-              <div style={{textAlign:"left",borderBottom:"2px solid #B8B8B8", padding:"5px"}} className="shiny">
-              <p style={{display:"inline-block",fontSize:"20px" ,paddingRight:"10px"}}>#{index+1}</p>
-              <img src={el.profile_image} style={{height:"50px",borderRadius:"1000px"}} />
+              <div style={{textAlign:"left",borderBottom:"2px solid #B8B8B8", padding:"5px",display:"flex",alignItems:"center"}} className="shiny">
+              <p style={{display:"inline-block",fontSize:"30px" ,paddingRight:"10px"}}>#{index+1}</p>
+              <img src={el.profile_image} style={{height:"70px",borderRadius:"1000px"}} />
+              <div style={{display:"inline-block"}}>
               <A href={`/profile/${el._id}`} style={{fontSize:"20px",padding:"10px",color:"black"}}>{el.username}</A>
-              <p style={{display:"inline-block",fontSize:"20px"}}>: {el.score}</p>
+              <br />
+              <p style={{fontSize:"20px"}}>&nbsp;&nbsp;&nbsp;{props.typeofranking==="Followers"?`Followers : ${(el.score)/4}`:`Score : ${(el.score)}`}</p>
+              </div>
               </div>
             )}
         </div>

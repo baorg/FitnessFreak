@@ -17,7 +17,7 @@ function Following(props) {
         let res = await axios.get(`/following/get-following-list/${props.userId}`, { withCredentials: true });
         // if (res.data.isAuthenticated) {
             if(!res.data.following.length){
-                setDefaultMessage("No Followers Yet")
+                setDefaultMessage("No Following Yet")
             }
             else{
             setfollowingList(res.data.following);

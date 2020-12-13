@@ -38,8 +38,9 @@
     left: 77%;
     z-index: 100;
     background-color: gray;
+    border: 2px solid black;
 }
-.categorybox a{
+.categorybox A{
     color:white;
     font-size: 16px;
     border: 2px solid black;
@@ -51,6 +52,7 @@
     left: 77%;
     z-index: 100;
     background-color: gray;
+    border: 2px solid black;
 }
 .rankingbox a{
     color:white;
