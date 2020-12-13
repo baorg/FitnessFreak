@@ -26,7 +26,7 @@ async function addFollowing(followerId, followeeId) {
             const updateFollowee = await this.updateOne({ _id: followeeId }, { $push: { followers: followerId } }).exec();
             const user = await this.findById(followeeId).exec();
             addScore(user, "totalScore", score.followerGained );
-            addScore(user, "Followers", score.followerGained);
+            addScore(user, "followers", score.followerGained);
             const username = await this.findUserByUserId(followerId)
             user.notifications.push(`${username} has started following you`)
             await user.save();

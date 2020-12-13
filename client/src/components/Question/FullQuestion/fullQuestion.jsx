@@ -13,6 +13,7 @@ import ajaxRequest from '../../../ajaxRequest';
 import Attachments from './attachments';
 import BookMark from "../../BookMark/MyBookMark";
 import { Spinner } from "react-bootstrap";
+import { navigate } from "hookrouter";
 
 
 
@@ -20,10 +21,11 @@ function FullQuestion(props) {
   const [question, setQuestion] = useState(null)
   const [answers, setAnswers] = useState([])
   const [totalCount, setTotalCount] = useState(null);
+  const [satisfactory,setSatisfactory]=useState(false);
   useEffect(() => {
     axios.get(`${ENDPOINT}/Question/getQuestions/${props.quesId}`, { withCredentials: true })
       .then(res => {
-        console.log("res.data in Full question= ", res.data);
+        console.log("res.data = ", res.data);
         const obj = { up: res.data.ques.vote_count.upvote, down: res.data.ques.vote_count.downvote }
         setTotalCount(obj);
         setQuestion(res.data.ques);
@@ -35,9 +37,34 @@ function FullQuestion(props) {
         console.log(typeof(res.data));
         setAnswers(res.data.data);
       })
-      
+      if(props.user!==undefined){
+        console.log("inside")
+        ajaxRequest("post",`${ENDPOINT}/Question/isQuestionAskedByUser`,{
+          quesId:props.quesId
+        }).then(res=>{
+            if(res.data.err){
+              navigate("/")
+            }
+            else if(res.data.data){
+              setSatisfactory(true)
+            }
+        })
+      }
   }, []);
-
+  function selectedSatisfactoryAnswer(answerId){
+    ajaxRequest("post",`${ENDPOINT}/Question/markAnswer`,{
+      quesId:props.quesId,
+      answerId:answerId
+    }).then(res=>{
+      if(res.data){
+        navigate("/")
+      }
+      else{
+        setSatisfactory(false);
+        navigate(`/viewFullQuestion/${props.quesId}`)
+      }
+    })
+  }
     
    
   return question ?
@@ -68,7 +95,7 @@ function FullQuestion(props) {
           <br /><br /><br /><br />
           {answers.length !== 0 ? <h4 style={{ marginBottom: "30px" }}>Answers</h4> : <h4>No Answers Yet</h4>}
           {answers.map((el, index) => {
-            return <Answer key={index} answer={el}  user={props.user} />
+            return <Answer key={index} answer={el}  user={props.user} satisfactory={satisfactory} selectedSatisfactoryAnswer={selectedSatisfactoryAnswer}/>
           })}
         </div>
       </div>

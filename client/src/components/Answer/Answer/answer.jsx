@@ -31,6 +31,7 @@ function Answer(props){
       Answered by <A href={`/profile/${props.answer.user._id}`}>@{props.answer.user.username}</A>
       <div style={{marginTop:"20px"}} dangerouslySetInnerHTML={{__html:props.answer.answer}}></div>
       <UpvoteDownvote quesId = {props.answer._id} isQues = {false} user={props.user} totalCount={totalCount}/>
+      {props.satisfactory?<a onClick={()=>{props.selectedSatisfactoryAnswer(props.answer._id)}}>Mark as Satisfactory</a>:null}
       <hr />
       <div style={{marginLeft:"200px" ,borderLeft:"2px solid #B8B8B8",padding:"20px"}}>
         {comments.length!==0?<h4 style={{marginBottom:"30px"}}>Comments</h4>:null }
