@@ -17,8 +17,14 @@ module.exports.getAnswersByQuesId = async(req, res) => {
         }
 
         const answers = await Ans.find({ quesId: quesId }).populate(obj).exec()
+        const newAnswers = answers.sort((x, y) => {
+            if(x.marked == y.marked)
+            return x.vote_count.upvote > y.vote_count.upvote
+            else
+            return x.marked
+        })
         console.log("answers=", answers);
-        data = getArrayOfAns(answers, "answer");
+        data = getArrayOfAns(newAnswers, "answer");
 
     } catch (err) {
         console.log("err in getting answers");
