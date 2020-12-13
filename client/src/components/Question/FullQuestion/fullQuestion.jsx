@@ -23,7 +23,7 @@ function FullQuestion(props) {
   useEffect(() => {
     axios.get(`${ENDPOINT}/Question/getQuestions/${props.quesId}`, { withCredentials: true })
       .then(res => {
-        console.log("res.data = ", res.data);
+        console.log("res.data in Full question= ", res.data);
         const obj = { up: res.data.ques.vote_count.upvote, down: res.data.ques.vote_count.downvote }
         setTotalCount(obj);
         setQuestion(res.data.ques);

@@ -88,7 +88,8 @@ function getArrayOfAns(answers, name) {
         answer: ans[name],
         user: ans.userId,
         vote_count: ans.vote_count,
-        upDown: ans.upDown
+        upDown: ans.upDown,
+        marked: ans.marked
     }))
 }
 

@@ -25,6 +25,8 @@ router.post("/getAnswersByQuesId", QuestionHandler.getAnswersByQuesId)
 router.post("/getCommentsByAnswerId", QuestionHandler.getCommentsByAnswerId)
 router.get("/getQuestionsCategoryWise/:name", QuestionHandler.getQuestionsCategoryWise);
 router.post("/getAnswersByUserOnly/:quesId",QuestionHandler.getAnswersByUserOnly);
+router.post("/markAnswer", QuestionHandler.markAnswer)
+router.post("/isQuestionAskedByUser", QuestionHandler.isQuestionAskedByUser)
 router.get("/:name", QuestionHandler.getTypeOfQuestionsHandler);
 
 

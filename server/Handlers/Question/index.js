@@ -20,6 +20,7 @@ const {getAnswersByQuesId} = require("./getAnswersByQuesId");
 const {getCommentsByAnswerId } = require("./getCommentsByAnswerId");
 const {getQuestionsCategoryWise } = require("./getQuestionsCategoryWise");
 const {getAnswersByUserOnly} = require("./getAnswersByUserOnly");
+const {markAnswer, isQuestionAskedByUser} = require("./markAnswer")
 module.exports = {
     getOneQuestionHandler,
     getQuestionsHandler,
@@ -39,5 +40,7 @@ module.exports = {
     getAnswersByQuesId,
     getCommentsByAnswerId,
     getQuestionsCategoryWise,
-    getAnswersByUserOnly
+    getAnswersByUserOnly,
+    markAnswer,
+    isQuestionAskedByUser
 }
