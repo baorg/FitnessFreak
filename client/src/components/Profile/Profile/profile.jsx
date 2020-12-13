@@ -60,7 +60,20 @@ function Profile(props){
             <SideNavBar type="profile" profileid={profileUser._id} user={props.user} />
                 <div className="maindivofeverypage" >
                     <img src={profileUser.profile_image || AnonymousUser.profile_image} alt="profilepic" className="profilepic"></img>
-                    <h1>{profileUser.username}</h1>
+                <h1>{profileUser.username}</h1>
+                {
+                    props.user == undefined ? <></> : (props.user._id === profileUser._id ? <Button variant="primary" onClick={() => { navigate('/update-profile');}}>Edit Profile</Button>:(isFollowing ?
+                            <PersonAddDisabledIcon onClick={handleUnfollow}/>
+                            : <PersonAddIcon onClick={handleFollow} />)
+                        )
+                }
+                
+                <h5> <small>First Name</small>&nbsp; {profileUser.first_name}</h5>
+                <h5> <small>Last Name</small> &nbsp; {profileUser.last_name}</h5>
+                <br/><hr />
+                <h4>Bio</h4>
+                <p>{profileUser.bio} </p>
+                <hr/>
                     {/* {props.user && profileUser._id === props.user._id ?
                         <button>Edit Profile</button> :
                         (props.user===null?null:
@@ -69,12 +82,7 @@ function Profile(props){
                             : <PersonAddIcon onClick={handleFollow} />)
                         )
                     } */}
-                    {
-                        props.user==undefined?<></>:(props.user._id===profileUser._id?<Button variant="primary">Edit Profile</Button>:(isFollowing ?
-                            <PersonAddDisabledIcon onClick={handleUnfollow}/>
-                            : <PersonAddIcon onClick={handleFollow} />)
-                        )
-                    }
+                    
                 </div>
         </>
     ) : <Spinner />;

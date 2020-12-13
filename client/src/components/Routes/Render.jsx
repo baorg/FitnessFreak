@@ -4,13 +4,11 @@ import Auth from "../Auth";
 import Feed from "./feed";
 import {HTML404 } from '../ErrorPage/Error';
 import FullQuestion from "../Question/FullQuestion/fullQuestion"
-import FirstTimeSetup from "../FirstTimeSetup/firstTimeSetup";
 
 function getRoutes() {
   return {
     '/auth*': () =>  <Auth/>,
     // '/viewFullQuestion/:quesId' :({quesId}) => <FullQuestion quesId = {quesId} />,
-    '/first-time-setup' : () => <FirstTimeSetup />,
     '/*' : () => <Feed />,
   }
 }

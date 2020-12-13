@@ -18,6 +18,7 @@ function getStrategy() {
                     let username = await User.getUniqueUsername(profile._json.name);
 
                     user = new User({
+                        google_id: profile.id,
                         username: username,
                         profile_image: profile._json.picture,
                         first_name: profile._json.given_name,
@@ -26,8 +27,9 @@ function getStrategy() {
                             access_token: accessToken,
                             refresh_token: refreshToken,
                             setup: true
-                        }
+                        },
                     });
+
                     await user.save();
                 }
                 return cb(null, user);
