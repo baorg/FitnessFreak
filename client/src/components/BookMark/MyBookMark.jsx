@@ -1,5 +1,5 @@
-import React,{useState,useEffect,useRef} from "react"
-import axios from "axios"
+import React, { useState, useEffect } from "react"
+
 import CONFIG from '../../config.json';
 
 import '../styles.css'
@@ -8,8 +8,8 @@ import BookmarkIcon from '@material-ui/icons/Bookmark';
 import axiosCall from "../../ajaxRequest";
 import { navigate } from "hookrouter";
 import notLoggedIn from "../../notloggedin";
-import BookmarkBorderOutlinedIcon from '@material-ui/icons/BookmarkBorderOutlined';
-import BookmarkOutlinedIcon from '@material-ui/icons/BookmarkOutlined';
+// import BookmarkBorderOutlinedIcon from '@material-ui/icons/BookmarkBorderOutlined';
+// import BookmarkOutlinedIcon from '@material-ui/icons/BookmarkOutlined';
 
 const BookMark = function(props){
 
@@ -23,7 +23,7 @@ const BookMark = function(props){
           console.log("isMarked = ", res.data)
           setMarked(res.data.marked)
         })
-      }, []);
+      }, [ props.quesId ]);
 
     function saveBookMark(){
 

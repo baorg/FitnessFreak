@@ -1,4 +1,4 @@
-import React, { useState,useRef,useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import {A, navigate } from 'hookrouter';
 import './sideNav.css'
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
@@ -52,7 +52,7 @@ const SideNavBar = function(props) {
     </div>
     :<div>
         <A href="" onClick={props.user===undefined?notLoggedIn:()=>navigate("/post-question")}>Add Question</A>
-        <a  style={{display: "inline-block"}} onMouseOver={hover} onMouseOut={unhover}>Categories <ArrowRightIcon /></a>
+        <a style={{display: "inline-block"}} onMouseOver={hover} onMouseOut={unhover} href="#">Categories <ArrowRightIcon /></a>
         <div className="categorybox" onMouseOver={hover} onMouseOut={unhover}>
           {categories.map((el,index)=><A key={index} href={`/questions/category/${el}`}>{el}</A>)}
         </div>

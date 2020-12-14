@@ -3,8 +3,6 @@ import MyNav from "../Navigation/navbar/navbar"
 import SideNavPage from "../Navigation/SideNav/SideNav";
 import '../styles.css'
 import Question from "../Question/Question/ques";
-import axios from "axios";
-import { navigate } from 'hookrouter';
 import axiosCall from '../../ajaxRequest';
 import Spinner from 'react-bootstrap/Spinner'
 import { Button } from '@material-ui/core'
@@ -18,7 +16,7 @@ const App = function(props) {
   const [hasMore, setHasMore] = useState(true);
 
   async function refreshFeed(event) {
-    let refresh_res = await axiosCall('POST', `${CONFIG.API_DOMAIN}/feed/refresh-feed`);
+    await axiosCall('POST', `${CONFIG.API_DOMAIN}/feed/refresh-feed`);
     setFeed({questions:[], current_page: 0});
     setHasMore(true);
   }
@@ -53,7 +51,7 @@ const App = function(props) {
           >
             {feed.questions.map(question => <Question key={question._id} question={question} />)}
           </InfiniteScroll>
-          {hasMore == false &&
+          {hasMore === false &&
             <p style={{ textAlign: 'center' }}>
               <b>Yay! You have seen it all</b>
               <br/>

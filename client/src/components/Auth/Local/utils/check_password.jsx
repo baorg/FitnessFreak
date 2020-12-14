@@ -2,7 +2,7 @@ export default function Password(props) {
 
     async function handlePasswordChange(event) {
         let pass2 = event.target.value;
-        if (props.password1.value.length == 0) {
+        if (props.password1.value.length === 0) {
             document.getElementById('password-check').style.borderColor = "red";
             props.setPassword2({ value: "", error: null });
         }

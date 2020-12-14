@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from "react"
-import {navigate, A } from 'hookrouter';
+import { A } from 'hookrouter';
 import UpvoteDownvote from "../../UpvoteDownvote/upvoteDownvote";
 import Comment from '../../Comment/Comment/comment';
 import '../../styles.css'
@@ -26,8 +26,7 @@ function Answer(props){
             console.log(typeof(res.data));
             setComments(res.data.data);
           })
-          
-      }, []);
+      }, [ props.answer, ]);
     return (
     <div style={{marginBottom:"20px",borderBottom:"2px solid #B8B8B8", padding:"10px"}}  >
       {props.answer.marked?<VerifiedUserIcon style={{color:"green"}}/>:null}

@@ -1,14 +1,14 @@
-import React,{useState,useEffect,useRef} from "react"
+import React,{useState,useEffect } from "react"
 import axios from "axios"
 import Answer from "../../Answer/Answer/answer";
-import PostAnswer from "../../Answer/PostAnswer/postAnswer";
+// import PostAnswer from "../../Answer/PostAnswer/postAnswer";
 import UpvoteDownvote from "../../UpvoteDownvote/upvoteDownvote";
 import MyNav from "../../Navigation/navbar/navbar";
 import SideNavBar from "../../Navigation/SideNav/SideNav";
 import '../../styles.css'
 import './style.css'
 import ajaxRequest from '../../../ajaxRequest';
-import {A, navigate } from 'hookrouter'
+import { navigate } from 'hookrouter'
 import Attachments from './attachments';
 import BookMark from "../../BookMark/MyBookMark";
 import { Spinner } from "react-bootstrap";

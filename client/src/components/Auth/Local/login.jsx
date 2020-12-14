@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { navigate } from 'hookrouter';
 import ajaxRequest from '../../../ajaxRequest'
 import CONFIG from '../../../config.json'
@@ -17,7 +17,7 @@ export default function Login(props) {
 
     async function handleSubmit(event) {
         event.preventDefault();
-        let res = ajaxRequest(
+        ajaxRequest(
             'POST',
             CONFIG.API_DOMAIN + '/auth/local/login',
             {
@@ -31,9 +31,9 @@ export default function Login(props) {
                 navigate('/');
             } else {
                 res.data.errors.forEach(err => {
-                    if (err.param == 'username')
+                    if (err.param === 'username')
                         setUserName({ value: userName.value, error: err.msg });
-                    else if (err.param == 'password')
+                    else if (err.param === 'password')
                         setPassword({ value: password.value, error: err.msg });
                 });
             }

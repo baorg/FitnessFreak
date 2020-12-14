@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React  from "react"
 import UpvoteDownvote from "../../UpvoteDownvote/upvoteDownvote";
 import '../../styles.css'
 import {A} from 'hookrouter';

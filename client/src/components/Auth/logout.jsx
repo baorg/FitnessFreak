@@ -1,15 +1,17 @@
-import react, {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import ajaxRequest from '../../ajaxRequest';
 import CONFIG from '../../config.json';
 
 function LogOut(props) {
     const [loggedout, setLoggedOut] = useState(false);
 
-    useEffect(async () => {
-        const res = await ajaxRequest('get', `${CONFIG.API_DOMAIN}/auth/logout`);
-        console.log("Res: ", res);
-        if (res.data.loggedout)
-            setLoggedOut(true);
+    useEffect(() => {
+        (async function () {
+            const res = await ajaxRequest('get', `${CONFIG.API_DOMAIN}/auth/logout`);
+            console.log("Res: ", res);
+            if (res.data.loggedout)
+                setLoggedOut(true);
+        })();
     },[]);
 
     return (

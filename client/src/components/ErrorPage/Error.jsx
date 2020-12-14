@@ -1,6 +1,5 @@
 import React from 'react';
 import './style.css';
-import { A } from 'hookrouter';
 
 function HTML404() {
     return (
