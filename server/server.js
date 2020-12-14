@@ -13,7 +13,6 @@ const path = require('path');
 // const passportRouter = require("./passport/routes/authRoutes");
 const logging = require("./Middlewares").logging;
 
-
 const app = express();
 app.use(logging);
 
@@ -62,6 +61,6 @@ app.use(logging);
 
 
     await app.listen(PORT, function() {
-        console.log(`server is up and running on port ${PORT}`);
+        console.log(`server is up and running on port ${PORT} on ${process.env.NODE_ENV} enviroment.`);
     });
 })();
