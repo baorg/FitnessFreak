@@ -1,13 +1,15 @@
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const findOrCreate = require("mongoose-findorcreate");
-const googleKey = require('../../../config').key;
 const User = require("../../../Models").User;
+const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, API_DOMAIN } = require('../../../config');
 
 function getStrategy() {
+    const google_callback_url = `${API_DOMAIN}/auth/google/callback`;
+
     const googleStrategy = new GoogleStrategy({
-            clientID: googleKey.googleClientID,
-            clientSecret: googleKey.googleClientSecret,
-            callbackURL: `${process.env.API_DOMAIN}/auth/google/callback`,
+            clientID: GOOGLE_CLIENT_ID,
+            clientSecret: GOOGLE_CLIENT_SECRET,
+            callbackURL: google_callback_url,
         },
         async(accessToken, refreshToken, profile, cb) => {
             // console.log(accessToken, refreshToken);

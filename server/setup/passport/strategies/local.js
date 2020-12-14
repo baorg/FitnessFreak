@@ -1,7 +1,6 @@
 const findOrCreate = require("mongoose-findorcreate");
 const LocalStrategy = require("passport-local").Strategy;
 
-const keys = require('../../../config/key');
 const User = require("../../../Models").User;
 
 function getStrategy() {

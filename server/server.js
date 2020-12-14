@@ -8,6 +8,8 @@ const mongoose = require('mongoose');
 const MongoStore = require("connect-mongo")(session);
 const cors = require("cors");
 const Router = require('./Routers');
+const path = require('path');
+
 // const passportRouter = require("./passport/routes/authRoutes");
 const logging = require("./Middlewares").logging;
 
@@ -49,6 +51,11 @@ app.use(logging);
     );
 
     app.use(Router);
+    if (process.env.NODE_ENV === 'production') {
+        console.log('Running production build');
+        app.use(express.static(path.join(path.dirname(path.dirname(__filename)), 'client', 'build')));
+    }
+
     app.get('/', (req, res) => {
         res.send("Server is Up and Running")
     });
