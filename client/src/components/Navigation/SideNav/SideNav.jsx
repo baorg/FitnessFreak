@@ -2,16 +2,17 @@ import React, { useState, useEffect } from "react"
 import {A, navigate } from 'hookrouter';
 import './sideNav.css'
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
-import { ENDPOINT } from "../../utils";
 import axiosCall from '../../../ajaxRequest'
 import notLoggedIn from '../../../notloggedin'
+
+import CONFIG from '../../../config.json';
 
 
 const SideNavBar = function(props) {
     const [categories,setCategories]=useState([]);
     const [ranking,setRanking]=useState([]);
     useEffect(() => {
-      let url=`${ENDPOINT}/Question/getCategory`
+      let url=`${CONFIG.API_DOMAIN}/Question/getCategory`
       async function fun(){
       await axiosCall('GET', url)
             .then(function (resp) {

@@ -8,7 +8,7 @@ import Spinner from 'react-bootstrap/Spinner'
 import { Button } from '@material-ui/core'
 import InfiniteScroll from 'react-infinite-scroller';
 
-import CONFIG from '../../../config.json';
+import CONFIG from '../../config.json';
 
 
 const App = function(props) {

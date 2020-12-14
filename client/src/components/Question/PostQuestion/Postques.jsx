@@ -15,7 +15,7 @@ import ajaxRequest from '../../../ajaxRequest';
 import axiosCall from '../../../ajaxRequest';
 import { navigate } from "hookrouter";
 
-import CONFIG from '../../config.json';
+import CONFIG from '../../../config.json';
 
 
 function PostQuestion(props){

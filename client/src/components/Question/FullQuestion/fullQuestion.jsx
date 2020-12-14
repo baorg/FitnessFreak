@@ -14,7 +14,7 @@ import BookMark from "../../BookMark/MyBookMark";
 import { Spinner } from "react-bootstrap";
 import { A,navigate } from "hookrouter";
 
-import CONFIG from '../../config.json';
+import CONFIG from '../../../config.json';
 
 function FullQuestion(props) {
   const [question, setQuestion] = useState(null)
