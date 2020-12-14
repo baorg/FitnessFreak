@@ -3,7 +3,6 @@ import MyNav from "../Navigation/navbar/navbar"
 import SideNavPage from "../Navigation/SideNav/SideNav";
 import '../styles.css'
 import Question from "../Question/Question/ques";
-import { ENDPOINT } from "../utils";
 import axios from "axios";
 import { navigate } from 'hookrouter';
 import axiosCall from '../../ajaxRequest';
@@ -11,19 +10,22 @@ import Spinner from 'react-bootstrap/Spinner'
 import { Button } from '@material-ui/core'
 import InfiniteScroll from 'react-infinite-scroller';
 
+import CONFIG from '../../../config.json';
+
+
 const App = function(props) {
   const [feed, setFeed] = useState({questions:[], current_page: 0 });
   const [hasMore, setHasMore] = useState(true);
 
   async function refreshFeed(event) {
-    let refresh_res = await axiosCall('POST', `${ENDPOINT}/feed/refresh-feed`);
+    let refresh_res = await axiosCall('POST', `${CONFIG.API_DOMAIN}/feed/refresh-feed`);
     setFeed({questions:[], current_page: 0});
     setHasMore(true);
   }
   
   async function handleLoadMore(page_) {
     let page = feed.current_page+1;
-    let newQuestions = await axiosCall('GET', `${ENDPOINT}/feed/get-feed?page=${page}`);
+    let newQuestions = await axiosCall('GET', `${CONFIG.API_DOMAIN}/feed/get-feed?page=${page}`);
     if (newQuestions.data.questions.length > 0) {
       return setFeed({
         questions: feed.questions.concat(newQuestions.data.questions),

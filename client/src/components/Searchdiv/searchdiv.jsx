@@ -1,10 +1,10 @@
 import React,{useState} from "react";
 import { FormControl } from "react-bootstrap";
 import axiosCall from "../../ajaxRequest"
-import { ENDPOINT } from "../utils";
 import {navigate} from "hookrouter";
 import './searchdiv.css';
 
+import CONFIG from '../../config.json';
 
 function Searchdiv(props){
     const [searchTag, setSearchTag] = useState("");
@@ -30,7 +30,7 @@ function Searchdiv(props){
             else
                 setFilterArr(newArr);
         }else if(props.type==="Search for User"){
-            let url = `${ENDPOINT}/Users/searchusers`;
+            let url = `${CONFIG.API_DOMAIN}/Users/searchusers`;
             let obj={username:x}
             // console.log(obj)
             if(x==="")

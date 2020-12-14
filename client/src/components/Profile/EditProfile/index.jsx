@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { navigate } from 'hookrouter';
 import ajaxRequest from '../../../ajaxRequest';
+import CONFIG from '../../../config.json';
 
 const styleClasses = {
     cover_div: {
@@ -25,7 +26,7 @@ const EditProfile = () => {
     const [bio, setBio] = useState('');
 
     useEffect(async () => {
-        let user_data = (await ajaxRequest('GET', `http://localhost:5000/Users/get-userdata/`)).data.user;
+        let user_data = (await ajaxRequest('GET', `${CONFIG.API_DOMAIN}/Users/get-userdata/`)).data.user;
         setFirstName(user_data.first_name || '');
         setLastName(user_data.last_name || '');
         setBio(user_data.bio || '');
@@ -33,7 +34,7 @@ const EditProfile = () => {
     }, []);
 
     async function submit() {
-        let data = (await ajaxRequest('POST', `http://localhost:5000/Users/update-profile`,
+        let data = (await ajaxRequest('POST', `${CONFIG.API_DOMAIN}/Users/update-profile`,
             {
                 first_name: firstName,
                 last_name: lastName,

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import ajaxRequest from '../../../ajaxRequest'
-import { API_DOMAIN } from '../../../config';
+import CONFIG from '../../../config.json'
+
 import { Name, Password, PasswordCheck, Email } from './utils';
 
 export default function Register(props) {
@@ -25,7 +26,7 @@ export default function Register(props) {
         event.preventDefault();
         let res = ajaxRequest(
             'POST',
-            API_DOMAIN + '/auth/local/register',
+            CONFIG.API_DOMAIN + '/auth/local/register',
             {
                 username: userName.value,
                 firstname: firstName.value,

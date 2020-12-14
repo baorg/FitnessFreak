@@ -1,6 +1,7 @@
 import React,{useState,useEffect,useRef} from "react"
 import axios from "axios"
-import { ENDPOINT } from "../utils";
+import CONFIG from '../../config.json';
+
 import '../styles.css'
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
@@ -15,7 +16,7 @@ const BookMark = function(props){
     const [marked, setMarked] = useState(false)
 
     useEffect(() => {
-        axiosCall('post', `${ENDPOINT}/Question/isBookMarked`, {quesId : props.quesId})
+        axiosCall('post', `${CONFIG.API_DOMAIN}/Question/isBookMarked`, {quesId : props.quesId})
         .then((res) => {
           if(res.data.err)
             navigate("/")
@@ -26,7 +27,7 @@ const BookMark = function(props){
 
     function saveBookMark(){
 
-        axiosCall('post', `${ENDPOINT}/Question/saveBookMark`, {quesId : props.quesId})
+        axiosCall('post', `${CONFIG.API_DOMAIN}/Question/saveBookMark`, {quesId : props.quesId})
         .then((res) => {
           if(res.data.err)
             navigate("/")

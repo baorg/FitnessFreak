@@ -24,7 +24,7 @@ function Question(props) {
                 ))}
             </div>
             <div> - {timeAgo.format(new Date(props.question.posted_at))}</div>
-            <A href={`/profile/${props.question.user.userId}`}>- @{props.question.user.username}</A>
+            <A href={`/profile/${props.question.user._id || props.question.user.userId}`}>- @{props.question.user.username}</A>
             <br/><hr/>
         </div>
     );

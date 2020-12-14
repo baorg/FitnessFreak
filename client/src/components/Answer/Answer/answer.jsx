@@ -5,9 +5,10 @@ import Comment from '../../Comment/Comment/comment';
 import '../../styles.css'
 import PostComment from "../../Comment/PostComment/postcomment";
 import ajaxRequest from '../../../ajaxRequest';
-import { ENDPOINT } from "../../utils";
 import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
 import DoneIcon from '@material-ui/icons/Done';
+
+import CONFIG from '../../../config.json';
 
 function Answer(props){
     // const [click, setClick] = useState(false);
@@ -18,7 +19,7 @@ function Answer(props){
     useEffect(() => {
       const obj = { up: props.answer.vote_count.upvote, down: props.answer.vote_count.downvote }
       setTotalCount(obj);
-        ajaxRequest("post", `${ENDPOINT}/Question/getCommentsByAnswerId`, {
+        ajaxRequest("post", `${CONFIG.API_DOMAIN}/Question/getCommentsByAnswerId`, {
             answerId:props.answer._id
           }).then(res=>{
             console.log(res.data);

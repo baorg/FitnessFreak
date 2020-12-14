@@ -1,10 +1,12 @@
 import React,{useState,useEffect, useRef} from "react"
-import { ENDPOINT } from "../utils";
 import axiosCall from "../../ajaxRequest"
 import {navigate} from "hookrouter"
 import notLoggedIn from "../../notloggedin";
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
+import CONFIG from '../../config.json';
+
 
 const UpvoteDownvote = (props) =>{
 
@@ -15,7 +17,7 @@ const [down,setDown]=useState(false);
 const totalUpRef=useRef(null);
 const totalDownRef=useRef(null);
 useEffect(() => {
-    axiosCall('post', `${ENDPOINT}/Question/votes/byUser`, {quesId : props.quesId, isQues : props.isQues})
+    axiosCall('post', `${CONFIG.API_DOMAIN}/Question/votes/byUser`, {quesId : props.quesId, isQues : props.isQues})
       .then(res => {
         console.log("upvotedata = " ,res.data);
         if(res.data.upvote)
@@ -47,7 +49,7 @@ function upvoted(){
      
     //if(!up===true) axios call to add upvote 
     //else axios call to remove upvote
-    axiosCall('post', `${ENDPOINT}/Question/votes/editVote`, {quesId : props.quesId, up : !up, isQues : props.isQues})
+    axiosCall('post', `${CONFIG.API_DOMAIN}/Question/votes/editVote`, {quesId : props.quesId, up : !up, isQues : props.isQues})
       .then(() => {
         // setUp false in downvoted function ensures that whatever is the state of upvote whether clicked or unclicked
         // so that we always downvote if downvote button gets clicked.
@@ -87,7 +89,7 @@ function downvoted(){
     
     //if(!down===true) axios call to add downvote 
     //else axios call to remove downvote
-    axiosCall('post', `${ENDPOINT}/Question/votes/editVote`, {quesId : props.quesId, down : !down,isQues : props.isQues})
+    axiosCall('post', `${CONFIG.API_DOMAIN}/Question/votes/editVote`, {quesId : props.quesId, down : !down,isQues : props.isQues})
       .then(() => {
           // same as above
           setUp(false)

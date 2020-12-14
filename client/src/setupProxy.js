@@ -1,7 +1,8 @@
-const { createProxyMiddleware } = require('http-proxy-middleware');
+const CONFIG = require('./config.json');
 
+const { createProxyMiddleware } = require('http-proxy-middleware');
 const obj = {
-    target: 'http://localhost:5000',
+    target: CONFIG.API_DOMAIN,
     changeOrigin: true,
 };
 

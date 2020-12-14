@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react"
 import { navigate } from 'hookrouter';
 import ajaxRequest from '../../../ajaxRequest'
-import { API_DOMAIN } from '../../../config';
+import CONFIG from '../../../config.json'
+
 import { Name, Password } from './utils';
 
 
@@ -18,7 +19,7 @@ export default function Login(props) {
         event.preventDefault();
         let res = ajaxRequest(
             'POST',
-            API_DOMAIN + '/auth/local/login',
+            CONFIG.API_DOMAIN + '/auth/local/login',
             {
                 username: userName.value,
                 password: password.value,

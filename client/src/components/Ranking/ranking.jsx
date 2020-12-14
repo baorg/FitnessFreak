@@ -2,10 +2,11 @@ import React, { useState,useRef,useEffect } from "react"
 import MyNav from "../Navigation/navbar/navbar"
 import SideNavPage from "../Navigation/SideNav/SideNav";
 import '../styles.css'
-import { ENDPOINT } from "../utils";
 import axios from "axios";
 import { A,navigate } from 'hookrouter';
 import axiosCall from "../../ajaxRequest";
+
+import CONFIG from '../../config.json';
 
 const Ranking = function(props) {
 
@@ -13,7 +14,7 @@ const Ranking = function(props) {
 
   useEffect(() => {
     //axios call
-    let url=`${ENDPOINT}/Rank/ByCategory/`;
+    let url=`${CONFIG.API_DOMAIN}/Rank/ByCategory/`;
     console.log("Calling resOfTypeOfpage");
     console.log("typeogPage = ", props.typeofranking)
     if(props.typeofranking==="Total")
