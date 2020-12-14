@@ -4,8 +4,8 @@ const AdminBroExpressjs = require("@admin-bro/express");
 const Resources = require('./AdminBroResources');
 
 const ADMIN = {
-    email: 'test@example.com',
-    password: 'password',
+    email: process.env.ADMIN_BRO_EMAIL,
+    password: process.env.ADMIN_BRO_PASSWORD,
 }
 
 async function setup(app, connection) {

@@ -1,11 +1,10 @@
+require('dotenv').config();
 const express = require("express");
 const session = require("express-session");
 const bodyParser = require("body-parser");
 const passport = require("passport");
 const { mongooseSetup, passportSetup, adminbroSetup } = require('./setup');
 const mongoose = require('mongoose');
-require('dotenv').config();
-
 const MongoStore = require("connect-mongo")(session);
 const cors = require("cors");
 const Router = require('./Routers');

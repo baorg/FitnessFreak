@@ -7,7 +7,7 @@ function getStrategy() {
     const googleStrategy = new GoogleStrategy({
             clientID: googleKey.googleClientID,
             clientSecret: googleKey.googleClientSecret,
-            callbackURL: `${process.env.API_DOMAIN}/auth/google/callback`;
+            callbackURL: `${process.env.API_DOMAIN}/auth/google/callback`,
         },
         async(accessToken, refreshToken, profile, cb) => {
             // console.log(accessToken, refreshToken);
