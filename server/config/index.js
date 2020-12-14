@@ -1,7 +1,15 @@
-module.exports = {
-    CLIENT_DOMAIN: process.env.CLIENT_DOMAIN,
-    API_DOMAIN: process.env.API_DOMAIN,
-    key: require('./key'),
-    category: require('./category').category,
-    score: require('./score').score
+const BASE_CONFIG = require('./base');
+const LOCAL_CONFIG = require('./local');
+const PRODUCTION_CONFIG = require('./production');
+
+if (process.env.NODE_ENV === 'production') {
+    module.exports = {
+        ...BASE_CONFIG,
+        ...PRODUCTION_CONFIG
+    }
+} else {
+    module.exports = {
+        ...BASE_CONFIG,
+        ...LOCAL_CONFIG
+    }
 }

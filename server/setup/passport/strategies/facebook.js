@@ -2,12 +2,15 @@ const FacebookStrategy = require("passport-facebook").Strategy;
 const findOrCreate = require("mongoose-findorcreate");
 const { User } = require("../../../Models");
 
-const facebook_callback = `${process.env.API_DOMAIN}/auth/facebook/callback`;
+const { FACEBOOK_APP_ID, FACEBOOK_APP_SECRET, API_DOMAIN } = require('../../../config');
+
 
 function getStrategy() {
+    const facebook_callback = `${API_DOMAIN}/auth/facebook/callback`;
+
     const facebookStrategy = new FacebookStrategy({
-            clientID: process.env.FACEBOOK_APP_ID,
-            clientSecret: process.env.FACEBOOK_APP_SECRET,
+            clientID: FACEBOOK_APP_ID,
+            clientSecret: FACEBOOK_APP_SECRET,
             callbackURL: facebook_callback,
             enableProof: true,
             profileFields: ['id', 'displayName', 'photos', 'email']
