@@ -51,10 +51,10 @@ app.use(logging);
     );
 
     app.use(Router);
-    if (process.env.NODE_ENV === 'production') {
-        console.log('Running production build');
-        app.use(express.static(path.join(path.dirname(path.dirname(__filename)), 'client', 'build')));
-    }
+    // if (process.env.NODE_ENV === 'production') {
+    //     console.log('Running production build');
+    //     app.use(express.static(path.join(path.dirname(path.dirname(__filename)), 'client', 'build')));
+    // }
 
     app.get('/', (req, res) => {
         res.send("Server is Up and Running")
