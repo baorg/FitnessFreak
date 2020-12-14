@@ -1,5 +1,4 @@
 import React,{useState} from "react"
-import { ENDPOINT } from "../../utils";
 import axiosCall from "../../../ajaxRequest"
 import {navigate} from "hookrouter"
 import notLoggedIn from "../../../notloggedin";
@@ -7,12 +6,14 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { Button } from 'react-bootstrap'
 
+import CONFIG from '../../../config.json';
+
 const PostAnswer = (props) => {
     // const [answer, setAnswer] = useState("")
     const [editorData, setEditorData] = useState("");
     function postAnswer(e){
         e.preventDefault();
-        const url = `${ENDPOINT}/Question/postAnswer`;
+        const url = `${CONFIG.API_DOMAIN}/Question/postAnswer`;
         const obj = {
             quesId : props.id,
             answer : editorData

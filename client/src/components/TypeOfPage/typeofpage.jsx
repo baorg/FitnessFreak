@@ -3,12 +3,13 @@ import MyNav from "../Navigation/navbar/navbar"
 import SideNavPage from "../Navigation/SideNav/SideNav";
 import '../styles.css'
 import Question from "../Question/Question/ques";
-import { ENDPOINT } from "../utils";
 import axios from "axios";
 import { navigate } from 'hookrouter';
 import axiosCall from "../../ajaxRequest";
 import InfiniteScroll from 'react-infinite-scroller';
 import Spinner from 'react-bootstrap/Spinner'
+
+import CONFIG from '../../config.json';
 
 
 const TypeOfPage = function(props) {
@@ -18,9 +19,9 @@ const TypeOfPage = function(props) {
   async function handleLoadMore(page_) {
     let url;
     if(props.categoryname)
-    url=`${ENDPOINT}/Question/getQuestionsCategoryWise/${props.categoryname}`;
+    url=`${CONFIG.API_DOMAIN}/Question/getQuestionsCategoryWise/${props.categoryname}`;
     else
-    url=`${ENDPOINT}/Question/${props.typeofpage}`
+    url=`${CONFIG.API_DOMAIN}/Question/${props.typeofpage}`
     let newQuestions = await axios.get(`${url}?page=${page_}`, { withCredentials: true })
     if(newQuestions.data.err){
       navigate("/");

@@ -3,15 +3,16 @@ import '../styles.css'
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import './notification.css'
 import axiosCall from '../../ajaxRequest' 
-import {ENDPOINT} from '../utils';
 import {navigate} from 'hookrouter'
+
+import CONFIG from '../../config.json';
 
 const Notification = function(props){
 
     // let arr=["liked","subscribed"];
     const [noti,setNoti]=useState([]);
     useEffect(() => {
-        axiosCall('get', `${ENDPOINT}/Question/getNotifications`)
+        axiosCall('get', `${CONFIG.API_DOMAIN}/Question/getNotifications`)
         .then((res) => {
           if(res.data.err)
             navigate("/")

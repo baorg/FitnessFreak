@@ -3,14 +3,16 @@ import MyNav from "../../Navigation/navbar/navbar"
 import SideNavPage from "../../Navigation/SideNav/SideNav";
 import '../../styles.css'
 import Question from "../../Question/Question/ques";
-import { ENDPOINT } from "../../utils";
 import axios from "axios";
 import {A, navigate } from 'hookrouter';
 import axiosCall from "../../../ajaxRequest";
 import SentimentVeryDissatisfiedIcon from '@material-ui/icons/SentimentVeryDissatisfied';
 import { Spinner } from "react-bootstrap";  
 
-const ProfilePrivileges = function(props) {
+import CONFIG from '../../../config.json';
+
+
+const ProfilePrivileges = function (props) {
 
   const [ques, setQues] = useState([]);
   const [type,setType]=useState("");
@@ -19,7 +21,7 @@ const ProfilePrivileges = function(props) {
 
   useEffect(() => {
     //axios call
-    let url=`${ENDPOINT}/Question/profilePrivileges/`;
+    let url=`${CONFIG.API_DOMAIN}/Question/profilePrivileges/`;
     
     // console.log("props=",props.user)
     // console.log("props2=",props.userID)
@@ -39,7 +41,7 @@ const ProfilePrivileges = function(props) {
           }
         //  console.log(res.data.question);
   })
-  let url2=`${ENDPOINT}/Users/get-userdata-id`
+  let url2=`${CONFIG.API_DOMAIN}/Users/get-userdata-id`
     axiosCall('post', url2, {user_id: props.userId})
       .then((res) => {
         // console.log("resOfTypeOfpage = ", res.data)

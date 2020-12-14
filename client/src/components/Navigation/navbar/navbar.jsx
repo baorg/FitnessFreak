@@ -3,17 +3,18 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import {
   Navbar,
   Nav,
-  NavDropdown,
+  // NavDropdown,
   Form,
-  FormControl,
+  // FormControl,
   Button,
-  CloseButton
+  // CloseButton
 } from "react-bootstrap";
 import './navbar.css'
-import {ENDPOINT} from '../../utils'
 import { A, navigate } from 'hookrouter';
 import Searchdiv from "../../Searchdiv/searchdiv";
 import Notification from "../../Notification/notification";
+
+import CONFIG from '../../../config.json';
 
 const MyNav = function(props) {
 
@@ -70,7 +71,7 @@ const MyNav = function(props) {
                 {/* <h4 style={{display:"inline-block"}}></h4> */}
                 {props.user.username}
               </Button>
-              <Button variant="danger" className="mx-1" onClick={() => navigate(`${ENDPOINT}/auth/logout`)} >
+              <Button variant="danger" className="mx-1" onClick={() => navigate(`${CONFIG.CLIENT_DOMAIN}/auth/logout`)} >
                 Logout
               </Button>
             </div> :

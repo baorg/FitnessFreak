@@ -12,10 +12,10 @@ import { Button } from '@material-ui/core';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import ajaxRequest from '../../../ajaxRequest';
-import { API_DOMAIN } from '../../../config';
-import { ENDPOINT } from "../../utils";
 import axiosCall from '../../../ajaxRequest';
 import { navigate } from "hookrouter";
+
+import CONFIG from '../../config.json';
 
 
 function PostQuestion(props){
@@ -37,7 +37,7 @@ function PostQuestion(props){
 
 
   useEffect(async () => {
-    let url = `${ENDPOINT}/Question/getCategory`
+    let url = `${CONFIG.API_DOMAIN}/Question/getCategory`
     let resp = await axiosCall('GET', url);
     // console.log("RESP: ", resp.data.map(val=>({name: val, selected: false})));
     setCategories(resp.data.map(val => ({ name: val, selected: false })));
@@ -96,7 +96,7 @@ function PostQuestion(props){
       } else {
         let formData = new FormData();
         formData.append('file', images[i].file);
-        let res = await fetch('http://localhost:5000/upload/image-upload', {
+        let res = await fetch(`${CONFIG.API_DOMAIN}/upload/image-upload`, {
           method: 'POST',
           body: formData,
           credentials: 'include'
@@ -123,7 +123,7 @@ function PostQuestion(props){
       }
     }
 
-    let res = await ajaxRequest("POST", `${API_DOMAIN}/Question/postQuestion`, {
+    let res = await ajaxRequest("POST", `${CONFIG.API_DOMAIN}/Question/postQuestion`, {
       category: categories.filter(cat => cat.selected).map(val => val.name),
       tags: selectedTags,
       question: editorData,

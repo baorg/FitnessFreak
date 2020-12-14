@@ -1,6 +1,5 @@
 import React,{useState,useEffect,useRef} from "react"
 import axios from "axios"
-import { ENDPOINT } from "../../utils";
 import Answer from "../../Answer/Answer/answer";
 import PostAnswer from "../../Answer/PostAnswer/postAnswer";
 import UpvoteDownvote from "../../UpvoteDownvote/upvoteDownvote";
@@ -15,7 +14,7 @@ import BookMark from "../../BookMark/MyBookMark";
 import { Spinner } from "react-bootstrap";
 import { A,navigate } from "hookrouter";
 
-
+import CONFIG from '../../config.json';
 
 function FullQuestion(props) {
   const [question, setQuestion] = useState(null)
@@ -24,14 +23,14 @@ function FullQuestion(props) {
   const [satisfactory,setSatisfactory]=useState(false);
   useEffect(() => {
     console.log("in us eseffec");
-    axios.get(`${ENDPOINT}/Question/getQuestions/${props.quesId}`, { withCredentials: true })
+    axios.get(`${CONFIG.API_DOMAIN}/Question/getQuestions/${props.quesId}`, { withCredentials: true })
       .then(res => {
         console.log("res.data = ", res.data);
         const obj = { up: res.data.ques.vote_count.upvote, down: res.data.ques.vote_count.downvote }
         setTotalCount(obj);
         setQuestion(res.data.ques);
       });
-      ajaxRequest("post", `${ENDPOINT}/Question/getAnswersByQuesId`, {
+      ajaxRequest("post", `${CONFIG.API_DOMAIN}/Question/getAnswersByQuesId`, {
         quesId:props.quesId
       }).then(res=>{
         console.log(res.data);
@@ -41,7 +40,7 @@ function FullQuestion(props) {
       if(props.user!==undefined){
         console.log(props.user)
         console.log("inside")
-        ajaxRequest("post",`${ENDPOINT}/Question/isQuestionAskedByUser`,{
+        ajaxRequest("post",`${CONFIG.API_DOMAIN}/Question/isQuestionAskedByUser`,{
           quesId:props.quesId
         }).then(res=>{
             if(res.data.err){
@@ -56,7 +55,7 @@ function FullQuestion(props) {
    function selectedSatisfactoryAnswer(answerId){
     if (window.confirm("Are you sure you want to mark this answer as the Satisfactory Answer")) {
       // txt = "You pressed OK!";
-      ajaxRequest("post",`${ENDPOINT}/Question/markAnswer`,{
+      ajaxRequest("post",`${CONFIG.API_DOMAIN}/Question/markAnswer`,{
         quesId:props.quesId,
         answerId:answerId
       }).then(async(res)=>{

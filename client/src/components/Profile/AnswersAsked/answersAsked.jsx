@@ -1,21 +1,21 @@
-import React,{useState,useEffect,useRef} from "react"
+import React,{useState,useEffect } from "react"
 import axios from "axios"
-import { ENDPOINT } from "../../utils";
 import Answer from "../../Answer/Answer/answer";
-import PostAnswer from "../../Answer/PostAnswer/postAnswer";
+// import PostAnswer from "../../Answer/PostAnswer/postAnswer";
 import UpvoteDownvote from "../../UpvoteDownvote/upvoteDownvote";
 import MyNav from "../../Navigation/navbar/navbar";
 import SideNavBar from "../../Navigation/SideNav/SideNav";
 import '../../styles.css'
 import './style.css'
 import ajaxRequest from '../../../ajaxRequest';
-import {A, navigate } from 'hookrouter'
+import { navigate } from 'hookrouter'
 import Attachments from './attachments';
 import BookMark from "../../BookMark/MyBookMark";
 import { Spinner } from "react-bootstrap";
 import { Button } from 'react-bootstrap'
 
 
+import CONFIG from '../../../config.json';
 
 
 function AnswerAsked(props) {
@@ -24,14 +24,14 @@ function AnswerAsked(props) {
   const [totalCount, setTotalCount] = useState(null);
   // const [user,setUser]=useState(null);
   useEffect(() => {
-    axios.get(`${ENDPOINT}/Question/getQuestions/${props.quesId}`, { withCredentials: true })
+    axios.get(`${CONFIG.API_DOMAIN}/Question/getQuestions/${props.quesId}`, { withCredentials: true })
       .then(res => {
         console.log("res.data = ", res.data);
         const obj = { up: res.data.ques.vote_count.upvote, down: res.data.ques.vote_count.downvote }
         setTotalCount(obj);
         setQuestion(res.data.ques);
       });
-      ajaxRequest("post", `${ENDPOINT}/Question/getAnswersByUserOnly/${props.quesId}`,{id:props.userId})
+      ajaxRequest("post", `${CONFIG.API_DOMAIN}/Question/getAnswersByUserOnly/${props.quesId}`,{id:props.userId})
       .then(res=>{
         console.log(res.data);
         console.log(typeof(res.data));

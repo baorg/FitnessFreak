@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import ajaxRequest from '../../../ajaxRequest'
-import { API_DOMAIN } from '../../../config';
+import CONFIG from '../../../config.json'
+
 import { Name, Password, PasswordCheck, Email } from './utils';
 
 export default function Register(props) {
@@ -23,9 +24,9 @@ export default function Register(props) {
 
     async function handleSubmit(event) {
         event.preventDefault();
-        let res = ajaxRequest(
+        ajaxRequest(
             'POST',
-            API_DOMAIN + '/auth/local/register',
+            CONFIG.API_DOMAIN + '/auth/local/register',
             {
                 username: userName.value,
                 firstname: firstName.value,
@@ -41,17 +42,17 @@ export default function Register(props) {
                 clearError();
             } else {
                 res.data.errors.forEach(err => {
-                    if (err.param == 'username')
+                    if (err.param === 'username')
                         setUserName({ value: userName.value, error: err.msg });
-                    else if (err.param == 'email')
+                    else if (err.param === 'email')
                         setEmail({ value: email.value, error: err.msg });
-                    else if (err.param == 'password1')
+                    else if (err.param === 'password1')
                         setPassword1({ value: password1.value, error: err.msg });
-                    else if (err.param == 'password2')
+                    else if (err.param === 'password2')
                         setPassword2({ value: password2.value, error: err.msg });
-                    else if (err.param == 'firstname')
+                    else if (err.param === 'firstname')
                         setFirstName({ value: firstName.value, error: err.msg });
-                    else if (err.param == 'lastname')
+                    else if (err.param === 'lastname')
                         setLastName({ value: lastName.value, error: err.msg });
                 });
             }

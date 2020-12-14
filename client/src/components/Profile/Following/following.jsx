@@ -5,9 +5,9 @@ import MyNav from '../../Navigation/navbar/navbar'
 import SideNavPage from '../../Navigation/SideNav/SideNav'
 import axiosCall from '../../../ajaxRequest';
 import SentimentVeryDissatisfiedIcon from '@material-ui/icons/SentimentVeryDissatisfied';
-import { ENDPOINT } from "../../utils";
 import { Spinner } from "react-bootstrap";
 
+import CONFIG from '../../../config.json';
 
 function Following(props) {
     const [followingList, setfollowingList] = useState([]);
@@ -24,7 +24,7 @@ function Following(props) {
             }
         // } else
             // navigate('/');
-            let url2=`${ENDPOINT}/Users/get-userdata-id`
+            let url2=`${CONFIG.API_DOMAIN}/Users/get-userdata-id`
             axiosCall('post', url2, {user_id: props.userId})
             .then((res) => {
                 // console.log("resOfTypeOfpage = ", res.data)

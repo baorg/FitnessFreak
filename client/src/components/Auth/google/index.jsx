@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import GoogleIcon from './icon';
 
 export default function GoogleAuth(props) {

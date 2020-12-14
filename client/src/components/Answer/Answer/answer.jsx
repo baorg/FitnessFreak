@@ -1,13 +1,14 @@
 import React, {useState,useEffect} from "react"
-import {navigate, A } from 'hookrouter';
+import { A } from 'hookrouter';
 import UpvoteDownvote from "../../UpvoteDownvote/upvoteDownvote";
 import Comment from '../../Comment/Comment/comment';
 import '../../styles.css'
 import PostComment from "../../Comment/PostComment/postcomment";
 import ajaxRequest from '../../../ajaxRequest';
-import { ENDPOINT } from "../../utils";
 import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
 import DoneIcon from '@material-ui/icons/Done';
+
+import CONFIG from '../../../config.json';
 
 function Answer(props){
     // const [click, setClick] = useState(false);
@@ -18,15 +19,14 @@ function Answer(props){
     useEffect(() => {
       const obj = { up: props.answer.vote_count.upvote, down: props.answer.vote_count.downvote }
       setTotalCount(obj);
-        ajaxRequest("post", `${ENDPOINT}/Question/getCommentsByAnswerId`, {
+        ajaxRequest("post", `${CONFIG.API_DOMAIN}/Question/getCommentsByAnswerId`, {
             answerId:props.answer._id
           }).then(res=>{
             console.log(res.data);
             console.log(typeof(res.data));
             setComments(res.data.data);
           })
-          
-      }, []);
+      }, [ props.answer, ]);
     return (
     <div style={{marginBottom:"20px",borderBottom:"2px solid #B8B8B8", padding:"10px"}}  >
       {props.answer.marked?<VerifiedUserIcon style={{color:"green"}}/>:null}
