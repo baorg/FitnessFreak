@@ -1,21 +1,21 @@
 {
   "files": {
     "main.css": "/static/css/main.6a3d6491.chunk.css",
-    "main.js": "/static/js/main.7ce6bf67.chunk.js",
-    "main.js.map": "/static/js/main.7ce6bf67.chunk.js.map",
+    "main.js": "/static/js/main.5ab343f1.chunk.js",
+    "main.js.map": "/static/js/main.5ab343f1.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.8f49b074.js",
     "runtime-main.js.map": "/static/js/runtime-main.8f49b074.js.map",
-    "static/js/2.d2c2bc6d.chunk.js": "/static/js/2.d2c2bc6d.chunk.js",
-    "static/js/2.d2c2bc6d.chunk.js.map": "/static/js/2.d2c2bc6d.chunk.js.map",
+    "static/js/2.d3c379ef.chunk.js": "/static/js/2.d3c379ef.chunk.js",
+    "static/js/2.d3c379ef.chunk.js.map": "/static/js/2.d3c379ef.chunk.js.map",
     "index.html": "/index.html",
     "static/css/main.6a3d6491.chunk.css.map": "/static/css/main.6a3d6491.chunk.css.map",
-    "static/js/2.d2c2bc6d.chunk.js.LICENSE.txt": "/static/js/2.d2c2bc6d.chunk.js.LICENSE.txt",
+    "static/js/2.d3c379ef.chunk.js.LICENSE.txt": "/static/js/2.d3c379ef.chunk.js.LICENSE.txt",
     "static/media/facebook-login-btn.7692d6c3.png": "/static/media/facebook-login-btn.7692d6c3.png"
   },
   "entrypoints": [
     "static/js/runtime-main.8f49b074.js",
-    "static/js/2.d2c2bc6d.chunk.js",
+    "static/js/2.d3c379ef.chunk.js",
     "static/css/main.6a3d6491.chunk.css",
-    "static/js/main.7ce6bf67.chunk.js"
+    "static/js/main.5ab343f1.chunk.js"
   ]
 }

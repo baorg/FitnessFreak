@@ -1,4 +1,5 @@
-require('dotenv').config();
+require('dotenv').config({ path: 'server//.env' });
+// console.log('NODE ENV: ', process.env.CLOUDINARY_CLOUD_NAME);
 const express = require("express");
 const session = require("express-session");
 const bodyParser = require("body-parser");
