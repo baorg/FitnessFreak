@@ -45,13 +45,14 @@ const MyNav = function(props) {
             </NavDropdown.Item>
           </NavDropdown> */}
         </Nav>
-        <Form.Control as="select" style={{width:"105px",marginRight:"20px",fontSize:"12px"}} value={searchparam} onChange={handlechange}>
+        <div className="instasearchbox">
+        <Form.Control as="select" style={{width:"105px",marginRight:"20px",fontSize:"12px",display:"inline-block"}} value={searchparam} onChange={handlechange}>
         <option>--</option>
         <option>Search for User</option>
         <option>Search By Tag</option>
         </Form.Control>
           {/* <Form inline > */}
-            <div style={{marginRight:"50px"}}>
+            
               {/* <FormControl type="text" placeholder="Search" className="mr-sm-2" /> */}
               <Searchdiv type={searchparam} user={props.user} />
             </div>

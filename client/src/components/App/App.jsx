@@ -9,6 +9,7 @@ import { Button } from '@material-ui/core'
 import InfiniteScroll from 'react-infinite-scroller';
 
 import CONFIG from '../../config';
+import RightNavBar from "../Navigation/RightNav/rightNav";
 
 
 const App = function(props) {
@@ -58,6 +59,7 @@ const App = function(props) {
               <Button  onClick={refreshFeed} variant="contained" color="primary" href="#contained-buttons">Refresh page</Button>
             </p>}
         </div>
+        <RightNavBar />
       </>);
 };
 

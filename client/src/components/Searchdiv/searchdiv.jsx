@@ -3,6 +3,7 @@ import { FormControl } from "react-bootstrap";
 import axiosCall from "../../ajaxRequest"
 import {navigate} from "hookrouter";
 import './searchdiv.css';
+import SearchIcon from '@material-ui/icons/Search';
 
 import CONFIG from '../../config';
 
@@ -55,7 +56,7 @@ function Searchdiv(props){
 
 
     return (
-        <div style={{width:"206px"}}>
+        <div style={{width:"206px",display:"inline-block"}}>
         <FormControl style={{width:"206px" ,margin:"auto"}} type="text" placeholder="Search" className="mr-sm-2" name="tags" onFocus={mouseov} onChange={fil} autoComplete="off" value={searchTag}/>
         <div className="tagsearch" >
                 {props.type === "Search for User" ?
