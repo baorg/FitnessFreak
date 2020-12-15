@@ -18,13 +18,13 @@ module.exports = function(req, res, next) {
         password2
     } = req.body;
 
-    console.log("Data: ",
-        username,
-        firstname,
-        lastname,
-        email,
-        password1,
-        password2);
+    // console.log("Data: ",
+    //     username,
+    //     firstname,
+    //     lastname,
+    //     email,
+    //     password1,
+    //     password2);
 
     return User.register({ username: username, email: email, first_name: firstname, last_name: lastname },
         password1,

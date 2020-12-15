@@ -10,6 +10,8 @@ const cors = require("cors");
 const Router = require('./Routers');
 const path = require('path');
 
+const CONFIG = require('./config');
+
 // const passportRouter = require("./passport/routes/authRoutes");
 const logging = require("./Middlewares").logging;
 
@@ -17,7 +19,7 @@ const app = express();
 app.use(logging);
 
 (async() => {
-    const CLIENT_URL = process.env.CLIENT_DOMAIN;
+    const CLIENT_URL = CONFIG.CLIENT_DOMAIN;
     const PORT = process.env.PORT || 5000;
 
     const connection = await mongooseSetup();
@@ -56,7 +58,7 @@ app.use(logging);
     // }
 
     app.get('/', (req, res) => {
-        res.send("Server is Up and Running")
+        res.send(`Server is Up and Running on port ${PORT} on ${process.env.NODE_ENV} enviroment.`)
     });
 
 

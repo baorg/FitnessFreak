@@ -31,7 +31,7 @@ function getRandInt(digits) {
 }
 
 async function getUniqueUsername(username) {
-    username = username.toLowerCase().replace(/\W/g, '_');
+    username = username.toLowerCase().replace(/[^\w.]/g, '_');
     let newUsername = username;
     while (await this.findUserByUserName(newUsername)) {
         newUsername = username + getRandInt(4);

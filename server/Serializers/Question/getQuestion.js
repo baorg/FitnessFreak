@@ -4,8 +4,10 @@ module.exports.feedQuestionSerializer = function(question) {
             _id: question._id,
             title: question.title,
             question: question.question,
-            upvote: question.vote_count.upvote,
-            downvote: question.vote_count.downvote,
+            vote: {
+                up: question.vote_count.upvote,
+                down: question.vote_count.downvote
+            },
             category: question.categoryName,
             user: question.userId,
             tags: question.tags,

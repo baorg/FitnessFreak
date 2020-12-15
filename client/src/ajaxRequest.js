@@ -7,7 +7,7 @@ async function axiosCall(method, url, obj) {
         data: JSON.stringify(obj),
         headers: { 'Content-Type': 'application/json' },
         withCredentials: true
-    })
+    });
     return promise;
 }
 
