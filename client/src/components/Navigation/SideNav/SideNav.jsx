@@ -5,7 +5,7 @@ import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import axiosCall from '../../../ajaxRequest'
 import notLoggedIn from '../../../notloggedin'
 
-import CONFIG from '../../../config.json';
+import CONFIG from '../../../config';
 
 
 const SideNavBar = function(props) {

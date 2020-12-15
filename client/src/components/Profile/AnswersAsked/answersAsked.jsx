@@ -15,7 +15,7 @@ import { Spinner } from "react-bootstrap";
 import { Button } from 'react-bootstrap'
 
 
-import CONFIG from '../../../config.json';
+import CONFIG from '../../../config';
 
 
 function AnswerAsked(props) {

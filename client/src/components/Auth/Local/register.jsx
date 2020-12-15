@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import ajaxRequest from '../../../ajaxRequest'
-import CONFIG from '../../../config.json'
+import CONFIG from '../../../config'
 
 import { Name, Password, PasswordCheck, Email } from './utils';
 

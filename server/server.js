@@ -51,15 +51,18 @@ app.use(logging);
         })
     );
 
-    app.use(Router);
-    // if (process.env.NODE_ENV === 'production') {
-    //     console.log('Running production build');
-    //     app.use(express.static(path.join(path.dirname(path.dirname(__filename)), 'client', 'build')));
-    // }
 
-    app.get('/', (req, res) => {
-        res.send(`Server is Up and Running on port ${PORT} on ${process.env.NODE_ENV} enviroment.`)
-    });
+    app.use(Router);
+    if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV == 'testing') {
+        console.log('Running production build');
+        app.get('*',
+            express.static(path.join(path.dirname(path.dirname(__filename)), 'client', 'build')));
+    } else {
+        app.get('/', (req, res) => {
+            res.send(`Server is Up and Running on port ${PORT} on ${process.env.NODE_ENV} enviroment.`)
+        });
+    }
+
 
 
     await app.listen(PORT, function() {

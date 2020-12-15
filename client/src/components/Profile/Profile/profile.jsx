@@ -9,6 +9,7 @@ import {A, navigate} from 'hookrouter';
 import SideNavBar from "../../Navigation/SideNav/SideNav";
 import { Spinner } from "react-bootstrap";
 import { Button } from 'react-bootstrap'
+import CONFIG from '../../../config';
 
 const AnonymousUser = {
     _id:0,
@@ -26,18 +27,18 @@ function Profile(props){
     useEffect(async () => {
         //axios call
         console.log("User:", props.user, profileUser);
-        let res = await axios.post(`/Users/get-userdata-id`, { user_id: props.userId }, { withCredentials: true, });
+        let res = await axios.post(`${CONFIG.API_DOMAIN}/Users/get-userdata-id`, { user_id: props.userId }, { withCredentials: true, });
         console.log(res.data);
         if (res.data.isAuthenticated)
             setProfileUser(res.data.user);
         else
             navigate('/');
-        res = await axios.get(`/following/check-following?user_id=${props.userId}`, { withCredentials: true });
+        res = await axios.get(`${CONFIG.API_DOMAIN}/following/check-following?user_id=${props.userId}`, { withCredentials: true });
         setIsFollowing(res.data.is_following);
     }, []);
     
     async function handleFollow() {
-        let res = await axios.post('/following/add-following', { user_id: profileUser._id }, { withCredentials: true });
+        let res = await axios.post(`${CONFIG.API_DOMAIN}/following/add-following`, { user_id: profileUser._id }, { withCredentials: true });
         if (res.data.success) {
             setIsFollowing(true);
         } else {
@@ -46,7 +47,7 @@ function Profile(props){
     }
     
     async function handleUnfollow() {
-        let res = await axios.post('/following/remove-following', { user_id: profileUser._id }, { withCredentials: true });
+        let res = await axios.post(`${CONFIG.API_DOMAIN}/following/remove-following`, { user_id: profileUser._id }, { withCredentials: true });
         if (res.data.success) {
             setIsFollowing(false);
         } else {

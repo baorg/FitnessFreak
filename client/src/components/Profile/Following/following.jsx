@@ -7,14 +7,14 @@ import axiosCall from '../../../ajaxRequest';
 import SentimentVeryDissatisfiedIcon from '@material-ui/icons/SentimentVeryDissatisfied';
 import { Spinner } from "react-bootstrap";
 
-import CONFIG from '../../../config.json';
+import CONFIG from '../../../config';
 
 function Following(props) {
     const [followingList, setfollowingList] = useState([]);
     const [userDetails,setUserDetails] = useState("");
     const [defaultMessage,setDefaultMessage] = useState("");
     useEffect(async () => {
-        let res = await axios.get(`/following/get-following-list/${props.userId}`, { withCredentials: true });
+        let res = await axios.get(`${CONFIG.API_DOMAIN}/following/get-following-list/${props.userId}`, { withCredentials: true });
         // if (res.data.isAuthenticated) {
             if(!res.data.following.length){
                 setDefaultMessage("No Following Yet")

@@ -14,7 +14,7 @@ import { A, navigate } from 'hookrouter';
 import Searchdiv from "../../Searchdiv/searchdiv";
 import Notification from "../../Notification/notification";
 
-import CONFIG from '../../../config.json';
+import CONFIG from '../../../config';
 
 const MyNav = function(props) {
 

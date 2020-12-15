@@ -5,7 +5,7 @@ import notLoggedIn from "../../notloggedin";
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-import CONFIG from '../../config.json';
+import CONFIG from '../../config';
 
 
 const UpvoteDownvote = (props) =>{

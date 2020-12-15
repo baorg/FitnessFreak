@@ -9,7 +9,7 @@ import axiosCall from "../../ajaxRequest";
 import InfiniteScroll from 'react-infinite-scroller';
 import Spinner from 'react-bootstrap/Spinner'
 
-import CONFIG from '../../config.json';
+import CONFIG from '../../config';
 
 
 const TypeOfPage = function(props) {

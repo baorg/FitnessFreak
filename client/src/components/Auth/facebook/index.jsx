@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import logo from './facebook-login-btn.png';
+import CONFIG from '../../../config';
 
 const facebookStyle = {
     facebook_btn: {
@@ -26,7 +27,7 @@ export default function FacbooAuth(props) {
 
 
     return (<div>
-        <a href="/auth/facebook">
+        <a href={`${CONFIG.API_DOMAIN}/auth/facebook`}>
             <img
                 className="facebook-img-btn"
                 src={logo}

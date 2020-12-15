@@ -35,7 +35,7 @@ module.exports = async function(req, res) {
         })
 
 
-        let questionSave = await ques.save()
+        let questionSave = await ques.save();
         let userUpdate = await User.updateOne({ _id: user_id }, { $push: { question: ques._id } }).exec();
 
         let user = await User.findById(user_id, "score").exec()

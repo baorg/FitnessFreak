@@ -6,7 +6,7 @@ import axios from "axios";
 import { A,navigate } from 'hookrouter';
 import axiosCall from "../../ajaxRequest";
 
-import CONFIG from '../../config.json';
+import CONFIG from '../../config';
 
 const Ranking = function(props) {
 

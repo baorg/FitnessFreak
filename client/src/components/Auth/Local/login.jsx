@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { navigate } from 'hookrouter';
 import ajaxRequest from '../../../ajaxRequest'
-import CONFIG from '../../../config.json'
+import CONFIG from '../../../config';
 
 import { Name, Password } from './utils';
 
@@ -45,7 +45,7 @@ export default function Login(props) {
     return (
         <div>
             <h1>Login</h1>
-            <form action="/auth/local/login/" method="post" onSubmit={handleSubmit} className="form-container">
+            <form method="post" onSubmit={handleSubmit} className="form-container">
                 <div className="form-group">
                     <label htmlFor="email">Enter Username</label>
                     <Name

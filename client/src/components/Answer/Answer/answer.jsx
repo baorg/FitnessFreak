@@ -8,7 +8,7 @@ import ajaxRequest from '../../../ajaxRequest';
 import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
 import DoneIcon from '@material-ui/icons/Done';
 
-import CONFIG from '../../../config.json';
+import CONFIG from '../../../config';
 
 function Answer(props){
     // const [click, setClick] = useState(false);

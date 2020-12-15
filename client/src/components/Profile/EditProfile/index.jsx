@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { navigate } from 'hookrouter';
 import ajaxRequest from '../../../ajaxRequest';
-import CONFIG from '../../../config.json';
+import CONFIG from '../../../config';
 
 const styleClasses = {
     cover_div: {

@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios from "axios";
 
 async function axiosCall(method, url, obj) {
     const promise = await axios({

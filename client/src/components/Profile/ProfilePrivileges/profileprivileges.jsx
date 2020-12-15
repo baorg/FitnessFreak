@@ -9,7 +9,7 @@ import axiosCall from "../../../ajaxRequest";
 import SentimentVeryDissatisfiedIcon from '@material-ui/icons/SentimentVeryDissatisfied';
 import { Spinner } from "react-bootstrap";  
 
-import CONFIG from '../../../config.json';
+import CONFIG from '../../../config';
 
 
 const ProfilePrivileges = function (props) {

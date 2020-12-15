@@ -9,6 +9,7 @@ import TypeOfPageRoutes from "./typeofpageroutes";
 import ProfileRoutes from "./profileroutes";
 import Ranking from '../Ranking/ranking';
 import UpdateProfile from '../Profile/EditProfile';
+import CONFIG from '../../config';
 
 function getRoutes(user) {
   return {
@@ -25,7 +26,7 @@ function getRoutes(user) {
 
 async function getUserName(setUser){
     // console.count("getuserName");
-    const res = await axios.get("/Users/get-userdata", {withCredentials : true})
+    const res = await axios.get(`${CONFIG.API_DOMAIN}/Users/get-userdata`, {withCredentials : true})
     // console.count("getuserName");
     if(res.data.isAuthenticated===true)
         setUser(res.data.user);

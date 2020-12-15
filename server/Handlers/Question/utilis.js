@@ -10,7 +10,10 @@ function getArrayOfQues(arr) {
         user: ques.userId,
         posted_at: ques.created_at,
         attachments: ques.attachments,
-        vote_count: ques.vote_count,
+        vote: {
+            up: ques.vote_count.upvote,
+            down: ques.vote_count.downvote
+        },
     }));
 }
 

@@ -14,19 +14,20 @@ import BookMark from "../../BookMark/MyBookMark";
 import { Spinner } from "react-bootstrap";
 import { A,navigate } from "hookrouter";
 
-import CONFIG from '../../../config.json';
+import CONFIG from '../../../config';
 
 function FullQuestion(props) {
   const [question, setQuestion] = useState(null)
   const [answers, setAnswers] = useState([])
   const [totalCount, setTotalCount] = useState(null);
-  const [satisfactory,setSatisfactory]=useState(false);
+  const [satisfactory, setSatisfactory] = useState(false);
+  
   useEffect(() => {
     console.log("in us eseffec");
     axios.get(`${CONFIG.API_DOMAIN}/Question/getQuestions/${props.quesId}`, { withCredentials: true })
       .then(res => {
         console.log("res.data = ", res.data);
-        const obj = { up: res.data.ques.vote_count.upvote, down: res.data.ques.vote_count.downvote }
+        const obj = { up: res.data.ques.vote.up, down: res.data.ques.vote.down }
         setTotalCount(obj);
         setQuestion(res.data.ques);
       });

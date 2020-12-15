@@ -4,7 +4,7 @@ import axiosCall from "../../ajaxRequest"
 import {navigate} from "hookrouter";
 import './searchdiv.css';
 
-import CONFIG from '../../config.json';
+import CONFIG from '../../config';
 
 function Searchdiv(props){
     const [searchTag, setSearchTag] = useState("");

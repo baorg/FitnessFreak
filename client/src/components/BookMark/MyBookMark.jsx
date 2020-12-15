@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 
-import CONFIG from '../../config.json';
+import CONFIG from '../../config';
 
 import '../styles.css'
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
@@ -12,9 +12,7 @@ import notLoggedIn from "../../notloggedin";
 // import BookmarkOutlinedIcon from '@material-ui/icons/BookmarkOutlined';
 
 const BookMark = function(props){
-
-    const [marked, setMarked] = useState(false)
-
+    const [marked, setMarked] = useState(false);
     useEffect(() => {
         axiosCall('post', `${CONFIG.API_DOMAIN}/Question/isBookMarked`, {quesId : props.quesId})
         .then((res) => {

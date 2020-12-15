@@ -5,7 +5,7 @@ import './notification.css'
 import axiosCall from '../../ajaxRequest' 
 import {navigate} from 'hookrouter'
 
-import CONFIG from '../../config.json';
+import CONFIG from '../../config';
 
 const Notification = function(props){
 

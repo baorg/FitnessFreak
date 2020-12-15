@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import ajaxRequest from '../../ajaxRequest';
-import CONFIG from '../../config.json';
+import CONFIG from '../../config';
 
 function LogOut(props) {
     const [loggedout, setLoggedOut] = useState(false);
