@@ -2,15 +2,15 @@
   "name": "fitnessbackend",
   "version": "1.0.0",
   "description": "",
-  "main": "server\\server.js",
+  "main": "server/server.js",
   "scripts": {
     "test": "",
-    "start": "node server\\server.js",
+    "start": "node server/server.js",
     "build": "cd client && npm run build",
     "dev": "cd client && npm run build",
     "install-client": "cd client && npm install",
     "install": "cd server && npm install",
-    "client": "cd ..\\client && npm start",
+    "client": "cd ../client && npm start",
     "heroku-postbuild": "npm run install-client && npm run build"
   },
   "author": "Akash, Balpreet, Mudit",

@@ -55,9 +55,11 @@ app.use(logging);
 
     app.use(Router);
     if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV == 'testing') {
-        console.log('Running production build');
-        app.get('*',
-            express.static(path.join(path.dirname(path.dirname(__filename)), 'client', 'build')));
+        console.log('Running production/testing build');
+        app.use(express.static(path.join(path.dirname(path.dirname(__filename)), 'client', 'build')));
+        app.get('*', (req, res) => {
+            res.sendFile(path.join(path.dirname(path.dirname(__filename)), 'client', 'build', 'index.html'));
+        })
     } else {
         app.get('/', (req, res) => {
             res.send(`Server is Up and Running on port ${PORT} on ${process.env.NODE_ENV} enviroment.`)
