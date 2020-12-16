@@ -7,3 +7,9 @@
     color: white;
     text-decoration: none;
 }
+
+.instasearchbox{
+    transform: translate(-50%);
+    position:absolute;
+    left:50%
+}
