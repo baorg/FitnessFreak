@@ -1,40 +1,4 @@
-/* .nodisplay {
-    display: none;
-}
-
-.posts {
-    position: relative;
-    left: 2em;
-}
-
-.uploadbox {
-    display: block;
-}
-
-.addcommentdiv {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    margin-top: 5px;
-}
-
-.commentdiv {
-    display: block;
-    background-color: gray;
-    border-radius: 5px;
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
-
-
-.searchdiv {
-    border: 2px solid blue;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-} */
-
-.shiny:hover {
+/* .shiny:hover {
     background-color: #E0E0E0;
     transition-delay: 0.5;
 }
@@ -43,8 +7,7 @@
     position: absolute;
     top: 100px;
     left: 16%;
-    /* transform: translate(-50%); */
     text-align: left;
     width: 84%;
-    /* border:2px solid red; */
 }
+*/

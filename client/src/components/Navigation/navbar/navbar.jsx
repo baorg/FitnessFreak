@@ -1,65 +1,144 @@
 import React,{useState} from "react";
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import { AccountBoxRounded, AccountCircleRounded, Home, Favorite} from '@material-ui/icons';
+import Image from 'react-bootstrap/Image';
 import {
   Navbar,
-  Nav,
-  // NavDropdown,
-  Form,
-  // FormControl,
   Button,
-  // CloseButton
 } from "react-bootstrap";
-import './navbar.css'
+
 import { A, navigate } from 'hookrouter';
 import Searchdiv from "../../Searchdiv/searchdiv";
 import Notification from "../../Notification/notification";
-
+import styled from 'styled-components';
 import CONFIG from '../../../config';
+
+
+const StyledNavbar = styled(Navbar)`
+  position:fixed;
+  z-index:10;
+  width: 100%;
+  height: 50px;
+  background-color: white;
+  display: flex;
+  align-content: center;
+  justify-content: space-evenly;
+`;
+
+const StyledBrand = styled(StyledNavbar.Brand)`
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500&family=JetBrains+Mono:ital,wght@1,100&display=swap');
+  font-family: 'Cinzel', serif;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.4em;
+  font-style: italic;
+  text-align: center;
+`;
+
+
+const StyledInput = styled.input`
+  width: 20em;
+  height: 2em;
+  border-width: 1px;
+  outline: none;
+  background-color: #eeeeee;
+`;
+
+const StyledIcons = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  justify-self: flex-end;
+`;
+
+
+const StyledHome = styled(Home)`
+  cursor: pointer;
+  margin-right: 1em;
+`;
+
+const StyledAccountImage = styled(Image)`
+  cursor: pointer;
+  width: 3em;
+  height: 3em;
+  border-radius: 50%;
+`;
+
+const StyledAccountPlaceholder = styled(AccountCircleRounded)`
+  cursor: pointer;
+  width: 3em;
+  height: 3em;
+`;
+
+const StyledFavorite = styled(Favorite)`
+  cursor: pointer;
+  margin-right: 1em;
+`;
+
+const Link = styled(A)`
+  color: white;
+  :hover{
+    color: white;
+    text-decoration: none;
+  }
+`
 
 const MyNav = function(props) {
 
-  const [searchparam,setSearchParam]=useState();
+  const [searchparam,setSearchParam]=useState("Search for User");
   function handlechange(e){
     let x=e.target.value;
     setSearchParam(x)
   }
+  console.log(props.user);
+
   return (
-    <div style={{position:"fixed",zIndex:"10",width:"100%",marginTop:"0px"}}>
-    <Navbar  bg="light" expand="lg" >
-      <A href="/"><Navbar.Brand >Fitness Freak</Navbar.Brand></A>
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse id="basic-navbar-nav">
+    <StyledNavbar bg="light" expand="lg" >
+      <StyledBrand href="/">Fitness Freak</StyledBrand>
+      <StyledInput placeholder="Search"></StyledInput>
+      <StyledIcons>
+        <StyledHome onClick={()=>navigate('/')}></StyledHome>
+        {props.user ?
+          <>
+            <StyledFavorite></StyledFavorite>
+            { props.user.profile_image?
+            <StyledAccountImage
+              src={props.user.profile_image}
+              onClick={()=>navigate(`/profile/${props.user._id}`)}
+              />
+              : <StyledAccountPlaceholder
+                  onClick={() => navigate(`/profile/${props.user._id}`)}
+                />
+            }
+            </>
+          :
+          <Button variant="primary">
+              <Link href="/auth" >Login/Register</Link>
+          </Button>
+        }
+      </StyledIcons>
+    </StyledNavbar>);
+};
+
+export default MyNav;
+
+
+
+{/* 
+  <A href="/"><StyledNavbar.Brand >Fitness Freak</StyledNavbar.Brand></A>
+      <StyledNavbar.Toggle aria-controls="basic-navbar-nav" />
+      <StyledNavbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
           <Nav.Link href="#home">Home</Nav.Link>
-          {/* <Nav.Link href="#link">Link</Nav.Link>
-          <Nav.Link href="#" onClick={props.showuploadbox}>Upload Image</Nav.Link> */}
-          {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-            <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-            <NavDropdown.Item href="#action/3.2">
-              Another action
-            </NavDropdown.Item>
-            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-            <NavDropdown.Divider />
-            <NavDropdown.Item href="#action/3.4">
-              Separated link
-            </NavDropdown.Item>
-          </NavDropdown> */}
+          
         </Nav>
         <div className="instasearchbox">
         <Form.Control as="select" style={{width:"105px",marginRight:"20px",fontSize:"12px",display:"inline-block"}} value={searchparam} onChange={handlechange}>
-        <option>--</option>
-        <option>Search for User</option>
-        <option>Search By Tag</option>
+        <option style={styleClasses.option}>Search for User</option>
+        <option style={styleClasses.option}>Search By Tag</option>
         </Form.Control>
-          {/* <Form inline > */}
-            
-              {/* <FormControl type="text" placeholder="Search" className="mr-sm-2" /> */}
+          
               <Searchdiv type={searchparam} user={props.user} />
             </div>
-          {/* <Button variant="outline-success" className="mx-1">
-              Search
-          </Button> */}
-          {/* </Form> */}
+          
           {props.user ?
           <div style={{marginRight:"20px"}}>
           <Notification />
@@ -68,21 +147,16 @@ const MyNav = function(props) {
           {props.user ?
             <div style={{display:"flex",  alignItems:"center"}}>
               <Button variant="primary" className="mx-1" onClick={() => navigate("/profile/" + props.user._id)} >
-              <AccountCircleIcon  />
+              <AccountCircleRounded />
                 {/* <h4 style={{display:"inline-block"}}></h4> */}
-                {props.user.username}
-              </Button>
-              <Button variant="danger" className="mx-1" onClick={() => navigate(`${CONFIG.CLIENT_DOMAIN}/auth/logout`)} >
-                Logout
-              </Button>
-            </div> :
-            <Button variant="primary" className="mx-1">
-              <a onClick={()=>navigate("/auth")} className="login-link">Login/Register</a>
-            </Button>
-          }
-      </Navbar.Collapse>
-    </Navbar>
-    </div> );
-};
-
-export default MyNav;
+      //           {props.user.username}
+      //         </Button>
+      //         <Button variant="danger" className="mx-1" onClick={() => navigate(`${CONFIG.CLIENT_DOMAIN}/auth/logout`)} >
+      //           Logout
+      //         </Button>
+      //       </div> :
+      //       <Button variant="primary" className="mx-1">
+      //         <a onClick={()=>navigate("/auth")} className="login-link">Login/Register</a>
+      //       </Button>
+      //     }
+      // </StyledNavbar.Collapse> */}

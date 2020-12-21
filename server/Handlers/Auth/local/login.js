@@ -21,10 +21,12 @@ module.exports = function(req, res, next) {
 
     return req.login(user, function(err) {
         if (err) {
+            console.error('ERROR: ', err);
             return res.send({ success: false });
         } else {
             passport.authenticate("local")(req, res, function() {
-                return res.send({ success: true, authenticated: true });
+                console.log('User loged in.');
+                return res.send({ success: true, authenticated: true, user: req.user });
             });
         }
     });

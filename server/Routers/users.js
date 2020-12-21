@@ -12,7 +12,7 @@ const { isAuthenticated, response } = require("../Middlewares");
 
 // router.use(isAuthenticated);
 router.post("/searchusers", searchUserHandler);
-router.get("/get-userdata", getUserDataHandler);
+router.get("/get-userdata", isAuthenticated, getUserDataHandler);
 router.post("/get-userdata-id", getUserFromIdHandler);
 router.post("/get-userdata-username", getUserFromUsernameHandler);
 router.post("/update-profile", isAuthenticated, updateProfileHandler, response);

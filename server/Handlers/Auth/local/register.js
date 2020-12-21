@@ -1,7 +1,7 @@
 const passport = require('passport');
 const { validationResult } = require('express-validator');
 const { User } = require('../../../Models');
-
+const createVerification = require('../Verification/create_verification');
 
 module.exports = function(req, res, next) {
     const errors = validationResult(req);
@@ -18,24 +18,24 @@ module.exports = function(req, res, next) {
         password2
     } = req.body;
 
-    // console.log("Data: ",
-    //     username,
-    //     firstname,
-    //     lastname,
-    //     email,
-    //     password1,
-    //     password2);
 
     return User.register({ username: username, email: email, first_name: firstname, last_name: lastname },
         password1,
         function(err, user) {
             if (err) {
                 console.error("Error during authentication: ", err);
-                return res.send({ success: false, errors: [] });
+                return res.send({ success: false, errors: [], registered: false });
             } else {
-                return res.send({ success: true, registered: true });
+                createVerification(user)
+                    .then(function(data) {
+
+                        return res.send(data);
+                    })
+                    .catch(function(err) {
+                        console.error('ERROR: ', err);
+                        return res.send({ success: false, registered: false });
+                    });
             }
         });
 
-    // res.send({ succes: true, msg: 'git the data' });
 }

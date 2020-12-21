@@ -4,7 +4,7 @@ const { userSchema, User } = require("./User");
 const { tagSchema, Tag } = require("./Tag");
 const { commentSchema, Comment } = require("./Comment");
 const { answerSchema, Ans } = require("./Answer");
-
+const { tokenSchema, Token } = require('./Token');
 
 module.exports = {
     User,
@@ -12,5 +12,6 @@ module.exports = {
     Ans,
     Tag,
     Comment,
-    userSchema
+    userSchema,
+    Token
 }

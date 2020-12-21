@@ -1,9 +1,17 @@
 import React, { useState } from "react"
 import ajaxRequest from '../../../ajaxRequest'
 import CONFIG from '../../../config'
+import styled from 'styled-components';
 
 import { Name, Password, PasswordCheck, Email } from './utils';
 
+
+const RegisterContainer = styled.div`
+        grid-area: register;
+    `;
+const Form = styled.form`
+    
+`;
 export default function Register(props) {
     const [userName, setUserName] = useState({value:'', error: null});
     const [firstName, setFirstName] = useState({value:'', error: null});
@@ -11,7 +19,7 @@ export default function Register(props) {
     const [password1, setPassword1] = useState({value:'', error: null});
     const [password2, setPassword2] = useState({value:'', error: null});
     const [email, setEmail] = useState({value:'', error: null});
-
+    const [sendingData, changeSendingData] = useState(false);
 
     async function clearError() {
         await setUserName({value:userName.value, error: null});
@@ -22,8 +30,29 @@ export default function Register(props) {
         await setEmail({value:email.value, error: null});
     }
 
+    async function clearData() {
+        await setUserName({value:'' , error: null});
+        await setFirstName({value:'' , error: null});
+        await setLastName({value:'' , error: null});
+        await setPassword1({value:'' , error: null});
+        await setPassword2({value:'' , error: null});
+        await setEmail({value:'' , error: null});
+    }
+
     async function handleSubmit(event) {
         event.preventDefault();
+        
+        // document.getElementById('rgstr-btn')
+        if (sendingData) {
+            console.log('Already sending data.')
+            return;
+        }
+        
+        changeSendingData(true);
+        document.getElementById('rgstr-btn').style.cursor = 'not-allowed';
+        document.getElementById('rgstr-btn').onclick = () => { };
+
+        
         ajaxRequest(
             'POST',
             CONFIG.API_DOMAIN + '/auth/local/register',
@@ -39,7 +68,7 @@ export default function Register(props) {
             await clearError();
             if (res.data.success) {
                 alert('You have been registered. Now login.');
-                clearError();
+                clearData();
             } else {
                 res.data.errors.forEach(err => {
                     if (err.param === 'username')
@@ -56,15 +85,20 @@ export default function Register(props) {
                         setLastName({ value: lastName.value, error: err.msg });
                 });
             }
+            document.getElementById('rgstr-btn').style.cursor = 'pointer';
+            document.getElementById('rgstr-btn').onclick = handleSubmit;
+            changeSendingData(false);
         }).catch(err => {
-            
+            document.getElementById('rgstr-btn').style.cursor = 'pointer';
+            document.getElementById('rgstr-btn').onclick = handleSubmit;
+            changeSendingData(false);
         });
     }
 
     return (
-        <div className="div-register">
+        <RegisterContainer>
             <h1>Register</h1>
-            <form action="" onSubmit={handleSubmit} className="form-container">
+            <Form action="" className="form-container" onSubmit={handleSubmit}>
             <div className="form-group">
                 <span>Username</span>
                 <div className="form-row">
@@ -117,7 +151,7 @@ export default function Register(props) {
                     setPassword2={setPassword2}
                 />
             {/* <Password  password1={password1} password2={password2} setPassword1={setPassword1} setPassword2={setPassword2} /> */}
-            <button type="submit" className="btn">Register</button>
-            </form>
-        </div>);
+                <button type="submit" className="btn" id="rgstr-btn" >Register</button>
+            </Form>
+        </RegisterContainer>);
 }

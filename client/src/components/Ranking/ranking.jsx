@@ -50,7 +50,7 @@ const Ranking = function(props) {
               <div style={{textAlign:"left",borderBottom:"2px solid #B8B8B8", padding:"5px",display:"flex",alignItems:"center"}} className="shiny">
               <p style={{display:"inline-block",fontSize:"30px" ,paddingRight:"10px"}}>#{index+1}</p>
               <img src={el.profile_image} style={{height:"70px",borderRadius:"1000px"}} />
-              <div style={{display:"inline-block"}}>
+              <div style={{ display:"inline-block", }}>
               <A href={`/profile/${el._id}`} style={{fontSize:"20px",padding:"10px",color:"black"}}>{el.username}</A>
               <br />
               <p style={{fontSize:"20px"}}>&nbsp;&nbsp;&nbsp;{props.typeofranking==="Followers"?`Followers : ${(el.score)/4}`:`Score : ${(el.score)}`}</p>

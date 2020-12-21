@@ -19,7 +19,7 @@ export default function Login(props) {
         event.preventDefault();
         ajaxRequest(
             'POST',
-            CONFIG.API_DOMAIN + '/auth/local/login',
+            `${CONFIG.API_DOMAIN}/auth/local/login`,
             {
                 username: userName.value,
                 password: password.value,

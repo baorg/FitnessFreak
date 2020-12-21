@@ -14,8 +14,8 @@ module.exports = async function(req, res) {
         let title = req.body.title;
         let attachments = req.body.attachments;
 
-        console.log("Attachments: ", attachments);
-        console.log("Length: ", attachments.length);
+        // console.log("Attachments: ", attachments);
+        // console.log("Length: ", attachments.length);
         const ques = new Ques({
             title: title,
             question: question,
@@ -35,8 +35,8 @@ module.exports = async function(req, res) {
         })
 
 
-        let questionSave = await ques.save();
-        let userUpdate = await User.updateOne({ _id: user_id }, { $push: { question: ques._id } }).exec();
+        await ques.save();
+        await User.updateOne({ _id: user_id }, { $push: { question: ques._id } }).exec();
 
         let user = await User.findById(user_id, "score").exec()
         addScore(user, "totalScore", score.question);

@@ -14,7 +14,7 @@ module.exports = [
     }),
 
     body('username').exists().withMessage('Username should be present').bail()
-    .matches(/^[_a-z0-9]+$/).withMessage('username should be in lowercase with digits and _ allowed.').bail()
+    .matches(/^[a-zA-Z][._a-zA-Z0-9]+[_a-zA-Z0-9]$/).withMessage('username should be in lowercase with digits and _ allowed (min. length=3).').bail()
     .custom(username => {
         // console.log('Running custom validator....');
         return User.findUserByUserName(username).then(
@@ -32,11 +32,10 @@ module.exports = [
     }).withMessage("Username taken"),
 
     body(['password1', 'password2']).exists().withMessage("Password should be present.").bail()
-    .isLength({ min: 5 }).withMessage('must be at least 5 chars long').bail(),
+    .isLength({ min: 6 }).withMessage('must be at least 6 chars long').bail(),
 
     body('password2').custom((password2, { req }) => {
         let password1 = req.body.password1;
-        console.log(password1 == password2);
         if (password1 !== password2)
             return Promise.reject('passwords didn\'t matched.');
         else

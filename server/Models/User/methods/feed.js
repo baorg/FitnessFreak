@@ -11,12 +11,11 @@ async function refreshFeed() {
 
     let old_feed = feed;
 
-    let followingQuestions = await this.getAllQuestionsOfFollowings(feed_last_updated, current_time, 'id vote_count created_at',
-        [{
-            path: 'userId',
-            model: User,
-            select: 'username'
-        }]);
+    let followingQuestions = await this.getAllQuestionsOfFollowings(feed_last_updated, current_time, 'id vote_count created_at', [{
+        path: 'userId',
+        model: User,
+        select: 'username'
+    }]);
     let topQuestions = await Ques.getTopQuestions(feed_last_updated, current_time, 0, 50,
         'title question categoryName userId tags vote_count', [{
             path: 'userId',
@@ -59,17 +58,13 @@ async function refreshFeed() {
     await this.save();
 }
 
-async function getFeed(skip, count) {
+async function getFeed(skip, count, select = 'title', populate = []) {
     const { User, Ques } = require('./../../');
     let { feed_last_updated, feed } = await User.findOne({ _id: this._id }).select('feed_last_updated feed').populate({
         path: 'feed',
         model: Ques,
-        select: 'title question categoryName userId tags vote_count',
-        populate: {
-            path: 'userId',
-            model: User,
-            select: 'username'
-        },
+        select: select,
+        populate: populate,
         options: {
             limit: count,
             skip: skip,

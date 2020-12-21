@@ -1,35 +1,12 @@
 const { User, Ques } = require('../../Models');
 const { QuestionSerializers } = require('./../../Serializers');
 
-// app.get('/posts', async (req, res) => {
-//     // destructure page and limit and set default values
-//     const { page = 1, limit = 10 } = req.query;
-
-//     try {
-//       // execute query with page and limit values
-//       const posts = await Posts.find()
-//         .limit(limit * 1)
-//         .skip((page - 1) * limit)
-//         .exec();
-
-//       // get total documents in the Posts collection 
-//       const count = await Posts.countDocuments();
-
-//       // return response with posts, total pages, and current page
-//       res.json({
-//         posts,
-//         totalPages: Math.ceil(count / limit),
-//         currentPage: page
-//       });
-//     } catch (err) {
-
-
 module.exports = async function(req, res, next) {
     let questions = [];
     let { page = 1 } = req.query;
     let count = 10;
 
-    console.log('is authenticated', req.isAuthenticated(), 'User', req.user);
+    // console.log('is authenticated', req.isAuthenticated(), 'User', req.user);
     if (req.isAuthenticated()) {
         let current_timestamp = new Date(Date.now());
         let user = req.user;
@@ -38,7 +15,7 @@ module.exports = async function(req, res, next) {
             'vote_count title question userId tags categoryName created_at', [{
                 path: 'userId',
                 model: User,
-                select: 'username'
+                select: 'username profile_image'
             }]);
 
         if (current_timestamp - last_updated >= 6 * 60 * 60 * 1000) {
@@ -48,7 +25,7 @@ module.exports = async function(req, res, next) {
                 'vote_count title question userId tags categoryName created_at', [{
                     path: 'userId',
                     model: User,
-                    select: 'username'
+                    select: 'username profile_image'
                 }]).feed;
         }
         questions = feed;
@@ -58,7 +35,7 @@ module.exports = async function(req, res, next) {
             'vote_count title question userId tags categoryName created_at', [{
                 path: 'userId',
                 model: User,
-                select: 'username'
+                select: 'username profile_image'
             }, ]
         );
     }

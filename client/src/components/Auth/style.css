@@ -1,8 +1,8 @@
-* {
+/* * {
     margin: 0;
     padding: 0;
     box-sizing: inherit;
-}
+} */
 
 .auth {
     background-color: rgb(85, 80, 74);
@@ -20,10 +20,6 @@
     justify-items: center;
     top: 5vh;
     min-height: 80vh;
-}
-
-.div-register {
-    grid-area: register;
 }
 
 .div-login {
