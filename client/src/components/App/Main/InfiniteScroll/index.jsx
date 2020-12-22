@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Spinner from './Spinner';
 import InfiniteScroll from 'react-infinite-scroller';
@@ -17,6 +17,13 @@ export default function (props) {
     const [feed, setFeed] = useState({questions:[], current_page: 0 });
     const [hasMore, setHasMore] = useState(true);
 
+    useEffect(() => {
+        setFeed({ questions: [], current_page: 0 });
+        setHasMore(true);
+        return () => {
+        }
+    }, [props.url]);
+
     async function refreshFeed(event) {
         await ajaxRequest('POST', `${CONFIG.API_DOMAIN}/feed/refresh-feed`);
         setFeed({questions:[], current_page: 0});
@@ -25,7 +32,7 @@ export default function (props) {
   
     async function handleLoadMore(page_) {
         let page = feed.current_page+1;
-        let newQuestions = await ajaxRequest('GET', `${CONFIG.API_DOMAIN}/feed/get-feed?page=${page}`);
+        let newQuestions = await ajaxRequest('GET', `${props.url}page=${page}`);
         if (newQuestions.data.questions.length > 0) {
             return setFeed({
               questions: feed.questions.concat(newQuestions.data.questions),

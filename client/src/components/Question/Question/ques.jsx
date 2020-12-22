@@ -18,6 +18,7 @@ const Question = styled.div`
     border-color: black;
     border-width: 1px;
     border-style: solid;
+    width: 100%;
 `;
 
 const QuestionHeader = styled.div`
@@ -28,6 +29,7 @@ const ProfileImage = styled.img`
     width: 2em;
     height: 2em;
     border-radius: 50%;
+    margin: 5px 5px 0 5px;
 `;
 
 let styles = {
@@ -49,8 +51,10 @@ export default function (props) {
     return (
         <Question>
             <QuestionHeader>
-                <ProfileImage src={ props.question.user.profile_image }/>
+                <ProfileImage src={props.question.user.profile_image} />
+                Posted by <A href={`/profile/${props.question.user._id || props.question.user.userId}`}> @{props.question.user.username}</A>
             </QuestionHeader>
+            <hr/>
             <QuestionHeader>
                 {/* <div style={styles.vote}>
                     <div>Up {props.question.vote.up }</div>
@@ -58,12 +62,10 @@ export default function (props) {
                 </div> */}
                 <div style={styles.vote}>
                     <div style={styles.question}>
-                        <span style={{fontSize:20 }}>{props.question.vote ? props.question.vote.up : null}</span>
                         <ExpandLessIcon  style={{color:'black ',fontSize:40}} />
                     </div>
-                    <hr/>
-                    <div style={styles.question}>
-                        <span style={{fontSize:20 }}>{props.question.vote ? props.question.vote.down : null}</span>
+                    <span style={{fontSize:20, marginLeft: "10px" }}>{props.question.vote ? props.question.vote.up - props.question.vote.down : null}</span>
+                    <div style={styles.vote}>
                         <ExpandMoreIcon style={{ color: 'black ', fontSize: 40 }} />
                     </div>
                 </div>
@@ -75,8 +77,6 @@ export default function (props) {
                 ))}
             </div>
             <div> - {timeAgo.format(new Date(props.question.posted_at))}</div>
-            <A href={`/profile/${props.question.user._id || props.question.user.userId}`}>- @{props.question.user.username}</A>
-            <br/><hr/>
         </Question>
     );
 }

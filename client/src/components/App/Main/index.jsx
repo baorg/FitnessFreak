@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import axiosCall from '../../../ajaxRequest';
 import { Button } from '@material-ui/core'
 import InfiniteScroll from './InfiniteScroll';
 import styled from 'styled-components';
@@ -34,12 +33,27 @@ const Type = styled.div`
 `;
 
 export default function (props) {
-
+    let [url, setUrl] = useState(`${CONFIG.API_DOMAIN}/feed/get-feed?`);
+    useEffect(() => {
+        // let selectedCategory = props.category ? props.category : null;
+        if (props.type === 'Hot') {
+            setUrl(`${CONFIG.API_DOMAIN}/Question/hot-questions?${props.category ? "category=" + props.category.name+"&" : ""}`);
+        } else if (props.type === 'Newest') {
+            setUrl(`${CONFIG.API_DOMAIN}/Question/latest-questions?${props.category ? "category=" + props.category.name+"&" : ""}`);
+        } else if (props.type === 'Unanswered') {
+            setUrl(`${CONFIG.API_DOMAIN}/Question/unanswered-questions?${props.category ? "category=" + props.category.name+"&" : ""}`);
+        } else {
+            if(props.category)
+                setUrl(`${CONFIG.API_DOMAIN}/Question/getQuestionsCategoryWise/${props.category.name}?`)
+            else
+                setUrl(`${CONFIG.API_DOMAIN}/feed/get-feed?`)
+        }
+    }, [props.type, props.category]);
     async function handleTypeChange(type) {
         if (props.type === type) {
             props.setType(null);
         } else {
-            props.  setType(type);
+            props.setType(type);
         }
     }
 
@@ -55,6 +69,6 @@ export default function (props) {
                     <Type selected={props.type==="Unanswered"} onClick={()=>handleTypeChange("Unanswered")}>Unanswered</Type>
                 </TypeContainer>
             </Margin>
-            <InfiniteScroll type={props.type} category={props.category} />
+            <InfiniteScroll type={props.type} category={props.category} url={url}/>
         </Content>);
 }

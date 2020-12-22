@@ -49,8 +49,9 @@ function likes(ques) {
 }
 
 
-async function hotQuestions(obj, page, count) {
-    let query = Ques.find({},
+async function hotQuestions(obj, page, count, category = null) {
+    let findQuery = category ? { categoryName: category } : {};
+    let query = Ques.find(findQuery,
         "title question created_at categoryName upDown vote_count", {
             sort: {},
             limit: count,
@@ -75,8 +76,9 @@ async function hotQuestions(obj, page, count) {
         .catch((err) => ({ "err": err }));
 }
 
-async function latest(obj, page, count) {
-    let questions = await Ques.find({}, "title question created_at categoryName vote_count", {
+async function latest(obj, page, count, category = null) {
+    let findQuery = category ? { categoryName: category } : {};
+    let questions = await Ques.find(findQuery, "title question created_at categoryName vote_count", {
         sort: { created_at: -1 },
         limit: count,
         skip: (page - 1) * count,
@@ -84,10 +86,9 @@ async function latest(obj, page, count) {
     return ({ data: getArrayOfQues(questions), err: false });
 }
 
-async function unanswered(obj, page, count) {
-    let questions = await Ques.find({
-            answers: [],
-        },
+async function unanswered(obj, page, count, category = null) {
+    let findQuery = category ? { categoryName: category, answers: [] } : { answers: [] };
+    let questions = await Ques.find(findQuery,
         "title question created_at categoryName vote_count", {
             limit: count,
             skip: (page - 1) * count
@@ -116,12 +117,12 @@ function getHandlerForTheAskedType(name) {
 module.exports.getTypeOfQuestionsHandler = function(req, res) {
 
     let name = req.params.name;
-    let { page = 1 } = req.query;
+    let { page = 1, category = null } = req.query;
     const obj = {
         path: 'userId',
         model: User,
         options: {
-            select: 'username first_name last_name'
+            select: 'username first_name last_name profile_image'
         },
     }
 
@@ -129,15 +130,15 @@ module.exports.getTypeOfQuestionsHandler = function(req, res) {
 
     const page_size = 20;
 
-    const promise = fun(obj, page, 20);
+    const promise = fun(obj, page, 20, category);
 
     promise.then((response) => {
             // console.log("response = ", response)
-            return res.send(response);
+            return res.send({ questions: response.data, isAuthenticated: true, success: true });
         })
         .catch((err) => {
             console.log("error in getting type of ques");
-            return { data: "", err: true }
+            return { questions: [], isAuthenticated: true, success: false }
         })
 
 }

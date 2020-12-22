@@ -78,7 +78,7 @@ function FullQuestion(props) {
   return question ?
     (<div>
       <MyNav user={props.user} />
-      <SideNavBar user={props.user} />
+      {/* <SideNavBar user={props.user} /> */}
       <div className="maindivofeverypage" >
         <div style={{ textAlign: "left" }}>
           <div style={{ display: "flex", alignItems: "center" }}>
