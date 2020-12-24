@@ -6,12 +6,16 @@ import UpvoteDownvote from "../../UpvoteDownvote/upvoteDownvote";
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import styled from 'styled-components';
+import noimage from '../../../static/noimage.png';
 
 // English.
 import en from 'javascript-time-ago/locale/en'
 TimeAgo.addLocale(en)
 
-const Question = styled.div`
+
+// Styled components ===================================
+
+let Question = styled.div`
     background-color: white;
     margin: 4px;
     border-radius: 2px;
@@ -19,18 +23,78 @@ const Question = styled.div`
     border-width: 1px;
     border-style: solid;
     width: 100%;
+    padding: 4px;
 `;
 
-const QuestionHeader = styled.div`
+let QuestionHeader = styled.div`
     display: flex;
 `;
 
-const ProfileImage = styled.img`
+let ProfileImage = styled.img`
     width: 2em;
     height: 2em;
     border-radius: 50%;
     margin: 5px 5px 0 5px;
 `;
+
+let PostedName = styled.div`
+
+`;
+
+let PostedDate = styled.div`
+    font-size: 0.7em;
+    color: #8f8f8f;
+`;
+
+let NameDiv = styled.div`
+    
+`;
+
+let CategorySpan = styled.span`
+    size: 0.8em;
+    color: #2f2f2f;
+    width: fit-content;
+    background-color: rgb(142, 238, 238);
+    padding: 0 4px 0 4px;
+    margin: 0 2px 0 2px;
+    border-radius: 6px;
+`;
+
+let QuestionMainDiv = styled.div`
+
+`;
+let QuestionTitle = styled.div`
+    size: 0.8em;
+    font-weight: bolder;
+    A{
+        color: black;
+    }
+`;
+let QuestionPreviewDiv = styled.div`
+    max-height: 10em;
+    overflow: hidden;
+`;
+
+let ReadMoreDiv = styled.div`
+    position: relative;
+    top: -1em;
+    display: grid;
+    place-items: center;
+    background-color: rgba(255, 255, 255, 0.753);
+`;
+
+let ReadMoreButton = styled.button`
+    background-color: #bfd9e0;
+    border: 0;
+    border-style: none;
+    border-radius: 10px;
+    :hover{
+        transform: scale(1.1);
+        background-color: #82d3e9;
+    }
+`;
+// =====================================================
+
 
 let styles = {
     vote: {
@@ -39,27 +103,30 @@ let styles = {
     }
 }
 
+
+
+
 export default function (props) { 
     // console.log(props);
     const timeAgo = new TimeAgo('en');
     let url="";
     if (props.type === "answerasked")
-        url = `/profile/${props.question.user.userId}/answer-asked/${props.question._id}`;
+        url = `/profile/${props.question.user._id}/answer-asked/${props.question._id}`;
     else
         url = `/viewFullQuestion/${props.question._id}`;
     
     return (
         <Question>
             <QuestionHeader>
-                <ProfileImage src={props.question.user.profile_image} />
-                Posted by <A href={`/profile/${props.question.user._id || props.question.user.userId}`}> @{props.question.user.username}</A>
+                <ProfileImage src={props.question.user.profile_image || noimage } />
+                <PostedName>
+                    <NameDiv><A href={`/profile/${props.question.user._id || props.question.user.userId}`}> {props.question.user.first_name} {props.question.user.last_name}</A></NameDiv>
+                    <PostedDate>{ new Date(props.question.posted_at).toLocaleString('en-US', {day: 'numeric', year: 'numeric', month: 'long'}) }</PostedDate>
+                </PostedName>
+                
             </QuestionHeader>
             <hr/>
             <QuestionHeader>
-                {/* <div style={styles.vote}>
-                    <div>Up {props.question.vote.up }</div>
-                    <div>Down { props.question.vote.down }</div>
-                </div> */}
                 <div style={styles.vote}>
                     <div style={styles.question}>
                         <ExpandLessIcon  style={{color:'black ',fontSize:40}} />
@@ -69,14 +136,24 @@ export default function (props) {
                         <ExpandMoreIcon style={{ color: 'black ', fontSize: 40 }} />
                     </div>
                 </div>
-                <A href={url}><h3>{props.question.title} </h3></A>
+
+                <QuestionMainDiv>
+                    <QuestionTitle>
+                    <A href={url}>{props.question.title}</A>
+                    </QuestionTitle>
+                    <QuestionPreviewDiv dangerouslySetInnerHTML={{ __html: props.question.question }} />
+                    <ReadMoreDiv>
+                        <A href={url}><ReadMoreButton>Read More</ReadMoreButton></A>
+                    </ReadMoreDiv>
+                </QuestionMainDiv>
+                
+                
             </QuestionHeader>
             <div className="category-container">
                 {props.question.category.map(category => (
-                    <span className="category-span">{category}</span>
+                    <CategorySpan className="category-span">{category}</CategorySpan>
                 ))}
             </div>
-            <div> - {timeAgo.format(new Date(props.question.posted_at))}</div>
         </Question>
     );
 }

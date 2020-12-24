@@ -12,6 +12,7 @@ const ContentContainer = styled.div`
   position: relative;
   top: 50px;
   display: grid;
+  width: 100%;
   grid-template-columns: 1fr 600px 1fr;
   background-color: #eeeeee;
   min-height: 100vh;

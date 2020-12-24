@@ -9,7 +9,13 @@ module.exports.feedQuestionSerializer = function(question) {
                 down: question.vote_count.downvote
             },
             category: question.categoryName,
-            user: question.userId,
+            user: {
+                _id: question.userId._id,
+                username: question.userId.username,
+                first_name: question.userId.first_name,
+                last_name: question.userId.last_name,
+                profile_image: question.userId.profile_image
+            },
             tags: question.tags,
             posted_at: question.created_at
         };

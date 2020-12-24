@@ -10,6 +10,7 @@ import SideNavBar from "../../Navigation/SideNav/SideNav";
 import { Spinner } from "react-bootstrap";
 import { Button } from 'react-bootstrap'
 import CONFIG from '../../../config';
+import noimage from '../../../static/noimage.png';
 
 const AnonymousUser = {
     _id:0,
@@ -61,7 +62,7 @@ function Profile(props){
             <MyNav user={props.user} />
             <SideNavBar type="profile" profileid={profileUser._id} user={props.user} />
                 <div className="maindivofeverypage" >
-                    <img src={profileUser.profile_image || AnonymousUser.profile_image} alt="profilepic" className="profilepic"></img>
+                    <img src={profileUser.profile_image || noimage } alt="profilepic" className="profilepic"></img>
                 <h1>{profileUser.username}</h1>
                 {
                     props.user == undefined ? <></> : (props.user._id === profileUser._id ? <Button variant="primary" onClick={() => { navigate('/update-profile');}}>Edit Profile</Button>:(isFollowing ?

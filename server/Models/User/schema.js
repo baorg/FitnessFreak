@@ -13,7 +13,10 @@ const userSchema = new mongoose.Schema({
     },
     first_name: String,
     last_name: String,
-    created_at: Date,
+    created_at: {
+        type: Date,
+        default: Date.now
+    },
     google_id: String,
     google_setup: {
         setup: { type: Boolean, default: false },

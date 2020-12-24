@@ -35,7 +35,7 @@ module.exports = async function(req, res, next) {
             'vote_count title question userId tags categoryName created_at', [{
                 path: 'userId',
                 model: User,
-                select: 'username profile_image'
+                select: 'username profile_image first_name last_name'
             }, ]
         );
     }

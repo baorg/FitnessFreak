@@ -70,7 +70,8 @@ module.exports.profilePrivileges = function(req, res) {
 
     const name = req.params.name;
     const userId = req.body.id;
-    console.log("privilege name", name)
+    console.log("privilege name", name);
+
     let promise;
     if (name !== "answer") {
         const obj = {

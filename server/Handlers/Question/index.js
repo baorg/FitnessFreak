@@ -12,18 +12,25 @@ const { addVoteHandler, editVoteHandler } = require("./Voting");
 const { saveBookMark, isBookMarked } = require("./bookmark");
 const { getTypeOfQuestionsHandler } = require("./TypeOfQues");
 const uploadAttachmentsHandler = require("./uploadAttachments");
-const {profilePrivileges} = require("./profilePrivileges")
-const {getCategory} = require("./category")
-const {getNotifications} = require("./getNotifications")
-const {postComment} = require("./postComment")
-const {getAnswersByQuesId} = require("./getAnswersByQuesId"); 
-const {getCommentsByAnswerId } = require("./getCommentsByAnswerId");
-const {getQuestionsCategoryWise } = require("./getQuestionsCategoryWise");
-const {getAnswersByUserOnly} = require("./getAnswersByUserOnly");
-const {markAnswer, isQuestionAskedByUser} = require("./markAnswer")
+const { profilePrivileges } = require("./profilePrivileges")
+const { getCategory } = require("./category")
+const { getNotifications } = require("./getNotifications")
+const { postComment } = require("./postComment")
+const { getAnswersByQuesId } = require("./getAnswersByQuesId");
+const { getCommentsByAnswerId } = require("./getCommentsByAnswerId");
+const { getQuestionsCategoryWise } = require("./getQuestionsCategoryWise");
+const { getAnswersByUserOnly } = require("./getAnswersByUserOnly");
+const { markAnswer, isQuestionAskedByUser } = require("./markAnswer");
+const { getAnswersOfUser, getQuestionOfUser } = require('./getDataOfUser');
+
+
 module.exports = {
-    getOneQuestionHandler,
     getQuestionsHandler,
+    getOneQuestionHandler,
+
+    getQuestionOfUser,
+    getAnswersOfUser,
+
     postAnswerHandler,
     postQuestionHandler,
     addVoteHandler,
@@ -42,5 +49,5 @@ module.exports = {
     getQuestionsCategoryWise,
     getAnswersByUserOnly,
     markAnswer,
-    isQuestionAskedByUser
+    isQuestionAskedByUser,
 }

@@ -9,17 +9,24 @@ async function getUserData(user_id) {
 
 
 async function findUserByEmail(email) {
-    let user = await this.findOne({ email }).select(['username', 'email']).exec();
+    let user = await this.findOne({ email })
+        .select(['username', 'email', 'first_name', 'last_name', 'created_at', 'profile_image', 'bio'])
+        .exec();
+
     return user;
 }
 
 async function findUserByUserName(username) {
-    let user = await this.findOne({ username: username }).select(['username', 'email']).exec();
+    let user = await this.findOne({ username: username })
+        .select(['username', 'email', 'first_name', 'last_name', 'created_at', 'profile_image', 'bio'])
+        .exec();
     return user;
 }
 
 async function findUserByUserId(userId) {
-    let user = await this.findOne({ _id: userId }).select(['username', 'email']).exec();
+    let user = await this.findOne({ _id: userId })
+        .select(['username', 'email', 'first_name', 'last_name', 'created_at', 'profile_image', 'bio'])
+        .exec();
     return user.username;
 }
 

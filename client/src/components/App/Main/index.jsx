@@ -7,6 +7,7 @@ import CONFIG from '../../../config';
 const Content = styled.div`
     grid-column: 2 / 3;
     margin: 10px 10px 0 10px;
+    scrollbar-width: 0;
 `;
 
 const Margin = styled.div`

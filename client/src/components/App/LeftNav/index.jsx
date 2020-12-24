@@ -13,8 +13,10 @@ const SideNavContainer = styled.div`
     align-items: flex-start;
     grid-column: 1 / 2;
     justify-self: center;
-    position: relative;
     top: 10em;
+    position: sticky;
+    height: 100vh;
+    box-sizing: border-box;
 `;
 
 
