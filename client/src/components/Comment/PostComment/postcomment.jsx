@@ -13,7 +13,7 @@ const PostComment = (props) => {
     const [editorData, setEditorData] = useState("");
     function postComment(e){
         e.preventDefault();
-        const url = `${CONFIG.API_DOMAIN}/Question/postComment`;
+        const url = `${CONFIG.API_DOMAIN}/question/post-comment`;
         const obj = {
             answerId : props.answerId,
             comment : editorData
@@ -21,8 +21,9 @@ const PostComment = (props) => {
         }
         axiosCall('post', url, obj).then(res => {
             console.log("postComment response ",res.data);
-            if (res.data.isAuthenticated) {
-                console.log("succesfully added")
+            if (res.data.success && res.data.is_saved) {
+                console.log("succesfully added");
+                props.setComments([res.data.comment, ...props.comments]);
             } else {
                 console.log("Not Authenticated")
             }

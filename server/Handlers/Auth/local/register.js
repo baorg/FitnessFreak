@@ -23,12 +23,15 @@ module.exports = function(req, res, next) {
         password1,
         function(err, user) {
             if (err) {
-                console.error("Error during authentication: ", err);
+                // console.error("Error during authentication: ", err);
+                // res.data.success = false;
+                // res.data.errors = [];
+                // res.data.registered = false;
+                // return next();
                 return res.send({ success: false, errors: [], registered: false });
             } else {
                 createVerification(user)
                     .then(function(data) {
-
                         return res.send(data);
                     })
                     .catch(function(err) {

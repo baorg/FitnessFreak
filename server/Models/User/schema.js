@@ -52,6 +52,7 @@ const userSchema = new mongoose.Schema({
     notifications: [],
     feed: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Ques' }],
     feed_last_updated: { type: Date, default: new Date(0) },
+    email_verified: { type: Boolean, default: false },
     is_verified: { type: Boolean, default: false },
     chosen_category: {
         type: [{

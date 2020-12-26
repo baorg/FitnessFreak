@@ -25,7 +25,7 @@ module.exports = function(req, res, next) {
             return res.send({ success: false });
         } else {
             passport.authenticate("local")(req, res, function() {
-                console.log('User loged in.');
+                // console.log('User loged in.');
                 return res.send({ success: true, authenticated: true, user: req.user });
             });
         }

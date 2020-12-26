@@ -1,5 +1,6 @@
 const CLIENT_LOGIN_PAGE_URL = process.env.CLIENT_DOMAIN;
 const CLIENT_HOME_PAGE_URL = `${CLIENT_LOGIN_PAGE_URL}/feed/app`;
+const { format_response } = require('../utilis');
 const { Ques, Comment } = require("../../../Models");
 const { Ans } = require("../../../Models");
 
@@ -9,7 +10,7 @@ function getModel(flag) {
         return Comment;
     return (flag) ? Ques : Ans;
 }
-module.exports = function(req, res) {
+module.exports = function(req, res, next) {
     const userId = req.user.id;
     const quesId = req.body.quesId;
     const isQues = req.body.isQues;
@@ -31,9 +32,11 @@ module.exports = function(req, res) {
                 else
                     result.downvote = true;
             }
-            return res.send(result);
+            format_response(res, result, true);
+            return next();
         })
         .catch((err) => {
-            return res.send({ err: err });
-        })
+            format_response(res, {}, false);
+            return next();
+        });
 }

@@ -17,11 +17,12 @@ router.get('/callback', facebookCallbackHandlerfunction,
         failureRedirect: CLIENT_LOGIN_PAGE_URL
     }),
     function(req, res, next) {
-        console.log("Request user: ", req.user);
-        if (req.user.userName === undefined)
-            res.redirect(CLIENT_USERNAME_SET_PAGE);
-        else
-            res.redirect(CLIENT_HOME_PAGE_URL);
+        // console.log("Request user: ", req.user);
+        // if (req.user.userName === undefined)
+        //     res.redirect(CLIENT_USERNAME_SET_PAGE);
+        // else
+        //     res.redirect(CLIENT_HOME_PAGE_URL);
+        res.redirect(CLIENT_HOME_PAGE_URL);
     });
 
 module.exports = router;

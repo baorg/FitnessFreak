@@ -11,12 +11,14 @@ module.exports = function(req, res, next) {
                 res.data.is_following = found;
                 next();
             }).catch(err => {
-                console.error(err);
+                console.error('ERROR:', err);
                 res.data.success = false;
+                res.error = 'Some internal Error';
                 next();
             });
     } else {
         res.data.success = false;
+        res.data.error = 'Invalid user-id';
         next();
     }
 }

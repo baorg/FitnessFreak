@@ -1,18 +1,25 @@
 const { Ques, User } = require("../../Models");
-
+const { validationResult } = require('express-validator');
 const score = require("../../config").score;
 const addScore = require("./utilis").addScore;
 
-module.exports = async function(req, res) {
+module.exports = async function(req, res, next) {
+    const errors = validationResult(req);
 
-    let data = "";
+    if (!errors.isEmpty()) {
+        res.data.succes = false;
+        res.data.errors = errors.array();
+        res.data.error = 'Validation error.';
+        return next();
+    }
+
     try {
         let user_id = req.user.id;
         let category = req.body.category;
         let tags = req.body.tags;
         let question = req.body.question;
         let title = req.body.title;
-        let attachments = req.body.attachments;
+        let attachments = req.body.attachments || [];
 
         // console.log("Attachments: ", attachments);
         // console.log("Length: ", attachments.length);
@@ -45,17 +52,14 @@ module.exports = async function(req, res) {
         })
         await user.save()
 
-        data = "question saved";
-        isSaved = true;
+        res.data.is_saved = true;
+        res.data.success = true;
     } catch (err) {
         console.error('[ERROR] ', __filename, err);
-        data = "some error occured";
-        isSaved = false;
+        res.data.is_saved = false;
+        res.data.succes = false;
+        res.data.error = "some error occured";
     } finally {
-        return res.send({
-            isAuthenticated: req.isAuthenticated(),
-            data,
-            isSaved
-        });
+        return next();
     }
 }

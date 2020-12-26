@@ -9,11 +9,11 @@ function addFollowing(req, res, next) {
                 res.data.success = true;
                 res.data.msg = "Following added";
                 res.data.following = data;
-                console.log(res.data);
+                // console.log(res.data);
                 return next();
             })
             .catch(err => {
-                console.error(err);
+                console.error('ERROR:', err);
                 res.data.success = false;
                 return next();
             });

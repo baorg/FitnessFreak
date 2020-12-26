@@ -16,14 +16,15 @@ async function updateProfileHandler(req, res, next) {
         user.bio = bio;
         await user.save();
 
-        res.data = {
-            success: true,
-            updated: true,
-            user: user
-        };
+        res.data.success = true;
+        res.data.updated = true;
+        res.data.user = user;
+
     } catch (err) {
         console.err('ERROR: ', err);
-        res.data = { success: false, error: 'Some error occured in our end.', updated: false };
+        res.data.success = false;
+        res.data.error = 'Some error occured in our end.';
+        res.data.updated = false;
     } finally {
         return next();
     }

@@ -1,36 +1,16 @@
-const { User, Ques } = require('../../Models');
-
-
-function serializeQuestions(user) {
-    return user.question.map(ques => ({
-
-        user: {
-            _id: user.id,
-            username: user.username,
-            first_name: user.first_name,
-            last_name: user.last_name,
-            profile_image: user.profile_image
-        },
-        vote: {
-            up: ques.vote_count.upvote,
-            down: ques.vote_count.downvote
-        },
-        _id: ques._id,
-        title: ques.title,
-        question: ques.question,
-        category: ques.categoryName,
-        tags: ques.tags,
-        attachments: ques.attachments,
-        posted_at: ques.created_at
-    }));
-}
-
-async function getQuestionOfUser(req, res) {
+const { User, Ques, Ans } = require('../../Models');
+const { QuestionSerializers, AnswerSerializers } = require('../../Serializers');
+async function getQuestionOfUser(req, res, next) {
     let { page = 1, user_id } = req.query;
     let page_size = 10;
 
-    let user = await User.findOne({ _id: user_id }, { question: { $slice: [page * page_size, page_size] } })
-        .select('question first_name last_name username profile_image')
+    let user = await User.findById(user_id, {
+            question: { $slice: [(page - 1) * page_size, page * page_size] },
+            first_name: 1,
+            last_name: 1,
+            username: 1,
+            profile_image: 1
+        })
         .populate({
             path: 'question',
             model: Ques,
@@ -38,17 +18,59 @@ async function getQuestionOfUser(req, res) {
         })
         .exec();
 
-    let questions = serializeQuestions(user);
-    return res.send({ questions });
+    if (user) {
+        let questions = QuestionSerializers.userQuestionSerializer(user);
+        res.data.success = true;
+        res.data.questions = questions;
+    } else {
+        res.data.success = false;
+        res.data.error = 'Invalid user_id';
+    }
+    return next();
 
 }
 
-function getAnswersOfUser(req, res) {
+async function getAnswersOfUser(req, res, next) {
     let { page = 1, user_id } = req.query;
+    let page_size = 10;
+    let user = await User.findById(user_id, {
+            answer: { $slice: [(page - 1) * page_size, page * page_size] },
+            first_name: 1,
+            last_name: 1,
+            username: 1,
+            profile_image: 1
+        })
+        .populate({
+            path: 'answer',
+            model: Ans,
+            select: 'vote_count answer quesId marked',
+            populate: [{
+                path: 'quesId',
+                model: Ques,
+                select: 'title created_at vote_count tags categoryName attachments',
+                populate: {
+                    path: 'userId',
+                    model: User,
+                    select: 'username first_name last_name profile_image'
+                }
+            }, {
+                path: 'userId',
+                model: User,
+                select: 'username first_name last_name profile_image'
+            }]
+        })
+        .exec();
 
-    console.log('Page: ', page, '\nUser Id: ', user_id, '\n');
+    if (user) {
+        // let questions = userQuestionSerializer(user);
+        res.data.success = true;
+        res.data.answers = AnswerSerializers.userAnswerSerializer(user);
+    } else {
+        res.data.success = false;
+        res.data.error = 'Invalid user_id';
+    }
+    return next();
 
-    return res.send({ answers: [] });
 
 }
 

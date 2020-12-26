@@ -47,7 +47,7 @@
     margin: 5px;
     position: relative;
     left: -50%;
-    background-color: white;
+    background-color: #eeeeee;
     opacity: 1;
     transform: rotate(-5deg);
 }

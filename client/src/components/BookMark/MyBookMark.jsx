@@ -14,7 +14,7 @@ import notLoggedIn from "../../notloggedin";
 const BookMark = function(props){
     const [marked, setMarked] = useState(false);
     useEffect(() => {
-        axiosCall('post', `${CONFIG.API_DOMAIN}/Question/isBookMarked`, {quesId : props.quesId})
+        axiosCall('get', `${CONFIG.API_DOMAIN}/question/is-bookmarked`, {quesId : props.quesId})
         .then((res) => {
           if(res.data.err)
             navigate("/")
@@ -24,15 +24,13 @@ const BookMark = function(props){
       }, [ props.quesId ]);
 
     function saveBookMark(){
-
-        axiosCall('post', `${CONFIG.API_DOMAIN}/Question/saveBookMark`, {quesId : props.quesId})
+      axiosCall('post', `${CONFIG.API_DOMAIN}/question/save-bookmark`, { quesId: props.quesId })
         .then((res) => {
-          if(res.data.err)
+          if (res.data.err)
             navigate("/")
-            console.log("saveBookMark = ", res.data)
-          setMarked(!marked)
-        })
-
+          console.log("saveBookMark = ", res.data)
+          setMarked(res.data.marked);
+        });
     }
     return(
       <div style={{marginLeft:"10px"}} >

@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { Button } from '@material-ui/core'
+import { A } from 'hookrouter';
 import InfiniteScroll from './InfiniteScroll';
 import styled from 'styled-components';
 import CONFIG from '../../../config';
@@ -38,14 +39,14 @@ export default function (props) {
     useEffect(() => {
         // let selectedCategory = props.category ? props.category : null;
         if (props.type === 'Hot') {
-            setUrl(`${CONFIG.API_DOMAIN}/Question/hot-questions?${props.category ? "category=" + props.category.name+"&" : ""}`);
+            setUrl(`${CONFIG.API_DOMAIN}/question/get-type/hot-questions?${props.category ? "category=" + props.category.name+"&" : ""}`);
         } else if (props.type === 'Newest') {
-            setUrl(`${CONFIG.API_DOMAIN}/Question/latest-questions?${props.category ? "category=" + props.category.name+"&" : ""}`);
+            setUrl(`${CONFIG.API_DOMAIN}/question/get-type/latest-questions?${props.category ? "category=" + props.category.name+"&" : ""}`);
         } else if (props.type === 'Unanswered') {
-            setUrl(`${CONFIG.API_DOMAIN}/Question/unanswered-questions?${props.category ? "category=" + props.category.name+"&" : ""}`);
+            setUrl(`${CONFIG.API_DOMAIN}/question/get-type/unanswered-questions?${props.category ? "category=" + props.category.name+"&" : ""}`);
         } else {
             if(props.category)
-                setUrl(`${CONFIG.API_DOMAIN}/Question/getQuestionsCategoryWise/${props.category.name}?`)
+                setUrl(`${CONFIG.API_DOMAIN}/question/getQuestionsCategoryWise/${props.category.name}?`)
             else
                 setUrl(`${CONFIG.API_DOMAIN}/feed/get-feed?`)
         }
@@ -62,7 +63,7 @@ export default function (props) {
         <Content>
             <Margin>
                 <div>
-                    <Button variant="contained" color="primary">Post a Question</Button>
+                    <A href="/post-question"><Button variant="contained" color="primary">Post a Question</Button></A>
                 </div>
                 <TypeContainer>
                     <Type selected={props.type==="Newest"} onClick={()=>handleTypeChange("Newest")}>Newest</Type> |

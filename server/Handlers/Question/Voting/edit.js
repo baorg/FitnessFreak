@@ -42,7 +42,7 @@ function setVoteCount(ques, typeOfVote, typeOfValue) {
 
 }
 
-module.exports = async function(req, res) {
+module.exports = async function(req, res, next) {
     let data = "Your respnose has been submitted succesully";
     try {
         const userId = req.user.id;
@@ -91,10 +91,11 @@ module.exports = async function(req, res) {
         }
         await ques.save()
         await user.save();
+        format_response(res, { is_saved: true }, true);
     } catch (err) {
         console.error('ERROR:', err);
-        data = "Error Occured while saving respnose"
+        format_response(res, {}, false);
     } finally {
-        return res.send(data)
+        return next();
     }
 }

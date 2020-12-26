@@ -15,7 +15,7 @@ module.exports = async function(req, res, next) {
             'vote_count title question userId tags categoryName created_at', [{
                 path: 'userId',
                 model: User,
-                select: 'username profile_image'
+                select: 'username profile_image first_name last_name'
             }]);
 
         if (current_timestamp - last_updated >= 6 * 60 * 60 * 1000) {
@@ -25,7 +25,7 @@ module.exports = async function(req, res, next) {
                 'vote_count title question userId tags categoryName created_at', [{
                     path: 'userId',
                     model: User,
-                    select: 'username profile_image'
+                    select: 'username profile_image first_name last_name'
                 }]).feed;
         }
         questions = feed;
@@ -41,5 +41,6 @@ module.exports = async function(req, res, next) {
     }
     questions = questions.map(question => QuestionSerializers.feedQuestionSerializer(question));
     res.data = { questions: questions };
+
     return next();
 }

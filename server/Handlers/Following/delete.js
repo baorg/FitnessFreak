@@ -13,13 +13,14 @@ module.exports = function(req, res, next) {
                 return next();
             })
             .catch(err => {
-                console.error(err);
+                console.error('ERROR:', err);
                 res.data.success = false;
+                res.data.error = 'Some internal error.';
                 return next();
             });
     } else {
         res.data.success = false;
-        res.data.error = "Data not sufficient.";
+        res.data.error = "Invalid user-id.";
         return next();
     }
 }

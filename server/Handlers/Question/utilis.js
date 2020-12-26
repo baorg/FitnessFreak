@@ -69,16 +69,11 @@ async function isSameUser(quesId, userId) {
 
 async function saveChanges(quesId, userId, sign, name, property = "Question") {
     //Checking whether the user is bookmarking his own question or not
-    try {
-        const isSame = await isSameUser(quesId, userId, sign, name);
-        console.log(`is Same output ${isSame}`)
-        if (!isSame)
-            await makeChanges(quesId, userId, sign, name, property, model);
-
-        return isSame;
-    } catch (err) {
-        return err;
-    }
+    const isSame = await isSameUser(quesId, userId, sign, name);
+    // console.log(`is Same output ${isSame}`)
+    if (!isSame)
+        await makeChanges(quesId, userId, sign, name, property);
+    return isSame;
 }
 
 
@@ -96,4 +91,24 @@ function getArrayOfAns(answers, name) {
     }))
 }
 
-module.exports = { getArrayOfQues, isSameUser, saveChanges, addScore, hasUserOwnProperty, getArrayOfAns }
+
+function format_response(res, data, success = true, error = null) {
+    if (success) {
+        res.data = {
+            ...res.data,
+            success: true,
+            ...data
+        }
+    } else {
+        if (error === null)
+            error = 'Some internal error';
+        res.data = {
+            ...res.data,
+            success: true,
+            ...data
+        }
+    }
+}
+
+
+module.exports = { getArrayOfQues, isSameUser, saveChanges, addScore, hasUserOwnProperty, getArrayOfAns, format_response }

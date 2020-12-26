@@ -8,16 +8,19 @@ const feedRouter = require('./feed');
 const rankRouter = require("./rank")
 const uploadRouter = require("./upload");
 
-const { initRequest } = require('../Middlewares');
+const { initRequest, sendResponse } = require('../Middlewares');
 
 router.use(initRequest);
 
-router.use('/auth', authRouter);
-router.use('/following', followingRouter);
+router.use('/auth', authRouter, sendResponse);
 router.use('/feed', feedRouter);
-router.use('/Question', questionRouter);
-router.use('/Users', usersRouter);
-router.use("/Rank", rankRouter);
+router.use('/following', followingRouter);
+router.use('/question', questionRouter, sendResponse);
+router.use("/rank", rankRouter);
 router.use('/upload', uploadRouter);
+router.use('/users', usersRouter);
+
+router.use(sendResponse);
+
 
 module.exports = router

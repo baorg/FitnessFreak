@@ -1,8 +1,9 @@
-const {
-    feedQuestionSerializer
-} = require('./Question/getQuestion');
-
+const QuestionSerializers = require('./Question');
+const UserSerializers = require('./User');
+const AnswerSerializers = require('./Answer');
 
 module.exports = {
-    QuestionSerializers: { feedQuestionSerializer }
+    AnswerSerializers,
+    QuestionSerializers,
+    UserSerializers
 }

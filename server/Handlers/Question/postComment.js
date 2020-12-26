@@ -1,36 +1,50 @@
-
 const { Ques, User, Ans, Comment } = require("../../Models");
 
-function setResult(result, err){
+function setResult(result, err) {
     result.isAuthenticated = false;
     result.err = err;
 }
-module.exports.postComment = async (req, res) => {
 
-    const answerId = req.body.answerId;
+module.exports.postComment = async(req, res, next) => {
+
     const userId = req.user.id;
+    const answerId = req.body.answerId;
     const comment = req.body.comment;
 
-    const result = {isAuthenticated : true, err : false}
+    // const result = { isAuthenticated: true, err: false }
     const saveComment = new Comment({
-        comment : comment,
-        userId : userId,
+        comment: comment,
+        userId: userId,
         vote_count: {},
         upDown: [],
-        answerId : answerId
+        answerId: answerId
     })
 
-    try{
-    const CommentSave = await saveComment.save() 
-    const AnsUpdate = await Ans.updateOne({ _id: answerId }, { $push: { comments: saveComment } }).exec();
+    try {
+        const CommentSave = await saveComment.save()
+        const AnsUpdate = await Ans.updateOne({ _id: answerId }, { $push: { comments: saveComment } }).exec();
+        res.data.success = true;
+        res.data.is_saved = true;
+        res.data.comment = {
+            _id: CommentSave._id,
+            answer: CommentSave.comment,
+            vote_count: CommentSave.vote_count,
+            upDown: CommentSave.upDown,
+            user: {
+                _id: req.user._id,
+                username: req.user.username,
+                first_name: req.user.first_name,
+                last_name: req.user.last_name
+            }
+        }
+    } catch (err) {
+        res.data.success = false;
+        res.data.error = 'Some internal error.';
+        res.data.is_saved = false;
+    } finally {
+        return next();
     }
-    catch(err){
-        setResult(result, err);
-    }
-    finally{
-        return res.send(result);
-    }
-    
+
     // Comment.save((err) => {
 
     //     if(err)
@@ -49,5 +63,5 @@ module.exports.postComment = async (req, res) => {
 
     // })
 
-    
+
 }

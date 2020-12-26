@@ -7,6 +7,5 @@ const isAuthenticated = require('../Middlewares').isAuthenticated;
 
 router.get('/get-feed', FeedHandler.getFeed);
 router.post('/refresh-feed', isAuthenticated, FeedHandler.refreshFeed);
-router.use(response);
 
 module.exports = router;

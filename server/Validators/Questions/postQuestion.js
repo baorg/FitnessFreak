@@ -6,14 +6,14 @@ module.exports = [
     body('category')
     .exists().withMessage('Category should be present')
     .custom(cat => {
-        if (category.some(val => val == cat)) {
+        if (cat.every(c => category.some(val => val == c))) {
             return Promise.resolve();
         } else {
             return Promise.reject('Invalid category.');
         }
     }),
     body('title')
-    .exists().withMessage('Title should be present.')
-    .isLength({ min: 1, max: 50 }).withMessage('Allowed length exceeds.'),
+    .exists().withMessage('Title should be present.').bail()
+    .isLength({ min: 1, max: 50 }).withMessage('Allowed length exceeds.').bail(),
     // body('question'),
 ]

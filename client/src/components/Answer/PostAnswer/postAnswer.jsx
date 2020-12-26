@@ -11,21 +11,27 @@ import CONFIG from '../../../config';
 const PostAnswer = (props) => {
     // const [answer, setAnswer] = useState("")
     const [editorData, setEditorData] = useState("");
-    function postAnswer(e){
+    
+    function postAnswer(e) {
         e.preventDefault();
-        const url = `${CONFIG.API_DOMAIN}/Question/postAnswer`;
+        const url = `${CONFIG.API_DOMAIN}/question/post-answer`;
         const obj = {
             quesId : props.id,
             answer : editorData
-            
         }
         axiosCall('post', url, obj).then(res => {
             console.log(res.data);
+            if (res.data.success && res.data.is_saved) {
+                console.log('Saved: ', res.data);
+                props.setAnswers([res.data.answer, ...props.answers]);
+                setEditorData("");
+            }
             // if (res.data.isAuthenticated) {
             // } else {
             //     console.log("Not Authenticated")
             // }
-            navigate(res.data);
+            // navigate(res.data);
+
         });
     }
 

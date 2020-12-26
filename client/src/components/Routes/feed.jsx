@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import App from "../App/App";
 import axios from "axios";
-import { useRoutes } from 'hookrouter';
+import { useRoutes, navigate } from 'hookrouter';
 import {HTML404 } from '../ErrorPage/Error';
-import PostQuestion from "../Question/PostQuestion/Postques";
+import PostQuestion from "../Question/PostQuestion";
 import FullQuestion from '../Question/FullQuestion/fullQuestion';
 import TypeOfPageRoutes from "./typeofpageroutes";
 import ProfileRoutes from "./profileroutes";
@@ -24,29 +24,30 @@ function getRoutes(user) {
   }
 }
 
-async function getUserName(setUser){
+async function getUserName(user, setUser){
     // console.count("getuserName");
-    const res = await axios.get(`${CONFIG.API_DOMAIN}/Users/get-userdata`, {withCredentials : true})
-    // console.count("getuserName");
-    if(res.data.isAuthenticated===true)
+    if (user) {
+      
+    } else {
+      const res = await axios.get(`${CONFIG.API_DOMAIN}/Users/get-userdata`, {withCredentials : true})
+      // console.count("getuserName");
+      if (res.data.isAuthenticated === true)
         setUser(res.data.user);
-    console.log(res.data);
+    }
 }
 
 
-function Feed() {
-  const [user, setUser] = useState(null);
-
+function Feed(props) {
   useEffect(() => {
+
     //isAuthenitaced
-    console.count("getuserName");
-    getUserName(setUser);
-    console.log("User:", user, ">");
-  }, [])
-  const page = useRoutes(getRoutes(user)) 
-  return (
-    page || <HTML404 />
-  );
+    // console.count("getuserName");
+    getUserName(props.user, props.setUser);
+
+  }, []);
+
+  const page = useRoutes(getRoutes(props.user));
+    return ( page || <HTML404 /> );
 }
 
 export default Feed;

@@ -35,13 +35,13 @@ const tokenSchema = new mongoose.Schema({
 async function create_token(user, t_type, r_depth = 0) {
     let l = 40;
     let cache = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let token = null;
+    let token;
 
 
 
     if (user == null || t_type == null)
         throw Error('User and token type are required.');
-    if (!['verify', 'password'].some(tp => tp === t_type))
+    if (!['verify_email', 'password_reset'].some(tp => tp === t_type))
         throw Error('Invalid token type.');
 
     try {
@@ -51,19 +51,20 @@ async function create_token(user, t_type, r_depth = 0) {
         }
         token = await this.create({ token: tkn, user: user, token_type: t_type });
     } catch (err) {
+
         console.log('ERROR: ', err);
         if (r_depth >= 20) {
             console.error('Recursion depth reached. Look into your apis.');
             throw err;
         }
-
         token = await this.create_token(user, t_type, r_depth + 1);
+
     } finally {
         return token;
     }
 }
 
-async function check_token(tk, cb, fb) {
+async function check_token(tk, vt, cb, fb) {
     let token = await Token.findOne({ token: tk }).exec();
     if (token) {
 
@@ -72,10 +73,14 @@ async function check_token(tk, cb, fb) {
             await token.delete();
             return fb();
         }
-
+        if (token.token_type !== vt) {
+            return fb();
+        }
         // valid token
         let user = token.user;
         let type = token.token_type;
+
+
         await token.delete();
         return await cb(user, type);
     } else {

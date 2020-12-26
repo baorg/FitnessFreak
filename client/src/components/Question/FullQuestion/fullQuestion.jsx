@@ -23,40 +23,44 @@ function FullQuestion(props) {
   const [satisfactory, setSatisfactory] = useState(false);
   
   useEffect(() => {
-    console.log("in us eseffec");
-    axios.get(`${CONFIG.API_DOMAIN}/Question/getQuestions/${props.quesId}`, { withCredentials: true })
-      .then(res => {
-        console.log("res.data = ", res.data);
-        const obj = { up: res.data.ques.vote.up, down: res.data.ques.vote.down }
-        setTotalCount(obj);
-        setQuestion(res.data.ques);
-      });
-      ajaxRequest("post", `${CONFIG.API_DOMAIN}/Question/getAnswersByQuesId`, {
-        quesId:props.quesId
-      }).then(res=>{
-        console.log(res.data);
-        console.log(typeof(res.data));
-        setAnswers(res.data.data);
-      })
-      if(props.user!==undefined){
-        console.log(props.user)
-        console.log("inside")
-        ajaxRequest("post",`${CONFIG.API_DOMAIN}/Question/isQuestionAskedByUser`,{
-          quesId:props.quesId
-        }).then(res=>{
-            if(res.data.err){
-              // navigate("/")
-            }
-            else if(res.data.data){
-              setSatisfactory(true)
-            }
-        })
+    async function fetchQuestion() {
+      // console.log("in us eseffec");
+      let res = await ajaxRequest("get", `${CONFIG.API_DOMAIN}/question/get-question/${props.quesId}`);
+        
+      // console.log("res.data = ", res.data);
+      // const obj = { up: res.data.question.vote.up, down: res.data.question.vote.down }
+      setTotalCount(res.data.question.vote);
+      setQuestion(res.data.question);
+      
+      res = await ajaxRequest("get", `${CONFIG.API_DOMAIN}/question/get-answers-of-question?quesId=${props.quesId}`);
+
+      console.log(res.data);
+      console.log(typeof(res.data));
+      setAnswers(res.data.answers);
+
+      if (props.user !== undefined) {
+        console.log(props.user);
+        console.log("inside");
+        ajaxRequest("post", `${CONFIG.API_DOMAIN}/question/isQuestionAskedByUser`, {
+          quesId: props.quesId
+        }).then(res => {
+          if (res.data.err) {
+            // navigate("/")
+          }
+          else if (res.data.data) {
+            setSatisfactory(true);
+          }
+        });
       }
+    }
+    fetchQuestion();
   }, [satisfactory]);
+
+
    function selectedSatisfactoryAnswer(answerId){
     if (window.confirm("Are you sure you want to mark this answer as the Satisfactory Answer")) {
       // txt = "You pressed OK!";
-      ajaxRequest("post",`${CONFIG.API_DOMAIN}/Question/markAnswer`,{
+      ajaxRequest("post",`${CONFIG.API_DOMAIN}/question/markAnswer`,{
         quesId:props.quesId,
         answerId:answerId
       }).then(async(res)=>{
@@ -73,8 +77,7 @@ function FullQuestion(props) {
     }
     
   }
-    
-   
+
   return question ?
     (<div>
       <MyNav user={props.user} />
@@ -100,8 +103,8 @@ function FullQuestion(props) {
         <UpvoteDownvote quesId={props.quesId} isQues={true} totalCount={totalCount} user={props.user} />
         <div style={{ textAlign: "left",marginTop:"40px" }} >
           <h5>Write Your Answer</h5>
-          <PostAnswer id={props.quesId} user={props.user} />
-          <br /><br /><br /><br />
+          <PostAnswer id={props.quesId} user={props.user} setAnswers={setAnswers} answers={answers} />
+          <br /><br /><hr/><br /><br />
           {answers.length !== 0 ? <h4 style={{ marginBottom: "30px" }}>Answers</h4> : <h4>No Answers Yet</h4>}
           {answers.map((el, index) => {
             return <Answer key={index} answer={el}  user={props.user} satisfactory={satisfactory} selectedSatisfactoryAnswer={selectedSatisfactoryAnswer}/>

@@ -19,12 +19,10 @@ function Answer(props){
     useEffect(() => {
       const obj = { up: props.answer.vote_count.upvote, down: props.answer.vote_count.downvote }
       setTotalCount(obj);
-        ajaxRequest("post", `${CONFIG.API_DOMAIN}/Question/getCommentsByAnswerId`, {
-            answerId:props.answer._id
-          }).then(res=>{
+        ajaxRequest("get", `${CONFIG.API_DOMAIN}/question/get-comments-of-answer?answerId=${props.answer._id}`).then(res=>{
             console.log(res.data);
             console.log(typeof(res.data));
-            setComments(res.data.data);
+            setComments(res.data.comments);
           })
       }, [ props.answer, ]);
     return (
@@ -42,7 +40,7 @@ function Answer(props){
           {comments.map((item,index)=><Comment key={index} comment={item} user={props.user}/>)}
         </div>
         <h6>Add Your Comment</h6>
-        <PostComment answerId = {props.answer._id} user={props.user} />
+        <PostComment answerId = {props.answer._id} user={props.user} comments={comments} setComments={setComments} />
       </div>
     </div>
     )
