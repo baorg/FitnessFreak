@@ -14,5 +14,6 @@ module.exports = new mongoose.Schema({
         downvote: { type: Number, default: 0 }
     },
     answers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Ans' }],
+    answers_count: { type: Number, default: 0 },
     satisfied: { type: Boolean, default: 0 }
 });

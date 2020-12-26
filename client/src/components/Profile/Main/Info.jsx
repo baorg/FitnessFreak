@@ -5,6 +5,8 @@ import nobanner from '../../../static/placeholder_profile_banner.jfif';
 import { Button } from 'react-bootstrap';
 import { CalendarTodayIcon } from '@material-ui/icons';
 
+
+// Styled Components ================================================
 let ProfileInfoDiv = styled.div`
 
 `;
@@ -77,6 +79,48 @@ let EditProfileButton = styled(FollowEditProfileButton)`
 let FollowProfileButton = styled(FollowEditProfileButton)`
     /* float:  */
 `;
+
+let ScoreCard = styled.div`
+    margin: 2em 0 2em 0;
+    padding: 10px;
+    border: 2px solid #c2c2c2f3;
+    border-radius: 10px;
+`;
+let MainScore = styled.div`
+    height: 2em;
+    display: flex;
+    align-items: center;
+    span{
+        font-size: 1.4em;
+    }
+`;
+
+let Score = styled.div`
+    background-color: #70cbe2;
+    min-width: 2em;
+    text-align: center;
+    text-justify: center;
+    border-radius: 5px;
+    height: fit-content;
+    margin: 10px;
+    padding: 0 10px 0 10px;
+    
+    span{
+        height: 100%;
+        margin: 0 10px 0 10px;
+        border-left: 1px solid #777777;
+        width: 0;
+    }
+`;
+
+let CategoryScore = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+`;
+
+//=====================================================================
+
+
 export default function UserInfo(props) {
     
 
@@ -97,6 +141,19 @@ export default function UserInfo(props) {
                 <BioDiv>Bio</BioDiv>
                 {props.profileUser.bio}
             </Bio>
+
+            <ScoreCard>
+                <MainScore>
+                    <span>Score</span>
+                    <Score>Total <span></span>{ props.profileUser.score.find(s=>s.name==='totalScore').score }</Score>
+                </MainScore>
+                <hr/>
+                <CategoryScore>
+                    {props.profileUser.score.filter(score=>(score.name!=='totalScore' && score.name!=='followers')).map(score => 
+                        <Score>{score.name} <span></span>{ score.score }</Score>
+                    )}
+                </CategoryScore>
+            </ScoreCard>
         </ProfileInfoDiv>
     )
 }

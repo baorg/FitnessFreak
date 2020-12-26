@@ -18,7 +18,8 @@ module.exports.feedQuestionSerializer = function(questions, multiple = false) {
             },
             tags: question.tags,
             posted_at: question.created_at,
-            attachments: question.attachments
+            attachments: question.attachments,
+            answers_count: question.answers_count
         };
     }
 
@@ -53,6 +54,7 @@ module.exports.userQuestionSerializer = function(user) {
         category: ques.categoryName,
         tags: ques.tags,
         attachments: ques.attachments,
-        posted_at: ques.created_at
+        posted_at: ques.created_at,
+        answers_count: question.answers_count
     }));
 }

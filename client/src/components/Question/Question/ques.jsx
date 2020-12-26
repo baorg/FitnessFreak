@@ -93,6 +93,25 @@ let ReadMoreButton = styled.button`
         background-color: #82d3e9;
     }
 `;
+
+let QuestionCountDiv = styled.div`
+    margin-right: 4px;
+    display: flex;
+    flex-direction: column;
+`;
+
+let VoteCount = styled.div`
+    background-color: ${props => props.count > 0 ? "#a4f3a4" : props.count < 0 ? "#cfacac" : "#fff99e"};
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    padding: 0 2px 0 2px;
+    margin-bottom: 2px;
+    font-size: 0.8em;
+    color: #555555;
+`;
 // =====================================================
 
 
@@ -127,16 +146,16 @@ export default function (props) {
             </QuestionHeader>
             <hr/>
             <QuestionHeader>
-                <div style={styles.vote}>
-                    <div style={styles.question}>
-                        <ExpandLessIcon  style={{color:'black ',fontSize:40}} />
-                    </div>
-                    <span style={{fontSize:20, marginLeft: "10px" }}>{props.question.vote ? props.question.vote.up - props.question.vote.down : null}</span>
-                    <div style={styles.vote}>
-                        <ExpandMoreIcon style={{ color: 'black ', fontSize: 40 }} />
-                    </div>
-                </div>
-
+                <QuestionCountDiv>
+                    <VoteCount count={props.question.vote.up - props.question.vote.down}>
+                        <span>{props.question.vote.up - props.question.vote.down}</span>
+                        <span>vote</span>
+                    </VoteCount>
+                    <VoteCount >
+                        <span>{props.question.answers_count}</span>
+                        <span>answers</span>
+                    </VoteCount>
+                </QuestionCountDiv>
                 <QuestionMainDiv>
                     <QuestionTitle>
                     <A href={url}>{props.question.title}</A>
@@ -157,3 +176,14 @@ export default function (props) {
         </Question>
     );
 }
+
+
+{/* <div style={styles.vote}>
+    <div style={styles.question}>
+        <ExpandLessIcon  style={{color:'black ',fontSize:40}} />
+    </div>
+    <span style={{fontSize:20, marginLeft: "10px" }}>{props.question.vote ? props.question.vote.up - props.question.vote.down : null}</span>
+    <div style={styles.vote}>
+        <ExpandMoreIcon style={{ color: 'black ', fontSize: 40 }} />
+    </div>
+</div> */}

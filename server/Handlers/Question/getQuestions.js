@@ -11,7 +11,7 @@ module.exports.getQuestionsHandler = function(req, res, next) {
     // let userid = req.user.id;
 
     return Ques.find({},
-        'title question userId created_at tags categoryName attachments vote_count', { skip: (page - 1) * page_size, limit: page_size }
+        'title question userId created_at tags categoryName attachments vote_count answers_count', { skip: (page - 1) * page_size, limit: page_size }
     ).populate({
         path: 'userId',
         model: User,
@@ -72,7 +72,7 @@ module.exports.getOneQuestionHandler = function(req, res, next) {
     }
 
     Ques.findById(ques_id,
-        'title question userId created_at tags categoryName attachments vote_count'
+        'title question userId created_at tags categoryName attachments vote_count answers_count'
     ).populate(obj).exec((err, ques) => {
         if (err) {
             console.error('ERROR:', err);
@@ -102,7 +102,7 @@ module.exports.getFeedQuestion = async function(req, res) {
             path: "userId",
             select: 'username'
         })
-        .select('id vote_count title question categoryName userId tags created_at')
+        .select('id vote_count title question categoryName userId tags created_at answers_count')
         .exec();
 
     serialized_data = feedQuestionSerializer(question);
