@@ -2,10 +2,8 @@ import React,{useState,useEffect, useRef} from "react"
 import axiosCall from "../../ajaxRequest"
 import {navigate} from "hookrouter"
 import notLoggedIn from "../../notloggedin";
-import ExpandLessIcon from '@material-ui/icons/ExpandLess';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ThumbsUpImg from '../../static/thumbs_up.svg';
-import ThumbsDownImg from '../../static/thumbs_down.svg';
+// import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+// import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import styled from 'styled-components';
 import CONFIG from '../../config';
 
