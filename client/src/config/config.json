@@ -1,14 +1,14 @@
 {
     "PRODUCTION": {
-        "API_DOMAIN" : "https://fitnessfreakapp.herokuapp.com",
+        "API_DOMAIN" : "https://fitnessfreakapp.herokuapp.com/api",
         "CLIENT_DOMAIN" : "https://fitnessfreakapp.herokuapp.com"
     },
     "LOCAL":{
-        "API_DOMAIN" : "http://localhost:5000",
+        "API_DOMAIN" : "http://localhost:5000/api",
         "CLIENT_DOMAIN" : "http://localhost:3000"
     },
     "TESTING": {
-        "API_DOMAIN" : "http://localhost:5000",
+        "API_DOMAIN" : "http://localhost:5000/api",
         "CLIENT_DOMAIN" : "http://localhost:5000"
     }
 }

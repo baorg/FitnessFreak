@@ -16,7 +16,7 @@ router.use('/auth', authRouter, sendResponse);
 router.use('/feed', feedRouter);
 router.use('/following', followingRouter);
 router.use('/question', questionRouter, sendResponse);
-router.use("/rank", rankRouter);
+router.use('/rank', rankRouter);
 router.use('/upload', uploadRouter);
 router.use('/users', usersRouter);
 
