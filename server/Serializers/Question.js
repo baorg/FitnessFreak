@@ -55,6 +55,6 @@ module.exports.userQuestionSerializer = function(user) {
         tags: ques.tags,
         attachments: ques.attachments,
         posted_at: ques.created_at,
-        answers_count: question.answers_count
+        answers_count: ques.answers_count
     }));
 }

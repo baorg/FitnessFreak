@@ -26,7 +26,7 @@ export default function QuestionsList(props) {
 
     useEffect(function () {
         async function fetchQuestions() {
-            let res = await ajaxRequest('GET', `${CONFIG.API_DOMAIN}/Question/get-questions-of-user?user_id=${props.profileUser._id}`);
+            let res = await ajaxRequest('GET', `${CONFIG.API_DOMAIN}/question/get-questions-of-user?user_id=${props.profileUser._id}`);
             setQuestions(res.data.questions);
             // setQuestions(res.data.question.map(q => ({
             //     ...q, user: {

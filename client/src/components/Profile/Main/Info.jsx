@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import { CalendarTodayIcon } from '@material-ui/icons';
+import { Button } from 'react-bootstrap';
 import noimage from '../../../static/noimage.png';
 import nobanner from '../../../static/placeholder_profile_banner.jfif';
-import { Button } from 'react-bootstrap';
-import { CalendarTodayIcon } from '@material-ui/icons';
+import EditProfile from '../EditProfile';
 
 
 // Styled Components ================================================
@@ -122,14 +123,16 @@ let CategoryScore = styled.div`
 
 
 export default function UserInfo(props) {
-    
+
+    const [editProfile, setEditProfile] = useState(false);
 
     return (
+        <>
         <ProfileInfoDiv>
             <ProfileBanner src={props.profileUser.profile_banner || nobanner } alt="" />
             <ProfileImage src={props.profileUser.profile_image || noimage} alt="" />
             {props.user?._id === props.profileUser._id ?
-                <EditProfileButton>Edit Profile</EditProfileButton> :
+                <EditProfileButton onClick={handleEditProfileClick}>Edit Profile</EditProfileButton> :
                 <FollowProfileButton>Follow</FollowProfileButton>}
                 <Name >
                     <FirstLastName>{props.profileUser.first_name} {props.profileUser.last_name}</FirstLastName>
@@ -154,9 +157,13 @@ export default function UserInfo(props) {
                     )}
                 </CategoryScore>
             </ScoreCard>
-        </ProfileInfoDiv>
-    )
+            </ProfileInfoDiv>
+            <EditProfile open={editProfile} setOpen={setEditProfile} />
+            </>
+    );
+
+    function handleEditProfileClick() {
+        setEditProfile(true);
+    }
+
 }
-
-
-{/*  */}

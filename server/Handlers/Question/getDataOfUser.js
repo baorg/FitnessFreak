@@ -14,7 +14,7 @@ async function getQuestionOfUser(req, res, next) {
         .populate({
             path: 'question',
             model: Ques,
-            select: 'vote_count title question categoryName tags attachments created_at'
+            select: 'vote_count title question categoryName tags attachments created_at answers_count'
         })
         .exec();
 
@@ -47,7 +47,7 @@ async function getAnswersOfUser(req, res, next) {
             populate: [{
                 path: 'quesId',
                 model: Ques,
-                select: 'title created_at vote_count tags categoryName attachments',
+                select: 'title created_at vote_count tags categoryName attachments answers_count',
                 populate: {
                     path: 'userId',
                     model: User,

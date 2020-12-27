@@ -5,6 +5,7 @@ import LeftRail from './LeftRail';
 import RightRail from './RightRail';
 import Main from './Main';
 import ajaxRequest from '../../ajaxRequest';
+import EditProfile from './EditProfile';
 import CONFIG from '../../config';
 import { Spinner } from 'react-bootstrap';
 
@@ -38,7 +39,6 @@ export default function Profile(props) {
             let res = await ajaxRequest('POST', `${CONFIG.API_DOMAIN}/Users/get-userdata-id`, { user_id: props.userId });
             setProfileUser(res.data.user);
         }
-
         getUserData();
     }, []);
 
@@ -47,7 +47,7 @@ export default function Profile(props) {
             <Navbar user={props.user} />
             <ProfileDiv >
                 <LeftRail />
-                {profileUser ? <Main profileUser={profileUser} user={props.user} /> : <StyledSpinner />}
+                {profileUser ? <Main profileUser={profileUser} user={props.user} setOpen={props.setOpen} /> : <StyledSpinner />}
                 <RightRail />
             </ProfileDiv>
         </>);
