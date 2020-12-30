@@ -18,7 +18,7 @@ router.use('/google', googleRouter);
 router.use('/facebook', facebookRouter);
 router.use('/local', localRouter);
 
-router.get('/verify-user', verifyToken);
+router.get('/verify-user-email', verifyToken.verifyEmailHandler);
 router.post('/reset-password', resetPasswordValidator, resetPasswordHandler);
 
 

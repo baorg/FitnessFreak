@@ -1,5 +1,8 @@
 const { User } = require('../../Models');
+const { UserSerializers } = require('../../Serializers');
 
 module.exports = function(req, res, next) {
-    return res.send({ isAuthenticated: true, user: req.user });
+    res.data.success = true;
+    res.data.user = UserSerializers.editProfileUserSerializer(req.user);
+    return next();
 }

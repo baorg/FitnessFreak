@@ -2,12 +2,14 @@ const searchUserHandler = require('./search');
 const getUserDataHandler = require('./getUserData');
 const getUserFromIdHandler = require('./getUserFromId');
 const getUserFromUsernameHandler = require('./getUserFromUsername');
-const updateProfileHandler = require('./updateProfile');
+const updateHandlers = require('./update');
+const verifyHandlers = require('./verify');
 
 module.exports = {
     searchUserHandler,
     getUserDataHandler,
     getUserFromIdHandler,
     getUserFromUsernameHandler,
-    updateProfileHandler
+    updateHandlers,
+    verifyHandlers
 }

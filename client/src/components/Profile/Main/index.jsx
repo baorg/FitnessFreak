@@ -24,8 +24,16 @@ export default function Main(props) {
     
     return (
         <MainDiv>
-            <UserInfoDiv profileUser={props.profileUser} user={props.user} />
-            <QuestionAnswer profileUser={props.profileUser} user={props.user}/>
+            <UserInfoDiv
+                profileUser={props.profileUser}
+                user={props.user} 
+                setEditProfile={props.setEditProfile}
+                editProfile={props.editProfile}
+            />
+            <QuestionAnswer
+                profileUser={props.profileUser}
+                user={props.user} 
+            />
         </MainDiv>
     );
 }

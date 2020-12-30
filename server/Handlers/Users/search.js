@@ -1,16 +1,21 @@
 const express = require("express");
 const { User } = require("../../Models");
 
-module.exports = function(req, res) {
+module.exports = function(req, res, next) {
     let filter = req.body.username;
     let regexp = new RegExp("^" + filter);
-    User.find({ username: { $regex: regexp } }).select('username').exec().then(users => {
-        console.log('filter:', filter);
-        console.log('Users:', users);
-        return res.send({ newArr: users });
+    return User.find({ username: { $regex: regexp } }).select('username').exec().then(users => {
+        // console.log('filter:', filter);
+        // console.log('Users:', users);
+        res.data.success = true;
+        res.data.users = users;
     }).catch(err => {
         console.log('ERROR:', err);
-        return res.send({})
+        res.data.success = false;
+        res.data.users = [];
+        res.data.error = 'Some internal error.';
+    }).finally(() => {
+        return next();
     });
     // User.find({username: {$in: }}).exec((err, users) => {
     //     if (err) return res.send(err);

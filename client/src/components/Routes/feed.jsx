@@ -10,6 +10,7 @@ import ProfileRoutes from "./profileroutes";
 import Ranking from '../Ranking/ranking';
 import UpdateProfile from '../Profile/EditProfile';
 import CONFIG from '../../config';
+import VerifyEmail from '../VerifyEmail';
 
 function getRoutes(user) {
   return {
@@ -20,7 +21,8 @@ function getRoutes(user) {
     'update-profile': ()=> <UpdateProfile />,
     'viewFullQuestion/:quesId' :({quesId}) => <FullQuestion quesId = {quesId} user={user}/>,
     'rankings/:typeofranking':({typeofranking})=><Ranking typeofranking={typeofranking} user={user}/>,
-    'questions/:typeofpage*':({typeofpage}) => <TypeOfPageRoutes typeofpage={typeofpage} user={user} />
+    'questions/:typeofpage*': ({ typeofpage }) => <TypeOfPageRoutes typeofpage={typeofpage} user={user} />,
+    'verify-email/*': () => <VerifyEmail />
   }
 }
 

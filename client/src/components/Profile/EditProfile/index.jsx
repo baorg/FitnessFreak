@@ -4,27 +4,44 @@ import styled from 'styled-components';
 import Modal from '@material-ui/core/Modal';
 import { CloseRounded } from '@material-ui/icons'
 import { TextField, Button } from '@material-ui/core';
-
 import ajaxRequest from '../../../ajaxRequest';
 import CONFIG from '../../../config';
-
+import { Spinner } from "react-bootstrap";
+import EmailDiv from "./email";
 
 // Styled Components =================================================================
-let ModalPage = styled(Modal)`
+
+let StyledSpinner = styled(Spinner)`
+    width: 100px;
+    height: 100px;
+    color: rgba(12,12,12);
+`;
+let ModalPage = styled.div`
+    position: absolute;
+    left: 0;
+    top: 0;
     width: 100vw;
-    min-height: 100%;
-    background-color: rgb(79, 79, 79, 0.6);
-    overflow-y: scroll;
-    scroll-behavior: smooth;
-    display: grid;
-    place-items: center;
+    min-height: 100vh;
+    height: fit-content;
+    background-color: rgba(45, 45, 45, 0.6);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
 `;
 
 let EditProfileDiv = styled.div`
+    align-self: center;
     background-color: white;
     opacity: 1;
+    height: fit-content;
     border-radius: 10px;
     padding: 10px;
+    margin-top: 50px;
+    width: fit-content;
+    min-height: 40em;
+    min-width: 30em;
+    display: flex;
+    flex-direction: column;
 `;
 
 let EditProfileHeader = styled.div`
@@ -50,7 +67,17 @@ let StyledCloseRounded = styled(CloseRounded)`
 let ContentDiv = styled.div`
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
     align-items: center;
+    padding: 12px;
+`;
+
+let ElementDiv = styled.div`
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
 `;
 
 let FirstNameField = styled(TextField)`
@@ -59,6 +86,15 @@ let FirstNameField = styled(TextField)`
     margin-bottom: 2em;
 `;
 
+let BioField = styled.div`
+
+`;
+
+let FooterDiv = styled.div`
+    height: 4em;
+    display: grid;
+    place-items: center;
+`;
 let LastNameField = styled(TextField)`
     width: 80%;
     min-width: 100px;
@@ -76,10 +112,14 @@ export default function EditProfile(props){
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [bio, setBio] = useState('');
+    const [email, setEmail] = useState('');
+
+    const [loading, setLoading] = useState(false);
     const [updating, setUpdating] = useState(false);
 
     useEffect(function () {
         async function fetchData() {
+            setLoading(true);
             let res = (await ajaxRequest('GET', `${CONFIG.API_DOMAIN}/Users/get-userdata/`)).data;
             if (res.error === 'Not authenticated') {
                 navigate('/auth');
@@ -89,7 +129,9 @@ export default function EditProfile(props){
                 setFirstName(user.first_name || '');
                 setLastName(user.last_name || '');
                 setBio(user.bio || '');
+                setEmail(user.email || '');
                 console.log('User data:', user);
+                setLoading(false);
             }
         }
         fetchData();
@@ -100,37 +142,59 @@ export default function EditProfile(props){
             open={props.open}
             aria-labelledby="simple-modal-title"
             aria-describedby="simple-modal-description"
+            disableScrollLock={false}
+            disableBackdropClick={true}
+            onClose={() => { props.setOpen(false);}}
         >
             <EditProfileDiv>
                 <EditProfileHeader>
                     <EditProfileHeading>Edit Profile</EditProfileHeading>
                     <StyledCloseRounded onClick={closeModal}/>
                 </EditProfileHeader>
-                <hr/>
-                <ContentDiv>
-                    <FirstNameField
-                        id="standard-read-only-input"
-                        label="First Name"
-                        value={firstName}
-                        onChange={(event) => { setFirstName(event.target.value); }}
-                    />
-                    <LastNameField
-                        id="standard-read-only-input"
-                        label="Last Name"
-                        value={lastName}
-                        onChange={(event) => { setLastName(event.target.value); }}
-                    />
-                    <h2>Bio</h2>
-                    <textarea placeholder="Enter your bio"
-                        name="bio" value={bio}
-                        onChange={(event) => { setBio(event.target.value); }}
-                        style={{ width: "20em", height: "20em", resize: "none" }}
-                    ></textarea>
-                    <br />
-                    <SubmitButton onClick={updating ? () => { }:submit} disabled={updating} color="primary" variant="contained">Update</SubmitButton>
-                </ContentDiv>
+                <hr />
+                {loading ?
+                    <StyledSpinner />
+                    :
+                    <>
+                        <ContentDiv>
+                            <ElementDiv>
+                                <FirstNameField
+                                    id="standard-read-only-input"
+                                    label="First Name"
+                                    value={firstName}
+                                    onChange={(event) => { setFirstName(event.target.value); }}
+                                />
+                            </ElementDiv>
+                            <ElementDiv>
+                                <LastNameField
+                                    id="standard-read-only-input"
+                                    label="Last Name"
+                                    value={lastName}
+                                    onChange={(event) => { setLastName(event.target.value); }}
+                                />
+                            </ElementDiv>
+                            <ElementDiv>
+                                <BioField>
+                                    <h2>Bio</h2>
+                                    <textarea placeholder="Enter your bio"
+                                        name="bio" value={bio}
+                                        onChange={(event) => { setBio(event.target.value); }}
+                                        style={{ width: "20em", height: "10em", resize: "none" }}
+                                        ></textarea>
+                                </BioField>
+                                <br />
+                            </ElementDiv>
+                            <FooterDiv>
+                                <SubmitButton onClick={updating ? () => { }:submit} disabled={updating} color="primary" variant="contained">Update</SubmitButton>
+                            </FooterDiv>
+                        </ContentDiv>
+                        <EmailDiv email={email}/>
+                    </>
+                }
+                
             </EditProfileDiv>
-        </ModalPage>);
+        </ModalPage>
+    );
 
     async function submit() {
         setUpdating(true);

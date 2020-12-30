@@ -1,5 +1,6 @@
 module.exports.feedQuestionSerializer = function(questions, multiple = false) {
     function single(question) {
+        // console.log(question.userId);
         return {
             _id: question._id,
             title: question.title,
@@ -9,13 +10,19 @@ module.exports.feedQuestionSerializer = function(questions, multiple = false) {
                 down: question.vote_count.downvote
             },
             category: question.categoryName,
-            user: {
+            user: (question.userId ? {
                 _id: question.userId._id,
                 username: question.userId.username,
                 first_name: question.userId.first_name,
                 last_name: question.userId.last_name,
                 profile_image: question.userId.profile_image
-            },
+            } : {
+                _id: null,
+                username: "[deleted]",
+                first_name: "[deleted]",
+                last_name: "",
+                profile_image: null
+            }),
             tags: question.tags,
             posted_at: question.created_at,
             attachments: question.attachments,

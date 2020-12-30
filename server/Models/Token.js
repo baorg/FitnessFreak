@@ -71,10 +71,11 @@ async function check_token(tk, vt, cb, fb) {
         // token expired.
         if (token.expire_timestamp < Date.now) {
             await token.delete();
-            return fb();
+            return await fb('Token Expired');
         }
         if (token.token_type !== vt) {
-            return fb();
+            console.error('ERROR: Invalid token type.');
+            return await fb('Invalid Token');
         }
         // valid token
         let user = token.user;
@@ -84,9 +85,8 @@ async function check_token(tk, vt, cb, fb) {
         await token.delete();
         return await cb(user, type);
     } else {
-
         // token doesn't exists
-        return await fb();
+        return await fb('Invalid Token');
     }
 }
 

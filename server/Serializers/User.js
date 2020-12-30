@@ -1,4 +1,4 @@
-module.exports.UserSerializer = function(users, multiple = false) {
+function UserSerializer(users, multiple = false) {
 
     function single(user) {
         return {
@@ -7,17 +7,38 @@ module.exports.UserSerializer = function(users, multiple = false) {
             first_name: user.first_name,
             last_name: user.last_name,
             profile_image: user.profile_image,
+            is_verified: user.is_verified,
             created_at: user.created_at,
             bio: user.bio,
-            score: user.score,
+            score: user.score.length === 0 ? [{ name: "totalScore", score: 0 }] : user.score,
         }
     }
 
     if (users) {
         if (multiple)
-            return user.map(user => single(user));
+            return users.map(user => single(user));
         else
-            return singleUser(user);
+            return single(users);
     } else
         return null;
+}
+
+function editProfileUserSerializer(user) {
+    let user_data = UserSerializer(user, false);
+
+    user_data = {
+        ...user_data,
+        email: user.email ? {
+            email: user.email,
+            verified: user.email_verified
+        } : null,
+    };
+
+    return user_data;
+}
+
+
+module.exports = {
+    editProfileUserSerializer,
+    UserSerializer
 }

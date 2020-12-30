@@ -31,6 +31,7 @@ const userSchema = new mongoose.Schema({
         lowercase: true,
         validate: [validateEmail, 'Please fill a valid email address'],
     },
+    email_verified: { type: Boolean, default: false },
     profile_image: {
         type: String,
         default: null
@@ -44,15 +45,17 @@ const userSchema = new mongoose.Schema({
     bookmarks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Ques' }],
     followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-    score: [{
-        name: { type: String },
-        score: { type: Number, default: 0 },
-        _id: false
-    }],
+    score: {
+        type: [{
+            name: { type: String },
+            score: { type: Number, default: 0 },
+            _id: false
+        }],
+        default: [{ name: "totalScore", score: 0 }, ]
+    },
     notifications: [],
     feed: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Ques' }],
     feed_last_updated: { type: Date, default: new Date(0) },
-    email_verified: { type: Boolean, default: false },
     is_verified: { type: Boolean, default: false },
     chosen_category: {
         type: [{

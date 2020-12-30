@@ -11,6 +11,11 @@ import { Spinner } from 'react-bootstrap';
 
 
 // Styled components ===================================
+
+let MainDiv = styled.div`
+    position: ${props => props.active ? "fixed" : "static"};
+`;
+
 let StyledSpinner = styled(Spinner)`
     width: 100px;
     height: 100px;
@@ -33,22 +38,42 @@ const ProfileDiv = styled.div`
 
 export default function Profile(props) {
     const [profileUser, setProfileUser] = useState(null);
+    const [editProfile, setEditProfile] = useState(false);
 
     useEffect(() => {
         async function getUserData() {
-            let res = await ajaxRequest('POST', `${CONFIG.API_DOMAIN}/Users/get-userdata-id`, { user_id: props.userId });
+            let res = await ajaxRequest('POST', `${CONFIG.API_DOMAIN}/users/get-userdata-id`, { user_id: props.userId });
+            res.data.user.own_profile = false;
+            if (res.data.user._id === props.user?._id) {
+                res.data.user.own_profile = true;
+            }
+            console.log('OWN PROFILE: ', res.data.user.own_profile);
             setProfileUser(res.data.user);
         }
         getUserData();
-    }, []);
+    }, [props.user, props.userId]);
 
     return (
         <>
-            <Navbar user={props.user} />
-            <ProfileDiv >
-                <LeftRail />
-                {profileUser ? <Main profileUser={profileUser} user={props.user} setOpen={props.setOpen} /> : <StyledSpinner />}
-                <RightRail />
-            </ProfileDiv>
+            <MainDiv active={editProfile}>
+                <Navbar user={props.user} />
+                <ProfileDiv >
+                    <LeftRail />
+                    {profileUser ?
+                        <Main
+                            profileUser={profileUser}
+                            user={props.user}
+                            setEditProfile={setEditProfile}
+                            editProfile={editProfile}
+                        />
+                        : <StyledSpinner />}
+                        <RightRail />
+                </ProfileDiv>
+            </MainDiv>
+            { editProfile && <EditProfile
+                                setOpen={setEditProfile}
+                                open={editProfile}
+                            />
+            }
         </>);
 }

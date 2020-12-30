@@ -3,7 +3,7 @@ const { User, Token } = require('../../../Models');
 const { API_DOMAIN } = require('../../../config');
 
 
-module.exports = async function createVerification(user) {
+module.exports.requestEmailVerification = async function(user) {
     if (user.email_verified === true) {
         return { success: false, error: 'Email of user already verified.' };
     }

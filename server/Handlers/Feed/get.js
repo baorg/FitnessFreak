@@ -39,6 +39,7 @@ module.exports = async function(req, res, next) {
             }, ]
         );
     }
+    console.log('Questions: ', questions.length);
     questions = questions.map(question => QuestionSerializers.feedQuestionSerializer(question));
     res.data = { questions: questions };
 

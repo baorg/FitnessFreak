@@ -5,9 +5,12 @@ const {
     getUserDataHandler,
     getUserFromIdHandler,
     getUserFromUsernameHandler,
-    updateProfileHandler
+    updateHandlers,
+    verifyHandlers
 } = require('../Handlers').UsersHandler;
 const { isAuthenticated, sendResponse } = require("../Middlewares");
+const UserValidators = require('../Validators').UserProfileValidators;
+
 
 
 // router.use(isAuthenticated);
@@ -16,6 +19,8 @@ router.get("/get-userdata", isAuthenticated, getUserDataHandler);
 router.post("/get-userdata-id", getUserFromIdHandler);
 
 router.post("/get-userdata-username", getUserFromUsernameHandler);
-router.post("/update-profile", isAuthenticated, updateProfileHandler, sendResponse);
+router.post("/update-profile", isAuthenticated, updateHandlers.updateProfile);
+router.post("/update-email", isAuthenticated, UserValidators.updateEmail, updateHandlers.updateEmail);
+router.get("/request-verify-email", isAuthenticated, verifyHandlers.requestVerifyEmail);
 
 module.exports = router;

@@ -123,15 +123,15 @@ let CategoryScore = styled.div`
 
 
 export default function UserInfo(props) {
-
-    const [editProfile, setEditProfile] = useState(false);
+    console.log('User: ', props.profileUser);
+    console.log('Score: ', props.profileUser.score);
 
     return (
         <>
         <ProfileInfoDiv>
             <ProfileBanner src={props.profileUser.profile_banner || nobanner } alt="" />
             <ProfileImage src={props.profileUser.profile_image || noimage} alt="" />
-            {props.user?._id === props.profileUser._id ?
+            {props.profileUser.own_profile ?
                 <EditProfileButton onClick={handleEditProfileClick}>Edit Profile</EditProfileButton> :
                 <FollowProfileButton>Follow</FollowProfileButton>}
                 <Name >
@@ -158,12 +158,15 @@ export default function UserInfo(props) {
                 </CategoryScore>
             </ScoreCard>
             </ProfileInfoDiv>
-            <EditProfile open={editProfile} setOpen={setEditProfile} />
             </>
     );
 
     function handleEditProfileClick() {
-        setEditProfile(true);
+        if (props.editProfile) {
+            
+        } else {
+            props.setEditProfile(true);
+        }
     }
 
 }
