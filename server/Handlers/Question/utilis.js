@@ -78,10 +78,7 @@ async function saveChanges(quesId, userId, sign, name, property = "Question") {
 
 
 function getArrayOfAns(answers, name) {
-
-
     return answers.map((ans) => ({
-
         _id: ans._id,
         answer: ans[name],
         user: ans.userId,

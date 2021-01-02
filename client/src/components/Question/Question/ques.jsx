@@ -137,9 +137,14 @@ export default function (props) {
     return (
         <Question>
             <QuestionHeader>
-                <ProfileImage src={props.question.user.profile_image || noimage } />
+                <ProfileImage src={props.question.user?.profile_image || noimage } />
                 <PostedName>
-                    <NameDiv><A href={`/profile/${props.question.user._id || props.question.user.userId}`}> {props.question.user.first_name} {props.question.user.last_name}</A></NameDiv>
+                    <NameDiv>
+                        {props.question.user ?
+                            <A href={`/profile/${props.question.user._id || props.question.user.userId}`}> {props.question.user.first_name} {props.question.user.last_name}</A>
+                            : "[deleted]"
+                        }
+                    </NameDiv>
                     <PostedDate>{ new Date(props.question.posted_at).toLocaleString('en-US', {day: 'numeric', year: 'numeric', month: 'long'}) }</PostedDate>
                 </PostedName>
                 

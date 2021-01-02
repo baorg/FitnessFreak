@@ -24,7 +24,7 @@ module.exports = async function(req, res, next) {
         user.answer.push(ans._id);
         user = await user.save();
         let ques = await Ques.findById(quesId).exec();
-        ques = await ques.answers.push(ans._id);
+        ques.answers.push(ans._id);
         ques.answers_count = ques.answers.length;
         await saveChanges(quesId, userId, 1, name);
 
