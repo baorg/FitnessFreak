@@ -6,12 +6,17 @@ import styled from 'styled-components';
 import { Name, Password, PasswordCheck, Email } from './utils';
 
 
-const RegisterContainer = styled.div`
-        grid-area: register;
-    `;
-const Form = styled.form`
-    
+// Styled Components =========================================================
+let StyledForm = styled.form`
+    display: flex;
+    flex-direction: column;
 `;
+
+let StyledButton = styled.button`
+    justify-self: center;
+`;
+// ==============================================================================
+
 export default function Register(props) {
     const [userName, setUserName] = useState({value:'', error: null});
     const [firstName, setFirstName] = useState({value:'', error: null});
@@ -96,62 +101,61 @@ export default function Register(props) {
     }
 
     return (
-        <RegisterContainer>
+        <div>
             <h1>Register</h1>
-            <Form action="" className="form-container" onSubmit={handleSubmit}>
-            <div className="form-group">
-                <span>Username</span>
-                <div className="form-row">
-                    <div className="form-col">
-                    <Name
-                        id="username-register"
-                        input={{ name: "username", label: "Username", max_length: "20", placeholder: 'Enter username' }}
-                        name={userName}
-                        setName={setUserName} />
+            <StyledForm action="" className="form-container" onSubmit={handleSubmit}>
+                <div className="form-group">
+                    <span>Username</span>
+                    <div className="form-row">
+                        <div className="form-col">
+                        <Name
+                            id="username-register"
+                            input={{ name: "username", label: "Username", max_length: "20", placeholder: 'Enter username' }}
+                            name={userName}
+                            setName={setUserName} />
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className="form-group">
-                <span>Full Name</span>
-                <div className="form-row">
-                    <div className="form-col">
-                        <Name
-                            id="firstname-register"
-                            input={{ name: "firstname", label: "FirstName", max_length: "20", placeholder: 'Enter First Name' }}
-                            name={firstName}
-                            setName={setFirstName} />
-                    </div>
-                    <div className="form-col">
-                        <Name
-                            id="lastname-register"
-                            input={{ name: "lastname", label: "LastName", max_length: "20", placeholder: 'Enter Last Name' }}
-                            name={lastName}
-                            setName={setLastName} />
+                <div className="form-group">
+                    <span>Full Name</span>
+                    <div className="form-row">
+                        <div className="form-col">
+                            <Name
+                                id="firstname-register"
+                                input={{ name: "firstname", label: "FirstName", max_length: "20", placeholder: 'Enter First Name' }}
+                                name={firstName}
+                                setName={setFirstName} />
+                        </div>
+                        <div className="form-col">
+                            <Name
+                                id="lastname-register"
+                                input={{ name: "lastname", label: "LastName", max_length: "20", placeholder: 'Enter Last Name' }}
+                                name={lastName}
+                                setName={setLastName} />
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className="regstr-mail form-group">
-                <Email
-                    id="email-register"
-                    input={{ name: "email", label: "Email", placeholder:"Enter email" }}
-                    email={email}
-                    setEmail={setEmail}
-                />
-            </div>
-                <Password 
-                    id="password-1-register"
-                    input={{label:"Password", placeholder: "enter password", name:'password1'}}
-                    password={password1}
-                    setPassword={setPassword1}
-                />
-                <PasswordCheck 
-                    id="password-2-register"
-                    input={{ label: "Retype Password", placeholder: "enter password again please!", name: 'password2' }}
-                    password1={password1} password2={password2}
-                    setPassword2={setPassword2}
-                />
-            {/* <Password  password1={password1} password2={password2} setPassword1={setPassword1} setPassword2={setPassword2} /> */}
-                <button type="submit" className="btn" id="rgstr-btn" >Register</button>
-            </Form>
-        </RegisterContainer>);
+                <div className="regstr-mail form-group">
+                    <Email
+                        id="email-register"
+                        input={{ name: "email", label: "Email", placeholder:"Enter email" }}
+                        email={email}
+                        setEmail={setEmail}
+                    />
+                </div>
+                    <Password 
+                        id="password-1-register"
+                        input={{label:"Password", placeholder: "enter password", name:'password1'}}
+                        password={password1}
+                        setPassword={setPassword1}
+                    />
+                    <PasswordCheck 
+                        id="password-2-register"
+                        input={{ label: "Retype Password", placeholder: "enter password again please!", name: 'password2' }}
+                        password1={password1} password2={password2}
+                        setPassword2={setPassword2}
+                    />
+                    <StyledButton type="submit" className="btn " id="rgstr-btn" >Register</StyledButton>
+            </StyledForm>
+        </div>);
 }
