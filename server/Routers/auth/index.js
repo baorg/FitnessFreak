@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 const {
     logoutHandler,
-    resetPasswordHandler,
+    resetPassword,
+    requestRestPassword
 } = require('../../Handlers/Auth');
 
 const { resetPasswordValidator } = require('../../Validators');
@@ -19,7 +20,7 @@ router.use('/facebook', facebookRouter);
 router.use('/local', localRouter);
 
 router.get('/verify-user-email', verifyToken.verifyEmailHandler);
-router.post('/reset-password', resetPasswordValidator, resetPasswordHandler);
-
+router.get('/request-reset-password', requestRestPassword);
+router.post('/reset-password', resetPasswordValidator, resetPassword);
 
 module.exports = router;

@@ -23,6 +23,12 @@ async function refreshFeed() {
             select: 'username'
         }]);
 
+    //  Debug ------------------------------------------------------
+    console.log('FollowingQuestions: ', followingQuestions.length);
+    console.log('TopQuestions:', topQuestions.length);
+    // --------------------------------------------------------------
+
+
     let new_feed = followingQuestions.map(q => q._id); // Feed list with new questions.
     let questions_count = new_feed.length; // Count of questions in new feed.
 

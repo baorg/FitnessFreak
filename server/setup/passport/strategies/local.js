@@ -6,7 +6,7 @@ const User = require("../../../Models").User;
 function getStrategy() {
     // const localStragey = new LocalStrategy(
     //     function(username, password, done) {
-    //         return User.findOrCreate({ username: username }, function(err, user) {
+    //         return User.find({ username: username }, function(err, user) {
     //             if (err) { return done(err); }
     //             if (!user) { return done(null, false); }
     //             if (!user.verifyPassword(password)) { return done(null, false); }
@@ -14,8 +14,8 @@ function getStrategy() {
     //         });
     //     }
     // );
-
     // return localStragey;
+
     return User.createStrategy();
 }
 

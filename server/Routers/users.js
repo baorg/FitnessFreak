@@ -21,6 +21,6 @@ router.post("/get-userdata-id", getUserFromIdHandler);
 router.post("/get-userdata-username", getUserFromUsernameHandler);
 router.post("/update-profile", isAuthenticated, updateHandlers.updateProfile);
 router.post("/update-email", isAuthenticated, UserValidators.updateEmail, updateHandlers.updateEmail);
-router.get("/request-verify-email", isAuthenticated, verifyHandlers.requestVerifyEmail);
+router.get("/request-verify-email", verifyHandlers.requestVerifyEmail);
 
 module.exports = router;

@@ -37,8 +37,6 @@ async function create_token(user, t_type, r_depth = 0) {
     let cache = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let token;
 
-
-
     if (user == null || t_type == null)
         throw Error('User and token type are required.');
     if (!['verify_email', 'password_reset'].some(tp => tp === t_type))
@@ -67,7 +65,6 @@ async function create_token(user, t_type, r_depth = 0) {
 async function check_token(tk, vt, cb, fb) {
     let token = await Token.findOne({ token: tk }).exec();
     if (token) {
-
         // token expired.
         if (token.expire_timestamp < Date.now) {
             await token.delete();
@@ -80,7 +77,6 @@ async function check_token(tk, vt, cb, fb) {
         // valid token
         let user = token.user;
         let type = token.token_type;
-
 
         await token.delete();
         return await cb(user, type);

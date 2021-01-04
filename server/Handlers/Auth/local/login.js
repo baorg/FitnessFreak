@@ -22,12 +22,20 @@ module.exports = function(req, res, next) {
     return req.login(user, function(err) {
         if (err) {
             console.error('ERROR: ', err);
-            return res.send({ success: false });
+            return res.send({ success: false, authenticated: false, error: 'Some internal error.' });
         } else {
-            passport.authenticate("local")(req, res, function() {
-                // console.log('User loged in.');
-                return res.send({ success: true, authenticated: true, user: req.user });
-            });
+            if (req.user) {
+                passport.authenticate("local")(req, res, function() {
+                    // console.log('User: ', req.user);
+                    if (req.user.email_verified) {
+                        return res.send({ success: true, authenticated: true, user: req.user });
+                    } else {
+                        res.send({ success: false, authenticated: false, error: 'Email not verified', email_verified: false });
+                    }
+                });
+            } else {
+                res.send({ success: false, authenticated: false, error: 'Invalid username or password', email_verified: false });
+            }
         }
     });
 

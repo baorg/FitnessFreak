@@ -1,11 +1,14 @@
 import React from "react"
-import { useRoutes } from 'hookrouter';
+import { useRoutes, navigate } from 'hookrouter';
 import styled from 'styled-components';
 import { Button } from 'react-bootstrap';
-import { navigate } from 'hookrouter'
 
 import Register from './Local/register';
 import Login from './Local/login';
+import Verification from './Local/verification';
+import ResetPassword from './Local/resetPassword';
+import ForgotPassword from './Local/forgotPassword';
+
 import GoogleAuth from './google';
 import FacebookAuth from './facebook';
 
@@ -78,10 +81,12 @@ let OtherAuthMethods = styled.div`
 
 
 const routes = {
-    '/': () => "login",
-    '/login': () => "login",
-    '/register':()=> "register",
-    '/logout': () => "logout",
+    '/': () => ({ obj: <Login />, str: 'login' }),
+    '/login': () => ({ obj: <Login />, str: 'login' }),
+    '/register': () => ({ obj: <Register />, str: 'register' }),
+    '/send-verification': () => ({ obj: <Verification />, str: 'verification' }),
+    '/forgot-password': () => ({obj: <ForgotPassword />, str: 'forgot-password'}),
+    '/reset-password': () => ({obj: <ResetPassword />, str: 'reset-password'})
 }
 
 function Auth() {
@@ -92,15 +97,10 @@ function Auth() {
         <AuthPage>
             <div className="auth-container">
                 <div className="heading">
-                    <Button active={page === 'register'} className="chng-btn" onClick={()=>navigate('/auth/register')}>Register</Button>
-                    <Button active={page!=='register'} className="chng-btn" onClick={()=>navigate('/auth/login')}>Login</Button>
+                    <Button active={page.str === 'register'} className="chng-btn" onClick={()=>navigate('/auth/register')}>Register</Button>
+                    <Button active={page.str === 'login'} className="chng-btn" onClick={()=>navigate('/auth/login')}>Login</Button>
                 </div>
-                {
-                    page === 'register' ?
-                        <Register />
-                    :  <Login />
-                }
-
+                { page.obj }
                 <OrBlock>
                     <div></div>
                     <span>Or</span>

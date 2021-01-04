@@ -4,7 +4,7 @@ const logoutHandler = require('./logout');
 
 const LocalAuthHandler = require('./local');
 
-const resetPasswordHandler = require('./Verification/reset_password');
+const { requestRestPassword, resetPassword } = require('./Verification/reset_password');
 const verifyUserHandler = require('./Verification/verify');
 const verifyRequestHandler = require('./Verification/create_verification');
 
@@ -14,7 +14,9 @@ module.exports = {
     logoutHandler,
     LocalAuthHandler,
 
-    resetPasswordHandler,
+    requestRestPassword,
+    resetPassword,
+
     verifyRequestHandler,
     verifyUserHandler
 };
