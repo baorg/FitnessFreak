@@ -37,7 +37,7 @@ async function refreshFeed() {
 
     // Adding top-questions to our feed list.
     for (var i = 0; i < topQuestions.length; i++) {
-        console.log(typeof(new_feed[i]));
+        // console.log(typeof(new_feed[i]));
         if (!feedSet.has(topQuestions[i]._id)) {;
             feedSet.add(topQuestions[i]._id.toString());
             new_feed.push(topQuestions[i]._id);

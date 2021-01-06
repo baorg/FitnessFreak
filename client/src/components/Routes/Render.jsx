@@ -19,8 +19,6 @@ function Render() {
   const [user, setUser] = useState(null);
   const page = useRoutes(getRoutes(user, setUser));
 
-
-
   return ( page || <HTML404 /> );
 }
 

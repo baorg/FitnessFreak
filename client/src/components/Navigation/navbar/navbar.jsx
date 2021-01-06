@@ -1,6 +1,7 @@
 import React,{useState} from "react";
-import { AccountBoxRounded, AccountCircleRounded, Home, Favorite} from '@material-ui/icons';
-import Image from 'react-bootstrap/Image';
+import { Home, Favorite} from '@material-ui/icons';
+import styled from 'styled-components';
+
 import {
   Navbar,
   Button,
@@ -9,9 +10,10 @@ import {
 import { A, navigate } from 'hookrouter';
 import Searchdiv from "../../Searchdiv/searchdiv";
 import Notification from "../../Notification/notification";
-import styled from 'styled-components';
 import CONFIG from '../../../config';
+import AccountAvatar from './account';
 
+// Styled Components ================================================================
 
 const StyledNavbar = styled(Navbar)`
   position:fixed;
@@ -55,19 +57,6 @@ const StyledHome = styled(Home)`
   margin-right: 1em;
 `;
 
-const StyledAccountImage = styled(Image)`
-  cursor: pointer;
-  width: 3em;
-  height: 3em;
-  border-radius: 50%;
-`;
-
-const StyledAccountPlaceholder = styled(AccountCircleRounded)`
-  cursor: pointer;
-  width: 3em;
-  height: 3em;
-`;
-
 const StyledFavorite = styled(Favorite)`
   cursor: pointer;
   margin-right: 1em;
@@ -80,6 +69,8 @@ const Link = styled(A)`
     text-decoration: none;
   }
 `
+
+// ==================================================================================
 
 const MyNav = function(props) {
 
@@ -99,15 +90,7 @@ const MyNav = function(props) {
         {props.user ?
           <>
             <StyledFavorite></StyledFavorite>
-            { props.user.profile_image?
-            <StyledAccountImage
-              src={props.user.profile_image}
-              onClick={()=>navigate(`/profile/${props.user._id}`)}
-              />
-              : <StyledAccountPlaceholder
-                  onClick={() => navigate(`/profile/${props.user._id}`)}
-                />
-            }
+            <AccountAvatar user={props.user}/>
             </>
           :
           <Button variant="primary">

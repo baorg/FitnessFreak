@@ -7,14 +7,14 @@ const {
 } = require('../../Handlers/Auth');
 
 const { resetPasswordValidator } = require('../../Validators');
-
+const { isAuthenticated } = require('../../Middlewares');
 const googleRouter = require('./google');
 const localRouter = require('./local');
 const facebookRouter = require('./facebook');
 const verifyToken = require('../../Handlers/Auth/Verification/verify');
 
 
-router.get('/logout', logoutHandler);
+router.get('/logout', isAuthenticated, logoutHandler);
 router.use('/google', googleRouter);
 router.use('/facebook', facebookRouter);
 router.use('/local', localRouter);

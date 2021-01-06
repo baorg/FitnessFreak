@@ -30,7 +30,7 @@ module.exports = function(req, res, next) {
                     if (req.user.email_verified) {
                         return res.send({ success: true, authenticated: true, user: req.user });
                     } else {
-                        res.send({ success: false, authenticated: false, error: 'Email not verified', email_verified: false });
+                        res.send({ success: false, authenticated: false, error: 'Email not verified. Check your email for verification code.', email_verified: false });
                     }
                 });
             } else {

@@ -28,7 +28,11 @@ function Answer(props){
     return (
     <div style={{marginBottom:"20px",borderBottom:"2px solid #B8B8B8", padding:"10px"}}  >
       {props.answer.marked?<VerifiedUserIcon style={{color:"green"}}/>:null}
-      Answered by <A href={`/profile/${props.answer.user._id}`} style={{display:"inline-block"}}>@{props.answer.user.username}</A>
+      Answered by
+        {props.answer.user
+          ? <A href={`/profile/${props.answer.user._id}`} style={{ display: "inline-block" }}>@{props.answer.user.username}</A>
+          : "  [deleted]"}
+        
       {props.satisfactory?<DoneIcon onClick={()=>{props.selectedSatisfactoryAnswer(props.answer._id)}} style={{display:"inline-block",color:"green",marginLeft:"20px"}}/>:null}
       <div style={{marginTop:"20px"}} dangerouslySetInnerHTML={{__html:props.answer.answer}}></div>
 
