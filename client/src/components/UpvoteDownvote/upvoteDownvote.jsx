@@ -115,14 +115,16 @@ function UpvoteDownvote(props) {
       <ThumbUpAltIcon
         up={up}
         onClick={props.user === undefined ? notLoggedIn : upvoted}
-        color={clicked ? "disabled":up?"primary":""}
+        color={clicked ? "disabled" : up ? "primary" : ""}
+        fontSize="large"
     />
 
     <span ref={totalDownRef} style={{ fontSize: 20 }}>{props.totalCount ? props.totalCount.down : null}</span>
     <ThumbDownAltIcon
         down = {down}
         onClick={props.user === undefined ? notLoggedIn : downvoted}
-        color={clicked ? "disabled":down?"secondary":""}
+        color={clicked ? "disabled" : down ? "secondary" : ""}
+        fontSize="large"
     />
   
   
