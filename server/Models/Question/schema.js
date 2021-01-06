@@ -13,7 +13,7 @@ module.exports = new mongoose.Schema({
         upvote: { type: Number, default: 0 },
         downvote: { type: Number, default: 0 }
     },
-    answers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Ans' }],
+    answers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Ans', uniqueItems: true }],
     answers_count: { type: Number, default: 0 },
     satisfied: { type: Boolean, default: 0 }
 });

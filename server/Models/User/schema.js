@@ -36,15 +36,15 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: null
     },
-    question: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Ques' }],
-    answer: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Ans' }],
+    question: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Ques', uniqueItems: true }],
+    answer: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Ans', uniqueItems: true }],
     bio: {
         type: String,
         default: ""
     },
-    bookmarks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Ques' }],
-    followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-    following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    bookmarks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Ques', uniqueItems: true }],
+    followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User', uniqueItems: true }],
+    following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User', uniqueItems: true }],
     score: {
         type: [{
             name: { type: String },

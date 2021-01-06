@@ -57,11 +57,6 @@ const StyledHome = styled(Home)`
   margin-right: 1em;
 `;
 
-const StyledFavorite = styled(Favorite)`
-  cursor: pointer;
-  margin-right: 1em;
-`;
-
 const Link = styled(A)`
   color: white;
   :hover{
@@ -89,7 +84,7 @@ const MyNav = function(props) {
         <StyledHome onClick={()=>navigate('/')}></StyledHome>
         {props.user ?
           <>
-            <StyledFavorite></StyledFavorite>
+            <Notification />
             <AccountAvatar user={props.user}/>
             </>
           :
