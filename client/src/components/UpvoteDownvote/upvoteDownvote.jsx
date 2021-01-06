@@ -20,7 +20,7 @@ function UpvoteDownvote(props) {
   useEffect(() => {
     axiosCall('post', `${CONFIG.API_DOMAIN}/Question/votes/byUser`, {quesId : props.quesId, isQues : props.isQues})
       .then(res => {
-        console.log("upvotedata = " ,res.data);
+        // console.log("upvotedata = " ,res.data);
         if(res.data.upvote)
             setUp(true);
         else
@@ -111,17 +111,18 @@ function UpvoteDownvote(props) {
   return (
     <div style={{display:"flex",alignItems:"center",marginTop:"20px"}}>
       
-      <span ref={totalUpRef} style={{ fontSize: 20 }}>{props.totalCount ? props.totalCount.up : null}</span>
-    
-    <ThumbUpAltIcon
-    up={up}
-    onClick={props.user === undefined ? notLoggedIn : upvoted} />
-  
+    <span ref={totalUpRef} style={{ fontSize: 20 }}>{props.totalCount ? props.totalCount.up : null}</span>
+      <ThumbUpAltIcon
+        up={up}
+        onClick={props.user === undefined ? notLoggedIn : upvoted}
+        color={clicked ? "disabled":up?"primary":""}
+    />
 
     <span ref={totalDownRef} style={{ fontSize: 20 }}>{props.totalCount ? props.totalCount.down : null}</span>
     <ThumbDownAltIcon
-      down = {down}
-      onClick={props.user===undefined?notLoggedIn:downvoted}
+        down = {down}
+        onClick={props.user === undefined ? notLoggedIn : downvoted}
+        color={clicked ? "disabled":down?"secondary":""}
     />
   
   
