@@ -1,7 +1,7 @@
 const passport = require('passport');
 const { validationResult } = require('express-validator');
-const { User } = require('../../../Models');
-const createVerification = require('../Verification/create_verification');
+const { User, Token } = require('../../../Models');
+const { requestEmailVerification } = require('../Verification/create_verification');
 
 module.exports = function(req, res, next) {
     const errors = validationResult(req);
@@ -21,38 +21,30 @@ module.exports = function(req, res, next) {
 
     return User.register({ username: username, email: email, first_name: firstname, last_name: lastname },
         password1,
-        function(err, user) {
+        async function(err, user) {
             if (err) {
-                return res.send({ success: false, errors: [], registered: false });
+                console.log('ERROR:', err);
+                res.data.success = false;
+                res.data.registered = false;
+                res.data.error = "Some internal error.";
+                res.data.errors = [];
+                return next();
             } else {
-                createVerification(user)
-                    .then(async function(data) {
-                        let token = await Token.create_token(user, 'verify_email');
+                try {
+                    res.data.success = true;
 
-                        // Send mail
-                        let response = {
-                            body: {
-                                name: user.username,
-                                intro: 'Welcome to Fitness Freak! We\'re very excited to have you on board.',
-                                action: {
-                                    instructions: 'To get started with FitnessFreak, please click here:',
-                                    button: {
-                                        color: '#22BC66', // Optional action button color
-                                        text: 'Confirm your email',
-                                        link: `${API_DOMAIN}/auth/verify-user-email?token=${token.token}`
-                                    }
-                                },
-                                outro: 'Need help, or have questions? Just reply to this email, we\'d love to help.'
-                            }
-                        };
-                        let success = await sendMail(user.email, 'Verify Email', response);
-                        data.email_verification_mail_sent = success;
-                        return res.send(data);
-                    })
-                    .catch(function(err) {
-                        console.error('ERROR: ', err);
-                        return res.send({ success: false, registered: false });
-                    });
+                    res.data.registered = true;
+                    res.data.errors = []
+
+                    let mail_sent = requestEmailVerification(user);
+                    res.data.email_verification_mail_sent = mail_sent;
+                } catch (err) {
+                    console.error('ERROR: ', err);
+                    res.data.error = "Some internal error.";
+                    res.data.mail_sent = false;
+                } finally {
+                    return next();
+                }
             }
         });
 

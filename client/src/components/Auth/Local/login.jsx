@@ -1,8 +1,7 @@
 import React, { useState } from "react"
 import { navigate, A } from 'hookrouter';
 import styled from 'styled-components';
-import { Button } from 'react-bootstrap';
-import { LinearProgress } from '@material-ui/core';
+import { LinearProgress, Button } from '@material-ui/core';
 
 import ajaxRequest from '../../../ajaxRequest'
 import CONFIG from '../../../config';
@@ -23,11 +22,6 @@ let LoginForm = styled.form`
         align-content: center;
     }
 
-    .btn{
-        width: 60%;
-        align-self: center;
-    }
-
     .bottom{
         width: 100%;
         display: flex;
@@ -37,7 +31,11 @@ let LoginForm = styled.form`
     }
 `;
 
-
+let StyledButton = styled(Button)`
+    justify-self: center;
+    width: 60%;
+    align-self: center;
+`;
 // =========================================================================
 
 
@@ -54,7 +52,6 @@ export default function Login(props) {
                 : msg && <div className="err-msg"> {msg} </div>
             }
             <div className="form-group">
-                <label htmlFor="email">Enter Username</label>
                 <Name
                     id="username-login"
                     input={{ name: "username", label: "Username", max_length: "20", placeholder: 'Enter username' }}
@@ -67,7 +64,15 @@ export default function Login(props) {
                 password={password}
                 setPassword={setPassword}
             />
-            <Button type="submit" className="btn" disabled={sending} >Login</Button>
+            <StyledButton
+                type="submit"
+                id="login-btn"
+                variant="contained"
+                color="primary"
+                disabled={sending}
+            >Login</StyledButton>
+
+            {/* <Button type="submit" className="btn" disabled={sending} >Login</Button> */}
 
             <div className="bottom">
                 <A href="/auth/send-verification">Send Verification</A>

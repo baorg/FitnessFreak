@@ -1,20 +1,36 @@
-export default function Email(props) {
-    function handleChange(event) {
-        props.setEmail({ value: event.target.value, error: null });
-    }
+import styled from 'styled-components';
+import { useState } from 'react';
+import { TextField } from '@material-ui/core'
+
+// Styled Components =========================================================
+
+let EmailField = styled(TextField)`
+    height: 100%;
+`;
+
+// ==============================================================================
+
+export default function Email({ input, email, setEmail }) {
 
     return (
-        <>
-            <span>Email</span>
-            <div className="form-row">
-                {props.email.error && <span className="err-dialog" >{props.email.error}</span>}
-                <input
-                    value={props.email.value}
-                    onChange={handleChange}
-                    className="form-control"
-                    type="email"
-                    name={props.input.name}
-                    placeholder={props.input.placeholder} id="reg-mail" />
-            </div>
-        </>);
+        <div className="form-row">
+            <EmailField
+                id="reg-mail"
+                value={email.value}
+                onChange={handleChange}
+                className="form-control"
+                type="email"
+                name={input.name}
+                label="Email"
+                helperText={email.error}
+                error={Boolean(email.error)}
+                placeholder={input.placeholder}
+                required
+                variant="filled"
+            />
+        </div>);
+    
+    function handleChange(event) {
+        setEmail({ value: event.target.value, error: null });
+    }
 }
