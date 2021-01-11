@@ -1,20 +1,21 @@
 import React,{useState,useEffect,useRef} from "react"
 import axios from "axios"
+import { Spinner } from "react-bootstrap";
+import { A,navigate } from "hookrouter";
+import { Avatar } from '@material-ui/core';
+
 import Answer from "../../Answer/Answer/answer";
 import PostAnswer from "../../Answer/PostAnswer/postAnswer";
 import UpvoteDownvote from "../../UpvoteDownvote/upvoteDownvote";
-import MyNav from "../../Navigation/navbar/navbar";
 import SideNavBar from "../../Navigation/SideNav/SideNav";
-import '../../styles.css'
-import './style.css'
-import ajaxRequest from '../../../ajaxRequest';
 
+import '../../styles.css';
+import './style.css';
+import ajaxRequest from '../../../ajaxRequest';
 import Attachments from './attachments';
 import BookMark from "../../BookMark/MyBookMark";
-import { Spinner } from "react-bootstrap";
-import { A,navigate } from "hookrouter";
-
 import CONFIG from '../../../config';
+
 
 function FullQuestion(props) {
   const [question, setQuestion] = useState(null)
@@ -80,7 +81,6 @@ function FullQuestion(props) {
 
   return question ?
     (<div>
-      <MyNav user={props.user} />
       {/* <SideNavBar user={props.user} /> */}
       <div className="maindivofeverypage" >
         <div style={{ textAlign: "left" }}>
@@ -88,7 +88,9 @@ function FullQuestion(props) {
             <h1 style={{ display: "inline-block" }}>{question.title}</h1>
             <BookMark quesId={props.quesId} user={props.user} />
           </div>
-          <p>Asked by <A href={`/profile/${question.user._id}`}>@{question.user.username}</A></p>
+          <p>Asked by
+          <A href={`/profile/${question.user._id}`}>@{question.user.username}</A></p>
+          <Avatar alt={`${question.user?.username || 'unknown'}s_profile_image`} src={question.user?.profile_image}/>
           <div dangerouslySetInnerHTML={{ __html: question.question }} style={{marginTop:"40px"}}></div>
           <br /> <br />
           

@@ -16,9 +16,9 @@ function getStrategy() {
             // console.log("User : ", profile);
             try {
                 let user = await User.findOne({ google_id: profile.id }).exec();
+                // console.log("User:", profile);
                 if (user === null) {
                     let username = await User.getUniqueUsername(profile._json.name);
-
                     user = new User({
                         google_id: profile.id,
                         username: username,
@@ -30,6 +30,7 @@ function getStrategy() {
                             refresh_token: refreshToken,
                             setup: true
                         },
+
                     });
 
                     await user.save();

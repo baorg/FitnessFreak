@@ -12,17 +12,17 @@ import UpdateProfile from '../Profile/EditProfile';
 import CONFIG from '../../config';
 import VerifyEmail from '../VerifyEmail';
 
-function getRoutes(user) {
+function getRoutes({user, setUser}) {
   return {
     '/': () => <App user={user}/>,
     'app': () => <App user={user}/>,
     'post-question': ()=><PostQuestion user={user} />,
-    'profile/:userId*': ({ userId }) => <ProfileRoutes user={user} userId={userId} />,
+    'profile/:userId*': ({ userId }) => <ProfileRoutes user={user} userId={userId} setUser={setUser}/>,
     'update-profile': ()=> <UpdateProfile />,
     'viewFullQuestion/:quesId' :({quesId}) => <FullQuestion quesId = {quesId} user={user}/>,
     'rankings/:typeofranking':({typeofranking})=><Ranking typeofranking={typeofranking} user={user}/>,
     'questions/:typeofpage*': ({ typeofpage }) => <TypeOfPageRoutes typeofpage={typeofpage} user={user} />,
-    'verify-email/*': () => <VerifyEmail />
+    'verify-email': () => <VerifyEmail />
   }
 }
 
@@ -41,14 +41,10 @@ async function getUserName(user, setUser){
 
 function Feed(props) {
   useEffect(() => {
-
-    //isAuthenitaced
-    // console.count("getuserName");
     getUserName(props.user, props.setUser);
-
   }, []);
 
-  const page = useRoutes(getRoutes(props.user));
+  const page = useRoutes(getRoutes({ user: props.user, setUser: props.setUser }));
     return ( page || <HTML404 /> );
 }
 

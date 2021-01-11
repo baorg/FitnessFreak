@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
+import { Spinner } from "react-bootstrap";
 import { navigate } from 'hookrouter';
 import styled from 'styled-components';
 import Modal from '@material-ui/core/Modal';
 import { CloseRounded } from '@material-ui/icons'
 import { TextField, Button } from '@material-ui/core';
+
 import ajaxRequest from '../../../ajaxRequest';
 import CONFIG from '../../../config';
-import { Spinner } from "react-bootstrap";
-import EmailDiv from "./email";
+import EmailDiv from "./Email";
+import EditProfileImage from "./ProfileImage";
+import EditProfileBanner from "./ProfileBanner";
 
 // Styled Components =================================================================
 
@@ -70,6 +73,13 @@ let ContentDiv = styled.div`
     flex-wrap: wrap;
     align-items: center;
     padding: 12px;
+    margin-top: 20px;
+    border-top: 2px solid rgba(104, 104, 104, 0.904); 
+    
+    .head{
+        font-size: 25px;
+        align-self: flex-start;
+    }
 `;
 
 let ElementDiv = styled.div`
@@ -107,7 +117,7 @@ let SubmitButton = styled(Button)`
 
 
 
-export default function EditProfile(props){
+export default function EditProfile({user, setUser, open, setOpen}){
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -139,12 +149,12 @@ export default function EditProfile(props){
 
     return (
         <ModalPage
-            open={props.open}
+            open={open}
             aria-labelledby="simple-modal-title"
             aria-describedby="simple-modal-description"
             disableScrollLock={false}
             disableBackdropClick={true}
-            onClose={() => { props.setOpen(false);}}
+            onClose={() => { setOpen(false);}}
         >
             <EditProfileDiv>
                 <EditProfileHeader>
@@ -156,7 +166,10 @@ export default function EditProfile(props){
                     <StyledSpinner />
                     :
                     <>
+                        <EditProfileImage user={user} setUser={setUser} />
+                        <EditProfileBanner user={user} setUser={setUser} />
                         <ContentDiv>
+                            <div className="head">Info</div>
                             <ElementDiv>
                                 <FirstNameField
                                     id="standard-read-only-input"
@@ -188,7 +201,7 @@ export default function EditProfile(props){
                                 <SubmitButton onClick={updating ? () => { }:submit} disabled={updating} color="primary" variant="contained">Update</SubmitButton>
                             </FooterDiv>
                         </ContentDiv>
-                        <EmailDiv email={email}/>
+                        <EmailDiv email={email} />
                     </>
                 }
                 
@@ -206,13 +219,13 @@ export default function EditProfile(props){
         
         if (data.updated === true) {
             console.log('Updated....');
-            props.setOpen(false);
+            setOpen(false);
             navigate(`/profile/${data.user._id}`);
         }
         setUpdating(false);
     }
 
     function closeModal() {
-        props.setOpen(false);
+        setOpen(false);
     }
 }

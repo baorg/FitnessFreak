@@ -5,6 +5,7 @@ import TimeAgo from 'javascript-time-ago';
 import UpvoteDownvote from "../../UpvoteDownvote/upvoteDownvote";
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { Avatar } from '@material-ui/core';
 import styled from 'styled-components';
 import noimage from '../../../static/noimage.png';
 
@@ -137,7 +138,7 @@ export default function (props) {
     return (
         <Question>
             <QuestionHeader>
-                <ProfileImage src={props.question.user?.profile_image || noimage } />
+                <Avatar alt={`${props.question.user?.username || 'unknown'}s_profile_image`} src={props.question.user?.profile_image}/>
                 <PostedName>
                     <NameDiv>
                         {props.question.user ?

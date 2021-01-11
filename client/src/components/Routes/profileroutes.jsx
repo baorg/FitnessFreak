@@ -10,7 +10,7 @@ import Profile from '../Profile';
 
 function getRoutes(props) {
   return {
-    '/': () => <Profile user={props.user} userId={props.userId} />,
+    '/': () => <Profile user={props.user} userId={props.userId} setUser={props.setUser}/>,
     // '/followers': () => <Followers userId={props.userId} user={props.user}/>,
     // '/following': () => <Following userId={props.userId} user={props.user}/>,
     // '/answer-asked/:quesId':({quesId})=><AnswerAsked userId={props.userId} user={props.user} quesId={quesId}/>,

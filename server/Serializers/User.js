@@ -7,6 +7,7 @@ function UserSerializer(users, multiple = false) {
             first_name: user.first_name,
             last_name: user.last_name,
             profile_image: user.profile_image,
+            banner_image: user.banner_image,
             is_verified: user.is_verified,
             created_at: user.created_at,
             bio: user.bio,

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 async function getUserData(user_id) {
     let user = await this.findOne({ _id: mongoose.Types.ObjectId(user_id) })
-        .select(['username', 'first_name', 'last_name', 'created_at', 'profile_image', 'bio', 'score'])
+        .select(['username', 'first_name', 'last_name', 'created_at', 'profile_image', 'banner_image', 'bio', 'score'])
         .exec();
     return user;
 }

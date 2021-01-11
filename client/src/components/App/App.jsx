@@ -1,12 +1,12 @@
 import React, {useState} from "react"
-import MyNav from "../Navigation/navbar/navbar"
+import styled from 'styled-components';
+import { usePath, useQueryParams } from 'hookrouter';
+
 import Content from "./Main";
 import LeftNavBar from "./LeftNav";
 import RightNavBar from "./RightNav";
-import styled from 'styled-components';
 
-
-
+// Styled Components ===============================================================================
 
 const ContentContainer = styled.div`
   position: relative;
@@ -19,21 +19,23 @@ const ContentContainer = styled.div`
   height: fit-content;
 `;
 
+// ==================================================================================================
 
 const App = function (props) {
   const [category, setCategory] = useState(null);
   const [type, setType] = useState(null);
+  
+  const [path, setPath] = usePath();
 
+  console.log('Path: ', path);
 
-    return (
-      <>
-        <MyNav user={props.user} />
-        <ContentContainer>
-          <LeftNavBar user={props.user} setCategory={setCategory} category={category} />
-          <Content setType={setType} type={type} category={category} />
-          <RightNavBar />
-        </ContentContainer>
-      </>);
+  return (
+      <ContentContainer>
+        <LeftNavBar user={props.user} setCategory={setCategory} category={category} />
+        <Content setType={setType} type={type} category={category} />
+        <RightNavBar />
+      </ContentContainer>
+    );
 };
 
 export default App;

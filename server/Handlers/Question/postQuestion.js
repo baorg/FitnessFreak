@@ -21,8 +21,6 @@ module.exports = async function(req, res, next) {
         let title = req.body.title;
         let attachments = req.body.attachments || [];
 
-        // console.log("Attachments: ", attachments);
-        // console.log("Length: ", attachments.length);
         const ques = new Ques({
             title: title,
             question: question,

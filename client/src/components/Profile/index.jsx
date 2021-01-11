@@ -70,10 +70,12 @@ export default function Profile(props) {
                         <RightRail />
                 </ProfileDiv>
             </MainDiv>
-            { editProfile && <EditProfile
-                                setOpen={setEditProfile}
-                                open={editProfile}
-                            />
-            }
+            { editProfile &&
+                <EditProfile
+                    setOpen={setEditProfile}
+                    open={editProfile}
+                    user={props.user}
+                    setUser={props.setUser}
+                />}
         </>);
 }

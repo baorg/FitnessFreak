@@ -5,6 +5,8 @@ const UsersHandler = require('./Users');
 const FeedHandler = require('./Feed');
 const RankHandler = require('./Rank');
 const FileUploadHandler = require('./Upload');
+const CloudinaryHandler = require('./Cloudinary');
+
 
 module.exports = {
     AuthHandler,
@@ -13,5 +15,6 @@ module.exports = {
     UsersHandler,
     FeedHandler,
     RankHandler,
-    FileUploadHandler
+    FileUploadHandler,
+    CloudinaryHandler
 }

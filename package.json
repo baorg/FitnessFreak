@@ -15,5 +15,7 @@
   },
   "author": "Akash, Balpreet, Mudit",
   "license": "ISC",
-  "dependencies": {}
+  "dependencies": {
+    "nodemon": "^2.0.7"
+  }
 }

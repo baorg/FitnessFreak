@@ -129,7 +129,7 @@ export default function UserInfo(props) {
     return (
         <>
         <ProfileInfoDiv>
-            <ProfileBanner src={props.profileUser.profile_banner || nobanner } alt="" />
+            <ProfileBanner src={props.profileUser.banner_image || nobanner } alt="" />
             <ProfileImage src={props.profileUser.profile_image || noimage} alt="" />
             {props.profileUser.own_profile ?
                 <EditProfileButton onClick={handleEditProfileClick}>Edit Profile</EditProfileButton> :

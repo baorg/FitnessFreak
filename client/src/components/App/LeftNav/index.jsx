@@ -6,6 +6,8 @@ import { FaceRounded } from '@material-ui/icons'
 import Category from './category';
 
 
+// Styled Components =================================================================
+
 const SideNavContainer = styled.div`
     /* position: fixed; */
     display: flex;
@@ -19,6 +21,7 @@ const SideNavContainer = styled.div`
     box-sizing: border-box;
 `;
 
+// ======================================================================================
 
 
 const SideNavBar = function(props) {
@@ -52,36 +55,38 @@ const SideNavBar = function(props) {
     //     }
     //     fun();
     // }, []);
-    function hover() {
-      document.querySelector('.categorybox').style.display='inline-block';
-    }
-    function unhover(){
-      document.querySelector('.categorybox').style.display='none';
-    }
-    function hover2() {
-      document.querySelector('.rankingbox').style.display='inline-block';
-    }
-    function unhover2(){
-      document.querySelector('.rankingbox').style.display='none';
-    }
-
+    
     return (
-            <SideNavContainer>
-                {props.user && <div>
-                                    <FaceRounded /> {props.user.username}
-                                </div>}
-            <hr style={{height:"2px", color:"black", width: "100%"}}/>
-                <div>
-                    {categories.map(category =>
-                        <Category
-                            selected={props.category === category}
-                            category={category}
-                            handleClick={() => { props.category === category ? props.setCategory(null) : props.setCategory(category); }}
-                            />
-                    )}
-                </div>
-            </SideNavContainer>
-        );
+      <SideNavContainer>
+        {props.user &&
+          <div>
+            <FaceRounded /> {props.user.username}
+          </div>}
+      <hr style={{height:"2px", color:"black", width: "100%"}}/>
+        <div>
+          {categories.map(category =>
+              <Category
+                  selected={props.category === category}
+                  category={category}
+                  handleClick={() => { props.category === category ? props.setCategory(null) : props.setCategory(category); }}
+                  />
+          )}
+        </div>
+    </SideNavContainer>); 
+  
+  // function hover() {
+  //     document.querySelector('.categorybox').style.display='inline-block';
+  //   }
+  //   function unhover(){
+  //     document.querySelector('.categorybox').style.display='none';
+  //   }
+  //   function hover2() {
+  //     document.querySelector('.rankingbox').style.display='inline-block';
+  //   }
+  //   function unhover2(){
+  //     document.querySelector('.rankingbox').style.display='none';
+  //   }
+
 }
 
 export default SideNavBar;

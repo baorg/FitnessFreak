@@ -7,6 +7,7 @@ const authRouter = require('./auth');
 const feedRouter = require('./feed');
 const rankRouter = require("./rank")
 const uploadRouter = require("./upload");
+const cloudinaryRouter = require('./cloudinary');
 
 const { initRequest, sendResponse } = require('../Middlewares');
 
@@ -19,6 +20,7 @@ router.use('/question', questionRouter, sendResponse);
 router.use('/rank', rankRouter);
 router.use('/upload', uploadRouter);
 router.use('/users', usersRouter);
+router.use('/cloudinary', cloudinaryRouter);
 
 router.use(sendResponse);
 

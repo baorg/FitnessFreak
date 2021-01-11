@@ -36,6 +36,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: null
     },
+    banner_image: {
+        type: String,
+        default: null
+    },
     question: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Ques', uniqueItems: true }],
     answer: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Ans', uniqueItems: true }],
     bio: {

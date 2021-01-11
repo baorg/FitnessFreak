@@ -18,7 +18,7 @@ async function setup(app) {
 
     passport.deserializeUser(function(id, done) {
         User.findOne({ _id: id })
-            .select(['username', 'first_name', 'last_name', 'email', 'created_at', 'profile_image', 'bio', 'chosen_category', 'is_verified', 'email_verified', 'score'])
+            .select(['username', 'first_name', 'last_name', 'email', 'created_at', 'profile_image', 'banner_image', 'bio', 'chosen_category', 'is_verified', 'email_verified', 'score'])
             .exec(function(err, user) {
                 if (err) {
                     console.error('ERROR:', err);

@@ -5,6 +5,9 @@ import InfiniteScroll from './InfiniteScroll';
 import styled from 'styled-components';
 import CONFIG from '../../../config';
 
+
+// Styled Components ==================================================================================
+
 const Content = styled.div`
     grid-column: 2 / 3;
     margin: 10px 10px 0 10px;
@@ -33,6 +36,8 @@ const Type = styled.div`
         cursor: pointer;
     }
 `;
+
+// =======================================================================================================
 
 export default function (props) {
     let [url, setUrl] = useState(`${CONFIG.API_DOMAIN}/feed/get-feed?`);

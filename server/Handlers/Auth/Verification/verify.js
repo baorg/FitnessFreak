@@ -18,16 +18,20 @@ async function invalidToken(err) {
 
 module.exports.verifyEmailHandler = async function(req, res, next) {
     let { token } = req.query;
-    // console.log("userid: ", userid, '\ntoken: ', token);
     let data = await Token.check_token(token, 'verify_email', verifyUserEmail, invalidToken);
 
     if (data.success && data.verified) {
-        return res.redirect(`${CONFIG.CLIENT_DOMAIN}/verify-email/verified`);
+        res.data.success = true;
+        res.data.email_verified = true;
     } else {
+        res.data.success = false;
+        res.data.email_verified = false;
         if (data.error === 'Token Expired') {
-            return res.redirect(`${CONFIG.CLIENT_DOMAIN}/verify-email/token-expired`);
+            res.data.error = 'Token Expired';
         } else {
-            return res.redirect(`${CONFIG.CLIENT_DOMAIN}/verify-email/invalid-token`);
+            res.data.error = 'Invalid Token';
         }
     }
+
+    return next();
 }

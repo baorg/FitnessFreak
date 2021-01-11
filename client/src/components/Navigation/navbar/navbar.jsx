@@ -1,5 +1,6 @@
 import React,{useState} from "react";
-import { Home, Favorite} from '@material-ui/icons';
+import { Home, Favorite, Search } from '@material-ui/icons';
+import { Input, InputBase } from '@material-ui/core';
 import styled from 'styled-components';
 
 import {
@@ -17,6 +18,7 @@ import AccountAvatar from './account';
 
 const StyledNavbar = styled(Navbar)`
   position:fixed;
+  top: 0;
   z-index:10;
   width: 100%;
   height: 50px;
@@ -36,12 +38,31 @@ const StyledBrand = styled(StyledNavbar.Brand)`
 `;
 
 
-const StyledInput = styled.input`
+const InputDiv = styled.div`
   width: 20em;
   height: 2em;
   border-width: 1px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  grid-gap: 5px;
   outline: none;
   background-color: #eeeeee;
+  position: 'relative';
+  border-radius: 10px;
+  background-color: fade(white, 0.15);
+  :hover{
+    background-color: fade(white, 0.25),
+  }
+
+  margin-right: 5px;
+  margin-left: 0px;
+  padding-left: 10px;
+  padding-right: 10px;
+  
+  .inpt{
+    width: 100%;
+  }
 `;
 
 const StyledIcons = styled.div`
@@ -79,7 +100,14 @@ const MyNav = function(props) {
   return (
     <StyledNavbar bg="light" expand="lg" >
       <StyledBrand href="/">Fitness Freak</StyledBrand>
-      <StyledInput placeholder="Search"></StyledInput>
+      <InputDiv>
+          <Search />
+          <InputBase
+            className="inpt"
+            placeholder="Search…"
+            inputProps={{ 'aria-label': 'search' }}
+          />
+      </InputDiv>
       <StyledIcons>
         <StyledHome onClick={()=>navigate('/')}></StyledHome>
         {props.user ?
@@ -100,7 +128,7 @@ export default MyNav;
 
 
 
-{/* 
+/* 
   <A href="/"><StyledNavbar.Brand >Fitness Freak</StyledNavbar.Brand></A>
       <StyledNavbar.Toggle aria-controls="basic-navbar-nav" />
       <StyledNavbar.Collapse id="basic-navbar-nav">
@@ -126,15 +154,15 @@ export default MyNav;
             <div style={{display:"flex",  alignItems:"center"}}>
               <Button variant="primary" className="mx-1" onClick={() => navigate("/profile/" + props.user._id)} >
               <AccountCircleRounded />
-                {/* <h4 style={{display:"inline-block"}}></h4> */}
-      //           {props.user.username}
-      //         </Button>
-      //         <Button variant="danger" className="mx-1" onClick={() => navigate(`${CONFIG.CLIENT_DOMAIN}/auth/logout`)} >
-      //           Logout
-      //         </Button>
-      //       </div> :
-      //       <Button variant="primary" className="mx-1">
-      //         <a onClick={()=>navigate("/auth")} className="login-link">Login/Register</a>
-      //       </Button>
-      //     }
-      // </StyledNavbar.Collapse> */}
+                 <h4 style={{display:"inline-block"}}></h4>
+                {props.user.username}
+              </Button>
+              <Button variant="danger" className="mx-1" onClick={() => navigate(`${CONFIG.CLIENT_DOMAIN}/auth/logout`)} >
+                Logout
+              </Button>
+            </div> :
+            <Button variant="primary" className="mx-1">
+              <a onClick={()=>navigate("/auth")} className="login-link">Login/Register</a>
+            </Button>
+          }
+      </StyledNavbar.Collapse> */

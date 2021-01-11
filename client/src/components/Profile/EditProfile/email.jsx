@@ -132,6 +132,7 @@ export default function EmailDiv(props){
         return changeComponent();
     }, [ addEmail, emailIpt ]);
     useEffect(function () {
+
         // Regular Expression from  https://emailregex.com/
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         setValidEmail(re.test(emailIpt));
@@ -156,7 +157,7 @@ export default function EmailDiv(props){
         setEmailIpt(evnt.target.value);
     }
     async function sendVerificationRequest() {
-        let res = (await ajaxRequest('GET', `${CONFIG.API_DOMAIN}/users/request-verify-email`)).data;
+        let res = (await ajaxRequest('GET', `${CONFIG.API_DOMAIN}/users/request-verify-email?username=${props.user.username}`)).data;
         if (res.success) {
             setError("");
             setMsg("Verification email sent to your Mail.");

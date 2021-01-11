@@ -8,6 +8,7 @@ import Login from './Local/login';
 import Verification from './Local/verification';
 import ResetPassword from './Local/resetPassword';
 import ForgotPassword from './Local/forgotPassword';
+import Navbar from '../Navigation/navbar/navbar';
 
 import GoogleAuth from './google';
 import FacebookAuth from './facebook';
@@ -92,9 +93,9 @@ const routes = {
 function Auth() {
     let page = useRoutes(routes);
 
-  return (
-      (page && 
-        <AuthPage>
+    return (
+        (page && 
+            <AuthPage>
             <div className="auth-container">
                 <div className="heading">
                     <Button active={page.str === 'register'} className="chng-btn" onClick={()=>navigate('/auth/register')}>Register</Button>
@@ -112,7 +113,7 @@ function Auth() {
                     <FacebookAuth />
                 </OtherAuthMethods>
           </div>
-        </AuthPage>) || <HTML404 />
+            </AuthPage>) || <HTML404 />
   );
 }
 export default Auth;

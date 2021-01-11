@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { A, navigate } from 'hookrouter';
-import { Image } from 'react-bootstrap';
-
-import { Popper, Grow, Paper, ClickAwayListener, MenuItem, MenuList } from '@material-ui/core';
+import { Avatar, Popper, Grow, Paper, ClickAwayListener, MenuItem, MenuList } from '@material-ui/core';
 import { AccountBoxRounded, AccountCircleRounded } from '@material-ui/icons';
+
 
 
 import LogoutDialog from '../../Auth/logout';
@@ -14,7 +13,7 @@ import LogoutDialog from '../../Auth/logout';
 const AccountAvatarDiv = styled.div`
 `;
 
-const StyledAccountImage = styled(Image)`
+const StyledAccountImage = styled(Avatar)`
   cursor: pointer;
   width: 3em;
   height: 3em;
