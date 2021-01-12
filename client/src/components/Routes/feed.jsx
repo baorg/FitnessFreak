@@ -11,6 +11,7 @@ import Ranking from '../Ranking/ranking';
 import UpdateProfile from '../Profile/EditProfile';
 import CONFIG from '../../config';
 import VerifyEmail from '../VerifyEmail';
+import ChangeEmail from '../ChangeEmail';
 
 function getRoutes({user, setUser}) {
   return {
@@ -22,7 +23,8 @@ function getRoutes({user, setUser}) {
     'viewFullQuestion/:quesId' :({quesId}) => <FullQuestion quesId = {quesId} user={user}/>,
     'rankings/:typeofranking':({typeofranking})=><Ranking typeofranking={typeofranking} user={user}/>,
     'questions/:typeofpage*': ({ typeofpage }) => <TypeOfPageRoutes typeofpage={typeofpage} user={user} />,
-    'verify-email': () => <VerifyEmail />
+    'verify-email': () => <VerifyEmail />,
+    'update-user-email': () => <ChangeEmail />
   }
 }
 

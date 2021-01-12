@@ -1,16 +1,14 @@
 const { User, Token } = require("../../Models");
 const { API_DOMAIN } = require("../../config");
 const sendMail = require('../utils/mailer');
-
+const hideMail = require('../utils/hide_email');
 
 module.exports.requestVerifyEmail = async function(req, res, next) {
     try {
         let { username } = req.query;
-        console.log('Username:', username);
 
 
-        let user = await User.findByUsername(username);
-        // console.log('User: ', user);
+        let user = (await User.findByUsername(username)) || (await User.findUserByEmail(username));
 
         if (user === null) {
             res.data.success = false;
@@ -43,10 +41,9 @@ module.exports.requestVerifyEmail = async function(req, res, next) {
             }
         };
         let success = await sendMail(user.email, 'Verify Email', response);
-
-        console.log('Success: ', success);
         res.data.success = success;
         res.data.mail_sent = success;
+        res.data.email = hideMail(user.email);
     } catch (err) {
         console.error('ERROR: ', err);
         res.data.success = false;

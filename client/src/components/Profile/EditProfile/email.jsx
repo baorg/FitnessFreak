@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { Button, TextField } from '@material-ui/core';
+import { Button, TextField, LinearProgress } from '@material-ui/core';
 import { Check } from '@material-ui/icons';
 
 import CONFIG from '../../../config';
 import ajaxRequest from '../../../ajaxRequest';
+
 // Styled Components =================================================================
 
 let EmailField = styled.div`
@@ -118,7 +119,7 @@ let MsgField = styled.div`
 
 
 
-export default function EmailDiv(props){
+export default function EmailDiv(props) {
 
     const [addEmail, setAddEmail] = useState(false);
     const [emailIpt, setEmailIpt] = useState("");
@@ -126,13 +127,12 @@ export default function EmailDiv(props){
     const [error, setError] = useState("");
     const [currentDiv, setCurrentDiv] = useState(<></>);
     const [msg, setMsg] = useState(null);
+    const [sending, setSending] = useState(false);
+    const progressRef = useRef(null);
+
 
 
     useEffect(function () {
-        return changeComponent();
-    }, [ addEmail, emailIpt ]);
-    useEffect(function () {
-
         // Regular Expression from  https://emailregex.com/
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         setValidEmail(re.test(emailIpt));
@@ -142,15 +142,57 @@ export default function EmailDiv(props){
     return (
         <EmailField>
             <EmailHeader>Email</EmailHeader>
-            { currentDiv}
+            
+            { addEmail ?
+                <AddEmailDiv>
+                    <TextField
+                        error={!validEmail}
+                        id="outlined-error-helper-text"
+                        label={validEmail ? "Email" : "Invalid Email"}
+                        defaultValue="enter email"
+                        helperText={error}
+                        variant="outlined"
+                        className="inpt-div"
+                        value={emailIpt} onChange={handleEmailChange}
+                    />
+                    <div className="btns-div">
+                        <Button color="primary" onClick={handleSaveEmail}>Save</Button>
+                        <Button color="danger" onClick={() => { setAddEmail(false); setSending(false); setEmailIpt(""); }}>Cancel</Button>
+                    </div>
+                    {sending && <LinearProgress />}
+                </AddEmailDiv>
+                : props.email === "" ?
+                    <NoEmailDiv>
+                        <div className="email-div">-- no email --</div>
+                        <div className="btn-div">
+                            <Button color="primary" onClick={handleAddClick}>Add</Button>
+                        </div>
+                    </NoEmailDiv>
+                    : <DefaultDiv>
+                        <div className="email-container">
+                            <div className="email-div">{props.email.email}</div>
+                            <div><Button color="primary" onClick={handleAddClick}>Edit</Button></div>
+                        </div>
+                        {
+                            props.email.verified ?
+                                <div className="verified-div">
+                                    <span>Verified</span>
+                                    <Check color="primary" />
+                                </div>
+                                : <div className='verify-div'>
+                                    <span>Not Verified</span>
+                                    <Button className="btn" color="primary" onClick={sendVerificationRequest}>Resend Verification</Button>
+                                </div>}
+                    </DefaultDiv>}
             {msg && <MsgField>{msg}</MsgField>}
         </EmailField>
 
-    );  
+    );
 
     function handleAddClick() {
-        console.log("Change, ", addEmail);
+        // console.log("Change, ", addEmail);
         setAddEmail(true);
+        setMsg(null);
     }
 
     function handleEmailChange(evnt) {
@@ -167,71 +209,23 @@ export default function EmailDiv(props){
         }
     }
     async function handleSaveEmail(evnt) {
-        let res = (await ajaxRequest('POST', `${CONFIG.API_DOMAIN}/users/update-email`, { email: emailIpt })).data;
+        setSending(true);
+        setMsg(null);
+
+        let res = (await ajaxRequest('POST', `${CONFIG.API_DOMAIN}/users/request-update-email`, { email: emailIpt })).data;
         if (res.success) {
             setError("");
-            setMsg("Email is updated. Check your mail to verify.");
+            setMsg(`Check your mail to verify and update email to ${emailIpt}.`);
             setAddEmail(false);
         } else {
             if (res.error) {
                 setError(res.error);
-                console.error('ERROR:', res.error);
-            }
-            else {
+            } else if (res.errors?.length > 0) {
                 setError(res.errors[0].msg);
-                console.error('ERROR:', res.errors[0].msg);
+            } else {
+                setError('Some unknow error occured.');
             }
         }
-    }
-
-    function changeComponent() {
-        console.log("Changing component.", addEmail, props.email);
-        switch (true) {
-            case addEmail:
-                return setCurrentDiv(
-                    <AddEmailDiv>
-                        <TextField
-                            error={!validEmail}
-                            id="outlined-error-helper-text"
-                            label={validEmail?"Email":"Invalid Email"}
-                            defaultValue="enter email"
-                            helperText={error}
-                            variant="outlined"
-                            className="inpt-div"
-                            value={emailIpt} onChange={handleEmailChange}
-                        />
-                        <div className="btns-div">
-                            <Button color="primary" onClick={handleSaveEmail}>Save</Button>
-                            <Button color="danger" onClick={() => { setAddEmail(false); setEmailIpt("");}}>Cancel</Button>
-                        </div>
-                    </AddEmailDiv>);
-            case props.email === "":
-                return setCurrentDiv(
-                    <NoEmailDiv>
-                        <div className="email-div">-- no email --</div>
-                        <div className="btn-div">
-                            <Button color="primary" onClick={handleAddClick}>Add</Button>
-                        </div>
-                    </NoEmailDiv>
-                );
-            default:
-                return setCurrentDiv(<DefaultDiv>
-                    <div className="email-container">
-                        <div className="email-div">{props.email.email}</div>
-                        <div><Button color="primary" onClick={handleAddClick}>Edit</Button></div>
-                    </div>
-                    {
-                        props.email.verified ?
-                            <div className="verified-div">
-                                <span>Verified</span>
-                                <Check color="primary" />
-                            </div>
-                            : <div className='verify-div'>
-                                <span>Not Verified</span>
-                                <Button className="btn" color="primary" onClick={sendVerificationRequest}>Resend Verification</Button>
-                            </div>}
-                </DefaultDiv>);
-        
-        }
+        setSending(false);
     }
 }
