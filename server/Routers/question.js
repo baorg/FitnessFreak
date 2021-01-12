@@ -41,6 +41,9 @@ router.get("/getNotifications", isAuthenticated, QuestionHandler.getNotification
 router.get("/getQuestionsCategoryWise/:name", QuestionHandler.getQuestionsCategoryWise);
 router.post("/getAnswersByUserOnly/:quesId", QuestionHandler.getAnswersByUserOnly);
 
+router.post('/deleteQuestion', QuestionHandler.deleteQuestion)
+router.post('/deleteAnswer', QuestionHandler.deleteAnswer)
+
 router.post("/markAnswer", QuestionHandler.markAnswer)
 router.post("/isQuestionAskedByUser", QuestionHandler.isQuestionAskedByUser)
 router.get("/get-type/:name", QuestionHandler.getTypeOfQuestionsHandler);
