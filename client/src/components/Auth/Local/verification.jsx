@@ -40,7 +40,7 @@ function Verification() {
 
     return mailSent ?
         <div>
-            <h3>Mail has been sent to your email.</h3>
+            <h3>Mail has been sent to your email. ({ msg })</h3>
             <p>( Also check your spam folder. )</p>
         </div>
         :
@@ -52,7 +52,7 @@ function Verification() {
             <div className="elmnts">
                 <Name 
                     id="useraname-verification"
-                    input={{ name: "username", label: "Username", placeholder: 'Enter Username' }}
+                    input={{ name: "username", label: "Username / Email", placeholder: 'Enter Username / Email' }}
                     name={username}
                     setName={setUsername} />
             </div>
@@ -75,6 +75,7 @@ function Verification() {
             if (res.data.success) {
                 if (res.data.mail_sent) {
                     setMailSent(true);
+                    setMsg(res.data.email);
                 }
             } else {
                 setMsg(res.data.error);

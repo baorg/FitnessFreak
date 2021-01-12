@@ -40,7 +40,7 @@ export default function ForgotPassword() {
 
     return mailSent ?
         <div>
-            <h3>Mail has been sent to your email.</h3>
+            <h3>Mail has been sent to your email ({msg}).</h3>
             <p>( Also check your spam folder. )</p>
         </div>
         :
@@ -52,7 +52,7 @@ export default function ForgotPassword() {
             <div className="elmnts">
                 <Name 
                     id="useraname-verification"
-                    input={{ name: "username", label: "Username", placeholder: 'Enter Username' }}
+                    input={{ name: "username", label: "Username / Email", placeholder: 'Enter Username or Email' }}
                     name={username}
                     setName={setUsername} />
             </div>
@@ -74,6 +74,7 @@ export default function ForgotPassword() {
             let res = await ajaxRequest('GET', `${API_DOMAIN}/auth/request-reset-password?username=${username.value}`);
             if (res.data.success) {
                 if (res.data.mail_sent) {
+                    setMsg(res.data.email);
                     setMailSent(true);
                 }
             } else {

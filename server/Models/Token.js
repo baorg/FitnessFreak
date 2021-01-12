@@ -25,6 +25,10 @@ const tokenSchema = new mongoose.Schema({
     token_type: {
         type: String,
         required: true
+    },
+    email: {
+        type: String,
+        default: null
     }
 });
 
@@ -32,14 +36,14 @@ const tokenSchema = new mongoose.Schema({
 
 // statics
 
-async function create_token(user, t_type, r_depth = 0) {
+async function create_token(user, t_type, email = null, r_depth = 0) {
     let l = 40;
     let cache = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let token;
 
     if (user == null || t_type == null)
         throw Error('User and token type are required.');
-    if (!['verify_email', 'password_reset'].some(tp => tp === t_type))
+    if (!['verify_email', 'password_reset', 'update_email'].some(tp => tp === t_type))
         throw Error('Invalid token type.');
 
     try {
@@ -47,7 +51,8 @@ async function create_token(user, t_type, r_depth = 0) {
         for (let i = 0; i < l; i++) {
             tkn += cache[_.random(0, 61)];
         }
-        token = await this.create({ token: tkn, user: user, token_type: t_type });
+        token = await this.create({ token: tkn, user: user, token_type: t_type, email: email });
+        console.log('Token: ', token);
     } catch (err) {
 
         console.log('ERROR: ', err);
@@ -55,7 +60,7 @@ async function create_token(user, t_type, r_depth = 0) {
             console.error('Recursion depth reached. Look into your apis.');
             throw err;
         }
-        token = await this.create_token(user, t_type, r_depth + 1);
+        token = await this.create_token(user, t_type, email, r_depth + 1);
 
     } finally {
         return token;
@@ -86,9 +91,33 @@ async function check_token(tk, vt, cb, fb) {
     }
 }
 
+async function get_token(token, vt) {
+    let tok = await this.findOne({ token: token })
+        .populate({
+            path: 'user',
+            model: User,
+            select: 'username email first_name last_name'
+        });
+    if (tok !== null) {
+        if (token.expire_timestamp < Date.now) {
+            await tok.delete();
+            return { token: null, error: 'Token Expired' };
+        } else if (tok.token_type !== vt) {
+            await tok.delete();
+            return { token: null, error: 'Invalid token.' };
+        } else {
+            await tok.delete();
+            return { token: tok, error: null };
+        }
+    } else {
+        return { token: null, error: 'Invalid token.' };
+    }
+}
+
 tokenSchema.statics = {
     create_token,
-    check_token
+    check_token,
+    get_token
 };
 // ===========================================================================================================
 

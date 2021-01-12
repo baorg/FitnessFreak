@@ -29,15 +29,5 @@ module.exports.requestEmailVerification = async function(user) {
 
     return success;
 
-    // // Send mail
-    // let html = `
-    //     <div>
-    //         <h3>Follow this link to verify your account</h3>
-    //         <a target="_blank" href="${API_DOMAIN}/auth/verify-user-email?token=${token.token}" >Verify account</a>
-    //         <p>Verify   ${API_DOMAIN}/auth/verify-user-email?token=${token.token}</p>
-    //     </div>`;
-    // let msg = `Verify   ${API_DOMAIN}/auth/verify-user-email?token=${token.token}`;
-    // await sendMail(user.email, 'Verify account', html, msg);
-
-    return { success: true, mail_sent: true };
+    // return { success: true, mail_sent: true };
 }

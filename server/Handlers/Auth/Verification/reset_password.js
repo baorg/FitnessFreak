@@ -3,6 +3,8 @@ const { validationResult } = require('express-validator');
 const sendMail = require('../../utils/mailer')
 const { User, Token } = require('../../../Models');
 const { CLIENT_DOMAIN } = require('../../../config');
+const hideEmail = require('../../utils/hide_email');
+
 
 async function reset_password(userId, type, password) {
     if (type === 'password_reset') {
@@ -50,11 +52,11 @@ module.exports.requestRestPassword = async(req, res, next) => {
     try {
         let { username = "" } = req.query;
         // console.log('username: ', username);
-        let user = await User.findByUsername(username);
+        let user = (await User.findByUsername(username)) || (await User.findUserByEmail(username));
 
         if (user === null) {
             res.data.success = false;
-            res.data.error = 'Username not present';
+            res.data.error = 'Username / Email not present';
         } else {
             let token = await Token.create_token(user, 'password_reset');
             // console.log('Token:', token);
@@ -77,6 +79,7 @@ module.exports.requestRestPassword = async(req, res, next) => {
             // console.log('Success: ', success);
             res.data.success = success;
             res.data.mail_sent = success;
+            res.data.email = hideEmail(user.email);
         }
     } catch (err) {
         console.error('ERROR:', err);

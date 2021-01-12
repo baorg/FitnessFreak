@@ -1,11 +1,12 @@
 const { User, Token } = require('../../Models');
 const { validationResult } = require('express-validator');
 const sendMail = require('../utils/mailer');
-const { API_DOMAIN } = require('../../config');
+const { API_DOMAIN, CLIENT_DOMAIN } = require('../../config');
 
 const response_format = require('../utils/response_fromat');
+const hideEmail = require('../utils/hide_email');
 
-async function updateEmail(req, res, next) {
+async function requestUpdateEmail(req, res, next) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         console.log(req.body);
@@ -17,32 +18,28 @@ async function updateEmail(req, res, next) {
     const { email } = req.body;
     let user = req.user;
 
-    console.log('User: ', user);
-
     try {
-        user.email = email;
-        user.email_verified = false;
-        user = await user.save();
-        let token = await Token.create_token(user, 'verify_email');
+        let token = await Token.create_token(user, 'update_email', email);
 
         // Send mail
 
         let response = {
             body: {
                 name: user.username,
-                intro: 'Welcome to Fitness Freak! We\'re very excited to have you on board.',
+                intro: `Hi! friend you have requested to change your email from ${hideEmail(user.email)} to ${email}.`,
                 action: {
-                    instructions: 'To get started with FitnessFreak, please click here:',
+                    instructions: 'To Change your email, please click here:',
                     button: {
                         color: '#22BC66', // Optional action button color
                         text: 'Confirm your email',
-                        link: `${API_DOMAIN}/auth/verify-user-email?token=${token.token}`
+                        link: `${CLIENT_DOMAIN}/update-user-email?token=${token.token}`
                     }
                 },
                 outro: 'Need help, or have questions? Just reply to this email, we\'d love to help.'
             }
         };
-        let success = await sendMail(user.email, 'Verify Email', response);
+        let success = await sendMail(email, 'Verify Email', response);
+        console.log('Success:', success);
 
         res.data.success = true;
         res.data.user = user;
@@ -53,9 +50,69 @@ async function updateEmail(req, res, next) {
         res.data.error = 'Some internal error.';
     } finally {
         return next();
+        // return res.redirect(CLIENT_DOMAIN)
     }
 
 }
+
+async function updateEmail(req, res, next) {
+    try {
+        // Get token
+        let token_ = req.body.token;
+        let { token, error } = await Token.get_token(token_, 'update_email');
+        if (token === null) {
+            res.data.success = false;
+            res.data.error = error;
+        } else {
+            res.data.success = true;
+
+            console.log('Token: ', token);
+            let new_email = token.email;
+            let user = token.user;
+            let prev_email = user.email;
+
+            user.email = new_email;
+            user.email_verified = true;
+            await user.save();
+
+            // Send mail to previous email.
+            let response = {
+                body: {
+                    name: user.username,
+                    intro: `Hi ${user.first_name} ${user.last_name}, your email have been changed to ${hideEmail(new_email)}`,
+                    outro: 'Need help, or have questions? Just reply to this email, we\'d love to help.'
+                }
+            };
+            let success = await sendMail(prev_email, 'Email updated', response);
+            console.log('Success: ', success);
+
+            //  Send mail to new email.
+            response = {
+                body: {
+                    name: user.username,
+                    intro: `Hi ${user.first_name} ${user.last_name}, your email have been changed from ${hideEmail(prev_email)} tp this new email.`,
+                    outro: 'Need help, or have questions? Just reply to this email, we\'d love to help.'
+                }
+            };
+            success = await sendMail(new_email, 'Email updated', response);
+            console.log('Success: ', success);
+            //  ------------------------------------------------------------------------------
+
+            res.data.success = true;
+            res.data.email_updated = true;
+            res.new_email = user.email;
+
+        }
+    } catch (err) {
+        console.error('ERROR: ', err);
+        res.data.success = false;
+        res.data.error = 'Some internal error.';
+    } finally {
+        // return next();
+        return res.redirect(CLIENT_DOMAIN);
+    }
+}
+
 
 async function updateProfile(req, res, next) {
     let success = false;
@@ -133,7 +190,8 @@ async function updateImage(req, res, next) {
 }
 
 module.exports = {
+    requestUpdateEmail,
     updateProfile,
     updateEmail,
-    updateImage
+    updateImage,
 };
