@@ -1,7 +1,7 @@
 
 const { Ques, Ans, User, Tag } = require("../../Models");
 
-function deleteQuestion(req, res){
+async function deleteQuestion(req, res){
 let err = false;
 const quesId = req.body.quesId;
 const userId = req.user.id;
@@ -20,7 +20,7 @@ try{
   }
 
 }
-function deleteAnswer(req, res){
+async function deleteAnswer(req, res){
         let err = false;
         const ansId = req.body.ansId;
         const userId = req.user.id;
