@@ -35,8 +35,8 @@ function FullQuestion(props) {
       
       res = await ajaxRequest("get", `${CONFIG.API_DOMAIN}/question/get-answers-of-question?quesId=${props.quesId}`);
 
-      console.log(res.data);
-      console.log(typeof(res.data));
+      // console.log('RESPONSE DATA: ', res.data);
+      // console.log(typeof(res.data));
       setAnswers(res.data.answers);
 
       if (props.user !== undefined) {

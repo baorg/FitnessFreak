@@ -8,7 +8,7 @@ import { TextField, Button } from '@material-ui/core';
 
 import ajaxRequest from '../../../ajaxRequest';
 import CONFIG from '../../../config';
-import EmailDiv from "./email";
+import EmailDiv from "./Email";
 import EditProfileImage from "./ProfileImage";
 import EditProfileBanner from "./ProfileBanner";
 

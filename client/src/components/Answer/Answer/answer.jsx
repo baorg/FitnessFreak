@@ -47,10 +47,11 @@ function Answer(props){
     <div style={{marginBottom:"20px",borderBottom:"2px solid #B8B8B8", padding:"10px"}}  >
       {props.answer.marked?<VerifiedUserIcon style={{color:"green"}}/>:null}
       Answered by
-        {props.answer.user
-          ? <A href={`/profile/${props.answer.user._id}`} style={{ display: "inline-block" }}>@{props.answer.user.username}</A>
-          : "  [deleted]"}
-        {props.user?(props.user._id===props.answer.user._id?<DeleteIcon onClick={deleteAnswer}/>:null):null}
+        {props.answer.user === null
+          ? " [deleted]"
+          : <A href={`/profile/${props.answer.user._id}`} style={{ display: "inline-block" }}>@{props.answer.user.username}</A>
+        }
+        { (props.user?._id === props.answer.user?._id) && props.user && props.answer.user && <DeleteIcon onClick={deleteAnswer} /> }
       {props.satisfactory?<DoneIcon onClick={()=>{props.selectedSatisfactoryAnswer(props.answer._id)}} style={{display:"inline-block",color:"green",marginLeft:"20px"}}/>:null}
       <div style={{marginTop:"20px"}} dangerouslySetInnerHTML={{__html:props.answer.answer}}></div>
 
