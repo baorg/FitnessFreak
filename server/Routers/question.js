@@ -43,6 +43,7 @@ router.post("/getAnswersByUserOnly/:quesId", QuestionHandler.getAnswersByUserOnl
 
 router.post('/deleteQuestion', QuestionHandler.deleteQuestion)
 router.post('/deleteAnswer', QuestionHandler.deleteAnswer)
+router.post('/deleteComment', QuestionHandler.deleteComment)
 
 router.post("/markAnswer", QuestionHandler.markAnswer)
 router.post("/isQuestionAskedByUser", QuestionHandler.isQuestionAskedByUser)

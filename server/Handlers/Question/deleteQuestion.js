@@ -40,4 +40,23 @@ async function deleteAnswer(req, res){
         
         }
 
-module.exports = {deleteQuestion, deleteAnswer}
+async function deleteComment(req, res){
+        let err = false;
+        const commentId = req.body.commentId;
+        
+        try{
+                await Comment.findByIdAndDelte(commentId).exec();
+                
+                }
+                catch(err){
+                        err = true;
+                        console.log("err while deleting Comment ", error);
+                }
+                finally{
+                        return res.send({err: err})
+                }
+        
+        }
+            
+
+module.exports = {deleteQuestion, deleteAnswer, deleteComment}
