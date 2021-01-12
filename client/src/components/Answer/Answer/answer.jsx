@@ -32,10 +32,11 @@ function Answer(props){
           ajaxRequest("post",`${CONFIG.API_DOMAIN}/question/deleteAnswer`,{
             ansId:props.answer._id
           }).then(async(res)=>{
-            if(res.data){
-              
+            if(!res.data.err){
+              window.location.reload()
             }
             else{
+              console.log("error in deleting answer");
             }
           })
         } else {
@@ -58,7 +59,7 @@ function Answer(props){
       <div style={{marginLeft:"200px" ,borderLeft:"2px solid #B8B8B8",padding:"20px"}}>
         {comments.length!==0?<h4 style={{marginBottom:"30px"}}>Comments</h4>:null }
         <div>
-          {comments.map((item,index)=><Comment key={index} comment={item} user={props.user}/>)}
+          {comments.map((item,index)=><Comment key={index} comment={item} user={props.user} quesId={props.quesId}/>)}
         </div>
         <h6>Add Your Comment</h6>
         <PostComment answerId = {props.answer._id} user={props.user} comments={comments} setComments={setComments} />

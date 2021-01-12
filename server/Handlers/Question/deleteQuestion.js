@@ -1,5 +1,5 @@
 
-const { Ques, Ans, User, Tag } = require("../../Models");
+const { Ques, Ans, User, Tag,Comment } = require("../../Models");
 
 async function deleteQuestion(req, res){
 let err = false;
@@ -45,10 +45,10 @@ async function deleteComment(req, res){
         const commentId = req.body.commentId;
         
         try{
-                await Comment.findByIdAndDelte(commentId).exec();
+                await Comment.findByIdAndDelete(commentId).exec();
                 
                 }
-                catch(err){
+                catch(error){
                         err = true;
                         console.log("err while deleting Comment ", error);
                 }

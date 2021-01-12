@@ -84,10 +84,11 @@ function FullQuestion(props) {
       ajaxRequest("post",`${CONFIG.API_DOMAIN}/question/deleteQuestion`,{
         quesId:props.quesId
       }).then(async(res)=>{
-        if(res.data){
-          navigate("/")
+        if(!res.data.err){
+          navigate("/");
         }
         else{
+          console.log("error in deleting question");
         }
       })
     } else {
@@ -126,7 +127,7 @@ function FullQuestion(props) {
           <br /><br /><hr/><br /><br />
           {answers.length !== 0 ? <h4 style={{ marginBottom: "30px" }}>Answers</h4> : <h4>No Answers Yet</h4>}
           {answers.map((el, index) => {
-            return <Answer key={index} answer={el}  user={props.user} satisfactory={satisfactory} selectedSatisfactoryAnswer={selectedSatisfactoryAnswer}/>
+            return <Answer key={index} answer={el}  user={props.user} satisfactory={satisfactory} selectedSatisfactoryAnswer={selectedSatisfactoryAnswer} quesId={props.quesId}/>
           })}
         </div>
       </div>
