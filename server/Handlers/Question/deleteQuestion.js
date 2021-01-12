@@ -6,14 +6,14 @@ let err = false;
 const quesId = req.body.quesId;
 const userId = req.user.id;
 try{
-        await Ques.deleteOne({id : quesId})
+        await Ques.findByIdAndDelete(quesId).exec()
         const user = await User.findById(userId)
-        user.questions.pull(new ObjectId(quesId))
+        user.question.pull(quesId)
         await user.save();
   }
-  catch(err){
+  catch(error){
           err = true;
-          console.log("err while deleting question ", err);
+          console.log("err while deleting question ", error);
   }
   finally{
           return res.send({err: err})
@@ -25,14 +25,14 @@ async function deleteAnswer(req, res){
         const ansId = req.body.ansId;
         const userId = req.user.id;
         try{
-                await Ans.deleteOne({id : ansId})
-                const user = User.findById(userId)
-                user.answers.pull(new ObjectId(ansId))
-                user.save();
+                await Ans.findByIdAndDelete(ansId).exec()
+                const user =await User.findById(userId)
+                user.answer.pull(ansId)
+                await user.save();
           }
-          catch(err){
+          catch(error){
                   err = true;
-                  console.log("err while deleting question ", err);
+                  console.log("err while deleting answer ", error);
           }
           finally{
                   return res.send({err: err})

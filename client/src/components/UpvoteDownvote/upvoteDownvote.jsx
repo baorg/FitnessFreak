@@ -114,7 +114,7 @@ function UpvoteDownvote(props) {
     <span ref={totalUpRef} style={{ fontSize: 20 }}>{props.totalCount ? props.totalCount.up : null}</span>
       <ThumbUpAltIcon
         up={up}
-        onClick={props.user === undefined ? notLoggedIn : upvoted}
+        onClick={!props.user ? notLoggedIn : upvoted}
         color={clicked ? "disabled" : up ? "primary" : ""}
         fontSize="large"
     />
@@ -122,7 +122,7 @@ function UpvoteDownvote(props) {
     <span ref={totalDownRef} style={{ fontSize: 20 }}>{props.totalCount ? props.totalCount.down : null}</span>
     <ThumbDownAltIcon
         down = {down}
-        onClick={props.user === undefined ? notLoggedIn : downvoted}
+        onClick={!props.user ? notLoggedIn : downvoted}
         color={clicked ? "disabled" : down ? "secondary" : ""}
         fontSize="large"
     />
