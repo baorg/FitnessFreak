@@ -34,7 +34,7 @@ const BookMark = function(props){
     }
     return(
       <div style={{marginLeft:"10px"}} >
-  {marked ? <BookmarkIcon onClick = {props.user===undefined?notLoggedIn:saveBookMark} style={{fontSize:30}}/>  : <BookmarkBorderIcon onClick = {props.user===undefined?notLoggedIn:saveBookMark} style={{fontSize:30}}/>}
+  {marked ? <BookmarkIcon onClick = {props.user===undefined?notLoggedIn:saveBookMark} style={{fontSize:30}}/>  : <BookmarkBorderIcon onClick = {!props.user?notLoggedIn:saveBookMark} style={{fontSize:30}}/>}
       </div>
   )
     

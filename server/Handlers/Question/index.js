@@ -22,7 +22,7 @@ const { getQuestionsCategoryWise } = require("./getQuestionsCategoryWise");
 const { getAnswersByUserOnly } = require("./getAnswersByUserOnly");
 const { markAnswer, isQuestionAskedByUser } = require("./markAnswer");
 const { getAnswersOfUser, getQuestionOfUser } = require('./getDataOfUser');
-
+const {deleteQuestion, deleteAnswer, deleteComment} = require('./deleteQuestion')
 
 module.exports = {
     getQuestionsHandler,
@@ -50,4 +50,7 @@ module.exports = {
     getAnswersByUserOnly,
     markAnswer,
     isQuestionAskedByUser,
+    deleteQuestion,
+    deleteAnswer,
+    deleteComment
 }

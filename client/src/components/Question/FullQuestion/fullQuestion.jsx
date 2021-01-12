@@ -15,7 +15,7 @@ import ajaxRequest from '../../../ajaxRequest';
 import Attachments from './attachments';
 import BookMark from "../../BookMark/MyBookMark";
 import CONFIG from '../../../config';
-
+import DeleteIcon from '@material-ui/icons/Delete';
 
 function FullQuestion(props) {
   const [question, setQuestion] = useState(null)
@@ -78,6 +78,23 @@ function FullQuestion(props) {
     }
     
   }
+  function deleteQuestion(){
+    if (window.confirm("Are you sure you want to delete your Question")) {
+      // txt = "You pressed OK!";
+      ajaxRequest("post",`${CONFIG.API_DOMAIN}/question/deleteQuestion`,{
+        quesId:props.quesId
+      }).then(async(res)=>{
+        if(!res.data.err){
+          navigate("/");
+        }
+        else{
+          console.log("error in deleting question");
+        }
+      })
+    } else {
+      // txt = "You pressed Cancel!";
+    }
+  }
 
   return question ?
     (<div>
@@ -90,6 +107,7 @@ function FullQuestion(props) {
           </div>
           <p>Asked by
           <A href={`/profile/${question.user._id}`}>@{question.user.username}</A></p>
+          {props.user?(props.user._id===question.user._id?<DeleteIcon onClick={deleteQuestion}/>:null):null}
           <Avatar alt={`${question.user?.username || 'unknown'}s_profile_image`} src={question.user?.profile_image}/>
           <div dangerouslySetInnerHTML={{ __html: question.question }} style={{marginTop:"40px"}}></div>
           <br /> <br />
@@ -109,7 +127,7 @@ function FullQuestion(props) {
           <br /><br /><hr/><br /><br />
           {answers.length !== 0 ? <h4 style={{ marginBottom: "30px" }}>Answers</h4> : <h4>No Answers Yet</h4>}
           {answers.map((el, index) => {
-            return <Answer key={index} answer={el}  user={props.user} satisfactory={satisfactory} selectedSatisfactoryAnswer={selectedSatisfactoryAnswer}/>
+            return <Answer key={index} answer={el}  user={props.user} satisfactory={satisfactory} selectedSatisfactoryAnswer={selectedSatisfactoryAnswer} quesId={props.quesId}/>
           })}
         </div>
       </div>
