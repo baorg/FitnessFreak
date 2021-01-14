@@ -1,6 +1,7 @@
 
 const { Ques, Ans, User, Tag,Comment } = require("../../Models");
 
+console.log("git pull conflict1")
 console.log("git pull conflict")
 async function deleteQuestion(req, res){
 let err = false;
