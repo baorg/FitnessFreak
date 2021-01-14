@@ -1,6 +1,7 @@
 
 const { Ques, Ans, User, Tag } = require("../../Models");
 
+console.log("git pull conflict")
 async function deleteQuestion(req, res){
 let err = false;
 const quesId = req.body.quesId;
@@ -45,7 +46,7 @@ async function deleteComment(req, res){
         const commentId = req.body.commentId;
         
         try{
-                await Comment.findByIdAndDelte(commentId).exec();
+                await Comment.findByIdAndDelete(commentId).exec();
                 
                 }
                 catch(err){
