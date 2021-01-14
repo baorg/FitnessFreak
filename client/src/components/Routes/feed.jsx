@@ -7,7 +7,7 @@ import PostQuestion from "../Question/PostQuestion";
 import FullQuestion from '../Question/FullQuestion/fullQuestion';
 import TypeOfPageRoutes from "./typeofpageroutes";
 import ProfileRoutes from "./profileroutes";
-import Ranking from '../Ranking/ranking';
+import Ranking from '../Ranking';
 import UpdateProfile from '../Profile/EditProfile';
 import CONFIG from '../../config';
 import VerifyEmail from '../VerifyEmail';
@@ -21,7 +21,8 @@ function getRoutes({user, setUser}) {
     'profile/:userId*': ({ userId }) => <ProfileRoutes user={user} userId={userId} setUser={setUser}/>,
     'update-profile': ()=> <UpdateProfile />,
     'viewFullQuestion/:quesId' :({quesId}) => <FullQuestion quesId = {quesId} user={user}/>,
-    'rankings/:typeofranking':({typeofranking})=><Ranking typeofranking={typeofranking} user={user}/>,
+    // 'rankings/:typeofranking':({typeofranking})=><Ranking typeofranking={typeofranking} user={user}/>,
+    'rankings':()=><Ranking />,
     'questions/:typeofpage*': ({ typeofpage }) => <TypeOfPageRoutes typeofpage={typeofpage} user={user} />,
     'verify-email': () => <VerifyEmail />,
     'update-user-email': () => <ChangeEmail />

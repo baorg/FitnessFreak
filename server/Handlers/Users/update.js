@@ -3,7 +3,7 @@ const { validationResult } = require('express-validator');
 const sendMail = require('../utils/mailer');
 const { API_DOMAIN, CLIENT_DOMAIN } = require('../../config');
 
-const response_format = require('../utils/response_fromat');
+const format_response = require('../utils/format_response');
 const hideEmail = require('../utils/hide_email');
 
 async function requestUpdateEmail(req, res, next) {
@@ -144,10 +144,7 @@ async function updateProfile(req, res, next) {
         data.updated = false;
         error = 'Some internal error.';
     } finally {
-        res.data = {
-            ...res.data,
-            ...response_format(success, data, error)
-        }
+        format_response(res, data, success, error);
         return next();
     }
 }
@@ -181,10 +178,7 @@ async function updateImage(req, res, next) {
     } catch (err) {
         console.error('ERROR:', err);
     } finally {
-        res.data = {
-            ...res.data,
-            ...response_format(success, data, error)
-        }
+        format_response(res, data, success, error);
         return next();
     }
 }

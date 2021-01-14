@@ -7,7 +7,8 @@ let category = [
     "Lifestyle",
     "Sports",
     "Yoga",
-    "Entertainment"
+    "Entertainment",
+    "BodyBuilding"
 ];
 
 module.exports = { category: category }

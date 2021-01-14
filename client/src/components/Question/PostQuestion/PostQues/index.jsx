@@ -134,7 +134,7 @@ function PostQuestion(props){
     let url = `${CONFIG.API_DOMAIN}/Question/getCategory`
     let resp = await axiosCall('GET', url);
     // console.log("RESP: ", resp.data.map(val=>({name: val, selected: false})));
-    setCategories(resp.data.map(val => ({ name: val, selected: false })));
+    setCategories(resp.data.categories.map(val => ({ name: val, selected: false })));
     // console.log(categories);
   }, []);
 

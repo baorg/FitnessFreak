@@ -8,7 +8,15 @@ function validateEmail(email) {
 
 function validateUsername(username) {
     var re = /^[a-zA-Z][._a-zA-Z0-9]+[_a-zA-Z0-9]$/;
-    return re.test(username);
+    if (!re.test(username))
+        return false;
+
+    for (var i = 0; i < username.length - 1; i++)
+        if (username[i] === username[i + 1] && username[i+1] === '.')
+            return false;
+
+    return true;
+
 }
 
 function validateCategory(cat) {

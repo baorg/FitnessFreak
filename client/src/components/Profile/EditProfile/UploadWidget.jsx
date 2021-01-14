@@ -1,37 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { WidgetLoader, Widget } from 'react-cloudinary-upload-widget'
 import styled from 'styled-components';
 
 import { API_DOMAIN, CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY } from '../../../config';
 
-// Styled Components ==============================================================================
 
-let StyledWidget = styled(Widget)`
-    color: blue;
-    border: none;
-    background-color: white;
-    width: 120px;
-    border-radius: 4px;
-    height: 25px;
-`;
-
-let StyledWidgetLoader = styled(WidgetLoader)`
-    color: blue;
-    border: none;
-    background-color: white;
-    width: 120px;
-    border-radius: 4px;
-    height: 25px;
-`;
-
-// ================================================================================================
+export default function UploadWidget({ eager, uploadPreset, successCallBack, failureCallBack }) {
 
 
-export default function UploadWidget({eager, uploadPreset, successCallBack, failureCallBack}){
     return (
         <>
-            <StyledWidgetLoader />
-            <StyledWidget
+            <WidgetLoader />
+            <Widget
                 sources={['local', 'camera']} // set the sources available for uploading -> by default
                 // all sources are available. More information on their use can be found at 
                 // https://cloudinary.com/documentation/upload_widget#the_sources_parameter
@@ -56,7 +36,8 @@ export default function UploadWidget({eager, uploadPreset, successCallBack, fail
                 eager={eager} // add eager transformations -> deafult = null
                 use_filename={false} // tell Cloudinary to use the original name of the uploaded 
                 // file as its public ID -> default = true,
- 
+
+                style={{}}
                 // 👇 FOR SIGNED UPLOADS ONLY 👇
                 generateSignatureUrl={`${API_DOMAIN}/cloudinary/generate_signature`} // pass the api
                 // endpoint for generating a signature -> check cloudinary docs and SDK's for signing uploads
@@ -69,4 +50,5 @@ export default function UploadWidget({eager, uploadPreset, successCallBack, fail
             />
         </>
     );
+
 }

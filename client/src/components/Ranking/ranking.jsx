@@ -14,7 +14,7 @@ const Ranking = function(props) {
 
   useEffect(() => {
     //axios call
-    let url=`${CONFIG.API_DOMAIN}/Rank/ByCategory/`;
+    let url=`${CONFIG.API_DOMAIN}/rank/ByCategory/`;
     console.log("Calling resOfTypeOfpage");
     console.log("typeogPage = ", props.typeofranking)
     if(props.typeofranking==="Total")

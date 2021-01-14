@@ -4,7 +4,7 @@ const { addScore } = require("../utilis");
 const { score } = require("../../../config/score");
 // const User = require("../../../Models/User");
 
-
+const format_response = require('../../utils/format_response');
 
 function getModel(flag) {
     if (flag == 2)
@@ -91,10 +91,10 @@ module.exports = async function(req, res, next) {
         }
         await ques.save()
         await user.save();
-        format_response(res, { is_saved: true }, true);
+        format_response(res, { is_saved: true, vote: ques.vote_count }, true);
     } catch (err) {
         console.error('ERROR:', err);
-        format_response(res, {}, false);
+        format_response(res, { vote: ques.vote_count }, false);
     } finally {
         return next();
     }

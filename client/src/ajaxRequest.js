@@ -1,14 +1,19 @@
 import axios from "axios";
+import networkProblem from './networkproblem';
 
 async function axiosCall(method, url, obj) {
-    const promise = await axios({
-        method: method,
-        url: url,
-        data: JSON.stringify(obj),
-        headers: { 'Content-Type': 'application/json' },
-        withCredentials: true
-    });
-    return promise;
+    try {
+        const res = await axios({
+            method: method,
+            url: url,
+            data: JSON.stringify(obj),
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: true
+        });
+        return res;
+    } catch (err) {
+        networkProblem();
+    }
 }
 
-export default axiosCall
+export default axiosCall;

@@ -48,6 +48,18 @@ let EditProfileImageDiv = styled.div`
             font-size: 1em;
         }
     }
+    
+    #cloudinary_upload_button{
+        background-color: white;
+        border-radius: 4px;
+        padding: 5px 10px 5px 10px;
+        color: rgb(63, 81, 181);
+        border-style: none;
+
+        :hover{
+            background-color: #eeeeee;
+        }
+    }
 `;
 let ProfileImage = styled.div`
 

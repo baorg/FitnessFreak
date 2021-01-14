@@ -13,13 +13,12 @@ module.exports.getRankByCategory = async function(req, res) {
         let result = []
         users.forEach((user) => {
         let index = hasUserOwnProperty(user, category)
-        console.log(`category = ${category} and index = ${index}`)
-        if(index !== -1)
-        {
-            console.log("userScore = ",user.score[index].score)
-            result.push({_id : user._id, username : user.username, score : user.score[index].score,profile_image:user.profile_image});
-        }
-         })
+            console.log(`category = ${category} and index = ${index}`)
+            if(index !== -1){
+                console.log("userScore = ",user.score[index].score)
+                result.push({_id : user._id, username : user.username, score : user.score[index].score,profile_image:user.profile_image});
+            }
+        })
         console.log("result = ", result)
         result.sort((x, y) => x.score > y.score);
         if(result.length){
@@ -28,7 +27,7 @@ module.exports.getRankByCategory = async function(req, res) {
         }
     }
     catch(err){
-         console.log("err in getting Rank By category ", err);
+        console.log("err in getting Rank By category ", err);
         obj.data = err;
         obj.isAuthenticated = false;
     }

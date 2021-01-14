@@ -17,6 +17,7 @@ function UpvoteDownvote(props) {
   const[clicked, setClicked] = useState(false)
   const totalUpRef=useRef(null);
   const totalDownRef = useRef(null);
+
   useEffect(() => {
     axiosCall('post', `${CONFIG.API_DOMAIN}/Question/votes/byUser`, {quesId : props.quesId, isQues : props.isQues})
       .then(res => {
@@ -28,30 +29,52 @@ function UpvoteDownvote(props) {
             setDown(true);
       });
   }, []);
+  
+  return (
+    <div style={{ display: "flex", alignItems: "center", marginTop: "20px" }}>
+      
+      <span ref={totalUpRef} style={{ fontSize: 20 }}>{props.totalCount ? props.totalCount.up : null}</span>
+      <ThumbUpAltIcon
+        up={up}
+        onClick={!props.user ? notLoggedIn : upvoted}
+        color={clicked ? "disabled" : up ? "primary" : ""}
+        fontSize="large"
+      />
 
+      <span ref={totalDownRef} style={{ fontSize: 20 }}>{props.totalCount ? props.totalCount.down : null}</span>
+      <ThumbDownAltIcon
+        down={down}
+        onClick={!props.user ? notLoggedIn : downvoted}
+        color={clicked ? "disabled" : down ? "secondary" : ""}
+        fontSize="large"
+      />
+    </div>
+  );
+
+  
   function upvoted(){
     if(!clicked){
     setClicked(true);
-    if(!up===true){
-        // upRef.current.name='arrow-up-circle';
-        // downRef.current.name='arrow-down-circle-outline';
-        const num = Number(totalUpRef.current.innerText) + 1;
-        totalUpRef.current.innerText = num
-        if(down){
-          const num = Number(totalDownRef.current.innerText) - 1;
-          totalDownRef.current.innerText = num
-        }
-    }
-    else{
-        // upRef.current.name='arrow-up-circle-outline';
-        const num = Number(totalUpRef.current.innerText) - 1;
-        totalUpRef.current.innerText = num
-    }
+    // if(!up===true){
+    //     // upRef.current.name='arrow-up-circle';
+    //     // downRef.current.name='arrow-down-circle-outline';
+    //     const num = Number(totalUpRef.current.innerText) + 1;
+    //     totalUpRef.current.innerText = num
+    //     if(down){
+    //       const num = Number(totalDownRef.current.innerText) - 1;
+    //       totalDownRef.current.innerText = num
+    //     }
+    // }
+    // else{
+    //     // upRef.current.name='arrow-up-circle-outline';
+    //     const num = Number(totalUpRef.current.innerText) - 1;
+    //     totalUpRef.current.innerText = num
+    // }
      
     //if(!up===true) axios call to add upvote 
     //else axios call to remove upvote
-    axiosCall('post', `${CONFIG.API_DOMAIN}/Question/votes/editVote`, {quesId : props.quesId, up : !up, isQues : props.isQues})
-      .then(() => {
+    axiosCall('post', `${CONFIG.API_DOMAIN}/question/votes/editVote`, {quesId : props.quesId, up : !up, isQues : props.isQues})
+      .then((res) => {
        
         // setUp false in downvoted function ensures that whatever is the state of upvote whether clicked or unclicked
         // so that we always downvote if downvote button gets clicked.
@@ -67,6 +90,9 @@ function UpvoteDownvote(props) {
         setDown(false);
         setUp(!up);
         setClicked(false);
+
+        totalUpRef.current.innerText = res.data.vote.upvote;
+        totalDownRef.current.innerText = res.data.vote.downvote;
       });
 
   }
@@ -76,62 +102,37 @@ function UpvoteDownvote(props) {
       setClicked(true);
     // downRef.current.disabled = true;
     // upRef.current.disabled = true;
-      if(!down===true){
-          // downRef.current.name='arrow-down-circle';
-          // upRef.current.name='arrow-up-circle-outline';
-          const num = Number(totalDownRef.current.innerText) + 1;
-          totalDownRef.current.innerText = num
-          //means upvoted
-          if(up){
-            const num = Number(totalUpRef.current.innerText) - 1;
-            totalUpRef.current.innerText = num
-          }
-
-      }
-      else{
-          // downRef.current.name='arrow-down-circle-outline';
-          const num = Number(totalDownRef.current.innerText) - 1;
-          totalDownRef.current.innerText = num
-      }
+      // if(!down===true){
+      //     // downRef.current.name='arrow-down-circle';
+      //     // upRef.current.name='arrow-up-circle-outline';
+      //     const num = Number(totalDownRef.current.innerText) + 1;
+      //     totalDownRef.current.innerText = num
+      //     //means upvoted
+      //     if(up){
+      //       const num = Number(totalUpRef.current.innerText) - 1;
+      //       totalUpRef.current.innerText = num
+      //     }
+      // }
+      // else{
+      //     // downRef.current.name='arrow-down-circle-outline';
+      //     const num = Number(totalDownRef.current.innerText) - 1;
+      //     totalDownRef.current.innerText = num
+      // }
 
       //if(!down===true) axios call to add downvote 
       //else axios call to remove downvote
-      axiosCall('post', `${CONFIG.API_DOMAIN}/Question/votes/editVote`, {quesId : props.quesId, down : !down,isQues : props.isQues})
-        .then(() => {
-         
+      axiosCall('post', `${CONFIG.API_DOMAIN}/question/votes/editVote`, {quesId : props.quesId, down : !down,isQues : props.isQues})
+        .then((res) => {
             // same as above
             setUp(false)
             setDown(!down);
             setClicked(false);
+          
+            totalUpRef.current.innerText = res.data.vote.upvote;
+            totalDownRef.current.innerText = res.data.vote.downvote;
         });
-
+    }
   }
-}
-  
-  return (
-    <div style={{display:"flex",alignItems:"center",marginTop:"20px"}}>
-      
-    <span ref={totalUpRef} style={{ fontSize: 20 }}>{props.totalCount ? props.totalCount.up : null}</span>
-      <ThumbUpAltIcon
-        up={up}
-        onClick={!props.user ? notLoggedIn : upvoted}
-        color={clicked ? "disabled" : up ? "primary" : ""}
-        fontSize="large"
-    />
-
-    <span ref={totalDownRef} style={{ fontSize: 20 }}>{props.totalCount ? props.totalCount.down : null}</span>
-    <ThumbDownAltIcon
-        down = {down}
-        onClick={!props.user ? notLoggedIn : downvoted}
-        color={clicked ? "disabled" : down ? "secondary" : ""}
-        fontSize="large"
-    />
-  
-  
-</div>
-    
-  
-  )
 }
 
 

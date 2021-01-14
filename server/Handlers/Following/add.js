@@ -7,6 +7,7 @@ function addFollowing(req, res, next) {
         User.addFollowing(followerId, followeeId)
             .then(data => {
                 res.data.success = true;
+                res.data.is_following = true;
                 res.data.msg = "Following added";
                 res.data.following = data;
                 // console.log(res.data);

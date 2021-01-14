@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { CalendarTodayIcon } from '@material-ui/icons';
-import { Button } from 'react-bootstrap';
+import { Button } from '@material-ui/core';
 import noimage from '../../../static/noimage.png';
 import nobanner from '../../../static/placeholder_profile_banner.jfif';
 import EditProfile from '../EditProfile';
-
+import FollowButton from '../FollowButton';
 
 // Styled Components ================================================
 let ProfileInfoDiv = styled.div`
@@ -67,19 +67,27 @@ let BioDiv = styled.span`
     text-align: center;
 `;
 
-
-let FollowEditProfileButton = styled(Button)`
+let EditProfileButton = styled.button`
     float: right;
-    margin: 10px ;
     border-radius: 20px;
+    margin: 10px 5px 10px 5px;
+    height: 3em;
+    width: 8em;
+    border-radius: 1.5em;
+    border-style: none;
+    border: 2px solid blue; 
+    background-color: inherit;
+    
+    :hover{
+        background-color: "#b8b8ff";
+    }
+
+    span{
+        color: blue;
+    }
+
 `;
 
-let EditProfileButton = styled(FollowEditProfileButton)`
-    
-`;
-let FollowProfileButton = styled(FollowEditProfileButton)`
-    /* float:  */
-`;
 
 let ScoreCard = styled.div`
     margin: 2em 0 2em 0;
@@ -131,9 +139,11 @@ export default function UserInfo(props) {
         <ProfileInfoDiv>
             <ProfileBanner src={props.profileUser.banner_image || nobanner } alt="" />
             <ProfileImage src={props.profileUser.profile_image || noimage} alt="" />
-            {props.profileUser.own_profile ?
-                <EditProfileButton onClick={handleEditProfileClick}>Edit Profile</EditProfileButton> :
-                <FollowProfileButton>Follow</FollowProfileButton>}
+            {props.profileUser.own_profile
+                    ? <EditProfileButton onClick={handleEditProfileClick}>
+                        <span>Edit Profile</span></EditProfileButton> 
+                    : <FollowButton profile={props.profileUser} />}
+
                 <Name >
                     <FirstLastName>{props.profileUser.first_name} {props.profileUser.last_name}</FirstLastName>
                     <Username>@{props.profileUser.username}</Username>

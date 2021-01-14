@@ -1,18 +1,20 @@
-import React,{useState} from "react";
+import React,{ useState, useEffect } from "react";
 import { Home, Favorite, Search } from '@material-ui/icons';
 import { Input, InputBase } from '@material-ui/core';
 import styled from 'styled-components';
+import { A, navigate } from 'hookrouter';
 
 import {
   Navbar,
   Button,
 } from "react-bootstrap";
 
-import { A, navigate } from 'hookrouter';
 import Searchdiv from "../../Searchdiv/searchdiv";
 import Notification from "../../Notification/notification";
 import CONFIG from '../../../config';
 import AccountAvatar from './account';
+import { fetchUserData } from '../../utils/fetch_user_data';
+
 
 // Styled Components ================================================================
 
@@ -88,14 +90,26 @@ const Link = styled(A)`
 
 // ==================================================================================
 
-const MyNav = function(props) {
+const MyNav = function({ }) {
 
-  const [searchparam,setSearchParam]=useState("Search for User");
-  function handlechange(e){
+  const [searchparam, setSearchParam] = useState("Search for User");
+  const [user, setUser] = useState(null);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    if (!loaded) {
+      setLoaded(true);
+      fetchUserData(setUser);
+    }
+    // return () => {
+    //   cleanup
+    // }
+  });
+
+  function handlechange(e) {
     let x=e.target.value;
     setSearchParam(x)
   }
-  console.log(props.user);
 
   return (
     <StyledNavbar bg="light" expand="lg" >
@@ -110,10 +124,10 @@ const MyNav = function(props) {
       </InputDiv>
       <StyledIcons>
         <StyledHome onClick={()=>navigate('/')}></StyledHome>
-        {props.user ?
+        { user ?
           <>
             <Notification />
-            <AccountAvatar user={props.user}/>
+            <AccountAvatar user={user}/>
             </>
           :
           <Button variant="primary">
@@ -125,44 +139,3 @@ const MyNav = function(props) {
 };
 
 export default MyNav;
-
-
-
-/* 
-  <A href="/"><StyledNavbar.Brand >Fitness Freak</StyledNavbar.Brand></A>
-      <StyledNavbar.Toggle aria-controls="basic-navbar-nav" />
-      <StyledNavbar.Collapse id="basic-navbar-nav">
-        <Nav className="mr-auto">
-          <Nav.Link href="#home">Home</Nav.Link>
-          
-        </Nav>
-        <div className="instasearchbox">
-        <Form.Control as="select" style={{width:"105px",marginRight:"20px",fontSize:"12px",display:"inline-block"}} value={searchparam} onChange={handlechange}>
-        <option style={styleClasses.option}>Search for User</option>
-        <option style={styleClasses.option}>Search By Tag</option>
-        </Form.Control>
-          
-              <Searchdiv type={searchparam} user={props.user} />
-            </div>
-          
-          {props.user ?
-          <div style={{marginRight:"20px"}}>
-          <Notification />
-          </div>
-          :null}
-          {props.user ?
-            <div style={{display:"flex",  alignItems:"center"}}>
-              <Button variant="primary" className="mx-1" onClick={() => navigate("/profile/" + props.user._id)} >
-              <AccountCircleRounded />
-                 <h4 style={{display:"inline-block"}}></h4>
-                {props.user.username}
-              </Button>
-              <Button variant="danger" className="mx-1" onClick={() => navigate(`${CONFIG.CLIENT_DOMAIN}/auth/logout`)} >
-                Logout
-              </Button>
-            </div> :
-            <Button variant="primary" className="mx-1">
-              <a onClick={()=>navigate("/auth")} className="login-link">Login/Register</a>
-            </Button>
-          }
-      </StyledNavbar.Collapse> */

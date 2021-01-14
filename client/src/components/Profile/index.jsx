@@ -56,7 +56,6 @@ export default function Profile(props) {
     return (
         <>
             <MainDiv active={editProfile}>
-                <Navbar user={props.user} />
                 <ProfileDiv >
                     <LeftRail />
                     {profileUser ?

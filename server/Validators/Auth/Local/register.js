@@ -14,6 +14,38 @@ module.exports = [
     }),
 
     body('username').exists().withMessage('Username should be present').bail()
+    .isLength({ min: 3 }).withMessage('Username should be of more than 3 characters.').bail()
+    .isLength({ max: 30 }).withMessage('Username should be of less than 30 characters.').bail()
+    .custom(username => {
+        if (/^[A-Za-z]/.test(username))
+            return Promise.resolve();
+        else
+            return Promise.reject('Username should start with an alphabet.');
+    }).withMessage('Username should start with an alphabet.').bail()
+    .custom(username => {
+        if (username.startsWith('.'))
+            return Promise.reject('Username should not start with \'.\'');
+        else
+            return Promise.resolve();
+    }).withMessage('Username should not start with \'.\'').bail()
+    .custom(username => {
+        if (username.endsWith('.'))
+            return Promise.reject('Username should not end with \'.\'');
+        else
+            return Promise.resolve();
+    }).withMessage('Username should not end with \'.\'').bail()
+    .custom(username => {
+        if (/\.\./.test(username))
+            return Promise.reject('Username should not have consecutive \'.\'');
+        else
+            return Promise.resolve();
+    }).withMessage('Username should not have consecutive \'.\'').bail()
+    .custom(username => {
+        if (/[a-zA-Z]/.test(username))
+            return Promise.resolve();
+        else
+            return Promise.reject('Username should have at least 1 alphabet.');
+    }).withMessage('Username should have at least 1 alphabet.').bail()
     .matches(/^[a-zA-Z][._a-zA-Z0-9]+[_a-zA-Z0-9]$/).withMessage('username should be in lowercase with digits and _ allowed (min. length=3).').bail()
     .custom(username => {
         // console.log('Running custom validator....');
