@@ -1,5 +1,5 @@
 
-const { Ques, Ans, User, Tag } = require("../../Models");
+const { Ques, Ans, User, Tag,Comment } = require("../../Models");
 
 console.log("git pull conflict")
 async function deleteQuestion(req, res){
@@ -49,7 +49,7 @@ async function deleteComment(req, res){
                 await Comment.findByIdAndDelete(commentId).exec();
                 
                 }
-                catch(err){
+                catch(error){
                         err = true;
                         console.log("err while deleting Comment ", error);
                 }

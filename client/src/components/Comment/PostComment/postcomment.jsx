@@ -27,7 +27,7 @@ const PostComment = (props) => {
             } else {
                 console.log("Not Authenticated")
             }
-            navigate("/");
+            // navigate("/");
         });
     }
 
