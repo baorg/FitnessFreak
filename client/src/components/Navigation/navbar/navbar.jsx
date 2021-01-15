@@ -97,14 +97,14 @@ const MyNav = function({ }) {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    if (!loaded) {
-      setLoaded(true);
+    // if (!loaded) {
+      // setLoaded(true);
       fetchUserData(setUser);
-    }
+    // }
     // return () => {
     //   cleanup
     // }
-  });
+  }, []);
 
   function handlechange(e) {
     let x=e.target.value;

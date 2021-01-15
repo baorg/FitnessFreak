@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { A } from 'hookrouter';
 import styled from 'styled-components';
 import { FaceRounded } from '@material-ui/icons'
+
 // import axiosCall from '../../../ajaxRequest';
 // import CONFIG from '../../../config';
 import Category from './category';
@@ -19,6 +21,11 @@ const SideNavContainer = styled.div`
     position: sticky;
     height: 100vh;
     box-sizing: border-box;
+
+    .link{
+      margin-left: 10px;
+      font-size: 1.5em;
+    }
 `;
 
 // ======================================================================================
@@ -58,10 +65,10 @@ const SideNavBar = function(props) {
     
     return (
       <SideNavContainer>
-        {props.user &&
-          <div>
-            <FaceRounded /> {props.user.username}
-          </div>}
+        <div>
+          <FaceRounded />
+          <A className="link" href="/rankings">Users</A>
+        </div>
       <hr style={{height:"2px", color:"black", width: "100%"}}/>
         <div>
           {categories.map(category =>

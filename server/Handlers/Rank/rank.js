@@ -1,39 +1,29 @@
 const { Ques, Ans, User, Tag } = require("../../Models");
 const hasUserOwnProperty = require("../Question/utilis").hasUserOwnProperty
 
-module.exports.getRankByCategory = async function(req, res) {
+module.exports.getRankByCategory = async function(req, res, next) {
 
-    const category = req.params.name;
-    let obj = {isAuthenticated : true,
-                    data : []}
-    try{
+    const category = req.query.category;
+    try {
         const users = await User.find({}, "username score profile_image").exec()
-    
-        console.log("users = ", users)
-        let result = []
+        let result = [];
+
         users.forEach((user) => {
-        let index = hasUserOwnProperty(user, category)
-            console.log(`category = ${category} and index = ${index}`)
-            if(index !== -1){
-                console.log("userScore = ",user.score[index].score)
-                result.push({_id : user._id, username : user.username, score : user.score[index].score,profile_image:user.profile_image});
+            let index = hasUserOwnProperty(user, category)
+            if (index !== -1) {
+                result.push({ _id: user._id, username: user.username, score: user.score[index].score, profile_image: user.profile_image });
             }
         })
-        console.log("result = ", result)
         result.sort((x, y) => x.score > y.score);
-        if(result.length){
-        obj.data = result;
-        console.log("obj.data = ", obj.data)
-        }
-    }
-    catch(err){
-        console.log("err in getting Rank By category ", err);
-        obj.data = err;
-        obj.isAuthenticated = false;
-    }
-    finally{
-        return res.send(obj);
+
+        res.success = true;
+        res.data.ranking = result;
+    } catch (err) {
+
+        res.success = false;
+        res.data.error = 'Some internal error.';
+    } finally {
+        return next();
     }
 
 }
-
