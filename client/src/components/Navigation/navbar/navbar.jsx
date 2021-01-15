@@ -13,6 +13,7 @@ import Searchdiv from "../../Searchdiv/searchdiv";
 import Notification from "../../Notification/notification";
 import CONFIG from '../../../config';
 import AccountAvatar from './account';
+import axiosCall from '../../../ajaxRequest'
 
 // Styled Components ================================================================
 
@@ -90,13 +91,44 @@ const Link = styled(A)`
 
 const MyNav = function(props) {
 
-  const [searchparam,setSearchParam]=useState("Search for User");
-  function handlechange(e){
-    let x=e.target.value;
-    setSearchParam(x)
-  }
-  console.log(props.user);
-
+  const [searchparam,setSearchParam]=useState("");
+  const [filterArr,setFilterArr]=useState([ ]);
+  // console.log(props.user);
+  function fil(event){
+    let x = event.target.value;
+    setSearchParam(event.target.value);
+    
+        let url = `${CONFIG.API_DOMAIN}/Users/searchusers`;
+        let obj={username:x}
+        // console.log(obj)
+        if(x==="")
+            setFilterArr([]);
+        else{
+            axiosCall('POST', url, obj).then(res => {
+                setFilterArr(res.data.users);
+            });
+        } 
+}
+function addTag(el){
+  let url2 = `/profile/${el._id}`;
+  navigate(url2);
+}
+function f1(event){
+  // let w="";
+  // document.addEventListener('click',function(e){
+  //   console.log(e.target.className)
+  //   w=e.target.id;
+  // })
+  // if(w === "dd" || w ==="dd1" || w ==="dd2"){
+  //   console.log('hello1')
+  // }
+  // else{
+  //   console.log('hello2')
+  //   document.querySelector('.dd').style.display='none'
+  // }
+  setTimeout(function(){  setFilterArr([]); }, 500);
+ 
+}
   return (
     <StyledNavbar bg="light" expand="lg" >
       <StyledBrand href="/">Fitness Freak</StyledBrand>
@@ -106,7 +138,15 @@ const MyNav = function(props) {
             className="inpt"
             placeholder="Search…"
             inputProps={{ 'aria-label': 'search' }}
+            onChange={fil}
+            value={searchparam}
+            onFocus={()=>{document.querySelector('.dd').style.display='block'}}
+            onBlur={f1}
           />
+          <br />
+          <div className="dd" style={{width:"250px",textAlign:"center",backgroundColor:"white"}}>
+          {filterArr.map((el, index) => <div className="dd1" key={index} style={{backgroundColor:"white",borderBottom:"1px solid black",marginBottom:"2px"}}><a className="dd2" href="#" onClick={() => addTag(el)} style={{color:"black",fontSize:"20px"}}>{el.username}</a></div>)}
+          </div>
       </InputDiv>
       <StyledIcons>
         <StyledHome onClick={()=>navigate('/')}></StyledHome>
