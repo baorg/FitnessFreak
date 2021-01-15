@@ -126,7 +126,7 @@ function f1(event){
   //   console.log('hello2')
   //   document.querySelector('.dd').style.display='none'
   // }
-  setTimeout(function(){  setFilterArr([]); }, 500);
+  setTimeout(function(){  document.querySelector('.dd').style.display='none' }, 500);
  
 }
   return (
