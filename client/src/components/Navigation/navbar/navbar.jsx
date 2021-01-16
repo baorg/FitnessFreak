@@ -1,5 +1,5 @@
 import React,{useState} from "react";
-import { Home, Favorite, Search } from '@material-ui/icons';
+import { Home, Favorite, Search, Height } from '@material-ui/icons';
 import { Input, InputBase } from '@material-ui/core';
 import styled from 'styled-components';
 
@@ -143,9 +143,20 @@ function f1(event){
             onFocus={()=>{document.querySelector('.dd').style.display='block'}}
             onBlur={f1}
           />
-          <br />
-          <div className="dd" style={{width:"250px",textAlign:"center",backgroundColor:"white"}}>
-          {filterArr.map((el, index) => <div className="dd1" key={index} style={{backgroundColor:"white",borderBottom:"1px solid black",marginBottom:"2px"}}><a className="dd2" href="#" onClick={() => addTag(el)} style={{color:"black",fontSize:"20px"}}>{el.username}</a></div>)}
+          <br /><br /><br />
+          <div className="dd" 
+          style={{width:"250px",textAlign:"left",backgroundColor:"white",zIndex:"100",overflowY:"scroll",
+          maxHeight:" 15em",
+          position: "absolute",
+          top:"50px"}}>
+          {filterArr.map((el, index) => 
+          <div className="dd1" key={index} style={{backgroundColor:"white",borderBottom:"1px solid gray",marginBottom:"2px",alignItems:"center",display:"flex"}}>
+            <img src={el.profile_image} style={{width:"40px",height:"40px",borderRadius:"1000px",marginRight:"10px"}}/>
+            <div style={{display:"inline-block"}}>
+              <a className="dd2" href="#" onClick={() => addTag(el)} style={{color:"black",fontSize:"20px"}}>{el.username}</a>
+              <p style={{fontSize:"14px",color:"gray"}}>{el.first_name} {el.last_name}</p>
+            </div>
+          </div>)}
           </div>
       </InputDiv>
       <StyledIcons>
