@@ -1,6 +1,6 @@
 import React,{ useState, useEffect } from "react";
-import { Home, Favorite, Search } from '@material-ui/icons';
-import { Input, InputBase } from '@material-ui/core';
+import { Home, Favorite, Search, Height } from '@material-ui/icons';
+import { Input, InputBase, Avatar } from '@material-ui/core';
 import styled from 'styled-components';
 import { A, navigate } from 'hookrouter';
 
@@ -14,7 +14,7 @@ import Notification from "../../Notification/notification";
 import CONFIG from '../../../config';
 import AccountAvatar from './account';
 import { fetchUserData } from '../../utils/fetch_user_data';
-
+import axiosCall from '../../../ajaxRequest'
 
 // Styled Components ================================================================
 
@@ -90,27 +90,21 @@ const Link = styled(A)`
 
 // ==================================================================================
 
-const MyNav = function({ }) {
 
-  const [searchparam, setSearchParam] = useState("Search for User");
+
+const MyNav = function ({ }) {
+
+  const [searchparam, setSearchParam] = useState("");
+  const [filterArr,setFilterArr]=useState([ ]);
   const [user, setUser] = useState(null);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    // if (!loaded) {
-      // setLoaded(true);
-      fetchUserData(setUser);
-    // }
-    // return () => {
-    //   cleanup
-    // }
+    fetchUserData(setUser);
   }, []);
 
-  function handlechange(e) {
-    let x=e.target.value;
-    setSearchParam(x)
-  }
 
+  // console.log(props.user);
   return (
     <StyledNavbar bg="light" expand="lg" >
       <StyledBrand href="/">Fitness Freak</StyledBrand>
@@ -118,9 +112,28 @@ const MyNav = function({ }) {
           <Search />
           <InputBase
             className="inpt"
-            placeholder="Search…"
+            placeholder="Search for user"
             inputProps={{ 'aria-label': 'search' }}
+            onChange={fil}
+            value={searchparam}
+            onFocus={()=>{document.querySelector('.dd').style.display='block'}}
+            onBlur={f1}
           />
+          <br /><br /><br />
+          <div className="dd" 
+          style={{width:"250px",textAlign:"left",backgroundColor:"white",zIndex:"100",overflowY:"scroll",
+          maxHeight:" 15em",
+          position: "absolute",
+          top:"50px"}}>
+          {filterArr.map((el, index) => 
+          <div className="dd1" key={index} style={{backgroundColor:"white",borderBottom:"1px solid gray",marginBottom:"2px",alignItems:"center",display:"flex"}}>
+            <Avatar src={el.profile_image} style={{ marginRight:"10px" }}/>
+            <div style={{display:"inline-block"}}>
+              <a className="dd2" href="#" onClick={() => addTag(el)} style={{color:"black",fontSize:"20px"}}>{el.username}</a>
+              <p style={{fontSize:"14px",color:"gray"}}>{el.first_name} {el.last_name}</p>
+            </div>
+          </div>)}
+          </div>
       </InputDiv>
       <StyledIcons>
         <StyledHome onClick={()=>navigate('/')}></StyledHome>
@@ -136,6 +149,50 @@ const MyNav = function({ }) {
         }
       </StyledIcons>
     </StyledNavbar>);
+  
+
+    function fil(event){
+      let x = event.target.value;
+      setSearchParam(event.target.value);
+      let url = `${CONFIG.API_DOMAIN}/Users/searchusers`;
+      let obj={username:x}
+      // console.log(obj)
+      if(x==="")
+          setFilterArr([]);
+      else{
+          axiosCall('POST', url, obj).then(res => {
+              setFilterArr(res.data.users);
+          });
+      } 
+  }
+
+
+  function addTag(el){
+    let url2 = `/profile/${el._id}`;
+    navigate(url2);
+  }
+  function f1(event){
+    // let w="";
+    // document.addEventListener('click',function(e){
+    //   console.log(e.target.className)
+    //   w=e.target.id;
+    // })
+    // if(w === "dd" || w ==="dd1" || w ==="dd2"){
+    //   console.log('hello1')
+    // }
+    // else{
+    //   console.log('hello2')
+    //   document.querySelector('.dd').style.display='none'
+    // }
+    setTimeout(function(){ document.querySelector('.dd').style.display='none' }, 500);
+  
+  }
+
+  function handlechange(e) {
+    let x=e.target.value;
+    setSearchParam(x)
+  }
+
 };
 
 export default MyNav;

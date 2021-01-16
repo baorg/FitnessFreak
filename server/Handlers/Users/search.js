@@ -4,7 +4,7 @@ const { User } = require("../../Models");
 module.exports = function(req, res, next) {
     let filter = req.body.username;
     let regexp = new RegExp("^" + filter);
-    return User.find({ username: { $regex: regexp } }).select('username').exec().then(users => {
+    return User.find({ username: { $regex: regexp } }).select('username profile_image first_name last_name').exec().then(users => {
         // console.log('filter:', filter);
         // console.log('Users:', users);
         res.data.success = true;

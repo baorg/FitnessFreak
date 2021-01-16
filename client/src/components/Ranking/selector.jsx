@@ -11,33 +11,49 @@ import { Checkbox, CircularProgress } from '@material-ui/core';
 let SelectCategoryDiv = styled.div`
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
+    grid-column: 1 / 2;
+    justify-self: top;
+    top: 10em;
+    position: sticky;
+    box-sizing: border-box;
 `;
 
 // ============================================================================================================
 
 
 export default function SelectCategory({selectedCategories, addCategory, removeCategory }) {
-    const [categories, setCategories] = useState([]);
-    const [fetching, setFetching] = useState(false);
+    const [categories, setCategories] = useState(null);
+
     useEffect(() => {
         async function fetchCategories(){
             try {
                 let res = await ajaxRequest('GET', `${API_DOMAIN}/question/getCategory`);
-                console.log('Categories: ', res.data);
+                // console.log('Categories: ', res.data);
                 setCategories(res.data.categories.map(category => ({ category: category, selected: false })));
-                setFetching(false);
             } catch (err) {
-                setFetching(false);
+
             }
         }
-        if (fetching===false && categories.length===0) {
-            setFetching(true);
-            fetchCategories();
+        fetchCategories();
+    }, []);
+
+
+    useEffect(() => {
+        if (categories === null) {
+            
+        } else {
+            setCategories(categories.map(cat => ({
+                category: cat.category,
+                selected: selectedCategories.findIndex(c => c === cat.category) !== -1
+            })));
         }
-    });
+    }, [selectedCategories])
+
+
 
     return (
-        fetching ? <CircularProgress /> :
+        categories === null ? <CircularProgress /> :
         <SelectCategoryDiv >
             {categories.map(category => (
                 <div>
