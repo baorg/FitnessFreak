@@ -6,6 +6,8 @@ import noimage from '../../../static/noimage.png';
 import nobanner from '../../../static/placeholder_profile_banner.jfif';
 import EditProfile from '../EditProfile';
 import FollowButton from '../FollowButton';
+import FollowingSystemDiv from '../FollowingSystem';
+
 
 // Styled Components ================================================
 let ProfileInfoDiv = styled.div`
@@ -167,6 +169,9 @@ export default function UserInfo(props) {
                     )}
                 </CategoryScore>
             </ScoreCard>
+            
+            <FollowingSystemDiv followers={20} followings={10} />
+
             </ProfileInfoDiv>
             </>
     );

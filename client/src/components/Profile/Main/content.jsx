@@ -1,12 +1,15 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
-import FollowersList from '../Followers';
-import FollowingsList from '../Following';
+// import FollowersList from '../Followers';
+// import FollowingsList from '../Following';
 import QuestionsList from '../QuestionsList';
 import AnswersList from '../AnswersList';
 import BookmarksList from '../Bookmarks';
 
-// Styled components ===================================
+
+
+// Styled components =====================================================================================================
+
 let ProfileContent = styled.div`
 
 `;
@@ -52,7 +55,7 @@ let FollowingButton = styled(btn)`
 
 `;
 
-// ======================================================
+// =================================================================================================================================================
 
 export default function Content(props) {
     const [activeListType, setActiveListType] = useState('question');

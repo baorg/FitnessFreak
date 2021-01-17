@@ -19,7 +19,7 @@ module.exports.getAnswersByQuesId = async(req, res, next) => {
 
         const answers = await Ans.find({ quesId: quesId }).populate(obj).exec();
         answers.sort((x, y) => {
-            // console.log(`${x} and ${y}`)
+            // console.log(`${x} and ${y}`);
             if (x.marked == y.marked) {
                 console.log(`votecount = ${x.vote_count.upvote} and ${y.vote_count.upvote}`)
                 const xcount = x.vote_count.upvote

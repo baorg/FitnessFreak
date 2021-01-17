@@ -71,7 +71,7 @@ let CategorySpan = styled.span`
 `;
 
 let QuestionMainDiv = styled.div`
-
+    width: 100%;
 `;
 let QuestionTitle = styled.div`
     size: 0.8em;
@@ -81,7 +81,8 @@ let QuestionTitle = styled.div`
     }
 `;
 let QuestionPreviewDiv = styled.div`
-    max-height: 10em;
+    width: 100%;
+    max-height: 15em;
     overflow: hidden;
 `;
 
@@ -135,48 +136,46 @@ let styles = {
 
 
 
-export default function (props) { 
-    // console.log(props);
+export default function ({question, type}) { 
     const timeAgo = new TimeAgo('en');
     let url = "";
-    console.log('Question ->', props);
-    if (props.type === "answerasked")
-        url = `/profile/${props.question.user._id}/answer-asked/${props.question._id}`;
+    if (type === "answerasked")
+        url = `/profile/${question.user._id}/answer-asked/${question._id}`;
     else
-        url = `/viewFullQuestion/${props.question._id}`;
+        url = `/viewFullQuestion/${question._id}`;
     
     return (
         <Question>
             <QuestionHeader>
-                <Avatar alt={`${props.question.user?.username || 'unknown'}s_profile_image`} src={props.question.user?.profile_image}/>
+                <Avatar alt={`${question.user?.username || 'unknown'}s_profile_image`} src={question.user?.profile_image}/>
                 <PostedName>
                     <NameDiv>
-                        {props.question.user ?
-                            <A href={`/profile/${props.question.user._id || props.question.user.userId}`}> {props.question.user.first_name} {props.question.user.last_name}</A>
+                        {question.user ?
+                            <A href={`/profile/${question.user._id || question.user.userId}`}> {question.user.first_name} {question.user.last_name}</A>
                             : "[deleted]"
                         }
                     </NameDiv>
-                    <PostedDate>{ new Date(props.question.posted_at).toLocaleString('en-US', {day: 'numeric', year: 'numeric', month: 'long'}) }</PostedDate>
+                    <PostedDate>{ new Date(question.posted_at).toLocaleString('en-US', {day: 'numeric', year: 'numeric', month: 'long'}) }</PostedDate>
                 </PostedName>
-                <BookmarkIcon className="bookmark-icon" quesId={ props.question._id}/>
+                <BookmarkIcon className="bookmark-icon" quesId={ question._id}/>
             </QuestionHeader>
             <hr/>
             <QuestionHeader>
                 <QuestionCountDiv>
-                    <VoteCount count={props.question.vote.up - props.question.vote.down}>
-                        <span>{props.question.vote.up - props.question.vote.down}</span>
+                    <VoteCount count={question.vote.up - question.vote.down}>
+                        <span>{question.vote.up - question.vote.down}</span>
                         <span>vote</span>
                     </VoteCount>
                     <VoteCount >
-                        <span>{props.question.answers_count}</span>
+                        <span>{question.answers_count}</span>
                         <span>answers</span>
                     </VoteCount>
                 </QuestionCountDiv>
                 <QuestionMainDiv>
                     {/* <QuestionTitle>
-                    <A href={url}>{props.question.title}</A>
+                    <A href={url}>{question.title}</A>
                     </QuestionTitle> */}
-                    <QuestionPreviewDiv dangerouslySetInnerHTML={{ __html: props.question.question }} />
+                    <QuestionPreviewDiv dangerouslySetInnerHTML={{ __html: question.question }} />
                     <ReadMoreDiv>
                         <A href={url}><ReadMoreButton>Read More</ReadMoreButton></A>
                     </ReadMoreDiv>
@@ -185,7 +184,7 @@ export default function (props) {
                 
             </QuestionHeader>
             <div className="category-container">
-                {props.question.category.map(category => (
+                {question.category.map(category => (
                     <CategorySpan className="category-span">{category}</CategorySpan>
                 ))}
             </div>
@@ -198,7 +197,7 @@ export default function (props) {
     <div style={styles.question}>
         <ExpandLessIcon  style={{color:'black ',fontSize:40}} />
     </div>
-    <span style={{fontSize:20, marginLeft: "10px" }}>{props.question.vote ? props.question.vote.up - props.question.vote.down : null}</span>
+    <span style={{fontSize:20, marginLeft: "10px" }}>{question.vote ? question.vote.up - question.vote.down : null}</span>
     <div style={styles.vote}>
         <ExpandMoreIcon style={{ color: 'black ', fontSize: 40 }} />
     </div>

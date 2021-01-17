@@ -6,8 +6,10 @@ import { CircularProgress } from '@material-ui/core';
 import ajaxRequest from '../../../ajaxRequest';
 import { API_DOMAIN } from '../../../config';
 import Question from '../../Question/Question/ques';
-import { Spinner } from 'react-bootstrap';
 import InfiniteScroll from 'react-infinite-scroller';
+
+
+// Styled Components ==============================================================================================
 
 const QuestionsListDiv = styled(InfiniteScroll)`
     width: 100%;
@@ -34,7 +36,7 @@ let NoQuestionDiv = styled.div`
     height: 100px;
 `;
 
-
+// ================================================================================================================
 export default function QuestionsList({profileUser}) {
     const [questions, setQuestions] = useState([]);
     const [hasMore, setHasMore] = useState(true);

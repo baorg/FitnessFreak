@@ -23,7 +23,7 @@ const StyledFavorite = styled(Favorite)`
 //  ================================================================================
 
 
-function Notification(props) {
+export default function Notification(props) {
   const [noti, setNoti] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -81,9 +81,6 @@ function Notification(props) {
     setAnchorEl(null);
   };
 }
-
-export default Notification;
-
 
 
 

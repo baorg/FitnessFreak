@@ -3,8 +3,8 @@ import {navigate,A } from 'hookrouter';
 import SentimentVeryDissatisfiedIcon from '@material-ui/icons/SentimentVeryDissatisfied';
 import { Spinner } from "react-bootstrap";
 import styled from 'styled-components';
-import ajaxRequest from '../../../ajaxRequest';
-import CONFIG from '../../../config';
+import ajaxRequest from '../../../../ajaxRequest';
+import CONFIG from '../../../../config';
 import placeholderImage from '../../../static/noimage.png';
 
 let NoFollowingDiv = styled.div`

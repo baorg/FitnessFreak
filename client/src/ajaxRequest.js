@@ -13,6 +13,7 @@ async function axiosCall(method, url, obj) {
         return res;
     } catch (err) {
         networkProblem();
+        return ({ data: { success: false } });
     }
 }
 

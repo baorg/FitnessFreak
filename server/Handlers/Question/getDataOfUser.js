@@ -71,7 +71,7 @@ async function getBookmarksOfUser(req, res, next) {
 async function getAnswersOfUser(req, res, next) {
     let { page = 1, user_id } = req.query;
     let page_size = 10;
-    let user = await User.findById(user_id, {
+    let user = await User.findOne({ _id: user_id }, {
             answer: { $slice: [(page - 1) * page_size, page * page_size] },
             first_name: 1,
             last_name: 1,
@@ -85,7 +85,7 @@ async function getAnswersOfUser(req, res, next) {
             populate: [{
                 path: 'quesId',
                 model: Ques,
-                select: 'title created_at vote_count tags categoryName attachments answers_count',
+                select: 'title question created_at vote_count tags categoryName attachments answers_count',
                 populate: {
                     path: 'userId',
                     model: User,
@@ -115,3 +115,9 @@ async function getAnswersOfUser(req, res, next) {
 
 
 module.exports = { getQuestionOfUser, getAnswersOfUser, getBookmarksOfUser };
+
+
+
+
+
+// .select(['username', 'first_name', 'last_name', 'profile_image', 'answer'])

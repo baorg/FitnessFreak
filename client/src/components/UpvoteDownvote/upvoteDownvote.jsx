@@ -87,12 +87,15 @@ function UpvoteDownvote(props) {
         // vote thinking that someone is removing its upvote rather increment the votes
         // so that's why we need to set state setUp false in downvoted function
         
-        setDown(false);
-        setUp(!up);
+        if (res.data.success) {
+          setDown(false);
+          setUp(!up);
+          
+          totalUpRef.current.innerText = res.data.vote.upvote;
+          totalDownRef.current.innerText = res.data.vote.downvote;
+        }
+        
         setClicked(false);
-
-        totalUpRef.current.innerText = res.data.vote.upvote;
-        totalDownRef.current.innerText = res.data.vote.downvote;
       });
 
   }
@@ -124,12 +127,14 @@ function UpvoteDownvote(props) {
       axiosCall('post', `${CONFIG.API_DOMAIN}/question/votes/editVote`, {quesId : props.quesId, down : !down,isQues : props.isQues})
         .then((res) => {
             // same as above
+          if (res.success) {
             setUp(false)
             setDown(!down);
-            setClicked(false);
-          
+            
             totalUpRef.current.innerText = res.data.vote.upvote;
             totalDownRef.current.innerText = res.data.vote.downvote;
+          }
+          setClicked(false);
         });
     }
   }

@@ -16,10 +16,10 @@ function Comment({ user, comment }){
           ajaxRequest("post",`${CONFIG.API_DOMAIN}/question/deleteComment`,{
             commentId:comment._id
           }).then(async(res)=>{
-            if(!res.data.err){
-                window.location.reload()
-            }
-            else{
+            if(res.data.deleted){
+              window.location.reload();
+              // console.log("Data after deletion: ", res.data);
+            } else{
                 console.log("error in deleting comment");
             }
           })
