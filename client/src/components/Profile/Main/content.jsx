@@ -4,7 +4,7 @@ import FollowersList from '../Followers';
 import FollowingsList from '../Following';
 import QuestionsList from '../QuestionsList';
 import AnswersList from '../AnswersList';
-
+import BookmarksList from '../Bookmarks';
 
 // Styled components ===================================
 let ProfileContent = styled.div`
@@ -38,6 +38,9 @@ let QuestionButton = styled(btn)`
     text-align: center;
 `;
 
+let BookmarksBtn = styled(btn)`
+`;
+
 let AnswerButton = styled(btn)`
 `;
 
@@ -55,7 +58,7 @@ export default function Content(props) {
     const [activeListType, setActiveListType] = useState('question');
 
     function changeList(type) {
-        if (['question', 'answer', 'followers', 'following'].some(t=>t===type) && type !== activeListType)
+        if (['question', 'answer', 'followers', 'following', 'bookmarks'].some(t=>t===type) && type !== activeListType)
             setActiveListType(type);
     }
 
@@ -74,7 +77,13 @@ export default function Content(props) {
                     onClick={()=>changeList('answer')}
                 >Answer</AnswerButton>
                 
-                <FollowersButton
+                <BookmarksBtn
+                    active={activeListType === 'bookmarks'}
+                    onClick={()=>changeList('bookmarks')}
+                >Bookmarks
+                </BookmarksBtn>
+
+                {/* <FollowersButton
                     active={activeListType === 'followers'}
                     onClick={()=>changeList('followers')}
                 >Followers</FollowersButton>
@@ -82,7 +91,7 @@ export default function Content(props) {
                 <FollowingButton
                     active={activeListType === 'following'}
                     onClick={()=>changeList('following')}
-                >Following</FollowingButton>
+                >Following</FollowingButton> */}
             
             </Button>
 
@@ -91,12 +100,17 @@ export default function Content(props) {
                     <QuestionsList profileUser={props.profileUser} />
                     : activeListType === 'answer' ?
                         <AnswersList profileUser={props.profileUser} />
-                        :activeListType === 'followers' ?
-                            <FollowersList profileUser={props.profileUser} />
-                            : activeListType === 'following' ?
-                                <FollowingsList profileUser={props.profileUser} />
-                                : <></>
+                        : activeListType === 'bookmarks' ?
+                            <BookmarksList profileUser={props.profileUser} />
+                            : <></>
             }
         </ProfileContent>
     );
 }
+
+{/* 
+:activeListType === 'followers' ?
+                            <FollowersList profileUser={props.profileUser} />
+                            : activeListType === 'following' ?
+                                <FollowingsList profileUser={props.profileUser} />
+                                : <></> */}

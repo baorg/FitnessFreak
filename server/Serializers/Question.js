@@ -42,26 +42,57 @@ module.exports.feedQuestionSerializer = function(questions, multiple = false) {
 
 
 module.exports.userQuestionSerializer = function(user) {
-    return user.question.map(ques => ({
-
-        user: {
-            _id: user.id,
-            username: user.username,
-            first_name: user.first_name,
-            last_name: user.last_name,
-            profile_image: user.profile_image
-        },
-        vote: {
-            up: ques.vote_count.upvote,
-            down: ques.vote_count.downvote
-        },
-        _id: ques._id,
-        title: ques.title,
-        question: ques.question,
-        category: ques.categoryName,
-        tags: ques.tags,
-        attachments: ques.attachments,
-        posted_at: ques.created_at,
-        answers_count: ques.answers_count
-    }));
+    if (user.question) {
+        return user.question.map(ques => ({
+            user: {
+                _id: user.id,
+                username: user.username,
+                first_name: user.first_name,
+                last_name: user.last_name,
+                profile_image: user.profile_image
+            },
+            vote: {
+                up: ques.vote_count.upvote,
+                down: ques.vote_count.downvote
+            },
+            _id: ques._id,
+            title: ques.title,
+            question: ques.question,
+            category: ques.categoryName,
+            tags: ques.tags,
+            attachments: ques.attachments,
+            posted_at: ques.created_at,
+            answers_count: ques.answers_count
+        }));
+    } else {
+        return [];
+    }
 }
+
+// module.exports.userBookmarksSerializer = function(user) {
+//     if (user.bookmarks) {
+//         return user.bookmarks.map(ques => ({
+//             user: {
+//                 _id: ques.user.id,
+//                 username: ques.user.username,
+//                 first_name: ques.user.first_name,
+//                 last_name: ques.user.last_name,
+//                 profile_image: ques.user.profile_image
+//             },
+//             vote: {
+//                 up: ques.vote_count.upvote,
+//                 down: ques.vote_count.downvote
+//             },
+//             _id: ques._id,
+//             title: ques.title,
+//             question: ques.question,
+//             category: ques.categoryName,
+//             tags: ques.tags,
+//             attachments: ques.attachments,
+//             posted_at: ques.created_at,
+//             answers_count: ques.answers_count
+//         }))
+//     } else {
+//         return [];
+//     }
+// }

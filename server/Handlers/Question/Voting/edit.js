@@ -46,10 +46,12 @@ module.exports = async function(req, res, next) {
     let data = "Your respnose has been submitted succesully";
     try {
         const userId = req.user.id;
+
         const quesId = req.body.quesId;
+        const isQues = req.body.isQues;
         const up = req.body.up;
         const down = req.body.down;
-        const isQues = req.body.isQues;
+
         const model = getModel(isQues);
         const ques = await model.findById(quesId, 'upDown vote_count userId').exec();
 
@@ -82,18 +84,18 @@ module.exports = async function(req, res, next) {
         }
 
         let user = await User.findById(whoPostedId).exec();
-        if (userId != whoPostedId) {
+        if (user && userId != whoPostedId) {
             addScore(user, "totalScore", sign * score[name])
             if (sign > 0) {
                 const username = await User.findUserByUserId(userId)
                 user.notifications.push(`${username} has upvoted your ${property}`);
             }
+            await user.save();
         }
         await ques.save()
-        await user.save();
         format_response(res, { is_saved: true, vote: ques.vote_count }, true);
     } catch (err) {
-        console.error('ERROR:', err);
+        console.error('ERROR  :', err);
         format_response(res, { vote: ques.vote_count }, false);
     } finally {
         return next();

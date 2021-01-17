@@ -14,7 +14,7 @@ export default function AnswersList(props) {
 
     useEffect(function () {
         async function fetchQuestions() {
-            let res = await ajaxRequest('GET', `${CONFIG.API_DOMAIN}/Question/get-answers-of-user?user_id=${props.profileUser._id}`);
+            let res = await ajaxRequest('GET', `${CONFIG.API_DOMAIN}/question/get-answers-of-user?user_id=${props.profileUser._id}`);
             console.log('Response: ', res);
         }
 

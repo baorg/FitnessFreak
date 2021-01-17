@@ -21,8 +21,8 @@ const { getCommentsByAnswerId } = require("./getCommentsByAnswerId");
 const { getQuestionsCategoryWise } = require("./getQuestionsCategoryWise");
 const { getAnswersByUserOnly } = require("./getAnswersByUserOnly");
 const { markAnswer, isQuestionAskedByUser } = require("./markAnswer");
-const { getAnswersOfUser, getQuestionOfUser } = require('./getDataOfUser');
-const {deleteQuestion, deleteAnswer, deleteComment} = require('./deleteQuestion')
+const { getAnswersOfUser, getQuestionOfUser, getBookmarksOfUser } = require('./getDataOfUser');
+const { deleteQuestion, deleteAnswer, deleteComment } = require('./deleteQuestion')
 
 module.exports = {
     getQuestionsHandler,
@@ -35,8 +35,11 @@ module.exports = {
     postQuestionHandler,
     addVoteHandler,
     editVoteHandler,
+
     saveBookMark,
     isBookMarked,
+    getBookmarksOfUser,
+
     getTypeOfQuestionsHandler,
     getFeedQuestion,
     uploadAttachmentsHandler,

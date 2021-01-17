@@ -49,12 +49,12 @@ const PostAnswer = (props) => {
         <form onSubmit = {postAnswer} style={{display:"flex",alignItems:"center"}}>
         {/* <textarea placeholder="Write your answer" value = {answer} onChange = {handleChange} onClick={props.user===null?notLoggedIn:null}></textarea> */}
         <CKEditor
-              editor={ClassicEditor}
-              config={{
-                toolbar: ['heading', '|', 'bold', 'italic', 'blockQuote', 'numberedList', 'bulletedList', '|', 'undo', 'redo', 'Link']
-              }}
-              onChange={!props.user?notLoggedIn:handleEditorChange}
-            />
+            editor={ClassicEditor}
+            config={{
+              toolbar: ['heading', '|', 'bold', 'italic', 'blockQuote', 'numberedList', 'bulletedList', '|', 'undo', 'redo', 'Link']
+            }}
+            onChange={!props.user?notLoggedIn:handleEditorChange}
+        />
         {/* <button type={props.user===null?"button":"submit"} onClick={props.user===null?notLoggedIn:null}>Post</button> */}
         <Button variant="primary" type={!props.user?"button":"submit"} onClick={!props.user?notLoggedIn:null} style={{margin:"10px"}}>Post</Button>
         </form>

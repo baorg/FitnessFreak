@@ -4,7 +4,8 @@ const multiparty = require('connect-multiparty');
 const MultipartyMiddleware = multiparty({ uploadDir: './tmpfiles' });
 const { isAuthenticated } = require("../Middlewares");
 const QuestionHandler = require('../Handlers').QuestionHandler;
-const { postQuestionValidator } = require('./../Validators').QuestionValidators
+const { postQuestionValidator } = require('./../Validators').QuestionValidators;
+const { Ques } = require("../Models");
 
 
 // router.use();
@@ -25,7 +26,7 @@ router.get("/get-comments-of-answer", QuestionHandler.getCommentsByAnswerId);
 
 router.post("/save-bookmark", isAuthenticated, QuestionHandler.saveBookMark);
 router.get("/is-bookmarked", isAuthenticated, QuestionHandler.isBookMarked);
-
+router.get('/get-bookmarks', QuestionHandler.getBookmarksOfUser);
 
 
 router.post("/votes/byUser", isAuthenticated, QuestionHandler.addVoteHandler);

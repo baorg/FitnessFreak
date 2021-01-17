@@ -4,7 +4,7 @@ import {navigate} from "hookrouter"
 import notLoggedIn from "../../../notloggedin";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { Button } from '@material-ui/core';
+import { Button, TextField } from '@material-ui/core';
 
 import CONFIG from '../../../config';
 
@@ -44,7 +44,7 @@ const PostComment = (props) => {
 
     return (   
         <form onSubmit = {postComment} style={{display:"flex",alignItems:"center"}}>
-            <CKEditor
+            {/* <CKEditor
                 editor={ClassicEditor}
                 config={{
                   toolbar: ['heading', '|', 'bold', 'italic', 'blockQuote', 'numberedList', 'bulletedList', '|', 'undo', 'redo', 'Link']
@@ -52,6 +52,13 @@ const PostComment = (props) => {
                 onChange={!props.user ? notLoggedIn : handleEditorChange}
                 data=""
                 maxHeight="10em"
+            /> */}
+            <TextField 
+                data={editorData}
+                onChange={(data) => !props.user ? notLoggedIn() : setEditorData(data)}
+                fullWidth={true}
+                variant="outlined"
+                label="Add Your Comment"
             />
             <Button disabled={editorData.length === 0}
                 variant="contained"

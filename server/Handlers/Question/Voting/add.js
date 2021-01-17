@@ -21,9 +21,9 @@ module.exports = function(req, res, next) {
 
     const promise = query.exec();
     promise.then((ques) => {
-            console.log("updown = ", ques.upDown);
+            // console.log("updown = ", ques.upDown);
             let arr = ques.upDown;
-            console.log("arr = ", arr);
+            // console.log("arr = ", arr);
             let index = arr.findIndex((element) => element.userId === userId);
             let result = { upvote: false, downvote: false };
             if (index != -1) {

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { SentimentVeryDissatisfied } from '@material-ui/icons';
+import InfiniteScroll from 'react-infinite-scroller';
 import { CircularProgress } from '@material-ui/core';
+import { SentimentVeryDissatisfied } from '@material-ui/icons';
 
 import ajaxRequest from '../../../ajaxRequest';
 import { API_DOMAIN } from '../../../config';
+
 import Question from '../../Question/Question/ques';
-import { Spinner } from 'react-bootstrap';
-import InfiniteScroll from 'react-infinite-scroller';
 
 const QuestionsListDiv = styled(InfiniteScroll)`
     width: 100%;
@@ -24,29 +24,15 @@ const QuestionsListDiv = styled(InfiniteScroll)`
         place-items: center;
     }
 
-
 `;
 
 let NoQuestionDiv = styled.div`
-    display: grid;
-    place-items: center;
-    justify-items: center;
-    height: 100px;
 `;
 
 
-export default function QuestionsList({profileUser}) {
+export default function BookmarksList({profileUser}) {
     const [questions, setQuestions] = useState([]);
     const [hasMore, setHasMore] = useState(true);
-
-    // useEffect(function () {
-    //     async function fetchQuestions() {
-    //         let res = await ajaxRequest('GET', `${CONFIG.API_DOMAIN}/question/get-questions-of-user?user_id=${props.profileUser._id}`);
-    //         setQuestions(res.data.questions);
-    //     }
-        
-    //     fetchQuestions();
-    // }, []);
 
     return (
         <QuestionsListDiv
@@ -55,10 +41,10 @@ export default function QuestionsList({profileUser}) {
                 hasMore={hasMore}
                 loader={<CircularProgress />}
             >
-            {   questions.length === 0 && hasMore===false?
+            {   questions.length === 0 && hasMore===false ?
                 <div className="no-question-div">
                     <SentimentVeryDissatisfied />
-                    <div>No Questions asked</div>
+                    <div>No bookmarked questions</div>
                 </div> :
                 questions.map(ques => <Question key={ques._id} question={ques} />)}
         </QuestionsListDiv>
@@ -66,7 +52,7 @@ export default function QuestionsList({profileUser}) {
 
 
     function handleLoadMore(page) {
-        ajaxRequest('GET', `${API_DOMAIN}/question/get-questions-of-user?user_id=${profileUser._id}&page=${page}`)
+        ajaxRequest('GET', `${API_DOMAIN}/question/get-bookmarks?user_id=${profileUser._id}&page=${page}`)
             .then(({ data }) => {
                 if (data.questions.length > 0) {
                     console.log("Adding questions: ", data.questions);

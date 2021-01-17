@@ -8,6 +8,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Avatar } from '@material-ui/core';
 import styled from 'styled-components';
 import noimage from '../../../static/noimage.png';
+import BookmarkIcon from '../../BookMark/MyBookMark';
+
 
 // English.
 import en from 'javascript-time-ago/locale/en'
@@ -29,6 +31,13 @@ let Question = styled.div`
 
 let QuestionHeader = styled.div`
     display: flex;
+
+    .bookmark-icon{
+        margin-left: auto;
+        margin-right: 20px;
+        align-self: center;
+        font-size: 35px;
+    }
 `;
 
 let ProfileImage = styled.img`
@@ -39,7 +48,7 @@ let ProfileImage = styled.img`
 `;
 
 let PostedName = styled.div`
-
+    margin-left: 5px;
 `;
 
 let PostedDate = styled.div`
@@ -129,7 +138,8 @@ let styles = {
 export default function (props) { 
     // console.log(props);
     const timeAgo = new TimeAgo('en');
-    let url="";
+    let url = "";
+    console.log('Question ->', props);
     if (props.type === "answerasked")
         url = `/profile/${props.question.user._id}/answer-asked/${props.question._id}`;
     else
@@ -148,7 +158,7 @@ export default function (props) {
                     </NameDiv>
                     <PostedDate>{ new Date(props.question.posted_at).toLocaleString('en-US', {day: 'numeric', year: 'numeric', month: 'long'}) }</PostedDate>
                 </PostedName>
-                
+                <BookmarkIcon className="bookmark-icon" quesId={ props.question._id}/>
             </QuestionHeader>
             <hr/>
             <QuestionHeader>
@@ -163,9 +173,9 @@ export default function (props) {
                     </VoteCount>
                 </QuestionCountDiv>
                 <QuestionMainDiv>
-                    <QuestionTitle>
+                    {/* <QuestionTitle>
                     <A href={url}>{props.question.title}</A>
-                    </QuestionTitle>
+                    </QuestionTitle> */}
                     <QuestionPreviewDiv dangerouslySetInnerHTML={{ __html: props.question.question }} />
                     <ReadMoreDiv>
                         <A href={url}><ReadMoreButton>Read More</ReadMoreButton></A>

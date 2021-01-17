@@ -46,7 +46,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: ""
     },
-    bookmarks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Ques', uniqueItems: true }],
+    bookmarks: {
+        type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Ques', uniqueItems: true }],
+        default: []
+    },
     followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User', uniqueItems: true }],
     following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User', uniqueItems: true }],
     score: {
