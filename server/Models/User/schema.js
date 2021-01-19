@@ -60,7 +60,6 @@ const userSchema = new mongoose.Schema({
         }],
         default: [{ name: "totalScore", score: 0 }, ]
     },
-    notifications: [],
     feed: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Ques' }],
     feed_last_updated: { type: Date, default: new Date(0) },
     is_verified: { type: Boolean, default: false },
@@ -70,7 +69,16 @@ const userSchema = new mongoose.Schema({
             validate: [validateCategory, 'Invalid category']
         }],
         default: []
-    }
+    },
+    notifications: [{
+        notifier: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+        entity: { type: Number },
+        entity_data: { type: mongoose.Schema.Types.ObjectId },
+        status: { type: Number },
+        created_timestamp: { type: Date },
+        seen_timestamp: { type: Date }
+    }],
+    unseen_notifications: { type: Number, default: 0 }
 });
 
 module.exports = userSchema;

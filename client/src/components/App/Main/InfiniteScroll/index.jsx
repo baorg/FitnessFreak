@@ -30,8 +30,8 @@ export default function (props) {
         setHasMore(true);
     }
   
-    async function handleLoadMore(page_) {
-        let page = feed.current_page+1;
+    async function handleLoadMore(page) {
+        // let page = feed.current_page+1;
         let newQuestions = await ajaxRequest('GET', `${props.url}page=${page}`);
         if (newQuestions.data.questions.length > 0) {
             return setFeed({

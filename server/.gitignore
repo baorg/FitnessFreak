@@ -4,3 +4,4 @@ FillFakeData
 uploads/*
 tmpfiles/*
 .env
+test.js
