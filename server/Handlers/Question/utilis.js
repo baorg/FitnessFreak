@@ -31,15 +31,19 @@ function addScore(user, property, Score) {
         user.score.set(index, { name: property, score: newScore })
     }
 }
+
+
 async function makeChanges(quesId, userId, sign, name, property) {
     const { Ques, Ans, User, Tag } = require("../../Models");
     try {
         const ques = await model.findById(quesId, "userId").exec();
         const user = await User.findById(String(ques.userId), "score notifications").exec()
         addScore(user, "totalScore", (sign) * score[name]);
-        const username = await User.findUserByUserId(userId)
-        console.log("username in utilis = ", username)
-        sign > 0 ? user.notifications.push(`<p><A href = "/profile/${userId}">${username}</A> has ${name}ed your ${property}</p>`) : null
+
+        // const username = await User.findUserByUserId(userId);
+        // console.log("username in utilis = ", username);
+        // sign > 0 ? user.notifications.push(`<p><A href = "/profile/${userId}">${username}</A> has ${name}ed your ${property}</p>`) : null
+
         await user.save();
         return user;
     } catch (err) {

@@ -12,8 +12,8 @@ module.exports = [
             return Promise.reject('Invalid category.');
         }
     }),
-    body('title')
-    .exists().withMessage('Title should be present.').bail()
-    .isLength({ min: 1, max: 50 }).withMessage('Allowed length exceeds.').bail(),
+    // body('title')
+    // .exists().withMessage('Title should be present.').bail()
+    // .isLength({ min: 1, max: 50 }).withMessage('Allowed length exceeds.').bail(),
     // body('question'),
 ]

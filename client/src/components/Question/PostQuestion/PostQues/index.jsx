@@ -114,13 +114,15 @@ let SubmitButton = styled(Button)`
 function PostQuestion(props){
   const availabeTags = ["#yoga", "#bodybuilding", "#gymnastics", "#zumba"];
   const [editorData, setEditorData] = useState("");
-  const [title, setTitle] = useState("");
+  // const [title, setTitle] = useState("");
   // const [category, setCategory] = useState("");
   const [selectedTags, setSelectedTags] = useState([]);
   const [images, setImages] = useState([]);
 
   const [submitting, setSubmitting] = useState(false);
-    const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState([]);
+
+  const maxCategories = 2;
 
   useEffect(() => {
     console.log('User:', props.user);
@@ -168,14 +170,17 @@ function PostQuestion(props){
     
   }
 
-    async function handleTitleChange(event) {
-      let changedTitle = event.target.value;
-      if(changedTitle.length<=50)
-        setTitle(changedTitle);
-    }
+  // async function handleTitleChange(event) {
+  //   let changedTitle = event.target.value;
+  //   if(changedTitle.length<=50)
+  //     setTitle(changedTitle);
+  // }
 
   async function selectCategory(cat) {
-    setCategories(categories.map(val => val.name == cat ? { name: val.name, selected: !val.selected } : val));
+    // if (categories.reduce((a,c)=>a +(c.selected?1:0), 0) < maxCategories) {
+      setCategories(categories.map(val => val.name == cat ? { name: val.name, selected: !val.selected } : val));
+    // } else {
+    // }
   }
   async function submit() {
     console.log('Submitting....');
@@ -222,7 +227,7 @@ function PostQuestion(props){
       category: categories.filter(cat => cat.selected).map(val => val.name),
       tags: selectedTags,
       question: editorData,
-      title: title,
+      title: "",
       attachments: images_url
     });
 
@@ -247,7 +252,7 @@ function PostQuestion(props){
     <PostQuestionDiv>
       <PostQuestionHeading>Ask a Question</PostQuestionHeading>
       <FormDiv>
-        <FormContent>
+        {/* <FormContent>
           <FormTitle> Title </FormTitle>
           <FormDesc title={title}>Enter title and be specific. </FormDesc>
           <TitleInput
@@ -255,7 +260,7 @@ function PostQuestion(props){
             value={title}
             onChange={handleTitleChange}
             />
-        </FormContent>
+        </FormContent> */}
 
         <FormContent>
           <FormTitle> Body </FormTitle>

@@ -12,11 +12,13 @@ import UpdateProfile from '../Profile/EditProfile';
 import CONFIG from '../../config';
 import VerifyEmail from '../VerifyEmail';
 import ChangeEmail from '../ChangeEmail';
+import FullAnswer from '../Answer/FullAnswer';
 
 function getRoutes({user, setUser}) {
   return {
     '/': () => <App user={user}/>,
-    'app': () => <App user={user}/>,
+    'app': () => <App user={user} />,
+    'answer/:ansId': ({ ansId }) => <FullAnswer ansId={ansId} user={user}/>,
     'post-question': ()=><PostQuestion user={user} />,
     'profile/:userId*': ({ userId }) => <ProfileRoutes user={user} userId={userId} setUser={setUser}/>,
     'update-profile': ()=> <UpdateProfile />,

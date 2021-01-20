@@ -23,6 +23,7 @@ async function createNotification(actor_id, notifier_id, entity, entity_data_id)
     */
 
     // actor_id = actor_id.toString();
+    const { User } = require('../../Models');
     let user = await User.findOne({ _id: actor_id }, 'notifications').exec();
     let l = user.notifications.length;
     if (l >= 50) {
@@ -44,6 +45,7 @@ async function createNotification(actor_id, notifier_id, entity, entity_data_id)
 }
 
 async function clearNotifications(actor_id) {
+    const { User } = require('../../Models');
     let user = await User.findOne({ _id: actor_id }, 'notifications').exec();
     user.notifications = [];
 
@@ -52,6 +54,7 @@ async function clearNotifications(actor_id) {
 }
 
 async function serializeNotification(notification) {
+    const { User } = require('../../Models');
     let user = await User.findOne({ _id: notification.notifier }, 'username first_name last_name').exec();
     // console.log('User: ', user);
     switch (notification.entity) {
@@ -68,7 +71,7 @@ async function serializeNotification(notification) {
             return ({
                 id: notification._id.toString(),
                 text: `${user.first_name} ${user.last_name} answered your question.`,
-                url: `/viewFullQuestion/${notification.entity_data}`,
+                url: `/answer/${notification.entity_data}`,
                 dated: notification.created_timestamp,
                 sent: notification.status == 1,
                 seen: notification.status == 2
@@ -77,7 +80,7 @@ async function serializeNotification(notification) {
             return ({
                 id: notification._id.toString(),
                 text: `${user.first_name} ${user.last_name} commented on your answer.`,
-                url: `/view-answer/${notification.entity_data}`,
+                url: `/answer/${notification.entity_data}`,
                 dated: notification.created_timestamp,
                 sent: notification.status == 1,
                 seen: notification.status == 2
@@ -94,6 +97,7 @@ async function serializeNotification(notification) {
 
 
 async function getNotifications(user_id) {
+    const { User } = require('../../Models');
 
     let user = await User.findOne({ _id: user_id }, 'notifications').exec();
     let new_notifs = [];
@@ -118,6 +122,8 @@ async function getNotifications(user_id) {
 
 
 async function seenNotification(user_id, notification_id) {
+    const { User } = require('../../Models');
+
     let user = await User.findOne({ _id: user_id }, 'notifications').exec();
     let index = user.notifications.findIndex((val) => val._id == notification_id);
 
@@ -130,10 +136,16 @@ async function seenNotification(user_id, notification_id) {
 }
 
 
+async function handleChange(userId, quesId, sign, name, property) {
+    console.log('Change - ', sign, name, property);
+    return;
+}
+
 module.exports = {
     getNotifications,
     createNotification,
     serializeNotification,
     clearNotifications,
-    seenNotification
+    seenNotification,
+    handleChange
 }

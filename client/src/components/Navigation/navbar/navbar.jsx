@@ -103,6 +103,7 @@ const MyNav = function ({ }) {
     fetchUserData(setUser);
   }, []);
 
+  console.log('Rendering NAV...');
 
   // console.log(props.user);
   return (

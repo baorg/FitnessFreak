@@ -7,8 +7,11 @@ const RankHandler = require('./Rank');
 const FileUploadHandler = require('./Upload');
 const CloudinaryHandler = require('./Cloudinary');
 const NotificationsHandler = require('./Notifications');
+const AnswerHandler = require('./Answer');
+
 
 module.exports = {
+    AnswerHandler,
     AuthHandler,
     FollowingHandler,
     QuestionHandler,

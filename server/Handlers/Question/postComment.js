@@ -1,4 +1,6 @@
 const { Ques, User, Ans, Comment } = require("../../Models");
+const { createNotification } = require('../Notifications/helpers');
+
 
 function setResult(result, err) {
     result.isAuthenticated = false;
@@ -23,6 +25,10 @@ module.exports.postComment = async(req, res, next) => {
     try {
         const CommentSave = await saveComment.save()
         const AnsUpdate = await Ans.updateOne({ _id: answerId }, { $push: { comments: saveComment } }).exec();
+
+        let ans_user = await Ans.getOne({ _id: answerId }, 'userId').exec().userId;
+        await createNotification(ans_user, userId, answerId);
+
         res.data.success = true;
         res.data.is_saved = true;
         res.data.comment = {

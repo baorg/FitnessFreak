@@ -28,25 +28,34 @@ let LoadingBlock = styled.div`
 `;
 
 let NotificationBlock = styled.div`
-  border-bottom: 1px solid #8a8a8a;
+  /* border-bottom: 1px solid #8a8a8a; */
   width: 100%;
   padding: 0;
   margin: 0;
 `;
 
+
+let ErrorBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 //  ================================================================================
 
 
-export default function Notification(props) {
+export default function Notification({}) {
   const [notifications, setNotifications] = useState(null);
   const [newNotificationsCount, setNewNotificationsCount] = useState(0);
   const [err, setErr] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
+  const [open, setOpen] = useState(false);
   
   useEffect(() => {
     fetchNotifications();
   }, []);
+
+  console.log('rendering...');
 
   return (
     <>
@@ -73,9 +82,11 @@ export default function Notification(props) {
         }}
       >{
           err !== null ?
-            <MenuItem key="err" onClick={handleClose()}>
-              <p> {err} </p>
-              <Refresh onClick={() => fetchNotifications() }/>
+            <MenuItem key="err" onClick={fetchNotifications}>
+              <ErrorBlock>
+                <p> {err} </p>
+                <Refresh  />
+              </ErrorBlock>
             </MenuItem> :
             notifications == null ?
             <MenuItem key={"fetching"} onClick={handleClose}>
@@ -84,8 +95,11 @@ export default function Notification(props) {
             <MenuItem>No notifications</MenuItem> :
 
                 notifications.map(notif => 
-                  <MenuItem key={notif.id} onClick={() => redirectFromNotifictaion(notif.id, notif.url)}>
-                    <NotificationBlock>{notif.text}</NotificationBlock>
+                  <MenuItem
+                    key={notif.id} onClick={() => redirectFromNotifictaion(notif.id, notif.url)}
+                    style={{backgroundColor: notif.sent?"white":"#a8f0ec"}}
+                  >
+                    <NotificationBlock >{notif.text}</NotificationBlock>
                   </MenuItem>
               )
           }
@@ -95,13 +109,16 @@ export default function Notification(props) {
   
   function handleClick(event){
     setAnchorEl(event.currentTarget);
+    setOpen(true);
   };
 
   function handleClose(){
     setAnchorEl(null);
+    setOpen(false);
   };
 
   function fetchNotifications() {
+    
     setNewNotificationsCount(0);
     setNotifications(null);
     return axiosCall('get', `${CONFIG.API_DOMAIN}/notifications/get-notifs`)
@@ -126,6 +143,7 @@ export default function Notification(props) {
         console.log('Error:', err);
       }).finally(() => {
         setAnchorEl(null);
+        setOpen(false);
         navigate(redirect_url);
       });
   }

@@ -101,7 +101,6 @@ function FullQuestion(props) {
       <div className="maindivofeverypage" >
         <div style={{ textAlign: "left" }}>
           <div style={{ display: "flex", alignItems: "center" }}>
-            <h1 style={{ display: "inline-block" }}>{question.title}</h1>
             <BookMark quesId={props.quesId} user={props.user} />
           </div>
           <p>Asked by

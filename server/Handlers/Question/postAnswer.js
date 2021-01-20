@@ -2,6 +2,7 @@ const CLIENT_HOME_PAGE_URL = process.env.CLIENT_DOMAIN;
 const CLIENT_LOGIN_PAGE_URL = `${CLIENT_HOME_PAGE_URL}/auth`;
 const { Ques, Ans, User } = require("../../Models");
 const saveChanges = require("./utilis").saveChanges;
+const { createNotification } = require('../Notifications/helpers');
 
 module.exports = async function(req, res, next) {
     // console.log('i am here')
@@ -27,6 +28,8 @@ module.exports = async function(req, res, next) {
         ques.answers.push(ans._id);
         ques.answers_count = ques.answers.length;
         await saveChanges(quesId, userId, 1, name);
+        await createNotification(ques.userId, userId, 2, ans._id);
+
 
         res.data.success = true;
         res.data.is_saved = true;
