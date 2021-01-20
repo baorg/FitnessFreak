@@ -2,11 +2,7 @@ const mongoose = require('mongoose');
 const { User, Ques, Ans } = require('../../Models');
 const { CLIENT_DOMAIN } = require('../../config');
 
-async function create_notification(actor_id, notifier_id, entity, entity_data_id) {
-
-    // console.log(actor_id, notifier_id, entity, entity_data_id);
-    // console.log(typeof(actor_id), typeof(notifier_id), typeof(entity_data_id));
-
+async function createNotification(actor_id, notifier_id, entity, entity_data_id) {
 
     /*
         actor: User to which notification will be sent.
@@ -26,51 +22,65 @@ async function create_notification(actor_id, notifier_id, entity, entity_data_id
         )
     */
 
-    let user = await User.findOne({ _id: actor_id }, 'notifications unseen_notifications').exec();
+    // actor_id = actor_id.toString();
+    let user = await User.findOne({ _id: actor_id }, 'notifications').exec();
+    let l = user.notifications.length;
+    if (l >= 50) {
+        user.notifications.shift(l - 50 + 1);
+        l = 49;
+    }
     user.notifications.push({
         notifier: notifier_id,
         entity: entity,
         entity_data: entity_data_id,
         status: 0,
         created_timestamp: new Date(Date.now()),
-        seen_timestamp: null
+        seen_timestamp: null,
+        _id: mongoose.Types.ObjectId()
     });
-    user.unseen_notifications++;
 
-    user.save();
+    user = await user.save();
     return user;
 }
 
-async function clear_notifications(actor_id) {
-    let user = await User.findOne({ _id: actor_id }, 'notifications unseen_notifications').exec();
+async function clearNotifications(actor_id) {
+    let user = await User.findOne({ _id: actor_id }, 'notifications').exec();
     user.notifications = [];
-    user.unseen_notifications = 0;
 
     await user.save();
     return user;
 }
 
-async function serialize_notification(notification) {
+async function serializeNotification(notification) {
     let user = await User.findOne({ _id: notification.notifier }, 'username first_name last_name').exec();
     // console.log('User: ', user);
     switch (notification.entity) {
         case 1:
             return ({
+                id: notification._id.toString(),
                 text: `@${user.username} started following you.`,
-                url: `${CLIENT_DOMAIN}/profile/${user._id}`,
-                dated: notification.created_timestamp
+                url: `/profile/${user._id}`,
+                dated: notification.created_timestamp,
+                sent: notification.status == 1,
+                seen: notification.status == 2
             });
         case 2:
             return ({
+                id: notification._id.toString(),
                 text: `${user.first_name} ${user.last_name} answered your question.`,
-                url: `${CLIENT_DOMAIN}/viewFullQuestion/${notification.entity_data}`,
-                dated: notification.created_timestamp
+                url: `/viewFullQuestion/${notification.entity_data}`,
+                dated: notification.created_timestamp,
+                sent: notification.status == 1,
+                seen: notification.status == 2
             });
         case 3:
             return ({
+                id: notification._id.toString(),
                 text: `${user.first_name} ${user.last_name} commented on your answer.`,
-                url: `${CLIENT_DOMAIN}/view-answer/${notification.entity_data}`,
-                dated: notification.created_timestamp
+                url: `/view-answer/${notification.entity_data}`,
+                dated: notification.created_timestamp,
+                sent: notification.status == 1,
+                seen: notification.status == 2
             });
 
         default:
@@ -83,22 +93,47 @@ async function serialize_notification(notification) {
 }
 
 
-async function get_notifications(user_id, limit = 10, page = 1) {
-    if (page < 1)
-        page = 1;
+async function getNotifications(user_id) {
 
-    let user = await User.findOne({ _id: user_id }, 'notifications unseen_notifications').exec();
-    let notifs = [];
+    let user = await User.findOne({ _id: user_id }, 'notifications').exec();
+    let new_notifs = [];
+    let old_notifs = [];
 
-    for (var i = user.notifications.length - 1 - (page - 1) * limit; i >= 0 && i >= user.notifications.length - 1 - page * limit; i--) notifs.push(await serialize_notification(user.notifications[i]));
+    for (var i = 0; i < user.notifications.length; i++) {
+        if (user.notifications[i].status == 0)
+            new_notifs.push(await serializeNotification(user.notifications[i]));
+        else
+            old_notifs.push(await serializeNotification(user.notifications[i]));
 
-    return { notifications: notifs, unseen: user.unseen_notifications };
+        user.notifications[i].status = 1;
+    }
+    await user.save();
+
+    return {
+        notifications: [...new_notifs, ...old_notifs],
+        count: user.notifications.length,
+        new_count: new_notifs.length
+    };
 }
 
 
+async function seenNotification(user_id, notification_id) {
+    let user = await User.findOne({ _id: user_id }, 'notifications').exec();
+    let index = user.notifications.findIndex((val) => val._id == notification_id);
+
+    user.notifications = user.notifications.filter((val, i) => i !== index);
+
+    await user.save();
+
+    return true;
+
+}
+
 
 module.exports = {
-    get_notifications,
-    create_notification,
-    serialize_notification,
+    getNotifications,
+    createNotification,
+    serializeNotification,
+    clearNotifications,
+    seenNotification
 }

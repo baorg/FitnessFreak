@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
-import { navigate } from 'hookrouter';
-import { Favorite, Notifications} from '@material-ui/icons';
-import { Menu, MenuItem, Badge } from '@material-ui/core';
+import { navigate, A } from 'hookrouter';
+import { Favorite, Notifications, Refresh} from '@material-ui/icons';
+import { Menu, MenuItem, Badge, CircularProgress } from '@material-ui/core';
 
 import styled from 'styled-components';
 
 import '../styles.css';
 import axiosCall from '../../ajaxRequest';
-import './notification.css';
 import CONFIG from '../../config';
 
 
@@ -20,28 +19,39 @@ const StyledFavorite = styled(Favorite)`
   cursor: pointer;
   margin-right: 1em;
 `;
+
+let LoadingBlock = styled.div`
+  height: 4em;
+  width: 10em;
+  display: grid;
+  place-items: center;
+`;
+
+let NotificationBlock = styled.div`
+  border-bottom: 1px solid #8a8a8a;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+`;
+
 //  ================================================================================
 
 
 export default function Notification(props) {
-  const [noti, setNoti] = useState([]);
+  const [notifications, setNotifications] = useState(null);
+  const [newNotificationsCount, setNewNotificationsCount] = useState(0);
+  const [err, setErr] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   
   useEffect(() => {
-    axiosCall('get', `${CONFIG.API_DOMAIN}/question/getNotifications`)
-      .then((res) => {
-        if (res.data.err)
-          navigate("/")
-        console.log("notifications", res.data.notifications);
-        setNoti(res.data.notifications);
-      });
+    fetchNotifications();
   }, []);
 
   return (
     <>
       <Badge
-        badgeContent={noti.length} color="primary"
+        badgeContent={newNotificationsCount} color="primary"
         max={10}
         anchorOrigin={{
           vertical: 'top',
@@ -61,13 +71,23 @@ export default function Notification(props) {
             maxHeight: ITEM_HEIGHT * 4.5
           },
         }}
-      >
-        {noti.length>0?
-          noti.map((option) => (
-            <MenuItem key={option} onClick={handleClose}>
-              {option}
-            </MenuItem>
-          )) : <MenuItem>No notifications</MenuItem>
+      >{
+          err !== null ?
+            <MenuItem key="err" onClick={handleClose()}>
+              <p> {err} </p>
+              <Refresh onClick={() => fetchNotifications() }/>
+            </MenuItem> :
+            notifications == null ?
+            <MenuItem key={"fetching"} onClick={handleClose}>
+              <LoadingBlock><CircularProgress /></LoadingBlock>
+            </MenuItem> : notifications.length===0 ?
+            <MenuItem>No notifications</MenuItem> :
+
+                notifications.map(notif => 
+                  <MenuItem key={notif.id} onClick={() => redirectFromNotifictaion(notif.id, notif.url)}>
+                    <NotificationBlock>{notif.text}</NotificationBlock>
+                  </MenuItem>
+              )
           }
       </Menu>
     </>
@@ -80,29 +100,33 @@ export default function Notification(props) {
   function handleClose(){
     setAnchorEl(null);
   };
+
+  function fetchNotifications() {
+    setNewNotificationsCount(0);
+    setNotifications(null);
+    return axiosCall('get', `${CONFIG.API_DOMAIN}/notifications/get-notifs`)
+      .then(({ data }) => {
+        if (data.success) {
+          setErr(null);
+          setNotifications(data.notifications);
+          setNewNotificationsCount(data.new_count);
+        } else {
+          setErr('Some error occured');
+        }
+      })
+      .catch(error => {
+        setErr('Connection error.');
+      });
+  }
+
+  function redirectFromNotifictaion(notif_id, redirect_url) {
+    return axiosCall('POST', `${CONFIG.API_DOMAIN}/notifications/set-seen`, { id: notif_id })
+      .then(({ data }) => {
+      }).catch(err => {
+        console.log('Error:', err);
+      }).finally(() => {
+        setAnchorEl(null);
+        navigate(redirect_url);
+      });
+  }
 }
-
-
-
-
-// <div>
-//         {/* <Notifications onClick={handleclick} style={{color:"red"}}/> */}
-//         <br />
-//         <div className="nodisplay">
-//           <h3 style={{ paddingBottom: "10px" }}>Notifications</h3>
-//           {
-//             noti.length > 5 ?
-//               noti.slice((noti.length) - 5, noti.length).map((el, index) =>
-//                 <div key={index} className="elem"><div dangerouslySetInnerHTML={{ __html: el }}></div></div>
-//               )
-//               :
-//               noti.length === 0 ?
-//                 <div className="elem"><p>No Notifications Yet</p></div>
-//                 :
-//                 noti.map((el, index) =>
-//                   <div key={index} className="elem"><div dangerouslySetInnerHTML={{ __html: el }}></div></div>
-//                 )
-//           }
-//           <a style={{ marginRight: "0px" }}>See all Notifications</a>
-//         </div>
-//       </div>

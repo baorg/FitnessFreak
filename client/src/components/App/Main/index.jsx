@@ -41,6 +41,7 @@ const Type = styled.div`
 
 export default function (props) {
     let [url, setUrl] = useState(`${CONFIG.API_DOMAIN}/feed/get-feed?`);
+    
     useEffect(() => {
         // let selectedCategory = props.category ? props.category : null;
         if (props.type === 'Hot') {

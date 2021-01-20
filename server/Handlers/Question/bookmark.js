@@ -48,15 +48,15 @@ module.exports.isBookMarked = function(req, res, next) {
 
     const promise = User.findById(userId).exec();
     promise.then((user) => {
-            console.log("user = ", user)
-            console.log("quesId = ", quesId)
+            // console.log("user = ", user);
+            // console.log("quesId = ", quesId);
             obj.err = false
             const arr = user.bookmarks
             const index = arr.findIndex((ele) => {
-                console.log("ele = ", ele)
+                // console.log("ele = ", ele)
                 return ele == quesId
-            })
-            console.log("isMarked index = ", index)
+            });
+            // console.log("isMarked index = ", index)
             if (index === -1)
                 obj.marked = false;
             else
