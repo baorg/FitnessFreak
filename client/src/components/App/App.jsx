@@ -22,17 +22,16 @@ const ContentContainer = styled.div`
 // ==================================================================================================
 
 const App = function (props) {
-  const [category, setCategory] = useState(null);
-  const [type, setType] = useState(null);
-  
-  const [path, setPath] = usePath();
+  const [ selectedCategories, setSelectedCategories ] = useState(null);
+  const [ type, setType ] = useState(null);
+  const [ path, setPath ] = usePath();
 
-  console.log('Path: ', path);
+  // console.log('Path: ', path);
 
   return (
       <ContentContainer>
-        <LeftNavBar user={props.user} setCategory={setCategory} category={category} />
-        <Content setType={setType} type={type} category={category} />
+        <LeftNavBar user={props.user} setSelectedCategories={setSelectedCategories} selectedCategories={selectedCategories} />
+        <Content setType={setType} type={type} selectedCategories={selectedCategories} />
         <RightNavBar />
       </ContentContainer>
     );

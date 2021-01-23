@@ -64,7 +64,7 @@ let CategorySpan = styled.span`
     size: 0.8em;
     color: #2f2f2f;
     width: fit-content;
-    background-color: rgb(142, 238, 238);
+    background-color: ${({ selected }) => selected? "#9ff5a6":"rgb(238, 238, 238)"};
     padding: 0 4px 0 4px;
     margin: 0 2px 0 2px;
     border-radius: 6px;
@@ -136,7 +136,7 @@ let styles = {
 
 
 
-export default function ({question, type}) { 
+export default function ({question, type, selectedCategories=[]}) { 
     const timeAgo = new TimeAgo('en');
     let url = "";
     if (type === "answerasked")
@@ -185,7 +185,7 @@ export default function ({question, type}) {
             </QuestionHeader>
             <div className="category-container">
                 {question.category.map(category => (
-                    <CategorySpan className="category-span">{category}</CategorySpan>
+                    <CategorySpan className="category-span" selected={selectedCategories!==null && selectedCategories.some(cat=>cat===category)}>{category}</CategorySpan>
                 ))}
             </div>
         </Question>

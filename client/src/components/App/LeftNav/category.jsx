@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Checkbox } from '@material-ui/core';
+
 
 // Styled Components =================================================================
 
@@ -17,10 +19,15 @@ const CategoryDiv = styled.div`
 
 // ======================================================================================
 
-export default function Category(props) {
+export default function Category({selected, category, handleChange }) {
     return (
-        <CategoryDiv onClick={ props.handleClick } selected={props.selected}>
-                  <img width="30" height="30" src={props.category.icon} alt={props.category.alt}  class="loaded"></img>
-                  <i className="fa fa-home" aria-hidden="true"></i> { props.category.name }
+        <CategoryDiv>
+            <Checkbox 
+                checked={selected}
+                onChange={handleChange}
+                inputProps={{ 'aria-label': 'primary checkbox' }}
+            />
+            <img width="30" height="30" src={category.icon} alt={category.alt}  class="loaded"></img>
+            <i className="fa fa-home" aria-hidden="true"></i> {category.name }
         </CategoryDiv>);
 }

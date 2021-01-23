@@ -30,38 +30,41 @@ const Type = styled.div`
     margin: 0 10px 0 10px;
     border-radius: 5px;
     padding: 4px;
-    background-color: ${props => props.selected ? "#5ac8d6": "inherit"};
+    background-color: ${({selected}) => selected ? "#5ac8d6": "inherit"};
     :hover{
-        background-color: ${props => props.selected ? "#5ac8d6": "#dddddd"};
+        background-color: ${({selected}) => selected ? "#5ac8d6": "#dddddd"};
         cursor: pointer;
     }
 `;
 
 // =======================================================================================================
 
-export default function (props) {
+export default function MainLandingPageDiv({ type, selectedCategories, setType }) {
     let [url, setUrl] = useState(`${CONFIG.API_DOMAIN}/feed/get-feed?`);
     
     useEffect(() => {
-        // let selectedCategory = props.category ? props.category : null;
-        if (props.type === 'Hot') {
-            setUrl(`${CONFIG.API_DOMAIN}/question/get-type/hot-questions?${props.category ? "category=" + props.category.name+"&" : ""}`);
-        } else if (props.type === 'Newest') {
-            setUrl(`${CONFIG.API_DOMAIN}/question/get-type/latest-questions?${props.category ? "category=" + props.category.name+"&" : ""}`);
-        } else if (props.type === 'Unanswered') {
-            setUrl(`${CONFIG.API_DOMAIN}/question/get-type/unanswered-questions?${props.category ? "category=" + props.category.name+"&" : ""}`);
+        console.log("TYpe: ", type);
+        if (type === 'Hot') {
+            setUrl(`${CONFIG.API_DOMAIN}/question/get-type/hot-questions?${selectedCategories ? "selectedCategories=" + selectedCategories+"&" : ""}`);
+        } else if (type === 'Newest') {
+            setUrl(`${CONFIG.API_DOMAIN}/question/get-type/latest-questions?${selectedCategories ? "selectedCategories=" + selectedCategories+"&" : ""}`);
+        } else if (type === 'Unanswered') {
+            setUrl(`${CONFIG.API_DOMAIN}/question/get-type/unanswered-questions?${selectedCategories ? "selectedCategories=" + selectedCategories+"&" : ""}`);
         } else {
-            if(props.category)
-                setUrl(`${CONFIG.API_DOMAIN}/question/getQuestionsCategoryWise/${props.category.name}?`)
+            if(selectedCategories)
+                setUrl(`${CONFIG.API_DOMAIN}/question/getQuestionsCategoryWise/${selectedCategories}?`)
             else
                 setUrl(`${CONFIG.API_DOMAIN}/feed/get-feed?`)
         }
-    }, [props.type, props.category]);
-    async function handleTypeChange(type) {
-        if (props.type === type) {
-            props.setType(null);
+    }, [type, selectedCategories]);
+
+
+    async function handleTypeChange(tp) {
+        // console.log("Changing type:", type);
+        if (type === tp) {
+            setType(null);
         } else {
-            props.setType(type);
+            setType(tp);
         }
     }
 
@@ -72,11 +75,11 @@ export default function (props) {
                     <A href="/post-question"><Button variant="contained" color="primary">Post a Question</Button></A>
                 </div>
                 <TypeContainer>
-                    <Type selected={props.type==="Newest"} onClick={()=>handleTypeChange("Newest")}>Newest</Type> |
-                    <Type selected={props.type==="Hot"} onClick={()=>handleTypeChange("Hot")}>Hot</Type> |
-                    <Type selected={props.type==="Unanswered"} onClick={()=>handleTypeChange("Unanswered")}>Unanswered</Type>
+                    <Type selected={type==="Newest"} onClick={()=>handleTypeChange("Newest")}>Newest</Type> |
+                    <Type selected={type==="Hot"} onClick={()=>handleTypeChange("Hot")}>Hot</Type> |
+                    <Type selected={type==="Unanswered"} onClick={()=>handleTypeChange("Unanswered")}>Unanswered</Type>
                 </TypeContainer>
             </Margin>
-            <InfiniteScroll type={props.type} category={props.category} url={url}/>
+            <InfiniteScroll type={type} selectedCategories={selectedCategories} url={url}/>
         </Content>);
 }

@@ -36,7 +36,7 @@ let Reload = styled.div`
 `;
 
 // ==========================================================================================================================
-export default function (props) {
+export default function ({type, selectedCategories, url}) {
     const [feed, setFeed] = useState({questions:[], current_page: 0 });
     const [hasMore, setHasMore] = useState(true);
     const [reload, setReload] = useState(null);
@@ -47,7 +47,7 @@ export default function (props) {
         setHasMore(true);
         return () => {
         }
-    }, [props.url]);
+    }, [ url ]);
 
     async function refreshFeed(event) {
         await ajaxRequest('POST', `${CONFIG.API_DOMAIN}/feed/refresh-feed`);
@@ -59,8 +59,8 @@ export default function (props) {
         let page = feed.current_page+1;
         setHasMore(true);
         setReload(null);
-        
-        let newQuestions = await ajaxRequest('GET', `${props.url}page=${page}`);
+
+        let newQuestions = await ajaxRequest('GET', `${url}page=${page}`);
         if (newQuestions.data.success) {
             if (newQuestions.data.questions.length > 0) {
                 return setFeed({
@@ -92,7 +92,7 @@ export default function (props) {
             hasMore={hasMore}
             loader={ <Spinner /> }
         >
-            {feed.questions.map(question => <Question key={question._id} question={question} />)}
+                {feed.questions.map(question => <Question key={question._id} question={question} selectedCategories={selectedCategories}/>)}
             {reload}
         </StyledInfiniteScroll>
         </>

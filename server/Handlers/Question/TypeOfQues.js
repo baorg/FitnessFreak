@@ -50,7 +50,10 @@ function likes(ques) {
 
 
 async function hotQuestions(obj, page, count, category = null) {
-    let findQuery = category ? { categoryName: category } : {};
+    let findQuery = category ? { categoryName: { $in: category } } : {};
+    console.log('Find Query: ', findQuery);
+
+
     let query = Ques.find(findQuery,
         "title question created_at categoryName upDown vote_count", {
             sort: {},
@@ -77,7 +80,10 @@ async function hotQuestions(obj, page, count, category = null) {
 }
 
 async function latest(obj, page, count, category = null) {
-    let findQuery = category ? { categoryName: category } : {};
+    let findQuery = category ? { categoryName: { $in: category } } : {};
+    console.log('Find Query: ', findQuery);
+
+
     let questions = await Ques.find(findQuery, "title question created_at categoryName vote_count", {
         sort: { created_at: -1 },
         limit: count,
@@ -87,7 +93,9 @@ async function latest(obj, page, count, category = null) {
 }
 
 async function unanswered(obj, page, count, category = null) {
-    let findQuery = category ? { categoryName: category, answers: [] } : { answers: [] };
+    let findQuery = category ? { categoryName: { $in: category }, answers: { $size: 0 } } : { answers: { $size: 0 } };
+    console.log('Find Query: ', findQuery);
+
     let questions = await Ques.find(findQuery,
         "title question created_at categoryName vote_count", {
             limit: count,
@@ -117,7 +125,10 @@ function getHandlerForTheAskedType(name) {
 module.exports.getTypeOfQuestionsHandler = function(req, res) {
 
     let name = req.params.name;
-    let { page = 1, category = null } = req.query;
+    let { page = 1, selectedCategories = null } = req.query;
+    let category = selectedCategories === null ? null : selectedCategories.split(',');
+
+
     const obj = {
         path: 'userId',
         model: User,

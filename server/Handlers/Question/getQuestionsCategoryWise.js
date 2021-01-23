@@ -2,8 +2,8 @@ const { Ques, Ans, User, Tag } = require("../../Models");
 const { getArrayOfQues } = require("./utilis");
 
 async function getQuestions(obj, page, count, name) {
-
-    const questions = await Ques.find({ categoryName: name },
+    console.log('Categories: ', name);
+    const questions = await Ques.find({ categoryName: { $in: name } },
             "title question categoryName vote_count attachments created_at userId", {
                 limit: count,
                 skip: (page - 1) * count
@@ -12,12 +12,13 @@ async function getQuestions(obj, page, count, name) {
     return getArrayOfQues(questions);
 }
 
-module.exports.getQuestionsCategoryWise = async function(req, res) {
+module.exports.getQuestionsCategoryWise = async function(req, res, next) {
 
     let data = [];
-    let err = false;
+    let success;
     try {
-        let name = req.params.name;
+        let categories = req.params.name.split(',');
+
         let { page = 1 } = req.query;
         const obj = {
             path: 'userId',
@@ -29,12 +30,14 @@ module.exports.getQuestionsCategoryWise = async function(req, res) {
 
         const page_size = 20;
 
-        data = await getQuestions(obj, page, 20, name)
+        res.data.success = true;
+        res.data.questions = await getQuestions(obj, page, 20, categories);
+
     } catch (err) {
         console.log("err in getting questions by category ->", err)
-        err = true;
+        res.data.success = false;
     } finally {
-        return res.send({ questions: data, success: err });
+        return next();
     }
 
 }
