@@ -53,7 +53,7 @@ export default function Button({ profile }) {
 
 
     return (
-        <Btn>
+        <Btn className="follow-btn">
             {
                 isFollowing === null ?
                     <></>

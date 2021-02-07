@@ -1,3 +1,5 @@
+
+const {createNotification} = require('../../Notifications/helpers');
 const { Ques } = require("../../../Models");
 const { Ans, Comment, User } = require("../../../Models");
 const { addScore } = require("../utilis");
@@ -87,16 +89,19 @@ module.exports = async function(req, res, next) {
         if (user && userId != whoPostedId) {
             addScore(user, "totalScore", sign * score[name])
             if (sign > 0) {
-                const username = await User.findUserByUserId(userId)
-                user.notifications.push(`${username} has upvoted your ${property}`);
+                // const username = await User.findUserByUserId(userId);
+                // user.notifications.push(`${username} has upvoted your ${property}`);
+                createNotification(user._id, userId, 4, quesId);
             }
             await user.save();
         }
         await ques.save()
-        format_response(res, { is_saved: true, vote: ques.vote_count }, true);
+
+        format_response(res, { success:true, is_saved: true, vote: ques.vote_count }, true);
+
     } catch (err) {
         console.error('ERROR  :', err);
-        format_response(res, { vote: ques.vote_count }, false);
+        format_response(res, {success: false, vote: ques.vote_count }, false);
     } finally {
         return next();
     }

@@ -6,7 +6,8 @@ const {
     getUserFromIdHandler,
     getUserFromUsernameHandler,
     updateHandlers,
-    verifyHandlers
+    verifyHandlers, 
+    getSuggestions
 } = require('../Handlers').UsersHandler;
 const { isAuthenticated, sendResponse } = require("../Middlewares");
 const UserValidators = require('../Validators').UserProfileValidators;
@@ -26,4 +27,8 @@ router.post("/update-email", updateHandlers.updateEmail);
 
 router.post('/update-image', isAuthenticated, updateHandlers.updateImage);
 router.get("/request-verify-email", verifyHandlers.requestVerifyEmail);
+
+router.get("/get-suggestions", getSuggestions);
+
+
 module.exports = router;

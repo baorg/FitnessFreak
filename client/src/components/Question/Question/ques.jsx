@@ -192,13 +192,3 @@ export default function ({question, type, selectedCategories=[]}) {
     );
 }
 
-
-{/* <div style={styles.vote}>
-    <div style={styles.question}>
-        <ExpandLessIcon  style={{color:'black ',fontSize:40}} />
-    </div>
-    <span style={{fontSize:20, marginLeft: "10px" }}>{question.vote ? question.vote.up - question.vote.down : null}</span>
-    <div style={styles.vote}>
-        <ExpandMoreIcon style={{ color: 'black ', fontSize: 40 }} />
-    </div>
-</div> */}

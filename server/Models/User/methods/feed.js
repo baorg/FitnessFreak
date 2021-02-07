@@ -1,10 +1,6 @@
-// function getPower(user, question) {
-//     upvote = question.vote_count.upvote;
-//     isfollowed = user.following.
-// }
+const { User, Ques } = require('./../../');
 
-async function refreshFeed() {
-    const { User, Ques } = require('./../../');
+async function refreshFeed() {    
     let { feed, feed_last_updated } = await User.findOne({ _id: this._id }).select('feed feed_last_updated').exec();
 
     const current_time = new Date(Date.now());

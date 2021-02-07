@@ -14,7 +14,7 @@ import ThumbDownAltIcon from '@material-ui/icons/ThumbDownAlt';
 function UpvoteDownvote(props) {
   const [up,setUp]= useState(false);
   const [down,setDown]=useState(false);
-  const[clicked, setClicked] = useState(false)
+  const [clicked, setClicked] = useState(false)
   const totalUpRef=useRef(null);
   const totalDownRef = useRef(null);
 
@@ -31,7 +31,7 @@ function UpvoteDownvote(props) {
   }, []);
   
   return (
-    <div style={{ display: "flex", alignItems: "center", marginTop: "20px" }}>
+    <div style={{ display: "flex", alignItems: "center", marginTop: "20px" }} className="up-down">
       
       <span ref={totalUpRef} style={{ fontSize: 20 }}>{props.totalCount ? props.totalCount.up : null}</span>
       <ThumbUpAltIcon
@@ -93,6 +93,8 @@ function UpvoteDownvote(props) {
           
           totalUpRef.current.innerText = res.data.vote.upvote;
           totalDownRef.current.innerText = res.data.vote.downvote;
+        } else if(res.data.isAuthenticated===false) {
+          notLoggedIn();
         }
         
         setClicked(false);
@@ -133,6 +135,8 @@ function UpvoteDownvote(props) {
             
             totalUpRef.current.innerText = res.data.vote.upvote;
             totalDownRef.current.innerText = res.data.vote.downvote;
+          }else if(res.data.isAuthenticated===false) {
+            notLoggedIn();
           }
           setClicked(false);
         });

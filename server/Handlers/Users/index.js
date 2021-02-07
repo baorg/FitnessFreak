@@ -1,4 +1,4 @@
-const searchUserHandler = require('./search');
+const { searchUserHandler, getSuggestions } = require('./search');
 const getUserDataHandler = require('./getUserData');
 const getUserFromIdHandler = require('./getUserFromId');
 const getUserFromUsernameHandler = require('./getUserFromUsername');
@@ -11,5 +11,6 @@ module.exports = {
     getUserFromIdHandler,
     getUserFromUsernameHandler,
     updateHandlers,
-    verifyHandlers
+    verifyHandlers,
+    getSuggestions
 }

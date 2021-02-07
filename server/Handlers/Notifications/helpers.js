@@ -11,6 +11,7 @@ async function createNotification(actor_id, notifier_id, entity, entity_data_id)
                     1: followed
                     2: answered
                     3: commented
+                    4: Upvoted question
             )
         
         entity_data_id: Id for the entity type (e.g. answer_id for entity answer)
@@ -85,7 +86,15 @@ async function serializeNotification(notification) {
                 sent: notification.status == 1,
                 seen: notification.status == 2
             });
-
+        case 4:
+            return ({
+                id: notification._id.toString(),
+                text: `${user.first_name} ${user.last_name} commented on your answer.`,
+                url: `/viewFullQuestion/${notification.entity_data}`,
+                dated: notification.created_timestamp,
+                sent: notification.status == 1,
+                seen: notification.status == 2
+            })
         default:
             return ({
                 text: 'Invalid notification.',

@@ -3,6 +3,7 @@ import axios from "axios"
 import { Spinner } from "react-bootstrap";
 import { A,navigate } from "hookrouter";
 import { Avatar } from '@material-ui/core';
+import styled from 'styled-components';
 
 import Answer from "../../Answer/Answer/answer";
 import PostAnswer from "../../Answer/PostAnswer/postAnswer";
@@ -16,6 +17,47 @@ import Attachments from './attachments';
 import BookMark from "../../BookMark/MyBookMark";
 import CONFIG from '../../../config';
 import DeleteIcon from '@material-ui/icons/Delete';
+
+
+// Styled Components =======================================================================================
+
+
+let MainDiv = styled.div`
+  margin: -1;
+  overflow-x: hide;
+  width: 100vw;
+  display: grid;
+  position: relative;
+  top: 80px;
+`;
+
+let ContentDiv = styled.div`
+  width: 80%;
+  max-width: 1200px;
+  place-self: center;
+`;
+let QuestionHeader = styled.div`
+  display: flex;
+
+
+  .flex-right{
+    margin-left: auto;
+    margin-right: 30px;
+    width: fit-content;
+    display: flex;
+    justify-items: space-between;
+  }
+  .dlt-icn{
+    margin-left: 10px;
+  }
+  .bkmrk-icn{
+    margin-right: 10px;
+  }
+`;
+
+
+// ==========================================================================================================
+
 
 function FullQuestion(props) {
   const [question, setQuestion] = useState(null)
@@ -95,22 +137,27 @@ function FullQuestion(props) {
     }
   }
 
-  return question ?
-    (<div>
+  return (<MainDiv>
       {/* <SideNavBar user={props.user} /> */}
-      <div className="maindivofeverypage" >
-        <div style={{ textAlign: "left" }}>
-          <div style={{ display: "flex", alignItems: "center" }}>
+      {question &&
+      <ContentDiv>
+        <QuestionHeader >
+          <Avatar alt={`${question.user?.username || 'unknown'}s_profile_image`} src={question.user?.profile_image}/>
+          <p>
+          <div>Asked By</div>
+          <A href={`/profile/${question.user._id}`}>@{question.user.username}</A>
+          </p>
+
+          <div className="flex-right">
+          <div  className="bkmrk-icn">
             <BookMark quesId={props.quesId} user={props.user} />
           </div>
-          <p>Asked by
-          <A href={`/profile/${question.user._id}`}>@{question.user.username}</A></p>
-          {props.user?(props.user._id===question.user._id?<DeleteIcon onClick={deleteQuestion}/>:null):null}
-          <Avatar alt={`${question.user?.username || 'unknown'}s_profile_image`} src={question.user?.profile_image}/>
-          <div dangerouslySetInnerHTML={{ __html: question.question }} style={{marginTop:"40px"}}></div>
-          <br /> <br />
-          
-        </div>
+          {props.user?(props.user._id===question.user._id?
+          <DeleteIcon className="dlt-icn" onClick={deleteQuestion}/>:null):null}
+          </div>
+        </QuestionHeader>
+        <div dangerouslySetInnerHTML={{ __html: question.question }} style={{marginTop:"40px"}}></div>
+        <br /> <br />  
         <div className="category-container" style={{textAlign:"left",marginBottom:"40px"}}>
           {question.category.length!==0?<p style={{fontSize:"20px"}}>Categories</p>:null}
                 {question.category.map(category => (
@@ -128,9 +175,9 @@ function FullQuestion(props) {
             return <Answer key={index} answer={el} user={props.user} satisfactory={satisfactory} selectedSatisfactoryAnswer={selectedSatisfactoryAnswer} quesId={props.quesId} type={2}/>
           })}
         </div>
-      </div>
-    </div>) : <Spinner />;
-        
+      </ContentDiv>
+     }: <Spinner />
+      </MainDiv>);
 }
 
 

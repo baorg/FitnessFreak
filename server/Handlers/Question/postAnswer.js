@@ -24,9 +24,12 @@ module.exports = async function(req, res, next) {
         let user = await User.findById(userId).exec();
         user.answer.push(ans._id);
         user = await user.save();
+        
         let ques = await Ques.findById(quesId).exec();
         ques.answers.push(ans._id);
         ques.answers_count = ques.answers.length;
+        ques = await ques.save();
+        
         await saveChanges(quesId, userId, 1, name);
         await createNotification(ques.userId, userId, 2, ans._id);
 

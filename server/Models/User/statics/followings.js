@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
-const { addScore } = require("../../../Handlers/Question/utilis")
-const { score } = require("../../../config/score")
+const { addScore } = require("../../../Handlers/Question/utilis");
+const { score } = require("../../../config/score");
+
 async function isFollowing(followerId, followeeId) {
     let follower = await this.findOne({ _id: followerId, following: { $in: [followeeId] } })
         .select([]).exec();
