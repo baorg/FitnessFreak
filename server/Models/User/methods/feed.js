@@ -1,6 +1,5 @@
-const { User, Ques } = require('./../../');
-
 async function refreshFeed() {    
+    const { User, Ques } = require('./../../');
     let { feed, feed_last_updated } = await User.findOne({ _id: this._id }).select('feed feed_last_updated').exec();
 
     const current_time = new Date(Date.now());
@@ -12,6 +11,7 @@ async function refreshFeed() {
         model: User,
         select: 'username'
     }]);
+
     let topQuestions = await Ques.getTopQuestions(feed_last_updated, current_time, 0, 50,
         'title question categoryName userId tags vote_count', [{
             path: 'userId',
@@ -58,6 +58,7 @@ async function refreshFeed() {
     this.feed = new_feed;
 
     await this.save();
+    return this.feed;
 }
 
 async function getFeed(skip, count, select = 'title', populate = []) {
@@ -73,7 +74,6 @@ async function getFeed(skip, count, select = 'title', populate = []) {
             select: "title vote_count created_at"
         }
     }).exec();
-
     return { last_updated: feed_last_updated, feed };
 }
 

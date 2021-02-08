@@ -8,6 +8,8 @@ const RightNavBar = styled.div`
     grid-column: 3 / 4;
     /* grid-area: right-nav; */
 
+    position: sticky;
+    top: 50px;
     padding-top: 50px;
 
     height: fit-content;

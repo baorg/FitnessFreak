@@ -1,6 +1,6 @@
 import React,{useState,useEffect, useRef} from "react"
 import axiosCall from "../../ajaxRequest"
-import {navigate} from "hookrouter"
+import {navigate} from "hookrouter";
 import notLoggedIn from "../../notloggedin";
 // import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 // import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -11,7 +11,7 @@ import ThumbDownAltIcon from '@material-ui/icons/ThumbDownAlt';
 
 
 
-function UpvoteDownvote(props) {
+function UpvoteDownvote({quesId, isQues, totalCount, user}) {
   const [up,setUp]= useState(false);
   const [down,setDown]=useState(false);
   const [clicked, setClicked] = useState(false)
@@ -19,7 +19,7 @@ function UpvoteDownvote(props) {
   const totalDownRef = useRef(null);
 
   useEffect(() => {
-    axiosCall('post', `${CONFIG.API_DOMAIN}/Question/votes/byUser`, {quesId : props.quesId, isQues : props.isQues})
+    axiosCall('post', `${CONFIG.API_DOMAIN}/Question/votes/byUser`, {quesId : quesId, isQues : isQues})
       .then(res => {
         // console.log("upvotedata = " ,res.data);
         if(res.data.upvote)
@@ -33,18 +33,18 @@ function UpvoteDownvote(props) {
   return (
     <div style={{ display: "flex", alignItems: "center", marginTop: "20px" }} className="up-down">
       
-      <span ref={totalUpRef} style={{ fontSize: 20 }}>{props.totalCount ? props.totalCount.up : null}</span>
+      <span ref={totalUpRef} style={{ fontSize: 20 }}>{totalCount ? totalCount.up : null}</span>
       <ThumbUpAltIcon
         up={up}
-        onClick={!props.user ? notLoggedIn : upvoted}
+        onClick={!user ? notLoggedIn : upvoted}
         color={clicked ? "disabled" : up ? "primary" : ""}
         fontSize="large"
       />
 
-      <span ref={totalDownRef} style={{ fontSize: 20 }}>{props.totalCount ? props.totalCount.down : null}</span>
+      <span ref={totalDownRef} style={{ fontSize: 20 }}>{totalCount ? totalCount.down : null}</span>
       <ThumbDownAltIcon
         down={down}
-        onClick={!props.user ? notLoggedIn : downvoted}
+        onClick={!user ? notLoggedIn : downvoted}
         color={clicked ? "disabled" : down ? "secondary" : ""}
         fontSize="large"
       />
@@ -73,7 +73,7 @@ function UpvoteDownvote(props) {
      
     //if(!up===true) axios call to add upvote 
     //else axios call to remove upvote
-    axiosCall('post', `${CONFIG.API_DOMAIN}/question/votes/editVote`, {quesId : props.quesId, up : !up, isQues : props.isQues})
+    axiosCall('post', `${CONFIG.API_DOMAIN}/question/votes/editVote`, {quesId : quesId, up : !up, isQues : isQues})
       .then((res) => {
        
         // setUp false in downvoted function ensures that whatever is the state of upvote whether clicked or unclicked
@@ -126,7 +126,7 @@ function UpvoteDownvote(props) {
 
       //if(!down===true) axios call to add downvote 
       //else axios call to remove downvote
-      axiosCall('post', `${CONFIG.API_DOMAIN}/question/votes/editVote`, {quesId : props.quesId, down : !down,isQues : props.isQues})
+      axiosCall('post', `${CONFIG.API_DOMAIN}/question/votes/editVote`, {quesId : quesId, down : !down,isQues : isQues})
         .then((res) => {
             // same as above
           if (res.success) {
