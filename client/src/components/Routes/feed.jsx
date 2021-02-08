@@ -22,7 +22,7 @@ function getRoutes({user, setUser}) {
     'post-question': ()=><PostQuestion user={user} />,
     'profile/:userId*': ({ userId }) => <ProfileRoutes user={user} userId={userId} setUser={setUser}/>,
     'update-profile': ()=> <UpdateProfile />,
-    'viewFullQuestion/:quesId' :({quesId}) => <FullQuestion quesId = {quesId} user={user}/>,
+    'viewFullQuestion/:quesId' :({quesId}) => <FullQuestion quesId = {quesId} user={user} />,
     // 'rankings/:typeofranking':({typeofranking})=><Ranking typeofranking={typeofranking} user={user}/>,
     'rankings':()=><Ranking />,
     'questions/:typeofpage*': ({ typeofpage }) => <TypeOfPageRoutes typeofpage={typeofpage} user={user} />,

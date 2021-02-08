@@ -69,6 +69,8 @@ let AnswerHeadlineDiv = styled.div`
 
 let AnswerBodyDiv = styled.div`
   min-height: 5em;
+  width: 100%;
+  overflow-x: scroll;
   padding: 1em 5px 1em 5px;
   margin: 1em 5px 1em 5px;
   /* background-color: white; */
@@ -84,10 +86,6 @@ let AnswerBottomDiv = styled.div`
 
 let AnswerQuestion = styled.div`
 `;
-let StyledQuestionDiv = styled(QuestionDiv)`
-
-`;
-
 let StyledPostComment = styled(PostComment)`
 
 `;
@@ -164,7 +162,7 @@ function Answer({ answer, user, selectedSatisfactoryAnswer, quesId, satisfactory
       {
         needQuestion &&
         <AnswerQuestion>
-          <StyledQuestionDiv question={ answer.question }/>
+          <QuestionDiv question={ answer.question } className="question-div"/>
         </AnswerQuestion>
       }
 
@@ -172,11 +170,6 @@ function Answer({ answer, user, selectedSatisfactoryAnswer, quesId, satisfactory
         <UpvoteDownvote quesId={answer._id} isQues={false} user={user} totalCount={voteCount} />
         <StyledPostComment answerId={answer._id} user={user} comments={comments} setComments={setComments} />
       </AnswerBottomDiv>
-
-      
-      
-      
-
 
       {
         needComments &&

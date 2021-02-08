@@ -36,7 +36,7 @@ let Reload = styled.div`
 `;
 
 // ==========================================================================================================================
-export default function ({type, selectedCategories, url}) {
+export default function ({type, selectedCategories, url, user}) {
     const [feed, setFeed] = useState({questions:[], current_page: 0 });
     const [hasMore, setHasMore] = useState(true);
     const [reload, setReload] = useState(null);
@@ -92,7 +92,7 @@ export default function ({type, selectedCategories, url}) {
             hasMore={hasMore}
             loader={ <Spinner /> }
         >
-                {feed.questions.map(question => <Question key={question._id} question={question} selectedCategories={selectedCategories}/>)}
+                {feed.questions.map(question => <Question key={question._id} question={question} selectedCategories={selectedCategories} user={user} qtype={1}/>)}
             {reload}
         </StyledInfiniteScroll>
         </>

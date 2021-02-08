@@ -49,13 +49,13 @@ module.exports.answerSerializer = function(ans) {
             down: ans.vote_count.down
         },
         marked: ans.marked,
-        user: {
+        user: ans.userId?{
             _id: ans.userId._id,
             username: ans.userId.username,
             first_name: ans.userId.first_name,
             last_name: ans.userId.last_name,
             profile_image: ans.userId.profile_image
-        },
+        }:null,
         question: {
             _id: ans.quesId._id,
             title: ans.quesId.title,

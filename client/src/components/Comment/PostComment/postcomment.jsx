@@ -60,7 +60,7 @@ export default function PostComment(props){
                     console.log("Not Authenticated");
                 }
                 setSendingComment(false);
-                // navigate("/");
+                navigate(`/answer/${props.answerId}`);
             });
         }
     }

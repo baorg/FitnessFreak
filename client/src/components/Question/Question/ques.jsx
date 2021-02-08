@@ -9,7 +9,8 @@ import { Avatar } from '@material-ui/core';
 import styled from 'styled-components';
 import noimage from '../../../static/noimage.png';
 import BookmarkIcon from '../../BookMark/MyBookMark';
-
+import UpDownVote from './vote';
+import Answers from './answers';
 
 // English.
 import en from 'javascript-time-ago/locale/en'
@@ -136,7 +137,17 @@ let styles = {
 
 
 
-export default function ({question, type, selectedCategories=[]}) { 
+export default function ({question, type, user, selectedCategories=[], qtype=0}) {
+    
+    /*
+        type :- 
+            0 : No Answers
+            1: with Answers
+
+
+    */
+
+
     const timeAgo = new TimeAgo('en');
     let url = "";
     if (type === "answerasked")
@@ -162,10 +173,14 @@ export default function ({question, type, selectedCategories=[]}) {
             <hr/>
             <QuestionHeader>
                 <QuestionCountDiv>
-                    <VoteCount count={question.vote.up - question.vote.down}>
+                    {/* <VoteCount count={question.vote.up - question.vote.down}>
                         <span>{question.vote.up - question.vote.down}</span>
                         <span>vote</span>
-                    </VoteCount>
+                    </VoteCount> */}
+                    <UpDownVote 
+                        quesId={question._id} 
+                        vote={question.vote}
+                    />
                     <VoteCount >
                         <span>{question.answers_count}</span>
                         <span>answers</span>
@@ -180,14 +195,14 @@ export default function ({question, type, selectedCategories=[]}) {
                         <A href={url}><ReadMoreButton>Read More</ReadMoreButton></A>
                     </ReadMoreDiv>
                 </QuestionMainDiv>
-                
-                
             </QuestionHeader>
             <div className="category-container">
                 {question.category.map(category => (
                     <CategorySpan className="category-span" selected={selectedCategories!==null && selectedCategories.some(cat=>cat===category)}>{category}</CategorySpan>
                 ))}
             </div>
+
+            {qtype===1 && <Answers quesId={question._id} user={user}/>}
         </Question>
     );
 }

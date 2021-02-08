@@ -21,7 +21,7 @@ const ContentContainer = styled.div`
 
 // ==================================================================================================
 
-const App = function (props) {
+const App = function ({user, }) {
   const [ selectedCategories, setSelectedCategories ] = useState(null);
   const [ type, setType ] = useState(null);
   const [ path, setPath ] = usePath();
@@ -30,8 +30,10 @@ const App = function (props) {
 
   return (
       <ContentContainer>
-        <LeftNavBar user={props.user} setSelectedCategories={setSelectedCategories} selectedCategories={selectedCategories} />
-        <Content setType={setType} type={type} selectedCategories={selectedCategories} />
+        <LeftNavBar user={user} setSelectedCategories={setSelectedCategories} selectedCategories={selectedCategories} />
+        <Content setType={setType} type={type}
+          selectedCategories={selectedCategories}
+          user={user} />
         <RightNavBar />
       </ContentContainer>
     );

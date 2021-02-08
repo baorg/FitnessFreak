@@ -39,7 +39,7 @@ const Type = styled.div`
 
 // =======================================================================================================
 
-export default function MainLandingPageDiv({ type, selectedCategories, setType }) {
+export default function MainLandingPageDiv({ type, selectedCategories, setType, user }) {
     let [url, setUrl] = useState(`${CONFIG.API_DOMAIN}/feed/get-feed?`);
     
     useEffect(() => {
@@ -80,6 +80,6 @@ export default function MainLandingPageDiv({ type, selectedCategories, setType }
                     <Type selected={type==="Unanswered"} onClick={()=>handleTypeChange("Unanswered")}>Unanswered</Type>
                 </TypeContainer>
             </Margin>
-            <InfiniteScroll type={type} selectedCategories={selectedCategories} url={url}/>
+            <InfiniteScroll type={type} selectedCategories={selectedCategories} url={url} user={user}/>
         </Content>);
 }

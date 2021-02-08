@@ -54,6 +54,9 @@ module.exports = async function(req, res, next) {
         const up = req.body.up;
         const down = req.body.down;
 
+        // let upvoted = false;
+        // let downvoted = false;
+
         const model = getModel(isQues);
         const ques = await model.findById(quesId, 'upDown vote_count userId').exec();
 
