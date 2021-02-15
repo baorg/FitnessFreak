@@ -6,6 +6,7 @@ const isAuthenticated = require('../Middlewares').isAuthenticated;
 
 
 router.get('/get-answer', AnswerHandler.getAnswerById);
-router.post('/get-answer-of-question', AnswerHandler.getAnswersByQuesId);
+router.get('/get-answers-of-question', AnswerHandler.getAnswersByQuesId);
+
 
 module.exports = router;

@@ -20,9 +20,19 @@ let VoteCountDiv = styled.div`
     height: 1.4em;
     border-radius: 10px;
 `;
-// ===============================================================================================
 
-export default function Vote({vote, quesId}){
+// ======================================================================================
+
+export default function Vote({vote, quesId, type=1}){
+
+    /*
+        Type: 
+            0: Answer
+            1: Question
+            2: Comment
+    
+    */
+
     const [votes, setVotes] = useState(vote);
     const [up,setUp]= useState(null);
     const [down,setDown]=useState(null);
@@ -52,7 +62,7 @@ export default function Vote({vote, quesId}){
 
 
     async function fetchUserStatus(){
-        let res = await ajaxRequest('post', `${API_DOMAIN}/question/votes/byUser`, {quesId  :quesId, isQues : true});
+        let res = await ajaxRequest('post', `${API_DOMAIN}/question/votes/byUser`, {quesId  :quesId, isQues : type});
         if(res.data.success){
             console.log('Response: ', res.data.upvote, res.data.downvote);
             setUp(res.data.upvote);
@@ -64,7 +74,11 @@ export default function Vote({vote, quesId}){
         if(up!==null){
             let voted = !up;
             setUp(null);
-            let res = await ajaxRequest('post', `${API_DOMAIN}/question/votes/editVote`, {isQues: true, quesId: quesId, up: voted});
+            let res = await ajaxRequest('post', `${API_DOMAIN}/question/votes/editVote`, 
+                {
+                    isQues: type,
+                    quesId: quesId,
+                    up: voted});
 
             if(res.data.success){
                 if(res.data.is_saved){
@@ -86,7 +100,12 @@ export default function Vote({vote, quesId}){
             let voted = !down;
             
             setDown(null);
-            let res = await ajaxRequest('post', `${API_DOMAIN}/question/votes/editVote`, {isQues: true, quesId: quesId, down: voted});
+            let res = await ajaxRequest('post', `${API_DOMAIN}/question/votes/editVote`, 
+                {
+                    isQues: type, 
+                    quesId: quesId, 
+                    down: voted
+                });
 
             if(res.data.success){
                 if(res.data.is_saved){

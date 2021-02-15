@@ -1,12 +1,54 @@
 import React,{useState} from "react"
-import axiosCall from "../../../ajaxRequest"
 import {navigate} from "hookrouter"
-import notLoggedIn from "../../../notloggedin";
+import styled from 'styled-components'
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { Button, TextField } from '@material-ui/core';
 
-import CONFIG from '../../../config';
+import notLoggedIn from "../../../../notloggedin";
+import CONFIG from '../../../../config';
+import axiosCall from "../../../../ajaxRequest"
+
+
+// Styled Components ========================================================================================
+
+let CommentDiv = styled.div`
+    width: 100%;
+    height: 3em;
+    background-color: #d8d8d8;
+    border-radius: 10px;
+    padding: 0 10px 0 10px;
+    display: flex;
+    align-items: center;
+    
+    .inpt{
+        flex: 1;
+        background-color: transparent;
+        border-style: hidden;
+        border-left-style: hidden;
+        height: 2.5em;
+
+        :focus{
+            outline: none;
+        }
+    }
+
+    .submit-btn{
+        font-size: 1em;
+        text-transform: none;
+    }
+`;
+
+let SubmitBtn = styled.button`
+
+`;
+// ========================================================================================================
+
+
+
+
+
+
 
 export default function PostComment(props){
     // const [comment, setComment] = useState("")
@@ -16,23 +58,22 @@ export default function PostComment(props){
 
     return (
         <form onSubmit={postComment} className="comment-form">
-            <TextField
-                value={editorData}
-                onChange={handleChangeTextField}
-                color="primary"
-                fullWidth={true}
-                variant="outlined"
-                label="Add Your Comment"
-                className="inpt"
-            />
-            <Button
-                disabled={props.user === null || editorData.length === 0 || sendingComment}
-                variant="contained"
-                color="primary"
-                type="submit"
-                onClick={!props.user ? notLoggedIn : null}
-                className="submit-btn"
-                style={{ margin: "10px" }}>Post</Button>
+            <CommentDiv>
+                <input 
+                    value={editorData}
+                    onChange={handleChangeTextField}
+                    placeholder="Add Your Comment"
+                    className="inpt"
+                >
+                </input>
+                <Button 
+                    className="submit-btn"
+                    disabled={props.user === null || editorData.length === 0 || sendingComment}
+                    color="primary"
+                    type="submit"
+                    onClick={!props.user ? notLoggedIn : null}    
+                >comment</Button>
+            </CommentDiv>
         </form>
     );
 
@@ -76,15 +117,3 @@ export default function PostComment(props){
 
    
 }
-
-// { <textarea placeholder="Write your comment" value = {comment} onChange = {handleChange} onClick={props.user===null?notLoggedIn:null}></textarea> }
-// { <button type={props.user===null?"button":"submit"} onClick={props.user===null?notLoggedIn:null}>Post</button> }
-/* <CKEditor
-                editor={ClassicEditor}
-                config={{
-                  toolbar: ['heading', '|', 'bold', 'italic', 'blockQuote', 'numberedList', 'bulletedList', '|', 'undo', 'redo', 'Link']
-                }}
-                onChange={!props.user ? notLoggedIn : handleEditorChange}
-                data=""
-                maxHeight="10em"
-            /> */

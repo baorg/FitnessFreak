@@ -5,6 +5,9 @@ const { AnswerSerializers } = require('../../Serializers');
 async function getAnswersByQuesId(req, res, next) {
     let data = [];
     let err = false;
+
+    console.log('Trying to get answers.......');
+
     try {
         const { quesId } = req.query;
 
@@ -25,8 +28,9 @@ async function getAnswersByQuesId(req, res, next) {
                 return 1;
             }
         });
-        res.data.success = true;
-        res.data.answers = getArrayOfAns(answers, "answer");
+        
+        res.data.success = true;       
+        res.data.answers = AnswerSerializers.answerSerializer(answers, user=req.user, queestion=false, many=true);
     } catch (err) {
         console.error("ERROR:", err);
         res.data.success = false;
@@ -54,8 +58,8 @@ async function getAnswerById(req, res, next) {
             select: 'username first_name last_name profile_image'
         }];
 
-        let answer = await Ans.findOne({ _id: ansId }, 'vote_count answer quesId userId marked').populate(obj).exec();
-
+        let answer = await Ans.findOne({ _id: ansId }, 'vote_count answer quesId userId marked upDown').populate(obj).exec();
+        
         if (answer) {
             res.data.success = true;
             res.data.answer = AnswerSerializers.answerSerializer(answer);

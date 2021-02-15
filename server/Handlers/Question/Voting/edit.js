@@ -60,48 +60,53 @@ module.exports = async function(req, res, next) {
         const model = getModel(isQues);
         const ques = await model.findById(quesId, 'upDown vote_count userId').exec();
 
-        let arr = ques.upDown
-        let index = getIndex(arr, userId);
-        let value = (up === undefined) ? -1 : 1;
-        let obj = { userId, value };
+        console.log(quesId, '  ', model,'  ', isQues, ' |  Ques: ', ques);
+        if(ques){
+            let arr = ques.upDown;
+            let index = getIndex(arr, userId);
+            let value = (up === undefined) ? -1 : 1;
+            let obj = { userId, value };
 
-        //changes
-        const whoPostedId = String(ques.userId);
-        const name = isQues == 2 ? "upvoteOnComment" : "upvote";
-        const property = isQues == 2 ? "Comment" : isQues ? "Question" : "Answer"
-        let sign = value
+            //changes
+            const whoPostedId = String(ques.userId);
+            const name = isQues == 2 ? "upvoteOnComment" : "upvote";
+            const property = isQues == 2 ? "Comment" : isQues ? "Question" : "Answer"
+            let sign = value
 
-        // if already in the array
-        if (index != -1) {
-            const typeOfValue = isUpvoted(arr, index) ? down : up;
-            const typeOfVote = isUpvoted(arr, index) ? "upvote" : "downvote";
-            //Adding Score to the database
-            sign = isUpvoted(arr, index) ? -1 : 1;
-            setData(arr, index, obj, typeOfValue, -1)
-            setVoteCount(ques, typeOfVote, typeOfValue)
-        }
-
-        // if absent in the array
-        else {
-            arr.push(obj);
-            const typeOfVote = (up === undefined) ? "downvote" : "upvote";
-            ques.vote_count[typeOfVote]++;
-        }
-
-        let user = await User.findById(whoPostedId).exec();
-        if (user && userId != whoPostedId) {
-            addScore(user, "totalScore", sign * score[name])
-            if (sign > 0) {
-                // const username = await User.findUserByUserId(userId);
-                // user.notifications.push(`${username} has upvoted your ${property}`);
-                createNotification(user._id, userId, 4, quesId);
+            // if already in the array
+            if (index != -1) {
+                const typeOfValue = isUpvoted(arr, index) ? down : up;
+                const typeOfVote = isUpvoted(arr, index) ? "upvote" : "downvote";
+                //Adding Score to the database
+                sign = isUpvoted(arr, index) ? -1 : 1;
+                setData(arr, index, obj, typeOfValue, -1)
+                setVoteCount(ques, typeOfVote, typeOfValue)
             }
-            await user.save();
+
+            // if absent in the array
+            else {
+                arr.push(obj);
+                const typeOfVote = (up === undefined) ? "downvote" : "upvote";
+                ques.vote_count[typeOfVote]++;
+            }
+
+            let user = await User.findById(whoPostedId).exec();
+            if (user && userId != whoPostedId) {
+                addScore(user, "totalScore", sign * score[name])
+                if (sign > 0) {
+                    // const username = await User.findUserByUserId(userId);
+                    // user.notifications.push(`${username} has upvoted your ${property}`);
+                    createNotification(user._id, userId, 4, quesId);
+                }
+                await user.save();
+            }
+            await ques.save()
+
+            format_response(res, { success:true, is_saved: true, vote: ques.vote_count }, true);
+        }else{
+            format_response(res, {is_saved: false, error: 'Invalid id'}, false);
         }
-        await ques.save()
-
-        format_response(res, { success:true, is_saved: true, vote: ques.vote_count }, true);
-
+        
     } catch (err) {
         console.error('ERROR  :', err);
         format_response(res, {success: false, vote: ques.vote_count }, false);

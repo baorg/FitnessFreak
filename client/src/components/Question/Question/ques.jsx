@@ -10,7 +10,7 @@ import styled from 'styled-components';
 import noimage from '../../../static/noimage.png';
 import BookmarkIcon from '../../BookMark/MyBookMark';
 import UpDownVote from './vote';
-import Answers from './answers';
+import Answers from './Answers';
 
 // English.
 import en from 'javascript-time-ago/locale/en'
@@ -173,10 +173,6 @@ export default function ({question, type, user, selectedCategories=[], qtype=0})
             <hr/>
             <QuestionHeader>
                 <QuestionCountDiv>
-                    {/* <VoteCount count={question.vote.up - question.vote.down}>
-                        <span>{question.vote.up - question.vote.down}</span>
-                        <span>vote</span>
-                    </VoteCount> */}
                     <UpDownVote 
                         quesId={question._id} 
                         vote={question.vote}
