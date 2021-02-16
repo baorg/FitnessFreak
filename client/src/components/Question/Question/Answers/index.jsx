@@ -1,5 +1,6 @@
 import React,{useEffect, useState} from 'react';
 import styled from 'styled-components';
+import { navigate } from 'hookrouter';
 import { TextField, Button } from '@material-ui/core';
 
 import Answer from './answer';
@@ -122,6 +123,18 @@ export default function Answers({quesId, user}){
     async function submitAnswer(){
         if(submitAnswerDisabled===false){
             // Submit answer .....................
+            setSubmitAnswerDisabled(true);
+            try{
+                let res = await ajaxRequest('POST', `${API_DOMAIN}/question/post-answer`, {
+                    quesId: quesId,
+                    answer: answerInput
+                });
+                if(res.data.success){
+                    navigate(`viewFullQuestion/${quesId}`);
+                }
+            }catch(err){
+                setSubmitAnswerDisabled(false);
+            }
         }
     }
 

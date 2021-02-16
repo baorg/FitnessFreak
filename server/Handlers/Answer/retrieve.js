@@ -15,7 +15,7 @@ async function getAnswersByQuesId(req, res, next) {
             path: 'userId',
             model: User,
             options: {
-                select: 'username first_name last_name'
+                select: 'username first_name last_name profile_image'
             },
         }
         const answers = await Ans.find({ quesId: quesId }).populate(obj).exec();

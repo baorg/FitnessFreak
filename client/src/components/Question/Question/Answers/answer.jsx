@@ -55,6 +55,10 @@ let AnswerHeadlineDiv = styled.div`
         margin-top: 0;
         font-size: 0.8em;
       }
+
+      .user-fullname-deleted{
+        color: #5f5f5f;
+      }
     }
   }
 
@@ -127,9 +131,9 @@ function Answer({ answer, user }) {
           <div className="user-info-div">
           {answer.user === null ?
             <><Avatar />
-            <div className='ans-prompt'>Answered by </div>
             <div className='user-name-div'>
-              <div className='user-fullname'>[ deleted ]</div>
+              <div className='ans-prompt'>Answered by </div>
+              <div className='user-fullname user-fullname-deleted'>[ deleted ]</div>
             </div></> :
             <><Avatar className="user-avatar" src={answer?.user.profile_image} />
             <div className='user-name-div'>
