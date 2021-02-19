@@ -89,7 +89,7 @@ export default function Answers({quesId, user}){
                 <input 
                     value={answerInput}
                     onChange={(el)=>setAnswerInput(el.target.value)}
-                    placeholder="Add Your Comment"
+                    placeholder="write your Answer "
                     className="cmmnt-text inpt"
                 >
                 </input>

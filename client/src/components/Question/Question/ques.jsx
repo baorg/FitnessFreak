@@ -83,8 +83,14 @@ let QuestionTitle = styled.div`
 `;
 let QuestionPreviewDiv = styled.div`
     width: 100%;
-    max-height: 15em;
-    overflow: hidden;
+    max-height: 25em;
+    overflow: scroll;
+    font-style: bold;
+
+    .question-content{
+        color: black;
+        text-decoration: none;
+    }
 `;
 
 let ReadMoreDiv = styled.div`
@@ -186,10 +192,12 @@ export default function ({question, type, user, selectedCategories=[], qtype=0})
                     {/* <QuestionTitle>
                     <A href={url}>{question.title}</A>
                     </QuestionTitle> */}
-                    <QuestionPreviewDiv dangerouslySetInnerHTML={{ __html: question.question }} />
-                    <ReadMoreDiv>
+                    <QuestionPreviewDiv>
+                        <A className="question-content" dangerouslySetInnerHTML={{ __html: question.question }}  href={url} />
+                    </QuestionPreviewDiv>
+                    {/* <ReadMoreDiv>
                         <A href={url}><ReadMoreButton>Read More</ReadMoreButton></A>
-                    </ReadMoreDiv>
+                    </ReadMoreDiv> */}
                 </QuestionMainDiv>
             </QuestionHeader>
             <div className="category-container">
