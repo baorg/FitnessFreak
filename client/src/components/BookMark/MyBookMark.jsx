@@ -36,12 +36,17 @@ export default function Bookmark(props) {
       });
   }, [ quesId ]);
 
-  return (bookmarkVis && <BookmarkIcon
-                        className="bookmark-icon"
+  return (bookmarkVis && (marked? 
+                      <BookmarkIcon
+                        className="bookmark-icon icon"
                         onClick={saveBookMark}
-                        marked={marked}
                         color={marked === null ? 'disabled' : marked === true ? 'primary' : 'action'}
-                      />);
+                      />: 
+                      <BookmarkBorderIcon
+                        className="bookmark-icon icon"
+                        onClick={saveBookMark}
+                        color={marked === null ? 'disabled' : marked === true ? 'primary' : 'action'}
+                      />));
 
   function saveBookMark() {
     if (marked !== null && bookmarkVis) {

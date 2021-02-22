@@ -20,16 +20,20 @@ async function refreshFeed() {
         }]);
 
     //  Debug ------------------------------------------------------
-    console.log('FollowingQuestions: ', followingQuestions.length);
-    console.log('TopQuestions:', topQuestions.length);
+    // console.log('FollowingQuestions: ', followingQuestions.length);
+    // console.log('TopQuestions:', topQuestions.length);
     // --------------------------------------------------------------
 
 
     let new_feed = followingQuestions.map(q => q._id); // Feed list with new questions.
     let questions_count = new_feed.length; // Count of questions in new feed.
 
+    // console.log('New Feed:', new_feed);
+    // console.log('QuestionsCount: ', questions_count);
+
     // To add unique questions only.
     let feedSet = new Set(new_feed.map(q => q.toString()));
+
 
     // Adding top-questions to our feed list.
     for (var i = 0; i < topQuestions.length; i++) {
@@ -58,7 +62,7 @@ async function refreshFeed() {
     this.feed = new_feed;
 
     await this.save();
-    return this.feed;
+    return {feed: this.feed, last_updated: this.feed_last_updated};
 }
 
 async function getFeed(skip, count, select = 'title', populate = []) {

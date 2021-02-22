@@ -19,14 +19,14 @@ module.exports = async function(req, res, next) {
             }]);
 
         if (current_timestamp - last_updated >= 6 * 60 * 60 * 1000) {
-            await user.refreshFeed();
-            feed = await req.user.getFeed(
+            await user.refreshFeed();            
+            feed = (await req.user.getFeed(
                 (page - 1) * count, count,
                 'vote_count title question userId tags categoryName created_at answers_count', [{
                     path: 'userId',
                     model: User,
                     select: 'username profile_image first_name last_name'
-                }]).feed;
+                }])).feed;
         }
         questions = feed;
     } else {
@@ -39,6 +39,7 @@ module.exports = async function(req, res, next) {
             }, ]
         );
     }
+    console.log("Feed Questions: ", questions.length);
     questions = questions.map(question => QuestionSerializers.feedQuestionSerializer(question));
     res.data.questions = questions;
     res.data.success = true;

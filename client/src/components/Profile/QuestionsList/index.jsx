@@ -37,7 +37,7 @@ let NoQuestionDiv = styled.div`
 `;
 
 // ================================================================================================================
-export default function QuestionsList({profileUser}) {
+export default function QuestionsList({profileUser, user}) {
     const [questions, setQuestions] = useState([]);
     const [hasMore, setHasMore] = useState(true);
 
@@ -62,7 +62,7 @@ export default function QuestionsList({profileUser}) {
                     <SentimentVeryDissatisfied />
                     <div>No Questions asked</div>
                 </div> :
-                questions.map(ques => <Question key={ques._id} question={ques} />)}
+                questions.map(ques => <Question key={ques._id} question={ques} user={user} />)}
         </QuestionsListDiv>
     );
 

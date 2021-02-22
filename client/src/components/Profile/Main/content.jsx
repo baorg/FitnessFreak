@@ -57,7 +57,7 @@ let FollowingButton = styled(btn)`
 
 // =================================================================================================================================================
 
-export default function Content(props) {
+export default function Content({ user, profileUser }) {
     const [activeListType, setActiveListType] = useState('question');
 
     function changeList(type) {
@@ -100,11 +100,11 @@ export default function Content(props) {
 
             {
                 activeListType === 'question' ?
-                    <QuestionsList profileUser={props.profileUser} />
+                    <QuestionsList profileUser={profileUser} user={user}/>
                     : activeListType === 'answer' ?
-                        <AnswersList profileUser={props.profileUser} />
+                        <AnswersList profileUser={profileUser} />
                         : activeListType === 'bookmarks' ?
-                            <BookmarksList profileUser={props.profileUser} />
+                            <BookmarksList profileUser={profileUser} />
                             : <></>
             }
         </ProfileContent>
@@ -113,7 +113,7 @@ export default function Content(props) {
 
 {/* 
 :activeListType === 'followers' ?
-                            <FollowersList profileUser={props.profileUser} />
+                            <FollowersList profileUser={profileUser} />
                             : activeListType === 'following' ?
-                                <FollowingsList profileUser={props.profileUser} />
+                                <FollowingsList profileUser={profileUser} />
                                 : <></> */}

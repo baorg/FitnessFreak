@@ -36,22 +36,22 @@ const ProfileDiv = styled.div`
 
 
 
-export default function Profile(props) {
+export default function Profile({ user, userId, setUser }) {
     const [profileUser, setProfileUser] = useState(null);
     const [editProfile, setEditProfile] = useState(false);
 
     useEffect(() => {
         async function getUserData() {
-            let res = await ajaxRequest('POST', `${CONFIG.API_DOMAIN}/users/get-userdata-id`, { user_id: props.userId });
+            let res = await ajaxRequest('POST', `${CONFIG.API_DOMAIN}/users/get-userdata-id`, { user_id: userId });
             res.data.user.own_profile = false;
-            if (res.data.user._id === props.user?._id) {
+            if (res.data.user._id === user?._id) {
                 res.data.user.own_profile = true;
             }
             console.log('OWN PROFILE: ', res.data.user.own_profile);
             setProfileUser(res.data.user);
         }
         getUserData();
-    }, [props.user, props.userId]);
+    }, [user, userId]);
 
     return (
         <>
@@ -61,7 +61,7 @@ export default function Profile(props) {
                     {profileUser ?
                         <Main
                             profileUser={profileUser}
-                            user={props.user}
+                            user={user}
                             setEditProfile={setEditProfile}
                             editProfile={editProfile}
                         />
@@ -73,8 +73,8 @@ export default function Profile(props) {
                 <EditProfile
                     setOpen={setEditProfile}
                     open={editProfile}
-                    user={props.user}
-                    setUser={props.setUser}
+                    user={user}
+                    setUser={setUser}
                 />}
         </>);
 }
