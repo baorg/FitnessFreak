@@ -9,6 +9,7 @@ import QuestionHeaderMenu from './menu';
 
 let QuestionHeader = styled.div`
     display: flex;
+    align-items: center;
 
     .icon-div{
         margin-left: auto;
@@ -27,32 +28,38 @@ let PostedName = styled.div`
     margin-left: 5px;
 `;
 
-let PostedDate = styled.div`
-    font-size: 0.7em;
-    color: #8f8f8f;
-`;
-
 let NameDiv = styled.div`
+
+    .posted-by{
+        font-size: 0.9rem;
+        color: #555;
+    }
     
+    .posted-by-name{
+        font-size: 1.2em;
+    }
+
+    .deleted-name{
+        color: #333;
+    }
 `;
 
 // =====================================================
 
 
 export default function Header({ question, user=null }){
-    return (<QuestionHeader>
+    return (
+    <QuestionHeader>
         <Avatar 
             alt={`${question.user&&question.user.username || 'unknown'}s_profile_image`} 
             src={question.user&&question.user.profile_image}/>
             <PostedName>
                 <NameDiv>
+                    <span className="posted-by">Posted by</span>
                     {question.user ?
-                        <A href={`/profile/${question.user._id || question.user.userId}`}> {question.user.first_name} {question.user.last_name}</A>
-                            : "[deleted]"}
+                        <A className="posted-by-name" href={`/profile/${question.user._id || question.user.userId}`}> {question.user.username}</A>
+                            :<span className="posted-by-name deleted-name">[deleted]</span>}
                 </NameDiv>
-                <PostedDate>
-                    { new Date(question.posted_at).toLocaleString('en-US', {day: 'numeric', year: 'numeric', month: 'long'}) }
-                </PostedDate>
             </PostedName>
             <div className="icon-div">
                 <BookmarkIcon 
@@ -60,5 +67,5 @@ export default function Header({ question, user=null }){
                     quesId={ question._id}/>
                 <QuestionHeaderMenu user={user} question={question}/>
             </div>
-        </QuestionHeader>);
+    </QuestionHeader>);
 }

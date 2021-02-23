@@ -1,7 +1,7 @@
 import React from "react"
 import { A } from 'hookrouter';
 import TimeAgo from 'javascript-time-ago';
-
+import { Divider } from '@material-ui/core';
 
 import UpvoteDownvote from "../../UpvoteDownvote/upvoteDownvote";
 
@@ -30,6 +30,11 @@ let Question = styled.div`
     border-style: solid;
     width: 100%;
     padding: 4px;
+
+
+    .divider{
+        color: #444;
+    }
 `;
 
 
@@ -69,7 +74,7 @@ export default function ({question, type, user, selectedCategories=[], qtype=0})
             <QuestionHeader 
                 question={question} 
                 user={user}/>
-            <hr/>
+            <Divider className="divider" />
             <QuestionContent 
                 question={question} 
                 url={url}

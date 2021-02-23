@@ -45,15 +45,15 @@ let AnswerHeadlineDiv = styled.div`
 
     .user-name-div{
       margin-left: 5px;
-      
-      .user-fullname{
-        color: black;
-        font-size: 1.2em;
-      }
+      display: flex;
+      align-items: center;
 
       .user-username{
-        margin-top: 0;
-        font-size: 0.8em;
+          margin-left: 2px;
+      }
+
+      .deleted{
+        color: #888;
       }
 
       .user-fullname-deleted{
@@ -111,6 +111,15 @@ let AnswerBottomDiv = styled.div`
     }
   }
 `;
+
+let PostedDate = styled.div`
+    font-size: 1.1em;
+    color: #666;
+    margin-left: auto;
+    text-align: right;
+`;
+
+
 // ===========================================================================================================
 
 
@@ -121,30 +130,22 @@ function Answer({ answer, user }) {
   const [comments,setComments] = useState([]);
   const [voteCount, setVoteCount] = useState(null);
 
-    useEffect(() => {
-        fetchComments();
-    }, [ answer ]);
+  // useEffect(() => {
+  //     fetchComments();
+  // }, [ answer ]);
 
   return (
     <AnswerDiv>
       <AnswerHeadlineDiv>
           <div className="user-info-div">
-          {answer.user === null ?
-            <><Avatar />
-            <div className='user-name-div'>
-              <div className='ans-prompt'>Answered by </div>
-              <div className='user-fullname user-fullname-deleted'>[ deleted ]</div>
-            </div></> :
-            <><Avatar className="user-avatar" src={answer?.user.profile_image} />
-            <div className='user-name-div'>
-              <div className='ans-prompt'>Answered by </div>
-              <div className='user-fullname'>{answer.user.first_name} {answer.user.last_name}</div>
-              <A href={`/profile/${answer.user._id}`} className='user-username'>@{ answer.user.username }</A>
-            </div></>
-          }
-        </div>
-        
-        
+          <Avatar src={answer.user&&answer.user.profile_image}/>
+          <div className='user-name-div'>
+            <div className='ans-prompt'>Answered by </div>
+              {answer.user ?
+                <A href={`/profile/${answer.user._id}`} className='user-username'>{ answer.user.username }</A>
+                : <div className='user-username deleted'>[ deleted ]</div>}
+            </div>
+          </div>
         {answer.marked &&
           <div className='verified-check'>
             <VerifiedUser style={{ color: "green" }} />
@@ -159,7 +160,12 @@ function Answer({ answer, user }) {
           <AnswerBodyDiv>
             <div dangerouslySetInnerHTML={{ __html:answer.answer}} />
           </AnswerBodyDiv>
+
         </AnswerContentDiv>
+        
+        {/* <PostedDate>
+            - { new Date(answer.posted_at).toLocaleString('en-US', {day: 'numeric', year: 'numeric', month: 'long'}) }
+          </PostedDate>  */}
 
         <AnswerBottomDiv>
             <PostComment answerId={answer._id} user={user} comments={comments} setComments={setComments} />
@@ -168,12 +174,14 @@ function Answer({ answer, user }) {
     </AnswerDiv>
   );
     
+    /*
     async function fetchComments(){
         const obj = { up: answer.vote_count.upvote, down: answer.vote_count.downvote };
         setVoteCount(obj);
         let res = await ajaxRequest("get", `${API_DOMAIN}/question/get-comments-of-answer?answerId=${answer._id}`);
         setComments(res.data.comments);
     }
+    */
 
   function deleteAnswer(){
     if (window.confirm("Are you sure you want to delete your answer")) {

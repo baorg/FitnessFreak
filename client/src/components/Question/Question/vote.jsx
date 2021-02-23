@@ -19,6 +19,10 @@ let VoteCountDiv = styled.div`
     text-align: center;
     height: 1.4em;
     border-radius: 10px;
+
+    .vote-btn{
+        cursor: pointer;
+    }
 `;
 
 // ======================================================================================
@@ -50,12 +54,14 @@ export default function Vote({vote, quesId, type=1}){
           color={up===null? "disabled": (up ? "primary" : "")}
           fontSize="large"
           onClick={upvote}
+          className="vote-btn"
         />
         <VoteCountDiv count={votes.up-votes.down}>{votes.up - votes.down}</VoteCountDiv>
         <ThumbDownAlt
           color={down===null? "disabled" : down ? "secondary" : ""}
           fontSize="large"
           onClick={downvote}
+          className="vote-btn"
         />
       </VoteDiv>
     );

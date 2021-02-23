@@ -46,6 +46,9 @@ let VoteCount = styled.div`
     color: #555555;
 `;
 
+let CategoryContainer = styled.div`
+    display: flex;
+`;
 
 
 let CategorySpan = styled.span`
@@ -58,6 +61,12 @@ let CategorySpan = styled.span`
     border-radius: 6px;
 `;
 
+
+let PostedDate = styled.div`
+    font-size: 1.1em;
+    color: #666;
+    margin-left: auto;
+`;
 
 //=======================================================
 
@@ -85,11 +94,17 @@ export default function Content({ question, selectedCategories, url }){
                 </QuestionPreviewDiv>
             </QuestionMainDiv>
         </QuestionContent>
-        <div className="category-container">
+        <CategoryContainer>
                 {question.category.map(category => (
                     <CategorySpan className="category-span" selected={selectedCategories!==null && selectedCategories.some(cat=>cat===category)}>{category}</CategorySpan>
                 ))}
-            </div>
+
+
+                <PostedDate>
+                    - { new Date(question.posted_at).toLocaleString('en-US', {day: 'numeric', year: 'numeric', month: 'long'}) }
+                </PostedDate> 
+        </CategoryContainer>
         </>
     );
 }
+

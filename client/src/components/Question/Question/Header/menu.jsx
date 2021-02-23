@@ -37,7 +37,7 @@ export default function QuestionHeaderMenu({ user, question}){
               onClose={collapse}
             >  
                 <MenuItem>Report</MenuItem>
-              {user&&user._id===question.user._id && <MenuItem >Delete</MenuItem>}
+              {user&&question.user&&user._id===question.user._id && <MenuItem >Delete</MenuItem>}
             </StyledMenu>
         </>
     );
