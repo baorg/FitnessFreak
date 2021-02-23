@@ -49,7 +49,7 @@ module.exports.answerSerializer = function(ans, user=null, question=true, many=f
                 down: ans.vote_count.downvote
             },
             marked: ans.marked,
-            my_vote: ans.upDown.find(upd=>upd.userId === user?.id),
+            my_vote: ans.upDown.find(upd=>user&&upd.userId === user.id),
             user: ans.userId?{
                 _id: ans.userId._id,
                 username: ans.userId.username,
