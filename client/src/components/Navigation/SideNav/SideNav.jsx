@@ -43,19 +43,9 @@ const SideNavBar = function(props) {
             )
       }
       fun(); 
-    },[])
-    function hover() {
-      document.querySelector('.categorybox').style.display='inline-block';
-    }
-    function unhover(){
-      document.querySelector('.categorybox').style.display='none';
-    }
-    function hover2() {
-      document.querySelector('.rankingbox').style.display='inline-block';
-    }
-    function unhover2(){
-      document.querySelector('.rankingbox').style.display='none';
-    }
+    },[]);
+
+
   return (
     <SideNavContainer>
       {categories.map(category =>
@@ -67,6 +57,20 @@ const SideNavBar = function(props) {
           </li>
         )}
     </SideNavContainer>);
+
+
+  function hover() {
+      document.querySelector('.categorybox').style.display='inline-block';
+  }
+  function unhover(){
+    document.querySelector('.categorybox').style.display='none';
+  }
+  function hover2() {
+    document.querySelector('.rankingbox').style.display='inline-block';
+  }
+  function unhover2(){
+    document.querySelector('.rankingbox').style.display='none';
+  }
 }
 
 export default SideNavBar;

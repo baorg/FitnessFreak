@@ -8,9 +8,13 @@ import {API_DOMAIN} from '../../../config';
 // Styled Components =============================================================================
 
 let VoteDiv = styled.div`
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-items: space-evenly;
+    margin: 1em 0 0.5em 0.5em;
+
 `;
 
 let VoteCountDiv = styled.div`
@@ -19,6 +23,7 @@ let VoteCountDiv = styled.div`
     text-align: center;
     height: 1.4em;
     border-radius: 10px;
+    margin: 0.5em 0 0.5em 0;
 
     .vote-btn{
         cursor: pointer;
@@ -56,7 +61,7 @@ export default function Vote({vote, quesId, type=1}){
           onClick={upvote}
           className="vote-btn"
         />
-        <VoteCountDiv count={votes.up-votes.down}>{votes.up - votes.down}</VoteCountDiv>
+        <VoteCountDiv count={votes.up-votes.down}>{Math.abs(votes.up - votes.down)}</VoteCountDiv>
         <ThumbDownAlt
           color={down===null? "disabled" : down ? "secondary" : ""}
           fontSize="large"

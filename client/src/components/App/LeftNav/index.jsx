@@ -1,38 +1,63 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { A } from 'hookrouter';
 import styled from 'styled-components';
-import { FaceRounded } from '@material-ui/icons'
+
+// Material-UI ----------------------------------------
+
+import Drawer from '@material-ui/core/Drawer';
+import Button from '@material-ui/core/Button';
+
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 
+import  FaceRoundedIcon from '@material-ui/icons/FaceRounded';
+
+
+
+// ------------------------------------------------------------------
 // import axiosCall from '../../../ajaxRequest';
 // import CONFIG from '../../../config';
 import Category from './category';
 
 
+import { NavContext } from '../../utils/NavContext';
+import { UserContext } from '../../utils/UserContext';
 // Styled Components =================================================================
 
 const SideNavContainer = styled.div`
     /* position: fixed; */
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     grid-column: 1 / 2;
     justify-self: center;
-    top: 10em;
+    top: ${({drawer})=>drawer?"3em":"8em"};
     position: sticky;
-    height: 100vh;
+    height: 80vh;
+    min-height: fit-content;
     box-sizing: border-box;
-
     .link{
       margin-left: 10px;
       font-size: 1.5em;
+    }
+
+    .category-list{
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: center;
+      overflow: scroll;
+      padding: 10px 0 10px 0;
+      min-height: min-content;
+      font-size: 1.2em;
     }
 `;
 
 // ======================================================================================
 
 
-const SideNavBar = function ({ user, setSelectedCategories, selectedCategories }) {
+const SideNavBar = function ({ setSelectedCategories, selectedCategories }) {
   const [categories, setCategories] = useState([
     { name: 'Beauty', icon: 'https://www.flaticon.com/svg/static/icons/svg/599/599560.svg', alt: 'Nail polish', title: 'Nail polish' },
     { name: 'Fashion', icon: 'https://www.flaticon.com/svg/static/icons/svg/3050/3050253.svg', alt: 'Dress free icon', title: 'Dress free icon' },
@@ -44,43 +69,23 @@ const SideNavBar = function ({ user, setSelectedCategories, selectedCategories }
     { name: 'Yoga', icon: 'https://www.flaticon.com/svg/static/icons/svg/2647/2647625.svg', alt: 'Lotus free icon', title: 'Lotus free icon' },
     { name: 'Entertainment', icon: 'https://www.flaticon.com/svg/static/icons/svg/3163/3163478.svg', alt: 'Popcorn free icon', title: 'Popcorn free icon' }
   ]);
-  // const [ranking, setRanking] = useState([]);
-  // const [categories, setCategories] = useState([]);
+
   
-    
-  // useEffect(() => {
-  //     let url = `${CONFIG.API_DOMAIN}/Question/getCategory`
-  //     async function fun() {
-  //         await axiosCall('GET', url)
-  //             .then(function (resp) {
-  //                 let b = JSON.parse(JSON.stringify(resp.data));
-  //                 setCategories(b);
-  //                 let a = resp.data;
-  //                 a.push("Total", "Followers");
-  //                 setRanking(a);
-  //             }
-  //             )
-  //     }
-  //     fun();
-  // }, []);
-    
+  const [user, ] = useContext(UserContext)
+  const [leftNavActive, setLeftNavActive] = useContext(NavContext).leftnav;
+  const matches = useMediaQuery('(max-width:800px)');
+
+
+
+  
   return (
-    <SideNavContainer>
-      <div>
-        <FaceRounded />
-        <A className="link" href="/rankings">Users</A>
-      </div>
-      <hr style={{ height: "2px", color: "black", width: "100%" }} />
-      <div>
-        {categories.map(category =>
-          <Category
-            selected={selectedCategories!==null && selectedCategories.some(cat => cat === category.name)}
-            category={category}
-            handleChange={(event) => handleCategoryCheck(category.name, event.target.checked)}
-          />
-        )}
-      </div>
-    </SideNavContainer>);
+      matches ? 
+        <Drawer open={leftNavActive} onClose={closeLeftnav}>
+          <LeftNavContent />
+        </Drawer>:
+      <LeftNavContent />
+      
+    );
   
   function handleCategoryCheck(category, checked) {
     if (checked) {
@@ -96,6 +101,30 @@ const SideNavBar = function ({ user, setSelectedCategories, selectedCategories }
         setSelectedCategories(result);
     }
   }
+  function closeLeftnav(){
+    setLeftNavActive(false);
+  }
+
+  function LeftNavContent(){
+    return (
+      <SideNavContainer drawer={matches}>
+        <div>
+          <FaceRoundedIcon />
+          <A className="link" href="/rankings">Users</A>
+        </div>
+        <hr style={{ height: "2px", color: "black", width: "100%" }} />
+        <div className="category-list">
+          {categories.map(category =>
+            <Category
+              selected={selectedCategories!==null && selectedCategories.some(cat => cat === category.name)}
+              category={category}
+              handleChange={(event) => handleCategoryCheck(category.name, event.target.checked)}
+            />
+          )}
+        </div>
+      </SideNavContainer>);
+  }
+  
 
   // function hover() {
   //     document.querySelector('.categorybox').style.display='inline-block';

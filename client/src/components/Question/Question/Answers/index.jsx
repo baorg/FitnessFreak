@@ -11,7 +11,7 @@ import {API_DOMAIN} from '../../../../config';
 
 let AnswersDiv = styled.div`
     margin: 20px 10px 20px 10x;
-    width: 700px;
+    width: 100%;
     max-height: 500px;
     overflow: scroll;
 `;
@@ -32,10 +32,10 @@ let AnswerInput = styled.div`
 
 let StyledAnswer = styled(Answer)`
     width: 100%;
-    max-width: 800px;
 `;
 
 let MainDiv = styled.div`
+    width: 100%;
 `;
 
 
@@ -101,22 +101,14 @@ export default function Answers({quesId, user}){
                     color="primary"
                 >Answer</Button>
             </CommentDiv>
-        {/* <AnswerInput>
-            <TextField id={`cmmnt-${quesId}`} 
-                variant="outlined" label="enter answer" 
-                value={answerInput}
-                className="cmmnt-text"
-                onChange={(el)=>setAnswerInput(el.target.value)}
-            />
-            <Button onClick={submitAnswer} className="post-btn" color="primary" disabled={submitAnswerDisabled}>Post</Button>
-        </AnswerInput> */}
-        <AnswersDiv>
-            {answers.map(answer=>
-                    <StyledAnswer 
-                        answer={answer} user={user}
-                    />
-            )}
-        </AnswersDiv>
+        
+            <AnswersDiv>
+                {answers.map(answer=>
+                        <StyledAnswer 
+                            answer={answer} user={user}
+                        />
+                )}
+            </AnswersDiv>
         </MainDiv>
     );
 

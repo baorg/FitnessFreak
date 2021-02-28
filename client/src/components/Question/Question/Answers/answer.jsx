@@ -80,6 +80,7 @@ let AnswerBodyDiv = styled.div`
   margin: 1em 20px 1em 20px;
   border-radius: 10px;
   width: 90%;
+  color: #3f3f3f;
 
   div{
     white-space: pre-wrap;

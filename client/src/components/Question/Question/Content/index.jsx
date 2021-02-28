@@ -13,17 +13,21 @@ let QuestionContent = styled.div`
 
 let QuestionMainDiv = styled.div`
     width: 100%;
+    padding: 20px;
 `;
 
 let QuestionPreviewDiv = styled.div`
     width: 100%;
-    max-height: 25em;
+    max-height: 30em;
     overflow: scroll;
     font-style: bold;
-
+    justify-content: center;
+    text-justify: center;
     .question-content{
         color: black;
-        text-decoration: none;
+        font-style: bold;
+        font-size: 1.2em;
+        text-align: center;
     }
 `;
 
@@ -31,6 +35,7 @@ let QuestionCountDiv = styled.div`
     margin-right: 4px;
     display: flex;
     flex-direction: column;
+    min-height: 8em;
 `;
 
 let VoteCount = styled.div`
@@ -54,7 +59,6 @@ let CategoryContainer = styled.div`
 let CategorySpan = styled.span`
     size: 0.8em;
     color: #2f2f2f;
-    width: fit-content;
     background-color: ${({ selected }) => selected? "#9ff5a6":"rgb(238, 238, 238)"};
     padding: 0 4px 0 4px;
     margin: 0 2px 0 2px;
@@ -66,6 +70,7 @@ let PostedDate = styled.div`
     font-size: 1.1em;
     color: #666;
     margin-left: auto;
+    margin-right: 1em;
 `;
 
 //=======================================================
@@ -80,10 +85,10 @@ export default function Content({ question, selectedCategories, url }){
                     quesId={question._id} 
                     vote={question.vote}
                 />
-                <VoteCount >
+                {/* <VoteCount >
                     <span>{question.answers_count}</span>
                     <span>answers</span>
-                </VoteCount>
+                </VoteCount> */}
             </QuestionCountDiv>
             <QuestionMainDiv>
                 <QuestionPreviewDiv>

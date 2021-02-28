@@ -1,4 +1,5 @@
-import React from "react";
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+
 import styled from 'styled-components';
 import Suggestion from './suggestions';
 
@@ -10,8 +11,10 @@ const RightNavBar = styled.div`
 
     position: sticky;
     top: 50px;
+    left: 10em;
     padding-top: 50px;
 
+    
     height: fit-content;
     display: flex;
     flex-direction: column;
@@ -21,7 +24,9 @@ const RightNavBar = styled.div`
 
 
 export default function RightNav({ }) {
-    return (
+    let showRightNav = useMediaQuery('(min-width:1200px)');
+
+    return (showRightNav &&
         <RightNavBar>
             <Suggestion />
         </RightNavBar>

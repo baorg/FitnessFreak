@@ -14,6 +14,7 @@ import ajaxRequest from '../../../../ajaxRequest';
 // Styled Components =======================================================================================================
 
 const StyledInfiniteScroll = styled(InfiniteScroll)`
+    width: 100%;
     min-height: 100%;
     display: grid;
     place-items: center;

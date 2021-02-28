@@ -74,11 +74,12 @@ export default function ({question, type, user, selectedCategories=[], qtype=0})
             <QuestionHeader 
                 question={question} 
                 user={user}/>
-            <Divider className="divider" />
-            <QuestionContent 
-                question={question} 
-                url={url}
-                selectedCategories={selectedCategories}/>
+                
+                <Divider className="divider" />
+                <QuestionContent 
+                    question={question} 
+                    url={url}
+                    selectedCategories={selectedCategories}/>
             
             {qtype===1 && <Answers quesId={question._id} user={user}/>}
         </Question>

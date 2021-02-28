@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import { Checkbox } from '@material-ui/core';
 
@@ -8,25 +8,22 @@ import { Checkbox } from '@material-ui/core';
 const CategoryDiv = styled.div`
     margin: 5px 1em 5px 0;
     border-radius: 0.5em;
-    padding: 0 1em 0 1em;
+    padding: 10px 1em 10px 1em;
     max-width: 15em;
-    background-color: ${props => props.selected ? "#5ac8d6": "inherit"};
+    background-color: ${({selected}) => selected ? "#5ac8d6"  : "inherit"};
     :hover{
         cursor: pointer;
-        background-color: ${props => props.selected ? "#5ac8d6": "#dddddd"};
+        background-color: ${({selected}) => selected ? "#dddddd": "#b4e4eb"};
     }
 `;
 
 // ======================================================================================
 
 export default function Category({selected, category, handleChange }) {
+    
     return (
-        <CategoryDiv>
-            <Checkbox 
-                checked={selected}
-                onChange={handleChange}
-                inputProps={{ 'aria-label': 'primary checkbox' }}
-            />
+        <CategoryDiv selected={selected}
+            onClick={()=>handleChange({target:{checked: !selected}})}>
             <img width="30" height="30" src={category.icon} alt={category.alt}  class="loaded"></img>
             <i className="fa fa-home" aria-hidden="true"></i> {category.name }
         </CategoryDiv>);

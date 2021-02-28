@@ -10,12 +10,14 @@ import CONFIG from '../../../config';
 
 const Content = styled.div`
     grid-column: 2 / 3;
-    margin: 10px 10px 0 10px;
+    margin: 30px 10px 0 10px;
     scrollbar-width: 0;
+    width: 100%;
 `;
 
 const Margin = styled.div`
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     margin-bottom: 10px;
 `;
@@ -42,31 +44,8 @@ const Type = styled.div`
 export default function MainLandingPageDiv({ type, selectedCategories, setType, user }) {
     let [url, setUrl] = useState(`${CONFIG.API_DOMAIN}/feed/get-feed?`);
     
-    useEffect(() => {
-        console.log("TYpe: ", type);
-        if (type === 'Hot') {
-            setUrl(`${CONFIG.API_DOMAIN}/question/get-type/hot-questions?${selectedCategories ? "selectedCategories=" + selectedCategories+"&" : ""}`);
-        } else if (type === 'Newest') {
-            setUrl(`${CONFIG.API_DOMAIN}/question/get-type/latest-questions?${selectedCategories ? "selectedCategories=" + selectedCategories+"&" : ""}`);
-        } else if (type === 'Unanswered') {
-            setUrl(`${CONFIG.API_DOMAIN}/question/get-type/unanswered-questions?${selectedCategories ? "selectedCategories=" + selectedCategories+"&" : ""}`);
-        } else {
-            if(selectedCategories)
-                setUrl(`${CONFIG.API_DOMAIN}/question/getQuestionsCategoryWise/${selectedCategories}?`)
-            else
-                setUrl(`${CONFIG.API_DOMAIN}/feed/get-feed?`)
-        }
-    }, [type, selectedCategories]);
+    useEffect(loadData, [type, selectedCategories]);
 
-
-    async function handleTypeChange(tp) {
-        // console.log("Changing type:", type);
-        if (type === tp) {
-            setType(null);
-        } else {
-            setType(tp);
-        }
-    }
 
     return (
         <Content>
@@ -82,4 +61,30 @@ export default function MainLandingPageDiv({ type, selectedCategories, setType, 
             </Margin>
             <InfiniteScroll type={type} selectedCategories={selectedCategories} url={url} user={user}/>
         </Content>);
+
+    
+    async function handleTypeChange(tp) {
+        // console.log("Changing type:", type);
+        if (type === tp) {
+            setType(null);
+        } else {
+            setType(tp);
+        }
+    }
+
+    function loadData(){
+        
+        if (type === 'Hot') {
+            setUrl(`${CONFIG.API_DOMAIN}/question/get-type/hot-questions?${selectedCategories ? "selectedCategories=" + selectedCategories+"&" : ""}`);
+        } else if (type === 'Newest') {
+            setUrl(`${CONFIG.API_DOMAIN}/question/get-type/latest-questions?${selectedCategories ? "selectedCategories=" + selectedCategories+"&" : ""}`);
+        } else if (type === 'Unanswered') {
+            setUrl(`${CONFIG.API_DOMAIN}/question/get-type/unanswered-questions?${selectedCategories ? "selectedCategories=" + selectedCategories+"&" : ""}`);
+        } else {
+            if(selectedCategories)
+                setUrl(`${CONFIG.API_DOMAIN}/question/getQuestionsCategoryWise/${selectedCategories}?`)
+            else
+                setUrl(`${CONFIG.API_DOMAIN}/feed/get-feed?`)
+        }
+    }
 }
