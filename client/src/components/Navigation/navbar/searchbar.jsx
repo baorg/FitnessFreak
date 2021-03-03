@@ -33,7 +33,7 @@ import axiosCall from '../../../ajaxRequest';
 
 const InputDiv = styled.div`
   width: min(auto, 100px);
-  height: 2em;
+  height: 2.5em;
   border-width: 1px;
   display: flex;
   align-items: center;

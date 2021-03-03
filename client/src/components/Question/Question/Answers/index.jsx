@@ -12,8 +12,24 @@ import {API_DOMAIN} from '../../../../config';
 let AnswersDiv = styled.div`
     margin: 20px 10px 20px 10x;
     width: 100%;
+    box-sizing: border-box;
     max-height: 500px;
-    overflow: scroll;
+    overflow: auto;
+
+    ::-webkit-scrollbar-thumb {
+      background-color: rgb(78, 78, 78);
+      outline: 1px solid rgb(210, 230, 250);
+      border-radius: 2px;
+    }
+    ::-webkit-scrollbar {
+      width: 0.8em;
+      border-radius: 100px;
+    }
+
+    ::-webkit-scrollbar-track {
+      box-shadow: inset 0 0 6px transparent;
+      margin-left: 1em;
+    }
 `;
 
 let AnswerInput = styled.div`
@@ -32,10 +48,12 @@ let AnswerInput = styled.div`
 
 let StyledAnswer = styled(Answer)`
     width: 100%;
+    box-sizing: border-box;
 `;
 
 let MainDiv = styled.div`
     width: 100%;
+    box-sizing: border-box;
 `;
 
 
@@ -46,8 +64,9 @@ let CommentDiv = styled.div`
     margin: 10px 5px 20px 5px;
     padding: 0 10px 0 10px;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    
+    box-sizing: border-box;
     .inpt{
         flex: 1;
         background-color: transparent;

@@ -19,7 +19,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import SearchIcon from '@material-ui/icons/Search';
 import HeightIcon from '@material-ui/icons/Height';
-
+import { responsive } from '../../utils/data.json';
 // ----------------------------------------------------------------------
 
 
@@ -47,6 +47,13 @@ const NavbarContainer = styled.div`
     width: auto;
     width: -moz-available;
     margin-left: auto;
+    margin-right: auto;
+    padding: 1px 10px 1px 10px;
+    height: 3em;
+  }
+
+  @media (max-width: ${responsive.small}){
+    font-size: 10px;
   }
 `;
 
@@ -95,7 +102,7 @@ const Link = styled(A)`
 
 
 const MyNav = function () {
-  const matches = useMediaQuery('(max-width:800px)');
+  const matches = useMediaQuery(`(max-width:${responsive.small})`);
 
   const [searchparam, setSearchParam] = useState("");
   const [filterArr,setFilterArr]=useState([ ]);
@@ -126,13 +133,13 @@ const MyNav = function () {
                     <AccountAvatar user={user}/>
                     </>
                   :
-                  <Button variant="outlined" color="primary" href="/auth">
+                  <Button  variant="outlined" color="primary" href="/auth" size={matches?"small":"medium"}>
                       Login/Register
                   </Button>
                 }
               </StyledIcons>
               </Toolbar>
-              <Searchbar />
+              <div className="search-bar"><Searchbar /></div>
             </div> :
             <Toolbar>
               <StyledBrand href="/">Fitness Freak</StyledBrand>

@@ -1,7 +1,11 @@
 import React, { useState } from "react"
 import { navigate, A } from 'hookrouter';
 import styled from 'styled-components';
+
+
 import { LinearProgress, Button } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
+
 
 import ajaxRequest from '../../../ajaxRequest'
 import CONFIG from '../../../config';
@@ -14,12 +18,18 @@ let LoginForm = styled.form`
     display: flex;
     flex-direction: column;
 
+    .action-div{
+        width: 100%;
+        box-sizing: border-box;
+        padding: 1em 0 1em 0;
+    }
     .err-msg{
         background-color: #e09393;
         height: 2em;
         border-radius: 10px;
         text-align: center;
         align-content: center;
+        text-justify: center;
     }
 
     .bottom{
@@ -48,9 +58,12 @@ export default function Login(props) {
     return (
         <LoginForm method="post" onSubmit={handleSubmit} className="form-container" >
             <h1>Login</h1>
+            <div className="action-div">
             { sending ? <LinearProgress />
-                : msg && <div className="err-msg"> {msg} </div>
+                : msg && <Alert severity="error">{msg}</Alert>
             }
+            </div>
+            
             <div className="form-group">
                 <Name
                     id="username-login"
@@ -98,13 +111,16 @@ export default function Login(props) {
             
             await clearError();
             
-            if (res.data === 'Unauthorized') {
-                await setMsg('Invalid username or password');
-            }else if (res.data.success) {
+            
+            if (res.data.success) {
                 await clearError();
                 navigate('/');
-            } else {
+            } else if( res.data.success==false ) {
                 setMsg(res.data.error);
+            } else if (res.data === 'Unauthorized' || res.data.success==false) {
+                setMsg('Invalid username or password');
+            } else {
+                setMsg('Some error occured.');
             }
         } catch (err) {
             console.log('Error: ', err.response.status);

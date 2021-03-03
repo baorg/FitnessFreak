@@ -22,36 +22,88 @@ import Category from './category';
 
 import { NavContext } from '../../utils/NavContext';
 import { UserContext } from '../../utils/UserContext';
+import { responsive } from '../../utils/data.json';
+
 // Styled Components =================================================================
 
 const SideNavContainer = styled.div`
-    /* position: fixed; */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    grid-column: 1 / 2;
-    justify-self: center;
-    top: ${({drawer})=>drawer?"3em":"8em"};
-    position: sticky;
+
     height: 80vh;
-    min-height: fit-content;
+    width: 100%;
     box-sizing: border-box;
-    .link{
-      margin-left: 10px;
-      font-size: 1.5em;
+
+    grid-column: 1 / 2;
+
+    position: ${({drawer})=>drawer?"static":"sticky"};
+    top: ${({drawer})=>drawer?"0":"6em"};
+    bottom: ${({drawer})=>drawer?"0":"2em"};
+    
+    overflow-y: auto;
+
+    ::-webkit-scrollbar-thumb {
+      background-color: rgb(78, 78, 78);
+      outline: 1px solid rgb(210, 230, 250);
+      border-radius: 2px;
+    }
+    ::-webkit-scrollbar {
+      width: 0.8em;
+      border-radius: 100px;
     }
 
-    .category-list{
-      height: 100%;
+    ::-webkit-scrollbar-track {
+      box-shadow: inset 0 0 6px transparent;
+      margin-left: -2em;
+    }
+ 
+
+
+
+    .snavdat{
+      position: relative;
+      top: 0;
+      min-height: 100%;
+      box-sizing: border-box;
+
+      flex: 1;
       display: flex;
       flex-direction: column;
       justify-content: space-evenly;
+
       align-items: center;
-      overflow: scroll;
-      padding: 10px 0 10px 0;
-      min-height: min-content;
-      font-size: 1.2em;
+      justify-self: center;
+
+      .users{
+
+      }
+
+      .divider{
+        height: 2px;
+        color: black;
+        width: 300px;
+      }
+
+      .link{
+        margin-left: 10px;
+        font-size: 1.5em;
+        justify-content: center;
+      }
+
+      .category-list{
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        padding: 10px 0 10px 0;
+        min-height: min-content;
+        font-size: 1.2em;
+      
+        .category-el{
+          box-sizing: border-box;
+        }
+      }
     }
+    
 `;
 
 // ======================================================================================
@@ -73,7 +125,7 @@ const SideNavBar = function ({ setSelectedCategories, selectedCategories }) {
   
   const [user, ] = useContext(UserContext)
   const [leftNavActive, setLeftNavActive] = useContext(NavContext).leftnav;
-  const matches = useMediaQuery('(max-width:800px)');
+  const matches = useMediaQuery(`(max-width:${responsive.small})`);
 
 
 
@@ -107,38 +159,25 @@ const SideNavBar = function ({ setSelectedCategories, selectedCategories }) {
 
   function LeftNavContent(){
     return (
-      <SideNavContainer drawer={matches}>
-        <div>
-          <FaceRoundedIcon />
-          <A className="link" href="/rankings">Users</A>
+      <SideNavContainer drawer={matches} className="left-nav">
+        <div className="snavdat">
+          <div className="users">
+            <FaceRoundedIcon />
+            <A className="link" href="/rankings">Users</A>
+          </div>
+          <hr className="divider" />
+            {categories.map(category =>
+              <Category
+
+                selected={selectedCategories!==null && selectedCategories.some(cat => cat === category.name)}
+                category={category}
+                handleChange={(event) => handleCategoryCheck(category.name, event.target.checked)}
+              />
+            )}
         </div>
-        <hr style={{ height: "2px", color: "black", width: "100%" }} />
-        <div className="category-list">
-          {categories.map(category =>
-            <Category
-              selected={selectedCategories!==null && selectedCategories.some(cat => cat === category.name)}
-              category={category}
-              handleChange={(event) => handleCategoryCheck(category.name, event.target.checked)}
-            />
-          )}
-        </div>
+        
       </SideNavContainer>);
   }
-  
-
-  // function hover() {
-  //     document.querySelector('.categorybox').style.display='inline-block';
-  //   }
-  //   function unhover(){
-  //     document.querySelector('.categorybox').style.display='none';
-  //   }
-  //   function hover2() {
-  //     document.querySelector('.rankingbox').style.display='inline-block';
-  //   }
-  //   function unhover2(){
-  //     document.querySelector('.rankingbox').style.display='none';
-  //   }
-
 }
 
 export default SideNavBar;

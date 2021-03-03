@@ -14,16 +14,14 @@ function GoogleIcon(props) {
     }
 
     return (
-        <div>
-            <a href={`${CONFIG.API_DOMAIN}/auth/google`}>
-                <img
-                    className="google-btn-img"
-                    src={googleIcon} 
-                    onMouseOver={handleMouseOver}
-                    onMouseOut={handleMouseOut}
-                />
-            </a>
-        </div>
+        <a href={`${CONFIG.API_DOMAIN}/auth/google`}>
+            <img
+                className="google-btn-img"
+                src={googleIcon}
+                onMouseOver={handleMouseOver}
+                onMouseOut={handleMouseOut}
+            />
+        </a>
     );
 }
 

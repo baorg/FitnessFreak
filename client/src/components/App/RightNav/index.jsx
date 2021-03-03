@@ -2,6 +2,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import styled from 'styled-components';
 import Suggestion from './suggestions';
+import { responsive } from '../../utils/data.json';
 
 // Styled Components ===============================================================================================
 
@@ -24,7 +25,7 @@ const RightNavBar = styled.div`
 
 
 export default function RightNav({ }) {
-    let showRightNav = useMediaQuery('(min-width:1200px)');
+    let showRightNav = useMediaQuery(`(min-width:${responsive.medium})`);
 
     return (showRightNav &&
         <RightNavBar>

@@ -10,28 +10,40 @@ import CONFIG from '../../../config';
 
 const Content = styled.div`
     grid-column: 2 / 3;
-    margin: 30px 10px 0 10px;
+    padding: 30px 10px 0 10px;
     scrollbar-width: 0;
     width: 100%;
+    box-sizing: border-box;
+    max-height: 100%;
 `;
 
 const Margin = styled.div`
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-evenly;
     margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+
+    >* {
+        flex: 1 1 160px;
+        margin: 10px;
+    }
 `;
 
 const TypeContainer = styled.div`
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+    box-sizing: border-box;
 `;
 
 const Type = styled.div`
     margin: 0 10px 0 10px;
     border-radius: 5px;
     padding: 4px;
+    box-sizing: border-box;
+
     background-color: ${({selected}) => selected ? "#5ac8d6": "inherit"};
     :hover{
         background-color: ${({selected}) => selected ? "#5ac8d6": "#dddddd"};

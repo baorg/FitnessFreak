@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+
 import { Button, LinearProgress } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
+
 
 import Name from './utils/name';
 import ajaxRequest from '../../../ajaxRequest';
@@ -21,12 +24,16 @@ let VerificationForm = styled.form`
         border-radius: 10px;
     }
 
-    .err-msg{
-        background-color: #e09393;
-        height: 2em;
-        border-radius: 10px;
-        text-align: center;
-        align-content: center;
+    .action-div{
+        width: 100%;
+        box-sizing: border-box;
+        padding: 1em 0 1em 0;
+        .err-msg{
+            height: 2em;
+            border-radius: 10px;
+            text-align: center;
+            align-content: center;
+        }
     }
 `;
 
@@ -46,9 +53,11 @@ function Verification() {
         :
         <VerificationForm onSubmit={submitForm}>
             <h1>Verify Email</h1>
-            { sending ? <LinearProgress />
-                    : msg && <div className="err-msg"> {msg} </div>
+                <div className="action-div">
+                { sending ? <LinearProgress />
+                    : msg && <Alert severity={mailSent?"success":"error"}>{msg}</Alert>
                 }
+                </div>
             <div className="elmnts">
                 <Name 
                     id="useraname-verification"
@@ -69,22 +78,28 @@ function Verification() {
         event.preventDefault();
         if (sending)
             return;
-        await setSending(true);
+        
+        setSending(true);
         try {
             let res = await ajaxRequest('GET', `${API_DOMAIN}/users/request-verify-email?username=${username.value}`);
+            console.log("Respononse: ", res.data);
+            
             if (res.data.success) {
                 if (res.data.mail_sent) {
                     setMailSent(true);
-                    setMsg(res.data.email);
+                    setMsg(`Mail sent to ${res.data.email}`);
+                }else {
+                    setMailSent(false);
+                    setMsg(`Some error occurred in sending mail to ${res.data.email}`);
                 }
             } else {
-                setMsg(res.data.error);
-                setSending(false);
+                setMailSent(false);
+                setMsg(res.data.error || "Some error occured");
             }
         } catch (err) {
-            
+            console.error("ERROR: ", err);
         } finally {
-            
+            setSending(false);    
         }
     }
 }

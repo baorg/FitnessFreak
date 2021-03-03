@@ -23,6 +23,7 @@ export default function Category({selected, category, handleChange }) {
     
     return (
         <CategoryDiv selected={selected}
+            className="category-el"
             onClick={()=>handleChange({target:{checked: !selected}})}>
             <img width="30" height="30" src={category.icon} alt={category.alt}  class="loaded"></img>
             <i className="fa fa-home" aria-hidden="true"></i> {category.name }

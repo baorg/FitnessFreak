@@ -15,22 +15,29 @@ import FacebookAuth from './facebook';
 
 import './style.css'
 import { HTML404 } from '../ErrorPage/Error';
-
+import { responsive } from '../utils/data.json';
 
 // Styled Components =====================================================
 
 let AuthPage = styled.div`
     width: 100%;
-    height: 100%;
+    min-height: 100%;
     display: grid;
-    min-height: 100vh;
-    margin-top: 50px;
+    margin-top: 10em;
+    margin-bottom: 10em;
     .auth-container{
-        width: 500px;
+        box-sizing: border-box;
+        max-width: 500px;
+        width: 90%;
         place-self: center;
         border: 2px solid #aaaaaa;
         border-radius: 10px;
         padding: 10px;
+
+        @media(max-width:${responsive.small}){
+            font-size: 10px;
+        }
+
         .heading{
             display: flex;
             justify-content: space-evenly;
@@ -75,7 +82,24 @@ let OrBlock = styled.div`
 let OtherAuthMethods = styled.div`
     display: flex;
     flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
     align-items: center;
+    .google-btn{
+        width: 100%;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+
+        .google-btn-img{
+            width: 100%;
+            box-sizing: border-box;
+        }
+    }
+
+    >*{
+        margin-top: 5px;
+    }
 `;
 // ========================================================================
 

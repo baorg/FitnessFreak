@@ -3,12 +3,15 @@ import { A } from 'hookrouter';
 
 
 import UpDownVote from "../vote";
+import { responsive } from '../../../utils/data.json';
 
 
 // Styled components ===================================
 
 let QuestionContent = styled.div`
     display: flex;
+    box-sizing: border-box;
+    width: 100%;
 `;
 
 let QuestionMainDiv = styled.div`
@@ -19,15 +22,32 @@ let QuestionMainDiv = styled.div`
 let QuestionPreviewDiv = styled.div`
     width: 100%;
     max-height: 30em;
-    overflow: scroll;
+    box-sizing: border-box;
+    overflow-y: auto;
     font-style: bold;
     justify-content: center;
     text-justify: center;
+
+
     .question-content{
         color: black;
         font-style: bold;
         font-size: 1.2em;
         text-align: center;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-color: rgb(109, 109, 109);
+      outline: 1px solid rgb(210, 230, 250);
+      border-radius: 2px;
+    }
+    ::-webkit-scrollbar {
+      width: 0.5em;
+    }
+
+    ::-webkit-scrollbar-track {
+      box-shadow: inset 0 0 6px transparent;
+      margin-left: 0;
     }
 `;
 
@@ -53,6 +73,12 @@ let VoteCount = styled.div`
 
 let CategoryContainer = styled.div`
     display: flex;
+    flex-wrap: wrap;
+
+    >* {
+        flex: 1 1 fit-content;
+        margin: 10px;
+    }
 `;
 
 
@@ -61,8 +87,9 @@ let CategorySpan = styled.span`
     color: #2f2f2f;
     background-color: ${({ selected }) => selected? "#9ff5a6":"rgb(238, 238, 238)"};
     padding: 0 4px 0 4px;
-    margin: 0 2px 0 2px;
+    width: fit-content;
     border-radius: 6px;
+    height: fit-content;
 `;
 
 
@@ -77,6 +104,9 @@ let PostedDate = styled.div`
 
 
 export default function Content({ question, selectedCategories, url }){
+
+
+
     return (
         <>
         <QuestionContent>

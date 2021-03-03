@@ -7,18 +7,17 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Content from "./Main";
 import LeftNavBar from "./LeftNav";
 import RightNavBar from "./RightNav";
-
+import { responsive } from '../utils/data.json';
 // Styled Components ===============================================================================
 
 const ContentContainer = styled.div`
   position: relative;
-  top: ${({lastPoint})=>lastPoint? "8em": "5em"};
+  top: ${({lastPoint})=>lastPoint? "5em": "5em"};
   display: grid;
   margin-left: auto;
   margin-right: auto;
-
-  width: ${({midPoint})=>midPoint? "85%": "100%"};
-  grid-template-columns: ${({midPoint, lastPoint})=>lastPoint? "0 1fr 0": midPoint? "auto 1fr": "1fr 700px 1fr"};
+  width: 100%;
+  grid-template-columns: ${({midPoint, lastPoint})=>lastPoint? "0 1fr 0": midPoint? "1fr 2fr": "1fr 800px 1fr"};
   background-color: #eeeeee;
   min-height: 100vh;
   height: fit-content;
@@ -31,11 +30,11 @@ const App = function ({user, }) {
   const [ type, setType ] = useState(null);
   const [ path, setPath ] = usePath();
 
-  let midPoint = useMediaQuery('(min-width: 800px) and (max-width: 1200px)');
-  let lastPoint = useMediaQuery('(max-width: 800px)');
+  let midPoint = useMediaQuery(`(min-width: ${responsive.small}) and (max-width: ${responsive.medium})`);
+  let lastPoint = useMediaQuery(`(max-width: ${responsive.small})`);
 
   useEffect(()=>{
-    console.log(`col:  ${lastPoint? "0 100% 0": midPoint? "auto 100%": "1fr 700px 1fr"}`);
+    console.log(`col:  ${lastPoint? "0 100% 0": midPoint? "1fr 2fr": "1fr 800px 1fr"}`);
   }, [midPoint, lastPoint])
 
   // console.log('Path: ', path);

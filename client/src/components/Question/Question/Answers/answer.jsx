@@ -1,7 +1,8 @@
 import React, {useState,useEffect} from "react"
 import { A, navigate } from 'hookrouter';
 import { Delete, Done, VerifiedUser } from '@material-ui/icons';
-import { Avatar, Paper } from '@material-ui/core';
+
+import { Avatar, Container, Paper } from '@material-ui/core';
 import styled from 'styled-components';
 
 
@@ -20,6 +21,7 @@ let AnswerDiv = styled.div`
   padding: 10px;
   width: 100%;
   padding-left: 40px;
+  box-sizing: border-box;
 `;
 
 
@@ -77,23 +79,31 @@ let AnswerHeadlineDiv = styled.div`
 let AnswerBodyDiv = styled.div`
   min-height: 5em;
   padding: 1em 5px 1em 5px;
-  margin: 1em 20px 1em 20px;
   border-radius: 10px;
-  width: 90%;
+  width: 100%;
+  box-sizing: border-box;
   color: #3f3f3f;
 
-  div{
+
+  .ans-div{
+    width: 100%;
+    max-width: 10em;
+    /* overflow-x: auto; */
+    box-sizing: border-box;
     white-space: pre-wrap;
     white-space: -moz-pre-wrap;
     white-space: -pre-wrap;
     white-space: -o-pre-wrap;
     word-wrap: break-word;
+    width: 100%;
+    box-sizing: border-box;
   }
 `;
 
 let AnswerContentDiv = styled.div`
   display: flex;
-  width: 40em;
+  width: 100%;
+  box-sizing: border-box;
 `;
 
 let AnswerBottomDiv = styled.div`
@@ -153,13 +163,13 @@ function Answer({ answer, user }) {
             <span className="satisfactory-div">Satisfactory</span>
           </div>
         }
-        { (user?._id === answer.user?._id) && user && answer.user && <Delete onClick={deleteAnswer} />}
+        { (user&&user._id === answer.user&&answer.user._id) && user && answer.user && <Delete onClick={deleteAnswer} />}
       </AnswerHeadlineDiv>
 
         <AnswerContentDiv>
           <VoteDiv vote={answer.vote} quesId={answer._id} type={0} />
           <AnswerBodyDiv>
-            <div dangerouslySetInnerHTML={{ __html:answer.answer}} />
+            <div className="ans-div" dangerouslySetInnerHTML={{ __html: answer.answer}} />
           </AnswerBodyDiv>
 
         </AnswerContentDiv>

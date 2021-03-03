@@ -12,7 +12,7 @@ import noimage from '../../../static/noimage.png';
 import Answers from './Answers';
 import QuestionHeader from './Header';
 import QuestionContent from './Content';
-
+import { responsive } from '../../utils/data.json';
 
 // English.
 import en from 'javascript-time-ago/locale/en'
@@ -23,15 +23,18 @@ TimeAgo.addLocale(en)
 
 let Question = styled.div`
     background-color: white;
-    margin: 4px;
     border-radius: 10px;
     border-color: black;
     border-width: 1px;
     border-style: solid;
     width: 100%;
-    padding: 4px;
-
-
+    padding: 10px;
+    box-sizing: border-box;
+    @media (max-width:${responsive.small}){
+        font-size: 12px;
+        border: 0;
+        margin: 0;
+    }
     .divider{
         color: #444;
     }
@@ -57,8 +60,6 @@ export default function ({question, type, user, selectedCategories=[], qtype=0})
         type :- 
             0 : No Answers
             1: with Answers
-
-
     */
 
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import Spinner from './Spinner';
 
@@ -9,13 +9,14 @@ import Question from "../../../Question/Question/ques";
 
 import CONFIG from '../../../../config';
 import ajaxRequest from '../../../../ajaxRequest';
-
+import { UserContext } from '../../../utils/UserContext';
 
 // Styled Components =======================================================================================================
 
 const StyledInfiniteScroll = styled(InfiniteScroll)`
     width: 100%;
     min-height: 100%;
+    box-sizing: border-box;
     display: grid;
     place-items: center;
 `;
@@ -36,12 +37,15 @@ let Reload = styled.div`
     }
 `;
 
+
+
 // ==========================================================================================================================
-export default function ({type, selectedCategories, url, user}) {
+export default function ({type, selectedCategories, url}) {
     const [feed, setFeed] = useState({questions:[], current_page: 0 });
     const [hasMore, setHasMore] = useState(true);
     const [reload, setReload] = useState(null);
 
+    const [ user, ] = useContext(UserContext);
 
     useEffect(() => {
         setFeed({ questions: [], current_page: 0 });

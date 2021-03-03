@@ -1,6 +1,8 @@
 module.exports = function response(req, res) {
-    return res.send({
-        isAuthenticated: req.isAuthenticated(),
-        ...res.data
-    });
+    
+    let response_data = res.data;
+    response_data.isAuthenticated = req.isAuthenticated();
+
+    // console.log('Sending: ', response_data);
+    return res.send(response_data);
 }
