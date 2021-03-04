@@ -16,6 +16,9 @@ const QuestionsListDiv = styled(InfiniteScroll)`
     display: flex;
     flex-direction: column;
 
+    >*{
+        margin: 5px 0 5px 0;
+    }
     .no-question-div{
         position: relative;
         top: 5em;

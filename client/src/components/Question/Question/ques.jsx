@@ -33,7 +33,9 @@ let Question = styled.div`
     @media (max-width:${responsive.small}){
         font-size: 12px;
         border: 0;
-        margin: 0;
+        border-bottom: 1px solid black;
+        border-radius: 0;
+        margin: 0 !important;
     }
     .divider{
         color: #444;

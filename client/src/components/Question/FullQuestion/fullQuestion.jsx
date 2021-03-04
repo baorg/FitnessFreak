@@ -18,23 +18,30 @@ import BookMark from "../../BookMark/MyBookMark";
 import CONFIG from '../../../config';
 import DeleteIcon from '@material-ui/icons/Delete';
 
+import { responsive } from '../../utils/data.json';
 
 // Styled Components =======================================================================================
 
 
 let MainDiv = styled.div`
-  margin: -1;
   overflow-x: hide;
-  width: 100vw;
+  width: 100%;
   display: grid;
-  position: relative;
-  top: 80px;
+  margin-top: 20px;
 `;
 
 let ContentDiv = styled.div`
-  width: 80%;
+  width: 100%;
+  box-sizing: border-box;
+  display: block;
+  padding: 2em;
   max-width: 1200px;
   place-self: center;
+
+  @media(max-width: ${responsive.small}){
+    font-size: 12px;
+  }
+  
 `;
 let QuestionHeader = styled.div`
   display: flex;
@@ -65,8 +72,50 @@ function FullQuestion(props) {
   const [totalCount, setTotalCount] = useState(null);
   const [satisfactory, setSatisfactory] = useState(false);
   
-  useEffect(() => {
-    async function fetchQuestion() {
+  useEffect(() => { fetchQuestion(); }, [satisfactory]);
+
+  return (<MainDiv>
+      {/* <SideNavBar user={props.user} /> */}
+      {question &&
+      <ContentDiv>
+        <QuestionHeader >
+          <Avatar alt={`${question.user&&question.user.username || 'unknown'}s_profile_image`} src={question.user&&question.user.profile_image}/>
+          <p>
+          <div>Asked By</div>
+          <A href={`/profile/${question.user._id}`}>@{question.user.username}</A>
+          </p>
+
+          <div className="flex-right">
+          <div  className="bkmrk-icn">
+            <BookMark quesId={props.quesId} user={props.user} />
+          </div>
+          {props.user?(props.user._id===question.user._id?
+          <DeleteIcon className="dlt-icn" onClick={deleteQuestion}/>:null):null}
+          </div>
+        </QuestionHeader>
+        <div dangerouslySetInnerHTML={{ __html: question.question }} style={{marginTop:"40px"}}></div>
+        <br /> <br />  
+        <div className="category-container" style={{textAlign:"left",marginBottom:"40px"}}>
+          {question.category.length!==0?<p style={{fontSize:"20px"}}>Categories</p>:null}
+                {question.category.map(category => (
+                    <span className="category-span">{category}</span>
+                ))}
+        </div>
+        <Attachments attachments={question.attachments} />
+        <UpvoteDownvote quesId={props.quesId} isQues={true} totalCount={totalCount} user={props.user} />
+        <div style={{ textAlign: "left",marginTop:"40px" }} >
+          <PostAnswer id={props.quesId} user={props.user} setAnswers={setAnswers} answers={answers} />
+          <br /><br /><hr/><br /><br />
+          {answers.length !== 0 ? <h4 style={{ marginBottom: "30px" }}>Answers</h4> : <h4>No Answers Yet</h4>}
+          {answers.map((el, index) => {
+            return <Answer key={index} answer={el} user={props.user} satisfactory={satisfactory} selectedSatisfactoryAnswer={selectedSatisfactoryAnswer} quesId={props.quesId} type={2}/>
+          })}
+        </div>
+      </ContentDiv>
+     }: <Spinner />
+      </MainDiv>);
+
+      async function fetchQuestion() {
       // console.log("in us eseffec");
       let res = await ajaxRequest("get", `${CONFIG.API_DOMAIN}/question/get-question/${props.quesId}`);
         
@@ -96,9 +145,6 @@ function FullQuestion(props) {
         });
       }
     }
-    fetchQuestion();
-  }, [satisfactory]);
-
 
    function selectedSatisfactoryAnswer(answerId){
     if (window.confirm("Are you sure you want to mark this answer as the Satisfactory Answer")) {
@@ -119,6 +165,8 @@ function FullQuestion(props) {
     }
     
   }
+
+
   function deleteQuestion(){
     if (window.confirm("Are you sure you want to delete your Question")) {
       // txt = "You pressed OK!";
@@ -137,47 +185,6 @@ function FullQuestion(props) {
     }
   }
 
-  return (<MainDiv>
-      {/* <SideNavBar user={props.user} /> */}
-      {question &&
-      <ContentDiv>
-        <QuestionHeader >
-          <Avatar alt={`${question.user?.username || 'unknown'}s_profile_image`} src={question.user?.profile_image}/>
-          <p>
-          <div>Asked By</div>
-          <A href={`/profile/${question.user._id}`}>@{question.user.username}</A>
-          </p>
-
-          <div className="flex-right">
-          <div  className="bkmrk-icn">
-            <BookMark quesId={props.quesId} user={props.user} />
-          </div>
-          {props.user?(props.user._id===question.user._id?
-          <DeleteIcon className="dlt-icn" onClick={deleteQuestion}/>:null):null}
-          </div>
-        </QuestionHeader>
-        <div dangerouslySetInnerHTML={{ __html: question.question }} style={{marginTop:"40px"}}></div>
-        <br /> <br />  
-        <div className="category-container" style={{textAlign:"left",marginBottom:"40px"}}>
-          {question.category.length!==0?<p style={{fontSize:"20px"}}>Categories</p>:null}
-                {question.category.map(category => (
-                    <span className="category-span">{category}</span>
-                ))}
-        </div>
-        <Attachments attachments={question.attachments} />
-        <UpvoteDownvote quesId={props.quesId} isQues={true} totalCount={totalCount} user={props.user} />
-        <div style={{ textAlign: "left",marginTop:"40px" }} >
-          <h5>Write Your Answer</h5>
-          <PostAnswer id={props.quesId} user={props.user} setAnswers={setAnswers} answers={answers} />
-          <br /><br /><hr/><br /><br />
-          {answers.length !== 0 ? <h4 style={{ marginBottom: "30px" }}>Answers</h4> : <h4>No Answers Yet</h4>}
-          {answers.map((el, index) => {
-            return <Answer key={index} answer={el} user={props.user} satisfactory={satisfactory} selectedSatisfactoryAnswer={selectedSatisfactoryAnswer} quesId={props.quesId} type={2}/>
-          })}
-        </div>
-      </ContentDiv>
-     }: <Spinner />
-      </MainDiv>);
 }
 
 

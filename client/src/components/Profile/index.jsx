@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
+
+import { useMediaQuery } from '@material-ui/core';
+
 import Navbar from '../Navigation/navbar/navbar';
 import LeftRail from './LeftRail';
 import RightRail from './RightRail';
@@ -9,11 +12,14 @@ import EditProfile from './EditProfile';
 import CONFIG from '../../config';
 import { Spinner } from 'react-bootstrap';
 
+import { responsive } from '../utils/data.json';
+
+import { UserContext } from '../utils/UserContext';
 
 // Styled components ===================================
 
 let MainDiv = styled.div`
-    position: ${props => props.active ? "fixed" : "static"};
+    
 `;
 
 let StyledSpinner = styled(Spinner)`
@@ -24,21 +30,25 @@ let StyledSpinner = styled(Spinner)`
 
 
 const ProfileDiv = styled.div`
-    position: relative;
-    top: 50px;
     width: 100vw;
     min-height: 100vh;
     display: grid;
-    grid-template-columns: 1fr 600px 1fr;
+    grid-template-columns: ${({midPoint, lastPoint})=>lastPoint? "0 1fr 0": midPoint? "1fr 2fr": "1fr 800px 1fr"};
+
     grid-column-gap: 2px;
 `;
 // ========================================================
 
 
 
-export default function Profile({ user, userId, setUser }) {
+export default function Profile({ userId }) {
     const [profileUser, setProfileUser] = useState(null);
     const [editProfile, setEditProfile] = useState(false);
+    
+    const midPoint = useMediaQuery(`(min-width: ${responsive.small}) and (max-width: ${responsive.medium})`);
+    const lastPoint = useMediaQuery(`(max-width: ${responsive.small})`);
+
+    const [user, setUser ] = useContext(UserContext);
 
     useEffect(() => {
         async function getUserData() {
@@ -56,7 +66,7 @@ export default function Profile({ user, userId, setUser }) {
     return (
         <>
             <MainDiv active={editProfile}>
-                <ProfileDiv >
+                <ProfileDiv midPoint={midPoint} lastPoint={lastPoint}>
                     <LeftRail />
                     {profileUser ?
                         <Main

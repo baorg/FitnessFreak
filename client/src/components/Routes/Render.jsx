@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useContext, createContext } from "react";
+import styled from 'styled-components';
+
 import { useRoutes } from 'hookrouter';
 import Auth from "../Auth";
 import Feed from "./feed";
@@ -11,6 +13,17 @@ import { fetchUserData } from '../utils/fetch_user_data';
 import { UserContext, UserProvider } from '../utils/UserContext';
 import { NavProvider } from '../utils/NavContext';
 
+import { responsive } from '../utils/data.json';
+
+
+let PageDiv = styled.div`
+  position: relative;
+  top: 5em;
+
+  @media (max-width: ${responsive.small}){
+    top: 7em;
+  }
+`;
 
 function getRoutes(user, setUser) {
   return {
@@ -33,7 +46,9 @@ function RenderedRoute(props){
   return (
     <>
       <Navbar />
-      {page || <HTML404 />}
+      <PageDiv>
+        {page || <HTML404 />}
+      </PageDiv>
     </>
   )
 }

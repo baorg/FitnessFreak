@@ -1,20 +1,41 @@
 import React from 'react';
+import styled from 'styled-components';
+
+
 import { makeStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
-// import GridListTileBar from '@material-ui/core/GridListTileBar';
-// import ListSubheader from '@material-ui/core/ListSubheader';
-// import IconButton from '@material-ui/core/IconButton';
-// import InfoIcon from '@material-ui/icons/Info';
+
+import { responsive } from '../../utils/data.json';
+
+
+// Styled Components ==============================================
+
+const AttachmentsDiv = styled.div`
+  width: 100% !important;
+  max-width: calc(100vw - 4em);
+  display: block;
+  box-sizing: border-box;
+  overflow-x: auto;
+`;
+
+const AttachmentsGrid = styled.div`
+  display: flex;
+  height: 300px;
+
+  .attachments{
+    width: auto;
+    height: 100%; 
+    border-radius: 4px;
+    margin: 0 4px 0 4px;
+  }
+`;
+
+
+// =================================================================
+
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'flex-start',
-        overflow: 'hidden',
-        backgroundColor: theme.palette.background.paper,
-    },
     gridList: {
         flexWrap: 'nowrap',
         // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
@@ -33,14 +54,22 @@ export default function Attachments(props) {
     const classes = useStyles();
     
     return (
-      <div className={classes.root} >
-        <GridList cellHeight={300} className={classes.gridList} style={{width:"100%"}}>
-          {props.attachments.map((tile) => (
-            <GridListTile style={{width: 'auto'}}>
-              <img src={tile.url} style={{width:'auto', height: '100%', marginLeft: '0.4em', borderRadius:'4px'}} />
-            </GridListTile>
-          ))}
-        </GridList>
-      </div>
+      <AttachmentsDiv>
+          <AttachmentsGrid>
+            {props.attachments.map((tile) => (
+                <img src={tile.url} className="attachments" />
+            ))}
+          </AttachmentsGrid>
+      </AttachmentsDiv>
     );
 }
+
+
+
+{/* <GridList cellHeight={300} className={classes.gridList} style={{width:"100%"}}>
+          {props.attachments.map((tile) => (
+            <GridListTile style={{width: 'auto'}}>
+              <img src={tile.url} style={{width:'auto', height: '100%', borderRadius:'4px'}} />
+            </GridListTile>
+          ))}
+        </GridList> */}

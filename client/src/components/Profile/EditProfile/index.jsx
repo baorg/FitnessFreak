@@ -12,6 +12,8 @@ import EmailDiv from "./email";
 import EditProfileImage from "./ProfileImage";
 import EditProfileBanner from "./ProfileBanner";
 
+import { responsive } from '../../utils/data.json';
+
 // Styled Components =================================================================
 
 let StyledSpinner = styled(Spinner)`
@@ -27,22 +29,24 @@ let ModalPage = styled.div`
     min-height: 100vh;
     height: fit-content;
     background-color: rgba(45, 45, 45, 0.6);
-    z-index: 100;
-    display: flex;
-    flex-direction: column;
+    z-index: 1500;
+    display: grid;
+    place-content: center;
+    /* flex-direction: column; */
 `;
 
 let EditProfileDiv = styled.div`
+    z-index: 1500;
     align-self: center;
     background-color: white;
     opacity: 1;
     height: fit-content;
     border-radius: 10px;
     padding: 10px;
-    margin-top: 50px;
-    width: fit-content;
+    /* margin-top: 50px; */
+    width: 100vw;
+    max-width: ${responsive.small};
     min-height: 40em;
-    min-width: 30em;
     display: flex;
     flex-direction: column;
 `;
@@ -97,7 +101,8 @@ let FirstNameField = styled(TextField)`
 `;
 
 let BioField = styled.div`
-
+    width: 100%;
+    box-sizing: border-box;
 `;
 
 let FooterDiv = styled.div`

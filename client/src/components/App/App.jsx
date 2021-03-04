@@ -11,8 +11,6 @@ import { responsive } from '../utils/data.json';
 // Styled Components ===============================================================================
 
 const ContentContainer = styled.div`
-  position: relative;
-  top: ${({lastPoint})=>lastPoint? "5em": "5em"};
   display: grid;
   margin-left: auto;
   margin-right: auto;
@@ -33,9 +31,9 @@ const App = function ({user, }) {
   let midPoint = useMediaQuery(`(min-width: ${responsive.small}) and (max-width: ${responsive.medium})`);
   let lastPoint = useMediaQuery(`(max-width: ${responsive.small})`);
 
-  useEffect(()=>{
-    console.log(`col:  ${lastPoint? "0 100% 0": midPoint? "1fr 2fr": "1fr 800px 1fr"}`);
-  }, [midPoint, lastPoint])
+  // useEffect(()=>{
+  //   console.log(`col:  ${lastPoint? "0 100% 0": midPoint? "1fr 2fr": "1fr 800px 1fr"}`);
+  // }, [midPoint, lastPoint])
 
   // console.log('Path: ', path);
 
