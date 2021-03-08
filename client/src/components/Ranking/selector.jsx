@@ -1,22 +1,48 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components';
+
+//  material UI ==============================
+
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import Drawer from '@material-ui/core/Drawer';
+import Checkbox from '@material-ui/core/Checkbox';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+// =================================================
+
+
 import { fetchUserData } from '../utils/fetch_user_data';
+import { responsive } from '../utils/data.json';
 import ajaxRequest from '../../ajaxRequest';
+import { UserContext } from '../utils/UserContext';
+import { NavContext } from '../utils/NavContext';
 import { API_DOMAIN } from '../../config';
-import { Checkbox, CircularProgress } from '@material-ui/core';
+
 
 
 // Styled Components ==========================================================================================
 
 let SelectCategoryDiv = styled.div`
+    margin-left: auto;
+    margin-right: 2em;
+    box-sizing: border-box;
+    
+    height: 80vh;
+    position: ${({drawer})=>drawer?"static":"sticky"};
+    top: ${({drawer})=>drawer?"4em":"8em"};
+    bottom: ${({drawer})=>drawer?"0":"2em"};
+    
+    
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    grid-column: 1 / 2;
     justify-self: top;
-    top: 10em;
-    position: sticky;
-    box-sizing: border-box;
+    
+    margin-top: 4em;
+    
+    .heading{
+        color: #0e5aff;
+    }
 `;
 
 // ============================================================================================================
@@ -24,6 +50,9 @@ let SelectCategoryDiv = styled.div`
 
 export default function SelectCategory({selectedCategories, addCategory, removeCategory }) {
     const [categories, setCategories] = useState(null);
+    const [ user, ] = useContext(UserContext);
+    const [ leftnavActive, setLeftnavActive ] = useContext(NavContext).leftnav;
+    const matches = useMediaQuery(`(max-width:${responsive.small})`);
 
     useEffect(() => {
         async function fetchCategories(){
@@ -51,20 +80,39 @@ export default function SelectCategory({selectedCategories, addCategory, removeC
     }, [selectedCategories])
 
 
-
     return (
-        categories === null ? <CircularProgress /> :
-        <SelectCategoryDiv >
-            {categories.map(category => (
-                <div>
-                    <Checkbox checked={category.selected} onChange={({ target }) => {
-                        setCategoryVal(category.category, target.checked);
-                    }} />
-                    {category.category}
-                </div>
-            ))}
-        </SelectCategoryDiv>
+      matches ? 
+        <Drawer open={leftnavActive} onClose={closeLeftnav}>
+          <SelectCategory matches={matches} />
+        </Drawer>:
+      <SelectCategory matches={matches} />
+      
     );
+
+    // return (<SelectCategory />);
+    
+    function SelectCategory({ matches }){
+        return (
+            categories === null ? <CircularProgress /> :
+            <SelectCategoryDiv drawer={matches}>
+                <h3 className="heading">Categories</h3>
+                {categories.map(category => (
+                    <div>
+                        <Checkbox 
+                            checked={category.selected} 
+                            onChange={({ target }) => {
+                            setCategoryVal(category.category, target.checked);
+                        }} />
+                        {category.category}
+                    </div>
+                ))}
+            </SelectCategoryDiv>
+        )
+    }
+
+    function closeLeftnav(){
+        setLeftnavActive(false);
+    }
 
     function setCategoryVal(category, val) {
         setCategories(categories.map(cat => {

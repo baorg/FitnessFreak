@@ -1,5 +1,6 @@
 const { Ques, Ans, User, Tag } = require("../../Models");
 const hasUserOwnProperty = require("../Question/utilis").hasUserOwnProperty
+const { score } = require('../../config');
 
 module.exports.getRankByCategory = async function(req, res, next) {
     const type = req.body.type;
@@ -23,7 +24,8 @@ module.exports.getRankByCategory = async function(req, res, next) {
                         last_name: user.last_name,
                         catScore: user.score[index].score,
                         profile_image: user.profile_image,
-                        totalScore: user.score[totalScoreIndex].score
+                        totalScore: user.score[totalScoreIndex].score,
+                        followers: Math.floor(user.score[index].score/score.followerGained)
                     });
                 }
             });
@@ -47,7 +49,8 @@ module.exports.getRankByCategory = async function(req, res, next) {
                 user.score.forEach(({ name, score }) => {
                     if (categoriesSet.has(name))
                         tmpData.catScore += score;
-                });
+                });                
+
                 if (tmpData.catScore > 0) {
                     result.push(tmpData);
                 }

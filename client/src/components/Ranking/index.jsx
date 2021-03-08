@@ -1,58 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Chip } from '@material-ui/core';
+
+//  Material UI ==============================
+
+import Chip from '@material-ui/core/Chip';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+
+// ===============================
 
 import Selector from './selector';
 import Ranking from './ranking';
+import { responsive } from '../utils/data.json';
 
-// Styled Components =============================================================================================
+
+// Styled Components ===============================================================
 
 let MainDiv = styled.div`
-    width: 90vw;
 
-    min-height: calc(100vh - 50px);
-
-    position: relative;
-    top: 100px;
-    left: 5vw;
     display: grid;
-    grid-template: ". . select-category select-follow ." "category main main main main";
-
-    .selector-btn{
-        font-size: 1.4em;
-        background-color: #c7c7c7;
-        text-align: center;
-        margin: 0 10px 0 10px;
-        border-radius: 10px;
-        cursor: pointer;
-        min-width: 10em;
-        max-width: 15em;
-        height: fit-content;
-        
-        padding: 20px;
-
-        .selected-categories{
-            
-        }
-    }
-
-    .category-selector-btn{
-        grid-area: select-category;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .follow-selector-btn{
-        grid-area: select-follow;
-    }
-
-    .selector-container{
-        grid-area: category;
-    }
-
-    .type-selector{
-        grid-area: type;
-    }
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    max-width: 100vw;
+    box-sizing: border-box;
+    
+    padding: 10px;
+    grid-template-columns: ${({midPoint, lastPoint})=>lastPoint? "100% 0": midPoint? "1fr 2fr 0": "1fr 1000px 1fr"};
+    background-color: #eeeeee;
+    min-height: 100vh;
+    height: fit-content;
 
 `;
 
@@ -62,22 +38,27 @@ export default function RankingPage({}){
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [type, setType] = useState('category');
 
+
+    let midPoint = useMediaQuery(`(min-width: ${responsive.small}) and (max-width: ${responsive.medium})`);
+    let lastPoint = useMediaQuery(`(max-width: ${responsive.small})`);
+
+
+
     useEffect(() => {
         if(type!=='category')
             setSelectedCategories([]);
     }, [type]);
 
     return (
-        <MainDiv >
-            <div className="category-selector-btn selector-btn" style={{backgroundColor: type==='category'?'#a9a9ff':'#c7c7c7'}} onClick={()=>setType('category')}>
-                <span>Category</span>
-                {/* <span className="selected-categories">{selectedCategories.map((category) => <Chip size="small" variant="outlined" color="primary" label={ category}/>)}</span> */}
-            </div>
-            <div className="follow-selector-btn selector-btn" style={{backgroundColor: type==='followers'?'#a9a9ff':'#c7c7c7'}} onClick={()=>setType('followers')}>Followers</div>
-            <div className="selector-container">
-                <Selector selectedCategories={selectedCategories} addCategory={addCategoryHandler} removeCategory={removeCategoryHandler} />
-            </div>
-            <Ranking type={type} categories={selectedCategories}/>
+        <MainDiv midPoint={midPoint} lastPoint={lastPoint}>
+            <Selector 
+                selectedCategories={selectedCategories} 
+                addCategory={addCategoryHandler} 
+                removeCategory={removeCategoryHandler} 
+
+            />
+            <Ranking type={type} setType={setType} categories={selectedCategories}/>
+            <div></div>
         </MainDiv>
     );
 
