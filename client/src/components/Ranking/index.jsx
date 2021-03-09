@@ -43,12 +43,6 @@ export default function RankingPage({}){
     let lastPoint = useMediaQuery(`(max-width: ${responsive.small})`);
 
 
-
-    useEffect(() => {
-        if(type!=='category')
-            setSelectedCategories([]);
-    }, [type]);
-
     return (
         <MainDiv midPoint={midPoint} lastPoint={lastPoint}>
             <Selector 
@@ -64,7 +58,6 @@ export default function RankingPage({}){
 
     function addCategoryHandler(category) {
         setSelectedCategories([ ...selectedCategories, category]);
-        setType('category');
     }
 
     function removeCategoryHandler(category) {

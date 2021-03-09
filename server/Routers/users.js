@@ -27,6 +27,7 @@ router.post("/update-email", updateHandlers.updateEmail);
 
 router.post('/update-image', isAuthenticated, updateHandlers.updateImage);
 router.get("/request-verify-email", verifyHandlers.requestVerifyEmail);
+router.get('/update-chosen-category', isAuthenticated, updateHandlers.updateChosenCategory);
 
 router.get("/get-suggestions", getSuggestions);
 

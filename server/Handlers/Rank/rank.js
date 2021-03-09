@@ -6,10 +6,31 @@ module.exports.getRankByCategory = async function(req, res, next) {
     const type = req.body.type;
     const categories = req.body.categories;
     try {
-        const users = await User.find({}, "username first_name last_name score profile_image").exec();
+        const users = await User.find({}, "username first_name last_name score profile_image chosen_category").exec();
         let result = [];
 
-        if (type === 'followers' || type === 'totalScore') {
+        if (type === 'followers'){
+            users.forEach((user)=>{
+                let index = hasUserOwnProperty(user, type);
+                let totalScoreIndex = hasUserOwnProperty(user, 'totalScore');
+
+                if (    index !== -1 && user.score[index].score > 0 &&
+                        (categories.length===0 || categories.some(c=>user.chosen_category&&user.chosen_category.some(cc=>cc===c)))
+                    ) {
+                    result.push({
+                        _id: user._id,
+                        username: user.username,
+                        score: user.score,
+                        first_name: user.first_name,
+                        last_name: user.last_name,
+                        catScore: user.score[index].score,
+                        profile_image: user.profile_image,
+                        totalScore: user.score[totalScoreIndex].score,
+                        followers: Math.floor(user.score[index].score/score.followerGained)
+                    });
+                }
+            })
+        } else if (type === 'totalScore') {
             console.log(type);
             users.forEach((user) => {
                 let index = hasUserOwnProperty(user, type);

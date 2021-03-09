@@ -19,7 +19,8 @@ import { UserContext } from '../utils/UserContext';
 // Styled components ===================================
 
 let MainDiv = styled.div`
-    
+    width: 100%;
+    box-sizing: border-box;  
 `;
 
 let StyledSpinner = styled(Spinner)`
@@ -35,6 +36,7 @@ const ProfileDiv = styled.div`
     display: grid;
     grid-template-columns: ${({midPoint, lastPoint})=>lastPoint? "0 1fr 0": midPoint? "1fr 2fr": "1fr 800px 1fr"};
 
+    grid-column: 1 / 2;
     grid-column-gap: 2px;
 `;
 // ========================================================
@@ -67,7 +69,7 @@ export default function Profile({ userId }) {
         <>
             <MainDiv active={editProfile}>
                 <ProfileDiv midPoint={midPoint} lastPoint={lastPoint}>
-                    <LeftRail />
+                    <LeftRail profile_user={profileUser} />
                     {profileUser ?
                         <Main
                             profileUser={profileUser}

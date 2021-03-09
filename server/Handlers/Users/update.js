@@ -1,7 +1,7 @@
 const { User, Token } = require('../../Models');
 const { validationResult } = require('express-validator');
 const sendMail = require('../utils/mailer');
-const { API_DOMAIN, CLIENT_DOMAIN } = require('../../config');
+const { API_DOMAIN, CLIENT_DOMAIN, category: categories } = require('../../config');
 
 const format_response = require('../utils/format_response');
 const hideEmail = require('../utils/hide_email');
@@ -121,7 +121,7 @@ async function updateProfile(req, res, next) {
 
     try {
         let user = req.user;
-        console.log('data:', req.body);
+        // console.log('data:', req.body);
         let {
             first_name = user.first_name,
                 last_name = user.last_name,
@@ -183,9 +183,55 @@ async function updateImage(req, res, next) {
     }
 }
 
+
+async function updateChosenCategory(req, res, next){
+    let success = false;
+    let data = {};
+    let error = null;
+
+    try{
+        let { category, on } = req.query;
+        on = (on==='true'?true:on==='false'?false:null);
+        let chosen_categories = req.user.chosen_category;
+        data = {
+            chosen_category: chosen_categories
+        };
+        
+        if(categories.some(cat=>cat===category) && (on===false || on===true)){
+            if(on){
+                if(chosen_categories.length>=2){
+
+                }else{
+                    chosen_categories.push(category);
+                }
+
+            }else{
+                chosen_categories = chosen_categories.filter(cat=>cat!=category);
+            }
+
+            req.user.chosen_category = chosen_categories;
+            await req.user.save();
+            data = {
+                chosen_category: req.user.chosen_category
+            };
+        }else{
+            success = false;
+            error = "Invalid input";
+        }
+    }catch(err){
+        success = false;
+        error = "Some internal error.";
+        console.error('ERROR: ', err);
+    }finally{
+        format_response(res, data, success, error);
+        return next();
+    }
+}
+
 module.exports = {
     requestUpdateEmail,
     updateProfile,
     updateEmail,
     updateImage,
+    updateChosenCategory
 };

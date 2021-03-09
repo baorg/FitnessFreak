@@ -14,6 +14,8 @@ const MainDiv = styled.div`
     border-left: 2px solid #919191;
     border-right: 2px solid #919191;
     border-collapse: collapse;
+
+    grid-column: 2 / 3;
 `;
 
 // =======================================================

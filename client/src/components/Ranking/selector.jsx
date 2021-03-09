@@ -12,6 +12,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 import { fetchUserData } from '../utils/fetch_user_data';
+import fetchCategories from '../utils/fetch_categories';
 import { responsive } from '../utils/data.json';
 import ajaxRequest from '../../ajaxRequest';
 import { UserContext } from '../utils/UserContext';
@@ -55,16 +56,20 @@ export default function SelectCategory({selectedCategories, addCategory, removeC
     const matches = useMediaQuery(`(max-width:${responsive.small})`);
 
     useEffect(() => {
-        async function fetchCategories(){
+        (async function (){
             try {
-                let res = await ajaxRequest('GET', `${API_DOMAIN}/question/getCategory`);
-                // console.log('Categories: ', res.data);
-                setCategories(res.data.categories.map(category => ({ category: category, selected: false })));
+                let fetched_categories = await fetchCategories();
+                console.log("Categories: ", fetched_categories);
+                setCategories(
+                    fetched_categories
+                    .map(category => 
+                        ({ 
+                            category: category, selected: false 
+                        })));
             } catch (err) {
 
             }
-        }
-        fetchCategories();
+        })();
     }, []);
 
 

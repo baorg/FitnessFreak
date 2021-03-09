@@ -222,20 +222,21 @@ export default function Ranking ({ type, setType, categories }) {
                         <span>Followers</span>
                     </div>
                 </div>
-                {type==='category' ? <CategoryRanking categories={categories}/> : 
-                type==='followers' ? <FollowersRanking /> : <></>}
+                {type==='category' ? <CategoryRanking categories={categories} /> : 
+                type==='followers' ? <FollowersRanking categories={categories} /> : <></>}
             </ContentDiv>
             { (!(midPoint||lastPoint)) && <Divider orientation="vertical"  variant="middle" className="divider"/>}
         </RankingDiv>);
 
-    function FollowersRanking(){
+    function FollowersRanking({categories }){
         const [ rank, setRank ] = useState(null);
+        
         useEffect(()=>{
             setRank(null);
             
             //axios call
             let url = `${API_DOMAIN}/rank/ByCategory`;
-            let data = { type: 'followers', categories: [] };
+            let data = { type: 'followers', categories: categories };
             
             axiosCall('POST', url, data)
                 .then(({ data }) => {

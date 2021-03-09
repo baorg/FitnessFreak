@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { CalendarTodayIcon } from '@material-ui/icons';
-import { Button } from '@material-ui/core';
+import { Button, Chip } from '@material-ui/core';
 import noimage from '../../../static/noimage.png';
 import nobanner from '../../../static/placeholder_profile_banner.jfif';
 import EditProfile from '../EditProfile';
@@ -11,6 +11,15 @@ import FollowingSystemDiv from '../FollowingSystem';
 
 // Styled Components ================================================
 let ProfileInfoDiv = styled.div`
+
+    .chosen-category{
+        display: flex;
+        width: 100%;
+        box-sizing: border-box;
+        >*{
+            margin: 0 4px 0 4px;
+        }
+    }
 
 `;
 
@@ -151,12 +160,19 @@ export default function UserInfo(props) {
                     <Username>@{props.profileUser.username}</Username>
                     <JoinedDate>Joined { (new Date(props.profileUser.created_at).toLocaleString('en-US', {year: 'numeric', month: 'long'}))}</JoinedDate>
                 </Name>
+                <div className="chosen-category">
+                    {props.profileUser.chosen_category.map( category=>
+                        <Chip 
+                            variant="outlined"
+                            label={category}
+                            color="primary"/>
+                    )}
+                </div>
             <hr />
             <Bio>
                 <BioDiv>Bio</BioDiv>
                 {props.profileUser.bio}
             </Bio>
-
             <ScoreCard>
                 <MainScore>
                     <span>Score</span>
