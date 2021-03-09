@@ -1,4 +1,4 @@
-import React, { useState,useRef,useEffect, useContext} from "react"
+import React, { useState,useRef,useEffect, useContext} from "react";
 import { A,navigate } from 'hookrouter';
 import styled from 'styled-components';
 
@@ -200,9 +200,10 @@ const Progressbar = styled.div`
 
 export default function Ranking ({ type, setType, categories }) {
     const [ user, ] = useContext(UserContext);
+    
     let midPoint = useMediaQuery(`(min-width: ${responsive.small}) and (max-width: ${responsive.medium})`);
     let lastPoint = useMediaQuery(`(max-width: ${responsive.small})`);
-
+    
     return (
         <RankingDiv>
             {!lastPoint && <Divider orientation="vertical"  variant="middle" className="divider" />}
@@ -230,7 +231,8 @@ export default function Ranking ({ type, setType, categories }) {
 
     function FollowersRanking({categories }){
         const [ rank, setRank ] = useState(null);
-        
+        const selfRef = useRef(null);
+
         useEffect(()=>{
             setRank(null);
             
@@ -248,7 +250,12 @@ export default function Ranking ({ type, setType, categories }) {
             rank === null ? <Progressbar ><CircularProgress /></Progressbar>:
             <>
             {rank.map((el,index)=>
-                <UserRankDiv self={user&&el._id===user._id} className={user&&el._id===user._id?"my-rank":""}>
+                <UserRankDiv 
+                    self={user&&el._id===user._id} 
+                    className={user&&el._id===user._id?"my-rank":""}
+                    ref={(user&&el._id===user._id)?selfRef:null}
+                    onClick={(user&&el._id===user._id)?takeDown:()=>{}}
+                >
                     { index===0 ?  
                         <div className="user-rank"><img src={GoldMedal} className="rank-medal-img"/></div>
                     :index===1 ?
@@ -272,12 +279,20 @@ export default function Ranking ({ type, setType, categories }) {
             )}
             </>
         );
-
+        
+        function takeDown(){
+            if(selfRef){
+                selfRef.current.style.position = 'static';
+                selfRef.current.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+                // console.log('Taking down: ', selfRef.current.scrollIntoView);
+                selfRef.current.style.position = 'sticky';
+            }
+        }
     }
 
     function CategoryRanking({ categories }){
         const [ rank, setRank ] = useState(null);
-
+        const selfRef = useRef(null);
         useEffect(() => {
             setRank(null);
             
@@ -301,7 +316,12 @@ export default function Ranking ({ type, setType, categories }) {
             rank === null ? <Progressbar ><CircularProgress /></Progressbar>:
             <>
             {rank.map((el,index)=>
-                <UserRankDiv self={user&&el._id===user._id} className={user&&el._id===user._id?"my-rank":""}>
+                <UserRankDiv 
+                    self={user&&el._id===user._id} 
+                    className={user&&el._id===user._id?"my-rank":""}
+                    ref={(user&&el._id===user._id)?selfRef:null}
+                    onClick={(user&&el._id===user._id)?takeDown:()=>{}}
+                >
                     { index===0 ?  
                         <div className="user-rank"><img src={GoldMedal} className="rank-medal-img"/></div>
                     :index===1 ?
@@ -326,15 +346,21 @@ export default function Ranking ({ type, setType, categories }) {
                             <div className="total-score">{categories[0]}</div>
                             <div className="main-score">{el.catScore} </div>
                         </div>
-                    :   <div className="score-div" >
-                            <div className="total-score">Total Score</div>
-                            <div className="main-score">{el.totalScore} </div>
-                        </div>
+                    :   <></>                    
                     }
                 </UserRankDiv>
             )}
             </>
         );
+
+        function takeDown(){
+            if(selfRef){
+                selfRef.current.style.position = 'static';
+                selfRef.current.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+                // console.log('Taking down: ', selfRef.current.scrollIntoView);
+                selfRef.current.style.position = 'sticky';
+            }
+        }
     }
     
 }
