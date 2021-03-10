@@ -14,7 +14,7 @@ module.exports.getRankByCategory = async function(req, res, next) {
                 let index = hasUserOwnProperty(user, type);
                 let totalScoreIndex = hasUserOwnProperty(user, 'totalScore');
 
-                if (    index !== -1 && user.score[index].score > 0 &&
+                if (    index !== -1 &&
                         (categories.length===0 || categories.some(c=>user.chosen_category&&user.chosen_category.some(cc=>cc===c)))
                     ) {
                     result.push({
@@ -36,7 +36,7 @@ module.exports.getRankByCategory = async function(req, res, next) {
                 let index = hasUserOwnProperty(user, type);
                 let totalScoreIndex = hasUserOwnProperty(user, 'totalScore');
 
-                if (index !== -1 && user.score[index].score > 0) {
+                if (index !== -1) {
                     result.push({
                         _id: user._id,
                         username: user.username,

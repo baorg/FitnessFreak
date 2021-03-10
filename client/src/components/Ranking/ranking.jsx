@@ -283,7 +283,10 @@ export default function Ranking ({ type, setType, categories }) {
         function takeDown(){
             if(selfRef){
                 selfRef.current.style.position = 'static';
-                selfRef.current.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+                selfRef.current.scrollIntoView({
+                    behavior: "smooth", 
+                    block: "center", 
+                    inline: "center"});
                 // console.log('Taking down: ', selfRef.current.scrollIntoView);
                 selfRef.current.style.position = 'sticky';
             }
@@ -356,7 +359,7 @@ export default function Ranking ({ type, setType, categories }) {
         function takeDown(){
             if(selfRef){
                 selfRef.current.style.position = 'static';
-                selfRef.current.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+                selfRef.current.scrollIntoView({behavior: "smooth", block: "center", inline: "center"});
                 // console.log('Taking down: ', selfRef.current.scrollIntoView);
                 selfRef.current.style.position = 'sticky';
             }

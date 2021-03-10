@@ -3,7 +3,12 @@ import {API_DOMAIN} from '../../config';
 
 async function fetchFromServer(){
     let res = await ajaxRequest('GET', `${API_DOMAIN}/question/getCategory`);
-    return res.data.categories;
+    // console.log('Res Data: ', res.data);
+    if(res.data.success){
+        return res.data.categories;
+    }
+
+    return null;
 }
 
 export default async function fetchCategories(){
@@ -14,7 +19,8 @@ export default async function fetchCategories(){
 
         if(categories===null){
             categories = await fetchFromServer();
-            sessionStorage.setItem('categories',categories);
+            if(categories!==null)
+                sessionStorage.setItem('categories',categories);
         }else{
             categories = categories.split(',');
             console.log('Session Storage: ',categories);
