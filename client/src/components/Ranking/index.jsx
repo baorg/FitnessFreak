@@ -13,7 +13,7 @@ import Ranking from './ranking';
 import { responsive } from '../utils/data.json';
 
 
-// Styled Components ===============================================================
+// Styled Components =======================================
 
 let MainDiv = styled.div`
 
@@ -24,15 +24,16 @@ let MainDiv = styled.div`
     max-width: 100vw;
     box-sizing: border-box;
     
-    padding: 10px;
+    padding: 0 10px 0 10px;
     grid-template-columns: ${({midPoint, lastPoint})=>lastPoint? "100% 0": midPoint? "1fr 2fr 0": "1fr 1000px 1fr"};
-    background-color: #eeeeee;
+    background: #EFF2F4;
     min-height: 100vh;
     height: fit-content;
+    font-family: 'SF Pro','Segoe UI';
 
 `;
 
-// ===============================================================================================================
+// =========================================================
 
 export default function RankingPage({}){
     const [selectedCategories, setSelectedCategories] = useState([]);

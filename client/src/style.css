@@ -1,5 +1,11 @@
+@font-face {
+    font-family: 'SF Pro';
+    font-style: normal;
+    font-weight: 400;
+    src: local('SF Pro'), local('SF Pro'),
+         url('fonts/FontsFree-Net-SFProDisplay-Regular.ttf') format('truetype')
+  }
+
 body {
-    background-color: #eeeeee;
+    background-color: #EFF2F4;
 }
-
-

@@ -15,7 +15,7 @@ import { responsive } from '../../utils/data.json';
 import ajaxRequest from '../../../ajaxRequest';
 import { UserContext } from '../../utils/UserContext';
 import { NavContext } from '../../utils/NavContext';
-import { API_DOMAIN } from '../../../config';
+import { API_DOMAIN, SERVER_DOMAIN } from '../../../config';
 import fetchCategories from '../../utils/fetch_categories';
 
 // Styled Components =====================================================
@@ -27,7 +27,7 @@ const MainDiv = styled.div`
     display: flex;
     flex-direction: column;
     font-size: 20px;
-
+    
     .heading{
         display: flex;
         flex-direction: column;
@@ -35,6 +35,30 @@ const MainDiv = styled.div`
 
         .helper{
             font-size: 12px;
+        }
+    }
+
+    .category{
+        color: #424259;
+        display: flex;
+        width: 100%;
+
+        .cat-name{
+            text-align: center;
+            justify-content: center;
+            align-content: center;
+            display: grid;
+            place-content: center;
+            margin: 0 0 0 10px;
+            width: fit-content;
+            font-size: 20px;
+        }
+
+        .cat-img{
+            width: 25px;
+            height: 25px;
+            align-self: center;
+            margin: 0 0 0 10px;
         }
     }
 
@@ -57,14 +81,16 @@ export default function CategorySelector({ profile_user }){
                 </div>
                 {categories.map(
                     category => 
-                        <div>
+                        <div className="category">
                             <Switch
                                 checked={category.chosen}
                                 disabled={!category.active}
                                 color="primary"
                                 onClick={()=>toggleCategory(category.category)}
+                                className="cat-switch"
                             />
-                            {category.category}
+                            <img src={category.image} className="cat-img"/>
+                            <div className="cat-name">{category.category}</div>
                         </div>
                 )}
             </MainDiv>
@@ -79,9 +105,9 @@ export default function CategorySelector({ profile_user }){
                 let on = !categories[index].chosen;
                 setCategories(categories.map((cat,i)=>
                     i===index?{
+                        ...cat,
                         active: false,
                         chosen: on,
-                        category: cat.category
                     }:cat));
                 
                 
@@ -91,7 +117,7 @@ export default function CategorySelector({ profile_user }){
                 
                 if(data.chosen_category){
                     setCategories(categories.map(cat=>({
-                        category: cat.category,
+                        ...cat,
                         active: true,
                         chosen: data.chosen_category.some(c=>c===cat.category)
                     })));
@@ -107,7 +133,8 @@ export default function CategorySelector({ profile_user }){
                 .then(category_list => {
                     console.log(category_list.map(
                             cat =>({
-                                category: cat,
+                                category: cat.name,
+                                image: `${SERVER_DOMAIN}/server-static/${cat.url}`,
                                 chosen: user.chosen_category.some(c=>c===cat),
                                 active: true,
                             })
@@ -115,7 +142,8 @@ export default function CategorySelector({ profile_user }){
                     setCategories(
                         category_list.map(
                             cat =>({
-                                category: cat,
+                                category: cat.name,
+                                image: `${SERVER_DOMAIN}/server-static/${cat.url}`,
                                 chosen: user.chosen_category.some(c=>c===cat),
                                 active: true
                             })

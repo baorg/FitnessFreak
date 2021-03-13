@@ -1,5 +1,6 @@
 module.exports = {
     category: require('./category').category,
+    categories: require('./category').categories,
     score: require('./score').score,
 
     // Cloudinary

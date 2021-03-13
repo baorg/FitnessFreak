@@ -53,15 +53,6 @@ export default function Profile({ userId }) {
     const [user, setUser ] = useContext(UserContext);
 
     useEffect(() => {
-        async function getUserData() {
-            let res = await ajaxRequest('POST', `${CONFIG.API_DOMAIN}/users/get-userdata-id`, { user_id: userId });
-            res.data.user.own_profile = false;
-            if (res.data.user._id === user?._id) {
-                res.data.user.own_profile = true;
-            }
-            console.log('OWN PROFILE: ', res.data.user.own_profile);
-            setProfileUser(res.data.user);
-        }
         getUserData();
     }, [user, userId]);
 
@@ -89,4 +80,14 @@ export default function Profile({ userId }) {
                     setUser={setUser}
                 />}
         </>);
+
+    async function getUserData() {
+        let res = await ajaxRequest('POST', `${CONFIG.API_DOMAIN}/users/get-userdata-id`, { user_id: userId });
+        res.data.user.own_profile = false;
+        if (res.data.user._id === user?._id) {
+            res.data.user.own_profile = true;
+        }
+        console.log('OWN PROFILE: ', res.data.user.own_profile);
+        setProfileUser(res.data.user);
+    }
 }

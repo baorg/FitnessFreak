@@ -1,22 +1,25 @@
-import { useState,useRef, useContext, useEffect } from "react";
-import { A,navigate } from 'hookrouter';
-import React from 'react';
+import { useState, useRef, useEffect, useContext } from "react";
+import { A } from 'hookrouter';
 import styled from 'styled-components';
 
+// Material-UI ==================================================
+
+import Typography from '@material-ui/core/Typography';
 import  Avatar  from '@material-ui/core/Avatar';
 import CircularProgress  from '@material-ui/core/CircularProgress'
 
+// =============================================================
 
-import axiosCall from "../../ajaxRequest";
-import { responsive } from '../utils/data.json';
-import { API_DOMAIN } from '../../config';
 
 import { 
     GoldAwardIcon, SilverAwardIcon, BronzeAwardIcon
 } from './staticfiles';
+
+import axiosCall from "../../ajaxRequest";
+import { API_DOMAIN } from '../../config';
 import { UserContext } from "../utils/UserContext";
 
-// Styled Components ====================================================================
+// Styled Components ==========================================================================================
 import UserRankDiv from './UserRankDiv';
 
 const Progressbar = styled.div`
@@ -26,25 +29,34 @@ const Progressbar = styled.div`
 `;
 
 
-// ========================================================================================
-export default function FollowersRanking({ categories }){
+// ============================================================================================================
+
+
+
+export default function CategoryRanking({ categories }){
     const [ rank, setRank ] = useState(null);
     const [ user, ] = useContext(UserContext);
     const selfRef = useRef(null);
 
-    useEffect(()=>{
+    useEffect(() => {
         setRank(null);
         
         //axios call
         let url = `${API_DOMAIN}/rank/ByCategory`;
-        let data = { type: 'followers', categories: categories };
+        let data = {};
+        
+        
+        if (categories.length === 0)
+            data = { type: 'totalScore', categories: [] };
+        else
+            data = { type: 'category', categories };
         
         axiosCall('POST', url, data)
             .then(({ data }) => {
                 setRank(data.ranking);
         });
     }, [ categories ]);
-
+    
     return (
         rank === null ? <Progressbar ><CircularProgress /></Progressbar>:
         <>
@@ -69,23 +81,27 @@ export default function FollowersRanking({ categories }){
                     <div className="username">@{el.username}</div>
                 </A>
 
-                
-                <div className="score-div" >
-                    <div className="total-score">Followers</div>
-                    <div className="main-score">{el.followers} </div>
-                </div>
+                {categories.length ===0 ? 
+                    <div className="score-div" >
+                        <div className="total-score">Total Score</div>
+                        <div className="main-score">{el.totalScore} </div>
+                    </div>
+                : categories.length===1?    
+                    <div className="score-div" >
+                        <div className="total-score">{categories[0]}</div>
+                        <div className="main-score">{el.catScore} </div>
+                    </div>
+                :   <></>                    
+                }
             </UserRankDiv>
         )}
         </>
     );
-    
+
     function takeDown(){
         if(selfRef){
             selfRef.current.style.position = 'static';
-            selfRef.current.scrollIntoView({
-                behavior: "smooth", 
-                block: "center", 
-                inline: "center"});
+            selfRef.current.scrollIntoView({behavior: "smooth", block: "center", inline: "center"});
             // console.log('Taking down: ', selfRef.current.scrollIntoView);
             selfRef.current.style.position = 'sticky';
         }

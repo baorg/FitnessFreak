@@ -5,7 +5,7 @@ async function fetchFromServer(){
     let res = await ajaxRequest('GET', `${API_DOMAIN}/question/getCategory`);
     // console.log('Res Data: ', res.data);
     if(res.data.success){
-        return res.data.categories;
+        return res.data.categories_data;
     }
 
     return null;
@@ -19,11 +19,12 @@ export default async function fetchCategories(){
 
         if(categories===null){
             categories = await fetchFromServer();
-            if(categories!==null)
-                sessionStorage.setItem('categories',categories);
+            if(categories!==null){
+                sessionStorage.setItem('categories',JSON.stringify(categories));
+            }
         }else{
-            categories = categories.split(',');
-            console.log('Session Storage: ',categories);
+            categories = JSON.parse(categories);
+            // console.log('Session Storage: ',categories);
         }
 
         return categories;

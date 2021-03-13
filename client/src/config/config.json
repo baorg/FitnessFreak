@@ -1,23 +1,27 @@
 {
     "PRODUCTION": {
+        "SERVER_DOMAIN": "https://fitnessfreakapp.herokuapp.com", 
         "API_DOMAIN" : "https://fitnessfreakapp.herokuapp.com/api",
         "CLIENT_DOMAIN" : "https://fitnessfreakapp.herokuapp.com",
         "CLOUDINARY_CLOUD_NAME": "drc8u0jpr",
         "CLOUDINARY_API_KEY": "439496878484438"
     },
     "LOCAL":{
+        "SERVER_DOMAIN": "http://localhost:5000",
         "API_DOMAIN" : "http://localhost:5000/api",
         "CLIENT_DOMAIN" : "http://localhost:3000",
         "CLOUDINARY_CLOUD_NAME": "drc8u0jpr",
         "CLOUDINARY_API_KEY": "439496878484438"
     },
     "TESTING": {
+        "SERVER_DOMAIN": "http://localhost:5000",
         "API_DOMAIN" : "http://localhost:5000/api",
         "CLIENT_DOMAIN" : "http://localhost:5000",
         "CLOUDINARY_CLOUD_NAME": "drc8u0jpr",
         "CLOUDINARY_API_KEY": "439496878484438"
     },
     "LANTESTING": {
+        "SERVER_DOMAIN": "http://192.168.0.120:5000",
         "API_DOMAIN" : "http://192.168.0.120:5000/api",
         "CLIENT_DOMAIN" : "http://192.168.0.120:3000",
         "CLOUDINARY_CLOUD_NAME": "drc8u0jpr",

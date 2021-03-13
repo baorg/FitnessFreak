@@ -54,6 +54,8 @@ app.use(logging);
 
 
     app.use('/api', Router);
+    app.use('/server-static', express.static(path.join(__dirname, 'static')));
+    
     if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV == 'testing') {
         console.log('Running production/testing build');
         app.use(express.static(path.join(path.dirname(path.dirname(__filename)), 'client', 'build')));

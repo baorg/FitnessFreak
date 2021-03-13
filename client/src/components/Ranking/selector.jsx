@@ -17,7 +17,7 @@ import { responsive } from '../utils/data.json';
 import ajaxRequest from '../../ajaxRequest';
 import { UserContext } from '../utils/UserContext';
 import { NavContext } from '../utils/NavContext';
-import { API_DOMAIN } from '../../config';
+import { API_DOMAIN, SERVER_DOMAIN } from '../../config';
 
 
 
@@ -25,7 +25,7 @@ import { API_DOMAIN } from '../../config';
 
 let SelectCategoryDiv = styled.div`
     margin-left: auto;
-    margin-right: 2em;
+    margin-right: 1em;
     box-sizing: border-box;
     
     height: 80vh;
@@ -36,13 +36,40 @@ let SelectCategoryDiv = styled.div`
     
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    justify-self: top;
-    
-    margin-top: 4em;
-    
+    align-items: flex-center;
+    width: 15em;
+
+    justify-content: space-evenly;
     .heading{
-        color: #0e5aff;
+        color: #065BFB;
+        margin-bottom: 1em;
+        font-weight: 600;
+        font-size: 25px;
+        line-height: 30px;    
+    }
+
+    .category{
+        color: #424259;
+        display: flex;
+        width: 100%;
+
+        .cat-name{
+            text-align: center;
+            justify-content: center;
+            align-content: center;
+            display: grid;
+            place-content: center;
+            margin: 0 0 0 10px;
+            width: fit-content;
+            font-size: 20px;
+        }
+
+        .cat-img{
+            width: 25px;
+            height: 25px;
+            align-self: center;
+            margin: 0 0 0 10px;
+        }
     }
 `;
 
@@ -64,7 +91,9 @@ export default function SelectCategory({selectedCategories, addCategory, removeC
                     fetched_categories
                     .map(category => 
                         ({ 
-                            category: category, selected: false 
+                            category: category.name, 
+                            selected: false,
+                            image_url: `${SERVER_DOMAIN}/server-static/${category.url}`
                         })));
             } catch (err) {
 
@@ -79,7 +108,8 @@ export default function SelectCategory({selectedCategories, addCategory, removeC
         } else {
             setCategories(categories.map(cat => ({
                 category: cat.category,
-                selected: selectedCategories.findIndex(c => c === cat.category) !== -1
+                selected: selectedCategories.findIndex(c => c === cat.category) !== -1,
+                image_url: cat.image_url
             })));
         }
     }, [selectedCategories])
@@ -102,13 +132,16 @@ export default function SelectCategory({selectedCategories, addCategory, removeC
             <SelectCategoryDiv drawer={matches}>
                 <h3 className="heading">Categories</h3>
                 {categories.map(category => (
-                    <div>
+                    <div className="category">
                         <Checkbox 
                             checked={category.selected} 
                             onChange={({ target }) => {
                             setCategoryVal(category.category, target.checked);
-                        }} />
-                        {category.category}
+                        }} 
+                            className="cat-checkbox"
+                        />
+                        <img src={category.image_url} className="cat-img" />
+                        <div className="cat-name" ><span>{category.category}</span></div>
                     </div>
                 ))}
             </SelectCategoryDiv>
@@ -126,7 +159,7 @@ export default function SelectCategory({selectedCategories, addCategory, removeC
                     addCategory(category);
                 else
                     removeCategory(category);
-                return { category: category, selected: val };
+                return { category: category, selected: val, image_url: cat.image_url };
             } else {
                 return cat;
             }

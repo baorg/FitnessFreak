@@ -15,44 +15,44 @@ let category = [
 let categories = [{
         name: "Beauty",
         image: "",
-        url: "beauty"
+        url: "beauty_cat.svg"
     },
     {
         name: "Fashion",
         image: "",
-        url: "fashion"
+        url: "fashion_cat.svg"
     }, {
         name: "Fitness",
         image: "",
-        url: "fitness"
+        url: "fitness_cat.svg"
     }, {
         name: "Nutrition",
         image: "",
-        url: "nutrition"
+        url: "nutrition_cat.svg"
     }, {
         name: "Health",
         image: "",
-        url: "health"
+        url: "health_cat.svg"
     }, {
         name: "Lifestyle",
         image: "",
-        url: "lifestyle"
+        url: "lifestyle_cat.svg"
     }, {
         name: "Sports",
         image: "",
-        url: "sports"
+        url: "sports_cat.svg"
     }, {
         name: "Yoga",
         image: "",
-        url: "yoga"
+        url: "yoga_cat.svg"
     }, {
         name: "Entertainment",
         image: "",
-        url: "entertainment"
+        url: "entertainment_cat.svg"
     }, {
         name: "Body Building",
         image: "",
-        url: "body-building"
+        url: "bodybuilding_cat.svg"
     }
 ];
 
