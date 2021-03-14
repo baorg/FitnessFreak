@@ -47,12 +47,19 @@ const UserRankDiv = styled.div`
         flex-direction: column;
         padding: 10px;
         .name{
+            font-style: normal;
+            font-weight: 600;
             font-size: 20px;
+            line-height: 24px;
             color: ${({self})=>self?"white":"black"}; 
         }
 
         .username{
-            color: ${({self})=>self?"white":"blue"}; 
+            font-style: normal;
+            font-weight: normal;
+            font-size: 16px;
+            line-height: 19px;
+            color: ${({self})=>self?"white":"#065BFB"}; 
         }
     }
 
@@ -62,7 +69,7 @@ const UserRankDiv = styled.div`
     }
 
     .score-div{
-        height: 100%;
+        height: 44px;
         margin-left: auto;
         margin-right: 1em;
         display: flex;
@@ -71,13 +78,19 @@ const UserRankDiv = styled.div`
         justify-content: center;
 
         .main-score{
-            font-size: 1.2em;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 23px;
+            line-height: 27px;
             color: ${({self})=>self?"white":"#065BFB"};
         }
 
         .total-score{
             color: ${({self})=>self?"rgba(255, 255, 255, 0.6)":"rgba(66, 66, 89, 0.6)"};
-            font-size: 12px;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 14px;
+            line-height: 17px;
         }
     }
 
