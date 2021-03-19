@@ -1,7 +1,11 @@
+import { useRef } from 'react';
 import styled from 'styled-components';
 
-const UserRankDiv = styled.div`
-    
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+
+import { responsive } from '../utils/data.json';
+
+const BaseUserRankDiv = styled.div`
     text-align: left;
     margin-top: 15px;
 
@@ -11,7 +15,7 @@ const UserRankDiv = styled.div`
     background-color: ${({self})=>self?"#065BFB":"white"};
     box-shadow: 0px 5px 4px rgba(0, 0, 0, 0.06);
     min-height: 80px;
-    
+
     &.my-rank{
         position: sticky;
         bottom: 0em;
@@ -105,4 +109,63 @@ const UserRankDiv = styled.div`
     }
 `;
 
-export default UserRankDiv;
+const LargeScreenDiv = styled(BaseUserRankDiv)``;
+const MediumScreenDiv = styled(BaseUserRankDiv)``;
+const MobileScreenDiv = styled(BaseUserRankDiv)`
+    border-radius: 12px;
+    margin: 15px 10px 0 10px;
+    &.my-rank{
+        position: sticky;
+        bottom: 20px;
+    }
+    
+`;
+
+export default function UserRankDiv(props){
+    let small = useMediaQuery(`(max-width: ${responsive.small})`);
+    let medium = useMediaQuery(`(min-width: ${responsive.small}) and (max-width: ${responsive.medium})`);
+    const ref = useRef(null);
+
+
+    if(props.self)
+        console.log('Props ref :', props);
+
+    switch(true){
+        case small:
+            return <MobileScreenDiv
+                        {...props} 
+                        ref={ref}
+                        onClick={handleClick}
+                    />
+        
+        case medium:
+            return <MediumScreenDiv 
+                        {...props}
+                        ref={ref}
+                        onClick={handleClick}
+                    />
+        
+        default:
+            return <LargeScreenDiv 
+                        {...props}
+                        ref={ref}
+                        onClick={handleClick}
+                    />
+    }
+
+    function handleClick(){
+        if(props.self)
+            takeDown();
+    }
+
+    function takeDown(){
+        if(ref){
+            ref.current.style.position = 'static';
+            ref.current.scrollIntoView({behavior: "smooth", block: "center", inline: "center"});
+            // console.log('Taking down: ', selfRef.current.scrollIntoView);
+            ref.current.style.position = 'sticky';
+        }
+    }
+}
+
+// export default UserRankDiv;

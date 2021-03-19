@@ -25,7 +25,7 @@ let MainDiv = styled.div`
     box-sizing: border-box;
     
     padding: 0 10px 0 10px;
-    grid-template-columns: ${({midPoint, lastPoint})=>lastPoint? "100% 0": midPoint? "1fr 2fr 0": "1fr 1000px 1fr"};
+    grid-template-columns: ${({midPoint, lastPoint})=>lastPoint? "100% 0": midPoint? "250px 1fr 0": "1fr 1000px 1fr"};
     background: #EFF2F4;
     min-height: 100vh;
     height: fit-content;

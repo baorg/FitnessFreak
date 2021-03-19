@@ -41,10 +41,13 @@ const Content = styled.div`
     .content{
         margin: 0 20px 0 20px;
         width: 100%;
+        @media(max-width: ${responsive.small}){
+            margin: 0;
+        }
     }
 
     @media(max-width: ${responsive.small}){
-        padding: 20px 5px 0 5px;
+        padding: 20px 0 0 0;
     }
 
 `;

@@ -30,7 +30,6 @@ const Progressbar = styled.div`
 export default function FollowersRanking({ categories }){
     const [ rank, setRank ] = useState(null);
     const [ user, ] = useContext(UserContext);
-    const selfRef = useRef(null);
 
     useEffect(()=>{
         setRank(null);
@@ -52,8 +51,6 @@ export default function FollowersRanking({ categories }){
             <UserRankDiv 
                 self={user&&el._id===user._id} 
                 className={user&&el._id===user._id?"my-rank":""}
-                ref={(user&&el._id===user._id)?selfRef:null}
-                onClick={(user&&el._id===user._id)?takeDown:()=>{}}
             >
                 { index===0 ?  
                     <div className="user-rank"><GoldAwardIcon className="rank-medal-img"/></div>
@@ -78,16 +75,4 @@ export default function FollowersRanking({ categories }){
         )}
         </>
     );
-    
-    function takeDown(){
-        if(selfRef){
-            selfRef.current.style.position = 'static';
-            selfRef.current.scrollIntoView({
-                behavior: "smooth", 
-                block: "center", 
-                inline: "center"});
-            // console.log('Taking down: ', selfRef.current.scrollIntoView);
-            selfRef.current.style.position = 'sticky';
-        }
-    }
 }

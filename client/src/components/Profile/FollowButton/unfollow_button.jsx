@@ -22,7 +22,6 @@ let UnfollowProfileButton = styled(Button)`
     text-transform: capitalize !important;
     cursor: ${({ active }) => active ? "pointer" : "wait" };
     span{
-        font-size: 1.2em;
         color: #ff5353;
     }
     :hover{

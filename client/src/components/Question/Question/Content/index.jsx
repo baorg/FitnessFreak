@@ -23,11 +23,6 @@ let QuestionPreviewDiv = styled.div`
     width: 100%;
     box-sizing: border-box;
     font-style: bold;
-    /* max-height: 30em; */
-    /* overflow-y: auto; */
-    /* justify-content: center; */
-    /* text-justify: center; */
-
 
     .question-content{
         font-family: SF Pro;
@@ -38,20 +33,6 @@ let QuestionPreviewDiv = styled.div`
         text-decoration: none;
         font-size: 21px;
     }
-
-    /* ::-webkit-scrollbar-thumb {
-      background-color: #E3E3E3;
-      outline: 1px solid transparent;
-      border-radius: 2px;
-    }
-    ::-webkit-scrollbar {
-        width: 5px;
-    }
-
-    ::-webkit-scrollbar-track {
-      box-shadow: inset 0 0 6px transparent;
-      margin-left: 0;
-    } */
 `;
 
 let QuestionCountDiv = styled.div`

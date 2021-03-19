@@ -22,7 +22,6 @@ let FollowProfileButton = styled(Button)`
     text-transform: capitalize !important;
     cursor: ${({ active }) => active ? "pointer" : "wait" };
     span{
-        font-size: 1.2em;
         color: #065BFB;
     }
     :hover{
