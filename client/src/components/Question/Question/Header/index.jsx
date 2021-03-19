@@ -18,6 +18,11 @@ let QuestionHeader = styled.div`
     .avatar{
         width: 56px;
         height: 56px;
+
+        @media(max-width: ${responsive.small}){
+            width: 30px;
+            height: 30px;
+        }
     }
 
     .icon-div{
@@ -32,10 +37,7 @@ let QuestionHeader = styled.div`
         cursor: pointer;
     }
 
-    @media(max-width: ${responsive.small}){
-        .avatar{
-        }
-    }
+    
 `;
 
 let PostedName = styled.div`
@@ -68,6 +70,10 @@ let PostedDate = styled.div`
         font-size: 14px;
         line-height: 17px;
         color: rgba(66, 66, 89, 0.8);
+        
+        @media(max-width: ${responsive.small}){
+            font-size: 10px;
+        }
     }
     .posted-date{
         margin-left: 4px;
@@ -75,6 +81,10 @@ let PostedDate = styled.div`
         font-size: 16px;
         line-height: 20px;
         color: #424259;
+
+        @media(max-width: ${responsive.small}){
+            font-size: 12px;
+        }
     }
     
 `;

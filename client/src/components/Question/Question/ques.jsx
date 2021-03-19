@@ -109,7 +109,6 @@ export default function ({question, type, user, selectedCategories=[], qtype=0})
                 <QuestionHeader 
                     question={question} 
                     user={user}/>
-
                     <QuestionContent 
                         question={question} 
                         url={url}

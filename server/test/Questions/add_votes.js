@@ -29,12 +29,14 @@ async function createVote(user, question) {
         }
     };
     let res = {
+        data: {},
         send: (data) => console.log('Add Vote: ', data)
     };
 
-    await addVoteHandler(req, res);
+    await addVoteHandler(req, res, (data) => console.log('Add Vote: ', data));
 
     res = {
+        data: {},
         send: (data) => console.log('Edit Vote: ', data)
     }
 
@@ -43,7 +45,7 @@ async function createVote(user, question) {
     else
         req.body.down = 1;
 
-    await editVoteHandler(req, res);
+    await editVoteHandler(req, res, (data) => console.log('Edit Vote: ', data));
 
     return;
 }

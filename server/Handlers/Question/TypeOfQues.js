@@ -93,11 +93,13 @@ async function latest(obj, page, count, category = null) {
 }
 
 async function unanswered(obj, page, count, category = null) {
+
+    console.log('Getting unanswered questions.');
+    
     let findQuery = category ? { categoryName: { $in: category }, answers: { $size: 0 } } : { answers: { $size: 0 } };
-    console.log('Find Query: ', findQuery);
 
     let questions = await Ques.find(findQuery,
-        "title question created_at categoryName vote_count", {
+        "title question created_at categoryName answers vote_count", {
             limit: count,
             skip: (page - 1) * count
         }).populate(obj).exec();

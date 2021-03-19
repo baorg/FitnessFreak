@@ -82,9 +82,11 @@ const Type = styled.div`
     display: flex;
     flex-wrap: wrap;
 
-    background-color: ${({selected}) => selected ? "#5ac8d6": "inherit"};
+    color: ${({selected}) => selected ? "#065BFB": "inherit"};
+
+    /* background-color: ${({selected}) => selected ? "#5ac8d6": "inherit"}; */
     :hover{
-        background-color: ${({selected}) => selected ? "#5ac8d6": "#dddddd"};
+        color: ${({selected}) => selected ? "#065BFB": "inherit"};
         cursor: pointer;
     }
 

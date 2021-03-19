@@ -22,7 +22,7 @@ function handleSend(isAuth, data, isSaved) {
 async function createQuestion(user) {
 
     let title = faker.lorem.paragraph();
-    let question = `<p>${faker.lorem.sentences(200)}</p>`;
+    let question = `<p>${faker.lorem.sentences(10)}</p>`;
     let categories = faker.random.arrayElements(category, faker.random.number(4) + 1);
     let tags = [];
     let attachments = [];
@@ -45,8 +45,9 @@ async function createQuestion(user) {
             attachments: attachments
         }
     }, {
-        send: handleSend
-    });
+        send: handleSend,
+        data: {}
+    }, handleSend);
     return;
 }
 
@@ -56,6 +57,9 @@ async function addQuestions(count) {
             useNewUrlParser: true,
             useUnifiedTopology: true
         });
+    
+    console.log('Connected to database');
+
     let filepath = path.join(path.dirname(path.dirname(__filename)), 'data.json');
     let data = JSON.parse(fs.readFileSync(filepath).toString());
     let users = data.users;

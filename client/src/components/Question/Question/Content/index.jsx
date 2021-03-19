@@ -32,7 +32,14 @@ let QuestionPreviewDiv = styled.div`
         text-align: left;
         text-decoration: none;
         font-size: 21px;
+        
+        @media(max-width: ${responsive.small}){
+            font-weight: 400;
+            font-size: 15px;
+        }
     }
+
+    
 `;
 
 let QuestionCountDiv = styled.div`
