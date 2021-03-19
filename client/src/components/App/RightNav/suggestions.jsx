@@ -10,13 +10,14 @@ import {API_DOMAIN} from '../../../config';
 // Styled Components ===============================================================================================
 
 let Div = styled.div`
-    width: 80%;
+    width: fit-content;
+    min-width: 300px;
     max-width: 400px;
     min-height: 100px;
     padding: 2px;
     place-self: center;
     border-radius: 15px;
-    margin: 10px;
+    margin-bottom: 20px;
     display: grid;
     @media (max-width: 800px){
         display: none;
@@ -24,11 +25,13 @@ let Div = styled.div`
 `;
 
 let Heading = styled.div`
-    text-align: center;
-    font-size: 1.4em;
-    height: 2.5em;
-    padding-top: 4px;
-    border-bottom: 2px solid #989898;
+    font-family: SF Pro;
+    margin-bottom: 25px;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 25px;
+    line-height: 30px;
+    color: #065BFB;
 `;
 
 let Content = styled.div`
@@ -43,11 +46,24 @@ let Profile = styled.div`
     justify-items: space-between;
     // border-bottom: 1px solid #898989;
     margin: 2px;
-
+    margin-bottom: 10px;
     .name{
-        margin-left: 5px;
+        font-family: SF Pro;
+        font-style: normal;
+        margin-left: 10px;
+        .main-name{
+            font-weight: 500;
+            font-size: 20px;
+            line-height: 24px;
+            color: #424259;
+        }
+        .username{
+            font-weight: normal;
+            font-size: 16px;
+            line-height: 19px;
+            color: rgba(66, 66, 89, 0.6);
+        }
     }
-
     .follow-btn{
         margin-left: auto;
         button{
@@ -84,7 +100,7 @@ export default function SuggestionBox({}){
             {   loaded ? 
                     suggestions ? 
                 <>
-                <Heading> Suggestions for you</Heading>
+                <Heading> Suggestions </Heading>
                 <Content>
                     {suggestions.map( user => 
                     <Profile>
@@ -93,7 +109,7 @@ export default function SuggestionBox({}){
                             <div className="main-name">{user.first_name} {user.last_name}</div>
                             <A className="username" href={`/profile/${user._id}`}>@{user.username}</A>
                         </div>
-                        <FollowBtn profile={user} />
+                        <FollowBtn type="icon" profile={user} />
                     </Profile>)}
                 </Content>
                 <Footer></Footer>

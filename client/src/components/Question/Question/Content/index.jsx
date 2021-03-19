@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { A } from 'hookrouter';
 
-
+import CommentBtn from '../../../static/comment_icon';
 import UpDownVote from "../vote";
 import { responsive } from '../../../utils/data.json';
 
@@ -21,34 +21,37 @@ let QuestionMainDiv = styled.div`
 
 let QuestionPreviewDiv = styled.div`
     width: 100%;
-    max-height: 30em;
     box-sizing: border-box;
-    overflow-y: auto;
     font-style: bold;
-    justify-content: center;
-    text-justify: center;
+    /* max-height: 30em; */
+    /* overflow-y: auto; */
+    /* justify-content: center; */
+    /* text-justify: center; */
 
 
     .question-content{
+        font-family: SF Pro;
+        font-style: normal;
+        font-weight: 600;
         color: black;
-        font-style: bold;
-        font-size: 1.2em;
-        text-align: center;
+        text-align: left;
+        text-decoration: none;
+        font-size: 21px;
     }
 
-    ::-webkit-scrollbar-thumb {
-      background-color: rgb(109, 109, 109);
-      outline: 1px solid rgb(210, 230, 250);
+    /* ::-webkit-scrollbar-thumb {
+      background-color: #E3E3E3;
+      outline: 1px solid transparent;
       border-radius: 2px;
     }
     ::-webkit-scrollbar {
-      width: 0.5em;
+        width: 5px;
     }
 
     ::-webkit-scrollbar-track {
       box-shadow: inset 0 0 6px transparent;
       margin-left: 0;
-    }
+    } */
 `;
 
 let QuestionCountDiv = styled.div`
@@ -71,25 +74,42 @@ let VoteCount = styled.div`
     color: #555555;
 `;
 
-let CategoryContainer = styled.div`
-    display: flex;
-    flex-wrap: wrap;
 
-    >* {
-        flex: 1 1 fit-content;
-        margin: 10px;
+let BottomContainer = styled.div`
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+
+    .cmmnt-btn{
+        margin: 0 10px 0 30px;
+        align-self: center;
     }
 `;
 
+let CategoryContainer = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: auto;
+    max-width: 60%;
+`;
 
-let CategorySpan = styled.span`
-    size: 0.8em;
-    color: #2f2f2f;
-    background-color: ${({ selected }) => selected? "#9ff5a6":"rgb(238, 238, 238)"};
-    padding: 0 4px 0 4px;
-    width: fit-content;
+let CategorySpan = styled.div`
+    
     border-radius: 6px;
     height: fit-content;
+    width: fit-content;
+    background: rgba(6, 91, 251, 0.1);
+    
+    border-radius: 5px;
+    text-align: center;
+    padding-top: auto;
+    font-family: SF Pro;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    padding: 0 10px 0 10px;
+    color: #065BFB;
+    margin: 2px;
 `;
 
 
@@ -105,21 +125,12 @@ let PostedDate = styled.div`
 
 export default function Content({ question, selectedCategories, url }){
 
+    // console.log('Question: ', question)
 
 
     return (
         <>
         <QuestionContent>
-            <QuestionCountDiv>
-                <UpDownVote 
-                    quesId={question._id} 
-                    vote={question.vote}
-                />
-                {/* <VoteCount >
-                    <span>{question.answers_count}</span>
-                    <span>answers</span>
-                </VoteCount> */}
-            </QuestionCountDiv>
             <QuestionMainDiv>
                 <QuestionPreviewDiv>
                     <A 
@@ -129,17 +140,28 @@ export default function Content({ question, selectedCategories, url }){
                 </QuestionPreviewDiv>
             </QuestionMainDiv>
         </QuestionContent>
-        <CategoryContainer>
+        <BottomContainer>
+            <UpDownVote 
+                quesId={question._id} 
+                vote={question.vote}
+            />
+            <CommentBtn className="cmmnt-btn" count={question.answers_count}/>
+            <CategoryContainer>
                 {question.category.map(category => (
-                    <CategorySpan className="category-span" selected={selectedCategories!==null && selectedCategories.some(cat=>cat===category)}>{category}</CategorySpan>
+                    <CategorySpan 
+                        className="category-span" 
+                        selected={isSelected(category)}>
+                        {category}
+                    </CategorySpan>
                 ))}
-
-
-                <PostedDate>
-                    - { new Date(question.posted_at).toLocaleString('en-US', {day: 'numeric', year: 'numeric', month: 'long'}) }
-                </PostedDate> 
-        </CategoryContainer>
+            </CategoryContainer>
+        </BottomContainer>
         </>
     );
+
+
+    function isSelected(category) {
+        return (selectedCategories!==null && selectedCategories.some(cat=>cat===category));
+    }
 }
 

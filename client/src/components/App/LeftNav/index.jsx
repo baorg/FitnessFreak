@@ -1,44 +1,48 @@
-import React, { useState, useContext } from "react";
-import { A } from 'hookrouter';
+import React, { useState, useContext, useEffect } from "react";
+import { A, navigate } from 'hookrouter';
 import styled from 'styled-components';
 
 // Material-UI ----------------------------------------
 
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
-
+import CircularProgress  from '@material-ui/core/CircularProgress';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 
 import  FaceRoundedIcon from '@material-ui/icons/FaceRounded';
 
-
-
 // ------------------------------------------------------------------
 // import axiosCall from '../../../ajaxRequest';
 // import CONFIG from '../../../config';
 import Category from './category';
-
+import fetchCategories from '../../utils/fetch_categories';
 
 import { NavContext } from '../../utils/NavContext';
 import { UserContext } from '../../utils/UserContext';
 import { responsive } from '../../utils/data.json';
 
+import { SERVER_DOMAIN } from '../../../config';
 // Styled Components =================================================================
 
 const SideNavContainer = styled.div`
-
-    height: 80vh;
-    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 90vh;
+    min-width: fit-content;
     box-sizing: border-box;
-
     grid-column: 1 / 2;
-
+    
     position: ${({drawer})=>drawer?"static":"sticky"};
     top: ${({drawer})=>drawer?"0":"6em"};
     bottom: ${({drawer})=>drawer?"0":"2em"};
-    
     overflow-y: auto;
+    
+    @media(max-width: ${responsive.small}){
+      width: 250px;
+    }
+
 
     ::-webkit-scrollbar-thumb {
       background-color: rgb(78, 78, 78);
@@ -57,72 +61,101 @@ const SideNavContainer = styled.div`
  
 
 
-
-    .snavdat{
-      position: relative;
-      top: 0;
-      min-height: 100%;
-      box-sizing: border-box;
-
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-evenly;
-
-      align-items: center;
-      justify-self: center;
-
-      .users{
-
-      }
-
-      .divider{
-        height: 2px;
-        color: black;
-        width: 300px;
-      }
-
-      .link{
-        margin-left: 10px;
-        font-size: 1.5em;
-        justify-content: center;
-      }
-
-      .category-list{
-        height: 100%;
+    .snavcontainer{
+      height: 100%;
+      .snavdat{
+        /* position: relative;
+        top: 0; 
+        right: 2em; */
+        min-height: 100%;
+        box-sizing: border-box;
+        flex: 1;
         display: flex;
         flex-direction: column;
         justify-content: space-evenly;
-        align-items: center;
-        padding: 10px 0 10px 0;
-        min-height: min-content;
-        font-size: 1.2em;
-      
-        .category-el{
-          box-sizing: border-box;
+
+        margin-left: auto;
+        margin-right: auto;
+        align-items: flex-start;
+        justify-self: center;
+        padding-bottom: 50px;
+
+        >*{
+          margin-left: 10px;
         }
-      }
+
+        .users{
+          box-sizing: border-box;
+          display: flex;
+          align-items: center;
+          border: 1px solid #065BFB;
+          padding: 0.5em;
+          border-radius: 10px;
+          cursor: pointer;
+          color: #065BFB;
+          font-weight: 400;
+          width: 140px;
+          text-decoration: none;
+          margin-bottom: 1em;
+          :hover{
+            /* transform: scale(1.1); */
+            /* border-width: 2px; */
+            font-weight: 500;
+            background: #065BFB;
+            color: white;
+            transition: font 0.5s, background 0.5s, color 0.5s, transform 0.5s;
+          }
+        }
+
+        .divider{
+          height: 2px;
+          color: black;
+          width: 300px;
+        }
+
+        .link{
+          margin-left: 10px;
+          font-size: 1.5em;
+          justify-content: center;
+        }
+
+        .category-list{
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-evenly;
+          align-items: center;
+          padding: 10px 0 10px 0;
+          min-height: min-content;
+          font-size: 1.2em;
+        
+          .category-el{
+            box-sizing: border-box;
+          }
+        }
+
+        .categories-heading{
+          font-family: SF Pro;
+          font-style: normal;
+          font-weight: 600;
+          font-size: 25px;
+          line-height: 30px;
+          color: #065BFB;
+        }
+      }  
     }
-    
 `;
 
 // ======================================================================================
 
 
 const SideNavBar = function ({ setSelectedCategories, selectedCategories }) {
-  const [categories, setCategories] = useState([
-    { name: 'Beauty', icon: 'https://www.flaticon.com/svg/static/icons/svg/599/599560.svg', alt: 'Nail polish', title: 'Nail polish' },
-    { name: 'Fashion', icon: 'https://www.flaticon.com/svg/static/icons/svg/3050/3050253.svg', alt: 'Dress free icon', title: 'Dress free icon' },
-    { name: 'Fitness', icon: 'https://www.flaticon.com/svg/static/icons/svg/2964/2964514.svg', alt: 'Fitness free icon', title: 'Fitness free icon' },
-    { name: 'Nutrition', icon: 'https://www.flaticon.com/premium-icon/icons/svg/561/561611.svg', alt: 'Diet premium icon', title: 'Diet premium icon' },
-    { name: 'Health', icon: 'https://www.flaticon.com/svg/static/icons/svg/1142/1142172.svg', alt: 'Heartbeat free icon', title: 'Heartbeat free icon' },
-    { name: 'Lifestyle', icon: 'https://www.flaticon.com/svg/static/icons/svg/2829/2829802.svg', alt: 'Balance', title: 'Balance' },
-    { name: 'Sports', icon: 'https://www.flaticon.com/premium-icon/icons/svg/3311/3311579.svg', alt: 'Sports premium icon', title: 'Sports premium icon' },
-    { name: 'Yoga', icon: 'https://www.flaticon.com/svg/static/icons/svg/2647/2647625.svg', alt: 'Lotus free icon', title: 'Lotus free icon' },
-    { name: 'Entertainment', icon: 'https://www.flaticon.com/svg/static/icons/svg/3163/3163478.svg', alt: 'Popcorn free icon', title: 'Popcorn free icon' }
-  ]);
-
+  const [categories, setCategories] = useState(null);
   
+
+
+  useEffect(fetchCategoriesData, []);
+
   const [user, ] = useContext(UserContext)
   const [leftNavActive, setLeftNavActive] = useContext(NavContext).leftnav;
   const matches = useMediaQuery(`(max-width:${responsive.small})`);
@@ -131,6 +164,8 @@ const SideNavBar = function ({ setSelectedCategories, selectedCategories }) {
 
   
   return (
+    categories===null?
+      <CircularProgress /> :
       matches ? 
         <Drawer open={leftNavActive} onClose={closeLeftnav}>
           <LeftNavContent />
@@ -160,24 +195,48 @@ const SideNavBar = function ({ setSelectedCategories, selectedCategories }) {
   function LeftNavContent(){
     return (
       <SideNavContainer drawer={matches} className="left-nav">
-        <div className="snavdat">
-          <div className="users">
-            <FaceRoundedIcon />
-            <A className="link" href="/rankings">Users</A>
-          </div>
-          <hr className="divider" />
+        <div className="snavcontainer">
+          <div className="snavdat">
+            <A 
+              className="users" 
+              href="/rankings"
+            >
+              <FaceRoundedIcon />
+              <div className="link" >Ranking</div>
+            </A>
+            <div className="categories-heading">
+              Categories
+            </div>
             {categories.map(category =>
-              <Category
-
-                selected={selectedCategories!==null && selectedCategories.some(cat => cat === category.name)}
-                category={category}
-                handleChange={(event) => handleCategoryCheck(category.name, event.target.checked)}
-              />
+                <Category
+                  selected={selectedCategories!==null && selectedCategories.some(cat => cat === category.name)}
+                  category={category}
+                  handleChange={(event) => handleCategoryCheck(category.name, event.target. checked)}
+                />
             )}
-        </div>
-        
+          </div>
+          </div>
       </SideNavContainer>);
   }
-}
+
+  function fetchCategoriesData(){
+      (async function (){
+          try {
+              let fetched_categories = await fetchCategories();
+              // console.log("Categories: ", fetched_categories);
+              setCategories(
+                  fetched_categories
+                  .map(category => 
+                      ({ 
+                          name: category.name, 
+                          selected: false,
+                          icon: `${SERVER_DOMAIN}/server-static/${category.url}`
+                      })));
+          } catch (err) {
+  
+          }
+      })();
+    }
+  }
 
 export default SideNavBar;

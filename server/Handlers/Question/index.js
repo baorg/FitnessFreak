@@ -23,8 +23,12 @@ const { getAnswersByUserOnly } = require("./getAnswersByUserOnly");
 const { markAnswer, isQuestionAskedByUser } = require("./markAnswer");
 const { getAnswersOfUser, getQuestionOfUser, getBookmarksOfUser } = require('./getDataOfUser');
 const { deleteQuestion, deleteAnswer, deleteComment } = require('./deleteQuestion')
+const { getUnansweredCount } = require('./getUnansweredCount');
+
 
 module.exports = {
+    getUnansweredCount,
+
     getQuestionsHandler,
     getOneQuestionHandler,
 

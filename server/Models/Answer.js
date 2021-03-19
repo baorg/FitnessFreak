@@ -8,6 +8,7 @@ const answerSchema = new mongoose.Schema({
     comments: [commentSchema],
     quesId: { type: mongoose.Schema.Types.ObjectId, ref: 'Ques' },
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    posted_at: {type: Date, default: Date.now()},
     marked: { type: Boolean, default: 0 }
 });
 const Answer = new mongoose.model("Ans", answerSchema);

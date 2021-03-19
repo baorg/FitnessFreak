@@ -112,7 +112,7 @@ export default function SelectCategory({selectedCategories, addCategory, removeC
                 image_url: cat.image_url
             })));
         }
-    }, [selectedCategories])
+    }, [selectedCategories]);
 
 
     return (

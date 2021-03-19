@@ -5,8 +5,7 @@ import { Delete, Done, VerifiedUser } from '@material-ui/icons';
 import { Avatar, Container, Paper } from '@material-ui/core';
 import styled from 'styled-components';
 
-
-import UpvoteDownvote from "../../../UpvoteDownvote/upvoteDownvote";
+import CommentIcon from '../../../static/comment_icon';
 import VoteDiv from '../vote';
 import PostComment from "./comment";
 import ajaxRequest from '../../../../ajaxRequest';
@@ -46,12 +45,12 @@ let AnswerHeadlineDiv = styled.div`
     display: flex;
 
     .user-name-div{
-      margin-left: 5px;
+      margin-left: 20px;
       display: flex;
-      align-items: center;
+      flex-direction: column;
 
       .user-username{
-          margin-left: 2px;
+        margin-left: 2px;
       }
 
       .deleted{
@@ -61,6 +60,27 @@ let AnswerHeadlineDiv = styled.div`
       .user-fullname-deleted{
         color: #5f5f5f;
       }
+
+      .posted-date{
+
+        .text{
+          font-family: SF Pro;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 14px;
+          line-height: 17px;
+          color: rgba(66, 66, 89, 0.8);
+        }
+        .date{
+          font-family: SF Pro;
+          font-style: normal;
+          font-weight: 500;
+          font-size: 14px;
+          line-height: 17px;
+          color: #424259;
+        }
+      }
+
     }
   }
 
@@ -108,7 +128,12 @@ let AnswerContentDiv = styled.div`
 
 let AnswerBottomDiv = styled.div`
   width: 100%;
-  
+  display: flex;
+  align-items: center;
+  .cmmnt-icon{
+    margin-left: 20px; 
+  }
+
   .comment-form{
     width: 100%;
     display: flex;
@@ -149,12 +174,16 @@ function Answer({ answer, user }) {
     <AnswerDiv>
       <AnswerHeadlineDiv>
           <div className="user-info-div">
-          <Avatar src={answer.user&&answer.user.profile_image}/>
-          <div className='user-name-div'>
-            <div className='ans-prompt'>Answered by </div>
+            <Avatar src={answer.user&&answer.user.profile_image}/>
+            <div className='user-name-div'>
               {answer.user ?
                 <A href={`/profile/${answer.user._id}`} className='user-username'>{ answer.user.username }</A>
                 : <div className='user-username deleted'>[ deleted ]</div>}
+
+                <div className='posted-date'>
+                    <span className='text'>Posted on </span>
+                    <span className='date'> {parseDate(answer.posted_at)} </span>
+                </div>
             </div>
           </div>
         {answer.marked &&
@@ -167,21 +196,16 @@ function Answer({ answer, user }) {
       </AnswerHeadlineDiv>
 
         <AnswerContentDiv>
-          <VoteDiv vote={answer.vote} quesId={answer._id} type={0} />
           <AnswerBodyDiv>
             <div className="ans-div" dangerouslySetInnerHTML={{ __html: answer.answer}} />
           </AnswerBodyDiv>
-
         </AnswerContentDiv>
         
-        {/* <PostedDate>
-            - { new Date(answer.posted_at).toLocaleString('en-US', {day: 'numeric', year: 'numeric', month: 'long'}) }
-          </PostedDate>  */}
-
         <AnswerBottomDiv>
-            <PostComment answerId={answer._id} user={user} comments={comments} setComments={setComments} />
+          <VoteDiv vote={answer.vote} quesId={answer._id} type={0} />
+          <CommentIcon className="cmmnt-icon" count={answer.comments_count} />
+          {/* <PostComment answerId={answer._id} user={user} comments={comments} setComments={setComments} /> */}
         </AnswerBottomDiv>
-        <hr />
     </AnswerDiv>
   );
     
@@ -210,6 +234,15 @@ function Answer({ answer, user }) {
     } else {
       // txt = "You pressed Cancel!";
     }
+  }
+
+  function parseDate(date){
+    date = new Date(date);
+    let m = date.toLocaleString('default', { month: 'long' });
+    let d = date.getDate();
+    let y = date.getYear();
+
+    return `${m} ${d}, ${y}`;
   }
 
 }

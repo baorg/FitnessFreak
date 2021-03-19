@@ -13,6 +13,7 @@ import Answers from './Answers';
 import QuestionHeader from './Header';
 import QuestionContent from './Content';
 import { responsive } from '../../utils/data.json';
+import PostAnswer from './post_answer';
 
 // English.
 import en from 'javascript-time-ago/locale/en'
@@ -21,24 +22,54 @@ TimeAgo.addLocale(en)
 
 // Styled components ===================================
 
-let Question = styled.div`
-    background-color: white;
+let QuestionContainer = styled.div`
+    background: #FFFFFF;
     border-radius: 10px;
-    border-color: black;
-    border-width: 1px;
-    border-style: solid;
     width: 100%;
-    padding: 10px;
+    padding: 30px 10px 10px 10px;
+    margin-bottom: 30px;
     box-sizing: border-box;
+`;
+
+let Question = styled.div`
+    max-height: 600px;
+    overflow-y: auto;
+    scrollbar-color: #E3E3E3 transparent;
+    scrollbar-width: thin;
+    
+    ::-webkit-scrollbar-thumb {
+      background-color: rgb(78, 78, 78);
+      outline: 1px solid rgb(210, 230, 250);
+      border-radius: 2px;
+    }
+    ::-webkit-scrollbar {
+      width: 0.8em;
+      border-radius: 100px;
+    }
+
+    ::-webkit-scrollbar-track {
+      box-shadow: inset 0 0 6px transparent;
+      margin-left: 1em;
+    }
+
     @media (max-width:${responsive.small}){
         font-size: 12px;
         border: 0;
-        border-bottom: 1px solid black;
+        padding : 10px;
+        /* border-bottom: 1px solid black; */
         border-radius: 0;
         margin: 0 !important;
     }
     .divider{
         color: #444;
+    }
+    .post-answer{
+        position: sticky;
+        bottom: 0;
+        /* top: 10em; */
+        z-index: 1000;
+        /* box-shadow: 0 -20px 100px #575757; */
+        
     }
 `;
 
@@ -73,19 +104,23 @@ export default function ({question, type, user, selectedCategories=[], qtype=0})
         url = `/viewFullQuestion/${question._id}`;
     
     return (
-        <Question>
-            <QuestionHeader 
-                question={question} 
-                user={user}/>
-                
-                <Divider className="divider" />
-                <QuestionContent 
+        <QuestionContainer>
+            <Question>
+                <QuestionHeader 
                     question={question} 
-                    url={url}
-                    selectedCategories={selectedCategories}/>
-            
-            {qtype===1 && <Answers quesId={question._id} user={user}/>}
-        </Question>
+                    user={user}/>
+
+                    <QuestionContent 
+                        question={question} 
+                        url={url}
+                        selectedCategories={selectedCategories}/>
+
+                {qtype===1 && <Answers quesId={question._id} user={user}/>}
+            </Question>
+            <PostAnswer
+                className="post-answer"
+                quesId={question._id} user={user} />
+        </QuestionContainer>
     );
 }
 

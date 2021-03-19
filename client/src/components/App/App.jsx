@@ -15,8 +15,7 @@ const ContentContainer = styled.div`
   margin-left: auto;
   margin-right: auto;
   width: 100%;
-  grid-template-columns: ${({midPoint, lastPoint})=>lastPoint? "0 1fr 0": midPoint? "1fr 2fr": "1fr 800px 1fr"};
-  background-color: #eeeeee;
+  grid-template-columns: ${({midPoint, lastPoint})=>lastPoint? "0 1fr 0": midPoint? "250px 1fr": "1fr 800px 1fr"};
   min-height: 100vh;
   height: fit-content;
 `;
@@ -39,7 +38,10 @@ const App = function ({user, }) {
 
   return (
       <ContentContainer midPoint={midPoint} lastPoint={lastPoint}>
-        <LeftNavBar user={user} setSelectedCategories={setSelectedCategories} selectedCategories={selectedCategories} />
+        <LeftNavBar 
+          user={user} 
+          setSelectedCategories={setSelectedCategories} 
+          selectedCategories={selectedCategories} />
         <Content setType={setType} type={type}
           selectedCategories={selectedCategories}
           user={user} />

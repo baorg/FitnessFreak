@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
-import { ThumbDownAlt, ThumbUpAlt } from '@material-ui/icons';
+
+import LikeBtn from '../../static/like_btn';
 
 import ajaxRequest from '../../../ajaxRequest';
 import {API_DOMAIN} from '../../../config';
@@ -8,26 +9,28 @@ import {API_DOMAIN} from '../../../config';
 // Styled Components =============================================================================
 
 let VoteDiv = styled.div`
-    height: 100%;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-items: space-evenly;
-    margin: 1em 0 0.5em 0.5em;
-
-`;
-
-let VoteCountDiv = styled.div`
-    background-color: ${({count})=>count<0?"#ff8080":(count===0?"#e8e8e8":"#4dff4d")};
-    width: 100%;
-    text-align: center;
-    height: 1.4em;
-    border-radius: 10px;
-    margin: 0.5em 0 0.5em 0;
-
+    
     .vote-btn{
         cursor: pointer;
     }
+`;
+
+let VoteCountDiv = styled.div`
+    color: ${({count})=>count<0?"#ff8080":(count===0?"black":"#065BFB")};
+    
+    text-align: center;
+    height: 1.4em;
+    border-radius: 10px;
+    margin: 0 15px 0 15px;
+    
+    font-family: SF Pro;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 23px;
+    line-height: 27px;
 `;
 
 // ======================================================================================
@@ -55,18 +58,18 @@ export default function Vote({vote, quesId, type=1}){
 
     return (
       <VoteDiv>
-        <ThumbUpAlt
-          color={up===null? "disabled": (up ? "primary" : "")}
-          fontSize="large"
-          onClick={upvote}
-          className="vote-btn"
+        <LikeBtn
+            type="like"
+            active={up}
+            onClick={upvote}
+            className="vote-btn"
         />
         <VoteCountDiv count={votes.up-votes.down}>{Math.abs(votes.up - votes.down)}</VoteCountDiv>
-        <ThumbDownAlt
-          color={down===null? "disabled" : down ? "secondary" : ""}
-          fontSize="large"
-          onClick={downvote}
-          className="vote-btn"
+        <LikeBtn
+            type="dislike"
+            active={down}
+            onClick={downvote}
+            className="vote-btn"
         />
       </VoteDiv>
     );
@@ -82,6 +85,7 @@ export default function Vote({vote, quesId, type=1}){
     }
 
     async function upvote(){
+        console.log('Upvote clicked.', up, vote);
         if(up!==null){
             let voted = !up;
             setUp(null);

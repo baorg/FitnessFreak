@@ -50,14 +50,14 @@ let SubmitBtn = styled.button`
 
 
 
-export default function PostComment(props){
+export default function PostComment({ user, answerId, setComment, comments, ...props }){
     // const [comment, setComment] = useState("")
     const [editorData, setEditorData] = useState("");
     const [sendingComment, setSendingComment] = useState(false);
     const [editorSt, setEditorSt] = useState(null);
 
     return (
-        <form onSubmit={postComment} className="comment-form">
+        <form onSubmit={postComment} className="comment-form" {...props}>
             <CommentDiv>
                 <input 
                     value={editorData}
@@ -68,10 +68,10 @@ export default function PostComment(props){
                 </input>
                 <Button 
                     className="submit-btn"
-                    disabled={props.user === null || editorData.length === 0 || sendingComment}
+                    disabled={user === null || editorData.length === 0 || sendingComment}
                     color="primary"
                     type="submit"
-                    onClick={!props.user ? notLoggedIn : null}    
+                    onClick={!user ? notLoggedIn : null}    
                 >comment</Button>
             </CommentDiv>
         </form>
@@ -88,7 +88,7 @@ export default function PostComment(props){
             e.preventDefault();
             const url = `${CONFIG.API_DOMAIN}/question/post-comment`;
             const obj = {
-                answerId : props.answerId,
+                answerId : answerId,
                 comment : editorData
             }
             setSendingComment(true);
@@ -98,12 +98,12 @@ export default function PostComment(props){
                     console.log("succesfully added");
                     // editorSt.setData("");
                     setEditorData("");
-                    props.setComments([ res.data.comment, ...props.comments ]);
+                    setComment([ res.data.comment, ...comments ]);
                 } else {
                     console.log("Not Authenticated");
                 }
                 setSendingComment(false);
-                navigate(`/answer/${props.answerId}`);
+                navigate(`/answer/${answerId}`);
             });
         }
     }

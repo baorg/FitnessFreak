@@ -2,6 +2,8 @@ module.exports.userAnswerSerializer = function(user) {
     return user.answer.filter(ans => ans.quesId !== null).map(ans => ({
         _id: ans._id,
         answer: ans.answer,
+        posted_at: ans.posted_at?ans.posted_at:null,
+        comments_count: ans.comments?ans.comments.length:null,
         vote_count: ans.vote_count,
         vote: {
             up: ans.vote_count.up,
@@ -43,11 +45,14 @@ module.exports.answerSerializer = function(ans, user=null, question=true, many=f
         return {
             _id: ans._id,
             answer: ans.answer,
+            posted_at: ans.posted_at?ans.posted_at:null,
             vote_count: ans.vote_count,
+            comments_count: ans.comments?ans.comments.length:null,
             vote: {
                 up: ans.vote_count.upvote,
                 down: ans.vote_count.downvote
             },
+
             marked: ans.marked,
             my_vote: ans.upDown.find(upd=>user&&upd.userId === user.id),
             user: ans.userId?{

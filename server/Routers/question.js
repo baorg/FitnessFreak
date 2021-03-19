@@ -9,6 +9,9 @@ const { Ques } = require("../Models");
 
 
 // router.use();
+
+router.get("/get-unanswered-question-count", QuestionHandler.getUnansweredCount);
+
 router.get("/get-questions", QuestionHandler.getQuestionsHandler);
 router.get("/get-question/:ques_id", QuestionHandler.getOneQuestionHandler);
 

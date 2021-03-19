@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { navigate } from 'hookrouter';
 
@@ -7,6 +7,7 @@ import UnfollowButton from './unfollow_button';
 
 import ajaxRequest from '../../../ajaxRequest';
 import { API_DOMAIN } from '../../../config';
+import { UserContext } from '../../utils/UserContext';
 // Styled Components ==============================================================
 
 let LoadingBtn = styled.button`
@@ -35,21 +36,12 @@ let Btn = styled.div`
 // =======================================================================================
 
 
-export default function Button({ profile }) {
+export default function Button({ profile, type="text" }) {
     const [isFollowing, setIsFollowing] = useState(null);
+    const [ user, ] = useContext(UserContext);
 
-    useEffect(() => {
-        async function fetchFollowing() {
-            let data = (await ajaxRequest('GET', `${API_DOMAIN}/following/check-following?user_id=${profile._id}`)).data;
-            if (data.success) {
-                setIsFollowing(data.is_following);
-            }
-        }
 
-        if (isFollowing === null) {
-            fetchFollowing();
-        }
-    })
+    useEffect(fetchFollow, [user]);
 
 
     return (
@@ -58,9 +50,24 @@ export default function Button({ profile }) {
                 isFollowing === null ?
                     <></>
                 : isFollowing ?
-                  <UnfollowButton profile={profile} setIsFollowing={setIsFollowing} />
-                : <FollowButton profile={profile} setIsFollowing={setIsFollowing} />
+                  <UnfollowButton type={type} profile={profile} setIsFollowing={setIsFollowing} />
+                : <FollowButton type={type} profile={profile} setIsFollowing={setIsFollowing} />
             }
         </Btn>
     );
+
+    function fetchFollow(){
+        if(user!==null){
+                ajaxRequest('GET', 
+                    `${API_DOMAIN}/following/check-following?user_id=${profile._id}`)
+                .then(({data})=>{
+                    if (data.success) {
+                        setIsFollowing(data.is_following);
+                    }
+                })
+                .catch(err=>{
+                    console.error("ERROR: ", err);
+                });
+        }
+    }
 }
