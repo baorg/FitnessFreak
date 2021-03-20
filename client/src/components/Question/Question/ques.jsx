@@ -29,6 +29,10 @@ let QuestionContainer = styled.div`
     padding: 30px 10px 10px 10px;
     margin-bottom: 30px;
     box-sizing: border-box;
+    @media (max-width:${responsive.small}){
+        border-radius: 0;
+        margin: 0 !important;
+    }
 `;
 
 let Question = styled.div`

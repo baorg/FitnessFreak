@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import styled from 'styled-components';
 import { Checkbox } from '@material-ui/core';
-
+import CategoryIcon from '../../static/CategoryIcons';
 
 // Styled Components =================================================================
 
@@ -49,10 +49,11 @@ export default function Category({selected, category, handleChange }) {
             <CategoryDiv selected={selected}
                 className="category-el"
                 onClick={()=>handleChange({target:{checked: !selected}})}>
-                <object
+                {/* <object
                     className="category-icon" 
-                    data={category.icon} type="image/svg+xml" />
+                    data={category.icon} type="image/svg+xml" /> */}
                 {/* <img  src={category.icon} alt={category.alt} className="category-icon"/> */}
+                <CategoryIcon category={category.name}/>
                 <span className="category-name">{ category.name }</span>
             </CategoryDiv>
         </>

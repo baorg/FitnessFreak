@@ -1,11 +1,12 @@
 import React, {useState, useEffect} from 'react';
 
 // Material-UI ===================
-
+import Tooltip from '@material-ui/core/Tooltip';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 //  ===========================
 
 import { A, navigate} from 'hookrouter';
@@ -18,7 +19,7 @@ import { responsive } from '../../utils/data.json';
 import PlusSignSVG from './plus_sign';
 
 import ajaxRequest from '../../../ajaxRequest';
-
+import BottomNav from './BottomNav';
 // Styled Components ==================================================================================
 
 const Content = styled.div`
@@ -136,7 +137,7 @@ export default function MainLandingPageDiv({ type, selectedCategories, setType, 
     
     let midPoint = useMediaQuery(`(min-width: ${responsive.medium})`);
     let lastPoint = useMediaQuery(`(min-width: ${responsive.small})`);
-
+    let mobileScreen = useMediaQuery(`(max-width: ${responsive.small})`);
 
     useEffect(loadUnansweredQuestionCount, []);
     useEffect(loadData, [type, selectedCategories]);
@@ -147,15 +148,14 @@ export default function MainLandingPageDiv({ type, selectedCategories, setType, 
             {lastPoint && <Divider className="divider" orientation="vertical" flexItem />}
             <div className="content">
             <Margin>
-                <div>
-                {/* <Button variant="contained" color="primary">Post a Question</Button> */}
+                {!mobileScreen && <div>
                     <PostQuestionBtn
                         onClick={()=>navigate("/post-question")}
                     >
                         <PlusSignSVG className="icon" />
                         <div className="txt" >Post a question</div>
                     </PostQuestionBtn>
-                </div>
+                </div>}
                 <TypeContainer>
                     <Type selected={type==="Newest"} onClick={()=>handleTypeChange("Newest")}>New</Type>
                     <Divider orientation="vertical" flexItem />
@@ -171,6 +171,7 @@ export default function MainLandingPageDiv({ type, selectedCategories, setType, 
             <InfiniteScroll type={type} selectedCategories={selectedCategories} url={url} user={user}/>
             </div>
             {midPoint && <Divider className="divider" orientation="vertical" flexItem />}
+            {mobileScreen &&  <BottomNav />}
         </Content>);
 
     
