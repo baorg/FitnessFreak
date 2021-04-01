@@ -15,16 +15,17 @@ const uploadAttachmentsHandler = require("./uploadAttachments");
 const { profilePrivileges } = require("./profilePrivileges")
 const { getCategory } = require("./category")
 const { getNotifications } = require("./getNotifications")
-const { postComment } = require("./postComment")
+// const { postComment } = require("./postComment")
+
 const { getAnswersByQuesId } = require("./getAnswersByQuesId");
 const { getCommentsByAnswerId } = require("./getCommentsByAnswerId");
 const { getQuestionsCategoryWise } = require("./getQuestionsCategoryWise");
 const { getAnswersByUserOnly } = require("./getAnswersByUserOnly");
 const { markAnswer, isQuestionAskedByUser } = require("./markAnswer");
 const { getAnswersOfUser, getQuestionOfUser, getBookmarksOfUser } = require('./getDataOfUser');
-const { deleteQuestion, deleteAnswer, deleteComment } = require('./deleteQuestion')
+const { deleteQuestion, deleteAnswer } = require('./deleteQuestion')
 const { getUnansweredCount } = require('./getUnansweredCount');
-
+const { getComments, postComment, deleteComment, upvoteComment, downvoteComment, unvoteComment } = require('./comments');
 
 module.exports = {
     getUnansweredCount,
@@ -50,7 +51,6 @@ module.exports = {
     profilePrivileges,
     getCategory,
     getNotifications,
-    postComment,
     getAnswersByQuesId,
     getCommentsByAnswerId,
     getQuestionsCategoryWise,
@@ -59,5 +59,11 @@ module.exports = {
     isQuestionAskedByUser,
     deleteQuestion,
     deleteAnswer,
-    deleteComment
+    
+    getComments,
+    postComment,
+    deleteComment,
+    upvoteComment,
+    downvoteComment,
+    unvoteComment
 }

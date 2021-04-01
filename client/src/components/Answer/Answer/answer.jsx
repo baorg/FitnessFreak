@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 
 import UpvoteDownvote from "../../UpvoteDownvote/upvoteDownvote";
-import Comment from '../../Comment/Comment/comment';
+import Comment from './comment';
 import QuestionDiv from '../../Question/Question/ques';
 import PostComment from "../../Comment/PostComment/postcomment";
 import ajaxRequest from '../../../ajaxRequest';
@@ -108,22 +108,13 @@ function Answer({ answer, user, selectedSatisfactoryAnswer, quesId, satisfactory
   let needQuestion = ((type & 0b01) == 0b01);
 
 
-  const [comments,setComments] = useState([]);
-  const [voteCount, setVoteCount] = useState(null);
-  const [question, setQuestion] = useState(null);
+  const [ comments, setComments ] = useState([]);
+  const [ voteCount, setVoteCount ] = useState(null);
+  const [ question, setQuestion ] = useState(null);
   
   // console.log(props);
 
-    useEffect(() => {
-      const obj = { up: answer.vote_count.upvote, down: answer.vote_count.downvote }
-      setVoteCount(obj);
-
-      if (needComments) {
-        ajaxRequest("get", `${API_DOMAIN}/question/get-comments-of-answer?answerId=${answer._id}`).then(({ data }) => {
-          setComments(data.comments);
-        });
-      }
-    }, [ answer ]);
+  useEffect(fetchComments, [ answer ]);
 
   return (
     <AnswerDiv>
@@ -168,7 +159,7 @@ function Answer({ answer, user, selectedSatisfactoryAnswer, quesId, satisfactory
 
       <AnswerBottomDiv>
         <UpvoteDownvote quesId={answer._id} isQues={false} user={user} totalCount={voteCount} />
-        <StyledPostComment answerId={answer._id} user={user} comments={comments} setComments={setComments} />
+        <StyledPostComment answerId={answer._id} user={user} comments={comments} addComment={add_comment} />
       </AnswerBottomDiv>
 
       {
@@ -177,16 +168,24 @@ function Answer({ answer, user, selectedSatisfactoryAnswer, quesId, satisfactory
         <div style={{ marginLeft: "200px", borderLeft: "2px solid #B8B8B8", padding: "20px" }}>
           {comments.length !== 0 ? <h4 style={{ marginBottom: "30px" }}>Comments</h4> : null}
           <div>
-            {comments.map((item, index) => <Comment key={index} comment={item} user={user} quesId={quesId} />)}
+            {comments.map((item, index) => 
+                <Comment 
+                  key={index} comment={item} 
+                  user={user} ansId={answer._id} 
+                  deleteComment={delete_comment(index)}
+                />)}
           </div>
         </div> </>
       }
-    
-    
-    
     </AnswerDiv>
   );
-
+    
+  function delete_comment(index){
+    return (()=>setComments(comments.filter((c, i) => i!==index)));
+  }
+  function add_comment(comment){
+    setComments([comment, ...comments]);
+  }
 
   function deleteAnswer(){
     if (window.confirm("Are you sure you want to delete your answer")) {
@@ -203,6 +202,24 @@ function Answer({ answer, user, selectedSatisfactoryAnswer, quesId, satisfactory
       });
     } else {
       // txt = "You pressed Cancel!";
+    }
+  }
+
+  function fetchComments(){
+    const obj = { up: answer.vote_count.upvote, down: answer.vote_count.downvote };
+    setVoteCount(obj);
+    {/* console.log('NeedComments: ', needComments); */}
+    if (needComments) {
+      ajaxRequest('get', `${API_DOMAIN}/answer/get-comments?answer_id=${answer._id}`)
+        .then(({ data }) => {
+          {/* console.log('Data...', data); */}
+          if(data.success){
+            setComments(data.comments);
+          }
+        })
+        .catch(err=>{
+          console.error(err);
+        });
     }
   }
 

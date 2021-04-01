@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const { commentSchema } = require('../Comment');
+
 
 module.exports = new mongoose.Schema({
     title: String,
@@ -14,6 +16,7 @@ module.exports = new mongoose.Schema({
         downvote: { type: Number, default: 0 }
     },
     answers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Ans', uniqueItems: true }],
+    comments: [ commentSchema ],
     answers_count: { type: Number, default: 0 },
     satisfied: { type: Boolean, default: 0 }
 });

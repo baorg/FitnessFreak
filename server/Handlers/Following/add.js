@@ -5,6 +5,7 @@ const { createNotification } = require('../Notifications/helpers');
 function addFollowing(req, res, next) {
     let followerId = req.user.id;
     let followeeId = req.body.user_id;
+    console.log(followerId, followeeId);
     if (followerId && followeeId) {
         User.addFollowing(followerId, followeeId)
             .then(data => {
@@ -15,8 +16,6 @@ function addFollowing(req, res, next) {
                 res.data.msg = "Following added";
                 res.data.following = data;
                 // console.log(res.data);
-
-
                 return next();
             })
             .catch(err => {

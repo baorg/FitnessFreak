@@ -3,9 +3,12 @@ const { commentSchema } = require("./Comment")
 
 const answerSchema = new mongoose.Schema({
     upDown: [],
-    vote_count: { upvote: { type: Number, default: 0 }, downvote: { type: Number, default: 0 } },
+    vote_count: { 
+        upvote: { type: Number, default: 0 }, 
+        downvote: { type: Number, default: 0 } 
+    },
     answer: String,
-    comments: [commentSchema],
+    comments: [ commentSchema ],
     quesId: { type: mongoose.Schema.Types.ObjectId, ref: 'Ques' },
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     posted_at: {type: Date, default: Date.now()},

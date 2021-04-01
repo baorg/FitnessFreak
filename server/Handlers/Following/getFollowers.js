@@ -12,6 +12,15 @@ module.exports = async function(req, res, next) {
         })
         .exec();
     // console.log('User: ', user_data);
-    res.data.followers = user_data.followers;
+    if(user_data){
+        res.data.success = true;
+        res.data.valid_user = true;
+        res.data.followers = user_data.followers;
+    }else{
+        res.data.success = false;
+        res.data.valid_user = true;
+        res.data.error = "Invalid user";
+        res.data.followers = null;
+    }
     return next();
 }

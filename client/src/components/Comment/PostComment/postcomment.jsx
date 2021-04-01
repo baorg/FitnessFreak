@@ -1,18 +1,23 @@
-import React,{useState} from "react"
-import axiosCall from "../../../ajaxRequest"
+import { useState, useContext } from "react"
 import {navigate} from "hookrouter"
-import notLoggedIn from "../../../notloggedin";
+
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
+import axiosCall from "../../../ajaxRequest"
+import notLoggedIn from "../../../notloggedin";
 import { Button, TextField } from '@material-ui/core';
 
 import CONFIG from '../../../config';
+import { UserContext } from '../../utils/UserContext';
 
-export default function PostComment(props){
+
+export default function PostComment({ answerId, addComment }){
     // const [comment, setComment] = useState("")
     const [editorData, setEditorData] = useState("");
     const [sendingComment, setSendingComment] = useState(false);
     const [editorSt, setEditorSt] = useState(null);
+    const [ user, ] = useContext(UserContext);
 
     return (
         <form onSubmit={postComment} className="comment-form">
@@ -26,11 +31,11 @@ export default function PostComment(props){
                 className="inpt"
             />
             <Button
-                disabled={props.user === null || editorData.length === 0 || sendingComment}
+                disabled={user === null || editorData.length === 0 || sendingComment}
                 variant="contained"
                 color="primary"
                 type="submit"
-                onClick={!props.user ? notLoggedIn : null}
+                onClick={!user ? notLoggedIn : null}
                 className="submit-btn"
                 style={{ margin: "10px" }}>Post</Button>
         </form>
@@ -45,9 +50,9 @@ export default function PostComment(props){
     function postComment(e) {
         if (!sendingComment) {
             e.preventDefault();
-            const url = `${CONFIG.API_DOMAIN}/question/post-comment`;
+            const url = `${CONFIG.API_DOMAIN}/answer/post-comment`;
             const obj = {
-                answerId : props.answerId,
+                answerId : answerId,
                 comment : editorData
             }
             setSendingComment(true);
@@ -57,12 +62,12 @@ export default function PostComment(props){
                     console.log("succesfully added");
                     // editorSt.setData("");
                     setEditorData("");
-                    props.setComments([ res.data.comment, ...props.comments ]);
+                    addComment(res.data.comment);
                 } else {
                     console.log("Not Authenticated");
                 }
                 setSendingComment(false);
-                navigate(`/answer/${props.answerId}`);
+                // navigate(`/answer/${answerId}`);
             });
         }
     }
@@ -77,14 +82,14 @@ export default function PostComment(props){
    
 }
 
-// { <textarea placeholder="Write your comment" value = {comment} onChange = {handleChange} onClick={props.user===null?notLoggedIn:null}></textarea> }
-// { <button type={props.user===null?"button":"submit"} onClick={props.user===null?notLoggedIn:null}>Post</button> }
+// { <textarea placeholder="Write your comment" value = {comment} onChange = {handleChange} onClick={user===null?notLoggedIn:null}></textarea> }
+// { <button type={user===null?"button":"submit"} onClick={user===null?notLoggedIn:null}>Post</button> }
 /* <CKEditor
                 editor={ClassicEditor}
                 config={{
                   toolbar: ['heading', '|', 'bold', 'italic', 'blockQuote', 'numberedList', 'bulletedList', '|', 'undo', 'redo', 'Link']
                 }}
-                onChange={!props.user ? notLoggedIn : handleEditorChange}
+                onChange={!user ? notLoggedIn : handleEditorChange}
                 data=""
                 maxHeight="10em"
             /> */

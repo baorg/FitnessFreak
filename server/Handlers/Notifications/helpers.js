@@ -10,8 +10,9 @@ async function createNotification(actor_id, notifier_id, entity, entity_data_id)
         entity: type of notification (
                     1: followed
                     2: answered
-                    3: commented
+                    3: commented on answer
                     4: Upvoted question
+                    5: commented on question
             )
         
         entity_data_id: Id for the entity type (e.g. answer_id for entity answer)
@@ -22,7 +23,7 @@ async function createNotification(actor_id, notifier_id, entity, entity_data_id)
             2: seen
         )
     */
-
+    console.log(actor_id, " | ", notifier_id, " | ", entity, " | ", entity_data_id);
     // actor_id = actor_id.toString();
     const { User } = require('../../Models');
     let user = await User.findOne({ _id: actor_id }, 'notifications').exec();
@@ -95,6 +96,15 @@ async function serializeNotification(notification) {
                 sent: notification.status == 1,
                 seen: notification.status == 2
             })
+            case 5:
+                return ({
+                    id: notification._id.toString(),
+                    text: `${user.first_name} ${user.last_name} commented on your question.`,
+                    url: `/viewFullQuestion/${notification.entity_data}`,
+                    dated: notification.created_timestamp,
+                    sent: notification.status == 1,
+                    seen: notification.status == 2
+                })
         default:
             return ({
                 text: 'Invalid notification.',

@@ -21,11 +21,7 @@ router.post("/post-question", isAuthenticated, postQuestionValidator, QuestionHa
 
 router.get("/get-answers-of-question", QuestionHandler.getAnswersByQuesId);
 router.get("/get-answers-of-user", QuestionHandler.getAnswersOfUser);
-router.post("/post-answer", isAuthenticated, QuestionHandler.postAnswerHandler);
-
-
-router.post("/post-comment", isAuthenticated, QuestionHandler.postComment);
-router.get("/get-comments-of-answer", QuestionHandler.getCommentsByAnswerId);
+router.post("/post-answer", isAuthenticated, QuestionHandler.postQuestionHandler);
 
 router.post("/save-bookmark", isAuthenticated, QuestionHandler.saveBookMark);
 router.get("/is-bookmarked", isAuthenticated, QuestionHandler.isBookMarked);
@@ -47,12 +43,20 @@ router.post("/getAnswersByUserOnly/:quesId", QuestionHandler.getAnswersByUserOnl
 
 router.post('/deleteQuestion', QuestionHandler.deleteQuestion)
 router.post('/deleteAnswer', QuestionHandler.deleteAnswer)
-router.post('/deleteComment', QuestionHandler.deleteComment)
+
 
 router.post("/markAnswer", QuestionHandler.markAnswer)
 router.post("/isQuestionAskedByUser", QuestionHandler.isQuestionAskedByUser)
 router.get("/get-type/:name", QuestionHandler.getTypeOfQuestionsHandler);
 
+
+// Comments 
+router.get('/get-comments', QuestionHandler.getComments);
+router.post('/post-comment', isAuthenticated, QuestionHandler.postComment);
+router.delete('/delete-comment', isAuthenticated, QuestionHandler.deleteComment);
+router.get('/upvote-comment', isAuthenticated, QuestionHandler.upvoteComment);
+router.get('/downvote-comment', isAuthenticated, QuestionHandler.downvoteComment);
+router.get('/unvote-comment', isAuthenticated, QuestionHandler.unvoteComment);
 
 
 module.exports = router;

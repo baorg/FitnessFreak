@@ -1,4 +1,4 @@
-module.exports.userAnswerSerializer = function(user) {
+function userAnswerSerializer(user) {
     return user.answer.filter(ans => ans.quesId !== null).map(ans => ({
         _id: ans._id,
         answer: ans.answer,
@@ -40,7 +40,7 @@ module.exports.userAnswerSerializer = function(user) {
     }));
 }
 
-module.exports.answerSerializer = function(ans, user=null, question=true, many=false) {
+function answerSerializer(ans, user=null, question=true, many=false) {
     function get(ans){
         return {
             _id: ans._id,
@@ -90,4 +90,9 @@ module.exports.answerSerializer = function(ans, user=null, question=true, many=f
     }else{
         return get(ans);
     }
+}
+
+module.exports = {
+    answerSerializer,
+    userAnswerSerializer,
 }
