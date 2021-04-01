@@ -1,0 +1,825 @@
+{
+	"info": {
+		"_postman_id": "2e311d88-bcda-43bd-84c0-5b3c36dfce80",
+		"name": "FitnessFreak",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": []
+		},
+		{
+			"name": "Question",
+			"item": [
+				{
+					"name": "Comments",
+					"item": [
+						{
+							"name": "Add Comment",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"question_id\": \"605507b702c915475bc2c29d\",\n    \"comment\": \"iiiiiiiiiiiiiiiiiiiii\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_url}}/question/post-comment",
+									"host": [
+										"{{api_url}}"
+									],
+									"path": [
+										"question",
+										"post-comment"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Comments",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{api_url}}/question/get-comments?question_id=605507b702c915475bc2c29d&60603fe6fcb49041afc0257e",
+									"host": [
+										"{{api_url}}"
+									],
+									"path": [
+										"question",
+										"get-comments"
+									],
+									"query": [
+										{
+											"key": "question_id",
+											"value": "605507b702c915475bc2c29d"
+										},
+										{
+											"key": "60603fe6fcb49041afc0257e",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Comment",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"comment_id\": \"60603df526c4663d0526683f\",\n    \"question_id\": \"605507b702c915475bc2c29d\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_url}}/question/delete-comment",
+									"host": [
+										"{{api_url}}"
+									],
+									"path": [
+										"question",
+										"delete-comment"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Upvote Comment",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{api_url}}/question/upvote-comment?comment_id=60603df526c4663d05266841&question_id=605507b702c915475bc2c29d",
+									"host": [
+										"{{api_url}}"
+									],
+									"path": [
+										"question",
+										"upvote-comment"
+									],
+									"query": [
+										{
+											"key": "comment_id",
+											"value": "60603df526c4663d05266841"
+										},
+										{
+											"key": "question_id",
+											"value": "605507b702c915475bc2c29d"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Unasnwered Count",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/question/get-unanswered-question-count",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"question",
+								"get-unanswered-question-count"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Questions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/question/get-questions?page=2",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"question",
+								"get-questions"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Question Data",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/question/get-question/:ques_id",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"question",
+								"get-question",
+								":ques_id"
+							],
+							"variable": [
+								{
+									"key": "ques_id",
+									"value": "605b072401775843ab304c26"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Questions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/question/get-questions-of-user?page=1&user_id=5fd7cc61d1cf4b55f0bf99c6",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"question",
+								"get-questions-of-user"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "user_id",
+									"value": "5fd7cc61d1cf4b55f0bf99c6"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Question",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"category\": [\"Fitness\"],\n    \"tags\": [],\n    \"question\": \"How to start doing push-ups?\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/question/post-question",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"question",
+								"post-question"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check Bookmarked",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/question/is-bookmarked?quesId=605507b702c915475bc2c29d",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"question",
+								"is-bookmarked"
+							],
+							"query": [
+								{
+									"key": "quesId",
+									"value": "605507b702c915475bc2c29d"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Bookmarks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/question/get-bookmarks?page=1&user_id=5fec3a9cc6c5ae7f68200ee9",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"question",
+								"get-bookmarks"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "user_id",
+									"value": "5fec3a9cc6c5ae7f68200ee9"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Bookmark",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"quesId\": \"605507b702c915475bc2c29d\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/question/save-bookmark",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"question",
+								"save-bookmark"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Feed",
+			"item": [
+				{
+					"name": "Get Feed",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/feed/get-feed",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"feed",
+								"get-feed"
+							]
+						},
+						"description": "Refresh feed\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh Feed",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/feed/refresh-feed",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"feed",
+								"refresh-feed"
+							]
+						},
+						"description": "Get feed"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Following System",
+			"item": [
+				{
+					"name": "GET Followers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/following/get-followers-list/:user",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"following",
+								"get-followers-list",
+								":user"
+							],
+							"variable": [
+								{
+									"key": "user",
+									"value": "5fd7d41a99ea294a4809af3d"
+								}
+							]
+						},
+						"description": "Get followers list."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Followings",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/following/get-following-list/:user",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"following",
+								"get-following-list",
+								":user"
+							],
+							"variable": [
+								{
+									"key": "user",
+									"value": "5fd7d41a99ea294a4809af3a"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check Following",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/following/check-following?user_id=5fd7d41a99ea294a4809af3d",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"following",
+								"check-following"
+							],
+							"query": [
+								{
+									"key": "user_id",
+									"value": "5fd7d41a99ea294a4809af3d"
+								}
+							]
+						},
+						"description": "Check if a user is following other user."
+					},
+					"response": []
+				},
+				{
+					"name": "Follow",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user_id\": \"5fd7d41a99ea294a4809af3d\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/following/add-following",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"following",
+								"add-following"
+							]
+						},
+						"description": "Follow a user"
+					},
+					"response": []
+				},
+				{
+					"name": "Unfollow",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user_id\": \"5fd7d41a99ea294a4809af3d\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/following/remove-following",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"following",
+								"remove-following"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Answers",
+			"item": [
+				{
+					"name": "Comments",
+					"item": [
+						{
+							"name": "Get Comments",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{api_url}}/answer/get-comments?answer_id=6055097a965919001797649e",
+									"host": [
+										"{{api_url}}"
+									],
+									"path": [
+										"answer",
+										"get-comments"
+									],
+									"query": [
+										{
+											"key": "answer_id",
+											"value": "6055097a965919001797649e"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Post Comment",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"answer_id\": \"6055097a965919001797649e\",\n    \"comment\": \"heya!!!\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_url}}/answer/post-comment",
+									"host": [
+										"{{api_url}}"
+									],
+									"path": [
+										"answer",
+										"post-comment"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Upvote Comment",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "{{api_url}}/answer/upvote-comment?answer_id=6055097a965919001797649e&comment_id=605d8cec4fb1633a43f05466",
+									"host": [
+										"{{api_url}}"
+									],
+									"path": [
+										"answer",
+										"upvote-comment"
+									],
+									"query": [
+										{
+											"key": "answer_id",
+											"value": "6055097a965919001797649e"
+										},
+										{
+											"key": "comment_id",
+											"value": "605d8cec4fb1633a43f05466"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Downvote Comment",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{api_url}}/answer/downvote-comment?answer_id=6055097a965919001797649e&comment_id=605d8cec4fb1633a43f05466",
+									"host": [
+										"{{api_url}}"
+									],
+									"path": [
+										"answer",
+										"downvote-comment"
+									],
+									"query": [
+										{
+											"key": "answer_id",
+											"value": "6055097a965919001797649e"
+										},
+										{
+											"key": "comment_id",
+											"value": "605d8cec4fb1633a43f05466"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Unvote Comment",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{api_url}}/answer/unvote-comment?answer_id=6055097a965919001797649e&comment_id=605d832c67563d1c094f687b",
+									"host": [
+										"{{api_url}}"
+									],
+									"path": [
+										"answer",
+										"unvote-comment"
+									],
+									"query": [
+										{
+											"key": "answer_id",
+											"value": "6055097a965919001797649e"
+										},
+										{
+											"key": "comment_id",
+											"value": "605d832c67563d1c094f687b"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get Answer",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/answer/get-answer?ansId=6055097a965919001797649e",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"answer",
+								"get-answer"
+							],
+							"query": [
+								{
+									"key": "ansId",
+									"value": "6055097a965919001797649e"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Answer of Question",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/answer/get-answers-of-question?quesId=605507b402c915475bc2c268",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"answer",
+								"get-answers-of-question"
+							],
+							"query": [
+								{
+									"key": "quesId",
+									"value": "605507b402c915475bc2c268"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Question's Answers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/question/get-answers-of-question?quesId=605b072401775843ab304c26",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"question",
+								"get-answers-of-question"
+							],
+							"query": [
+								{
+									"key": "quesId",
+									"value": "605b072401775843ab304c26"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User's Answers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/question/get-answers-of-user?user_id=5fec3a9cc6c5ae7f68200ee9",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"question",
+								"get-answers-of-user"
+							],
+							"query": [
+								{
+									"key": "user_id",
+									"value": "5fec3a9cc6c5ae7f68200ee9"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Answer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"quesId\": \"605b072401775843ab304c26\",\n    \"answer\": \"By start doing em!\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/question/post-answer",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"question",
+								"post-answer"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "api_url",
+			"value": "http://localhost:5000/api"
+		},
+		{
+			"key": "base_url",
+			"value": "http://localhost:5000"
+		}
+	]
+}

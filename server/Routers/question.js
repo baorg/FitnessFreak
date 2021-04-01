@@ -21,7 +21,7 @@ router.post("/post-question", isAuthenticated, postQuestionValidator, QuestionHa
 
 router.get("/get-answers-of-question", QuestionHandler.getAnswersByQuesId);
 router.get("/get-answers-of-user", QuestionHandler.getAnswersOfUser);
-router.post("/post-answer", isAuthenticated, QuestionHandler.postQuestionHandler);
+router.post("/post-answer", isAuthenticated, QuestionHandler.postAnswerHandler);
 
 router.post("/save-bookmark", isAuthenticated, QuestionHandler.saveBookMark);
 router.get("/is-bookmarked", isAuthenticated, QuestionHandler.isBookMarked);

@@ -128,26 +128,26 @@ export default function CategorySelector({ profile_user }){
 
     function fetchData(){
         if(user){
-            console.log('User: ', user.chosen_category);
+            console.log('Fetching user categories: ', user.chosen_category);
             fetchCategories()
                 .then(category_list => {
-                    console.log(category_list.map(
-                            cat =>({
-                                category: cat.name,
-                                image: `${SERVER_DOMAIN}/server-static/${cat.url}`,
-                                chosen: user.chosen_category.some(c=>c===cat),
-                                active: true,
-                            })
-                        ));
+                    // console.log(category_list.map(
+                    //         cat =>({
+                    //             category: cat.name,
+                    //             image: `${SERVER_DOMAIN}/server-static/${cat.url}`,
+                    //             chosen: user.chosen_category.some(c=>c===cat.name),
+                    //             active: true,
+                    //         })
+                    //     ));
                     setCategories(
                         category_list.map(
-                            cat =>({
+                            cat => ({
                                 category: cat.name,
                                 image: `${SERVER_DOMAIN}/server-static/${cat.url}`,
-                                chosen: user.chosen_category.some(c=>c===cat),
+                                chosen: user.chosen_category.some(c => c === cat.name),
                                 active: true
                             })
-                        ))
+                        ));
                 });
         }
     }

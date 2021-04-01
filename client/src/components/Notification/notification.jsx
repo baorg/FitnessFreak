@@ -139,6 +139,7 @@ export default function Notification({}) {
   function redirectFromNotifictaion(notif_id, redirect_url) {
     return axiosCall('POST', `${CONFIG.API_DOMAIN}/notifications/set-seen`, { id: notif_id })
       .then(({ data }) => {
+        console.log(data);
       }).catch(err => {
         console.log('Error:', err);
       }).finally(() => {

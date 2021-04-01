@@ -27,12 +27,7 @@ async function createNotification(actor_id, notifier_id, entity, entity_data_id)
     // actor_id = actor_id.toString();
     const { User } = require('../../Models');
     let user = await User.findOne({ _id: actor_id }, 'notifications').exec();
-    let l = user.notifications.length;
-    if (l >= 50) {
-        user.notifications.shift(l - 50 + 1);
-        l = 49;
-    }
-    user.notifications.push({
+    user.notifications = [{
         notifier: notifier_id,
         entity: entity,
         entity_data: entity_data_id,
@@ -40,7 +35,14 @@ async function createNotification(actor_id, notifier_id, entity, entity_data_id)
         created_timestamp: new Date(Date.now()),
         seen_timestamp: null,
         _id: mongoose.Types.ObjectId()
-    });
+    }, ...user.notifications.slice(0, 49)];
+
+    // let l = user.notifications.length;
+    // if (l >= 50) {
+    //     user.notifications.shift(l - 50 + 1);
+    //     l = 49;
+    // }
+    // user.notifications.push();
 
     user = await user.save();
     return user;
@@ -96,15 +98,15 @@ async function serializeNotification(notification) {
                 sent: notification.status == 1,
                 seen: notification.status == 2
             })
-            case 5:
-                return ({
-                    id: notification._id.toString(),
-                    text: `${user.first_name} ${user.last_name} commented on your question.`,
-                    url: `/viewFullQuestion/${notification.entity_data}`,
-                    dated: notification.created_timestamp,
-                    sent: notification.status == 1,
-                    seen: notification.status == 2
-                })
+        case 5:
+            return ({
+                id: notification._id.toString(),
+                text: `${user.first_name} ${user.last_name} commented on your question.`,
+                url: `/viewFullQuestion/${notification.entity_data}`,
+                dated: notification.created_timestamp,
+                sent: notification.status == 1,
+                seen: notification.status == 2
+            })
         default:
             return ({
                 text: 'Invalid notification.',
