@@ -13,10 +13,12 @@ async function setup(app) {
     passport.use(facebookStrategy);
 
     passport.serializeUser(function(user, done) {
+        console.log('Serializing user: ', user);
         done(null, user.id);
     });
 
     passport.deserializeUser(function(id, done) {
+        console.log('Deserializing user: ', id);
         User.findOne({ _id: id })
             .select(['username', 'first_name', 'last_name', 'email', 'created_at', 'profile_image', 'banner_image', 'bio', 'chosen_category', 'is_verified', 'email_verified', 'score', 'chosen_category'])
             .exec(function(err, user) {

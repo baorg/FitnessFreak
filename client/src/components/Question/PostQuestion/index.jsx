@@ -2,27 +2,24 @@ import React, { useEffect, useState } from 'react';
 import { navigate } from "hookrouter";
 import styled from 'styled-components';
 
-
+import { responsive } from '../../utils/data.json';
 import Navbar from "../../Navigation/navbar/navbar";
 import CONFIG from '../../../config';
 import PostQues from './PostQues';
 
 // Styled Components =======================================
 
-let ContentDiv = styled.div`
+let ContentDiv = styled.div` 
     display: grid;
     position: relative;
-    grid-template-columns: 1fr 600px 1fr;
     height: fit-content;
-    min-height: 40em;
+    min-height: 100%;
     top: 3em;
-`;
-let LeftDiv = styled.div`
+    place-content: center;
 
-`;
-
-let RightDiv = styled.div`
-
+    @media(max-width: ${responsive.small}){
+        top: 0px;
+    }
 `;
 let MainDiv = styled(PostQues)`
     
@@ -40,13 +37,7 @@ export default function PostQuestion(props) {
     }, []);
 
 
-    return (
-        <>
-            <Navbar user={props.user} />
-            <ContentDiv>
-                <LeftDiv />
+    return (<ContentDiv>
                 <MainDiv user={props.user} />
-                <RightDiv />
-            </ContentDiv>
-        </>);
+            </ContentDiv>);
 }

@@ -78,7 +78,7 @@ export default function Vote({vote, quesId, type=1}){
     async function fetchUserStatus(){
         let res = await ajaxRequest('post', `${API_DOMAIN}/question/votes/byUser`, {quesId  :quesId, isQues : type});
         if(res.data.success){
-            console.log('Response: ', res.data.upvote, res.data.downvote);
+            // console.log('Response: ', res.data.upvote, res.data.downvote);
             setUp(res.data.upvote);
             setDown(res.data.downvote);
         }

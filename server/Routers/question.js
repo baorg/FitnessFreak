@@ -50,7 +50,7 @@ router.post("/isQuestionAskedByUser", QuestionHandler.isQuestionAskedByUser)
 router.get("/get-type/:name", QuestionHandler.getTypeOfQuestionsHandler);
 
 
-// Comments 
+// Comments
 router.get('/get-comments', QuestionHandler.getComments);
 router.post('/post-comment', isAuthenticated, QuestionHandler.postComment);
 router.delete('/delete-comment', isAuthenticated, QuestionHandler.deleteComment);

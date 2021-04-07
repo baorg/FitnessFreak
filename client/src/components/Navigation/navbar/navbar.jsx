@@ -32,7 +32,6 @@ import axiosCall from '../../../ajaxRequest'
 import { UserContext } from '../../utils/UserContext';
 import { NavContext } from '../../utils/NavContext';
 
-
 // Styled Components ================================================================
 
 const NavbarContainer = styled.div`
@@ -104,12 +103,13 @@ const Link = styled(A)`
 const MyNav = function () {
   const matches = useMediaQuery(`(max-width:${responsive.small})`);
 
-  const [searchparam, setSearchParam] = useState("");
-  const [filterArr,setFilterArr]=useState([ ]);
+  const [ searchparam, setSearchParam] = useState("");
+  const [ filterArr, setFilterArr] = useState([]);
   // const [user, setUser] = useState(null);
-
+  
   const [user, setUser] = useContext(UserContext);
   const [leftNavActive, setLeftNavActive] = useContext(NavContext).leftnav;
+
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
