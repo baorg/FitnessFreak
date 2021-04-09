@@ -17,7 +17,7 @@ export const PostQuestionDiv = styled.div`
     font-style: normal;
     display: flex;
     flex-direction: column;
-    margin-bottom: 40px;
+    margin-bottom: 200px;
     >*{
         margin-top: 25px;
     }
@@ -117,7 +117,7 @@ export const CategoriesDiv = styled.div`
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: space-evenly;
+    /* justify-content: space-evenly; */
 `;
 
 export const CategoryBtn = styled.div`

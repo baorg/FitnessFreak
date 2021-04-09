@@ -51,7 +51,6 @@ const CategoryDiv = styled.div`
         font-weight: 400;
         font-size: 14px;
         line-height: 16px;
-
         .category-icon{
             width: 6px;
             height: 6px;

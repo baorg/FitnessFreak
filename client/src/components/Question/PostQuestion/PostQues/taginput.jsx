@@ -117,6 +117,7 @@ export default function TagInput({ selectedTags, setSelectedTags }) {
     }
 
     async function handleInputChange({ target }) {
+        // if(!fetching)
         setSearchQuery(target.value);
     }
 
@@ -128,18 +129,23 @@ export default function TagInput({ selectedTags, setSelectedTags }) {
             });
 
         async function fetchtags(){
-                if (!fetching && searchQuery.length) {
+            if (!fetching) {
                 setFetching(true);
-                let res = await ajaxRequest('GET', `${API_DOMAIN}/tags/get-tags?q=${searchQuery}`);
-                if (res.data.hasOwnProperty('tags')) {
-                    setTags(
-                        res.data.tags.map(tag => ({
-                            id: tag.id,
-                            tag: tag.tagname,
-                            selected: false,
-                        }))
-                    );
+                if (searchQuery.length === 0) {
+                    setTags([]);
+                } else {
+                    let res = await ajaxRequest('GET', `${API_DOMAIN}/tags/get-tags?q=${searchQuery}`);
+                    if (res.data.hasOwnProperty('tags')) {
+                        setTags(
+                            res.data.tags.map(tag => ({
+                                id: tag.id,
+                                tag: tag.tagname,
+                                selected: false,
+                            }))
+                        );
+                    }
                 }
+                
                 setFetching(false);
             }
         }
