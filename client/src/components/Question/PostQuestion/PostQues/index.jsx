@@ -2,9 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 
 
 // MaterialUI
-import CloseIcon from '@material-ui/icons/Close';
-import CancelIcon from '@material-ui/icons/Cancel';
-import  Button  from '@material-ui/core/Button';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 
@@ -28,163 +25,18 @@ import CategoryDiv from './category';
 import TagInput from './taginput';
 
 
-import styled from 'styled-components';
-// Styled Components =======================================
-let PostQuestionDiv = styled.div`
-    background-color: #FFFFFF;
-    width: 100%;
-    max-width: 822px;
-    padding: 35px 50px 35px 50px;
-    border-radius: 10px;
-    font-family: SF Pro;
-    font-style: normal;
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 40px;
-    >*{
-        margin-top: 25px;
-    }
-    
-    
-    @media screen and (max-width: ${responsive.small}){
-        border-radius: 0;
-        margin-top: 0;
-        margin-bottom: 0;
-        padding: 30px 15px 30px 15px;
-    }
-`;
-
-let QuestionBody = styled.textarea`
-    min-height: 120px;
-    height: fit-content;
-    background: #EFF2F4;
-    border-radius: 9px;
-    border-width: 0;
-    outline: none;
-    padding: 10px;
-
-    @media(max-width: ${responsive.small}){
-
-    }
-
-`;
-
-let PostQuestionHeading = styled.div`
-    font-weight: 600;
-    font-size: 27px;
-    line-height: 32px;
-    margin-top: 0;
-    color: #424259;
-
-    @media(max-width: ${responsive.small}){
-        font-weight: 500;
-    }
-
-`;
-let FormDiv = styled.form`
-    border: 2px solid black;
-    background-color: white;
-    padding: 1em;
-    margin-bottom: 5em;
-    border-radius: 5px;
-`;
-
-let FormContent = styled.div`
-    margin-top: 25px;
-    display: flex;
-    flex-direction: column;
-`;
-
-let FormTitle = styled.div`
-    font-style: normal;
-    font-weight: 500;
-    font-size: 23px;
-    line-height: 27px;
-    color: #424259;
-`;
-
-let FormDesc = styled.div`
-    font-style: normal;
-    font-weight: normal;
-    font-size: 20px;
-    line-height: 24px;
-    color: rgba(66, 66, 89, 0.9);
-    margin-top: 10px;
-    ::after{
-        float: right;
-        width: 2em;
-        text-align: center;
-        border-radius: 10px;
-        background-color: #b9b9b9;
-        color: black;
-        content: "${ (props) => props.title?(50 - props.title.length).toString(): null}";
-    }
-`;
-
-let TitleInput = styled.input`
-    margin-top: 5px;
-    width: 100%;
-    border-radius: 5px;
-    border-width: 2px;
-    height: 2em;
-
-`;
-
-
-let QuestionEditor = styled(CKEditor)`
-    min-height: 10em;
-
-`;
-
-let CategoriesDiv = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-evenly;
-`;
-
-let CategoryBtn = styled.div`
-    border: 2px solid #8f8f8f;
-    border-radius: 4px;
-    margin: 4px;
-    font-size: 0.8em;
-    padding: 0 2px 0 2px;
-    cursor: pointer;
-    background-color: ${(props) => props.checked?"#4be74b":"white"};
-`;
-
-
-let SelectedTags = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: 4px;
-`;
-
-
-let StyledCancelIcon = styled(CancelIcon)`
-    font-size: 2em;
-`;
-
-let SubmitButton = styled(Button)`
-    align-self: center;
-    width: 100%;
-    height: 50px;
-    border-radius: 9px;
-    font-family: SF Pro;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 22px;
-    line-height: 26px;
-    color: #FFFFFF;
-    background: #065BFB !important;
-    text-transform: none !important;
-`;
-// =========================================================
+// Styled Components
+import {
+    PostQuestionDiv, QuestionBody, PostQuestionHeading,
+    FormDiv, FormContent, FormTitle, FormDesc,
+    TitleInput, QuestionEditor, CategoriesDiv, CategoryBtn,
+    StyledCancelIcon, SubmitButton
+} from './styled';
 
 
 
 function PostQuestion(props) {    
-    const availabeTags = ["#yoga", "#bodybuilding", "#gymnastics", "#zumba"];
+    const availabeTags = [];
 
     const mobileScreen = useMediaQuery(`(max-width: ${responsive.small})`);
 
@@ -194,10 +46,6 @@ function PostQuestion(props) {
     // const [ availableCategories, ]  = useContext(CategoriesContext);
     const [ submitting, setSubmitting ] = useState(false);
     const [ categories, setCategories ] = useState([]);
-
-
-    // const [title, setTitle] = useState("");
-    // const [category, setCategory] = useState("");
 
 
     const maxCategoriesAllowed = 2;
@@ -230,16 +78,7 @@ function PostQuestion(props) {
                 </CategoriesDiv>
             </FormContent>
             <FormContent>
-                <FormTitle> Tags </FormTitle>
-                <FormDesc>Adding tags makes it easy to spread your questions.</FormDesc>
                 <TagInput selectedTags={selectedTags} setSelectedTags={setSelectedTags} />
-                <SelectedTags>
-                 {selectedTags.map((el, index) =>
-                     <div className="element2" key={index}>
-                         <a href="#">{el}</a>
-                                 <StyledCancelIcon onClick={() => deltags(index)} />
-                     </div>)}
-                </SelectedTags>
             </FormContent>
             <FormContent>
                 {submitting ?
@@ -254,13 +93,6 @@ function PostQuestion(props) {
         let categories_data = await fetchCategories();
         console.log('Categories Data: ', categories_data);
         setCategories(categories_data.map(val => ({ ...val, selected: false })));
-    }
-
-    function deltags(index){
-        let a=[];
-        a=selectedTags.map((el)=>el);
-        a.splice(index, 1);
-        setSelectedTags(a);
     }
 
     function selectTag(a) {

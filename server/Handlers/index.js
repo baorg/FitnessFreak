@@ -8,7 +8,7 @@ const FileUploadHandler = require('./Upload');
 const CloudinaryHandler = require('./Cloudinary');
 const NotificationsHandler = require('./Notifications');
 const AnswerHandler = require('./Answer');
-
+const TagHandler = require('./Tags');
 
 module.exports = {
     AnswerHandler,
@@ -20,5 +20,6 @@ module.exports = {
     RankHandler,
     FileUploadHandler,
     CloudinaryHandler,
-    NotificationsHandler
+    NotificationsHandler,
+    TagHandler
 }

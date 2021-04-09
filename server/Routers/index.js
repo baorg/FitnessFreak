@@ -10,6 +10,7 @@ const questionRouter = require('./question');
 const rankRouter = require("./rank")
 const uploadRouter = require("./upload");
 const usersRouter = require('./users');
+const tagsRouter = require('./tags');
 
 const { initRequest, sendResponse } = require('../Middlewares');
 
@@ -17,15 +18,15 @@ router.use(initRequest);
 
 router.use('/answer', answersRouter);
 router.use('/auth', authRouter, sendResponse);
+router.use('/cloudinary', cloudinaryRouter);
 router.use('/feed', feedRouter);
 router.use('/following', followingRouter);
+router.use('/notifications', notificationsRouter);
 router.use('/question', questionRouter, sendResponse);
 router.use('/rank', rankRouter);
+router.use('/tags', tagsRouter);
 router.use('/upload', uploadRouter);
 router.use('/users', usersRouter);
-router.use('/cloudinary', cloudinaryRouter);
-router.use('/notifications', notificationsRouter);
-
 
 router.use(sendResponse);
 
