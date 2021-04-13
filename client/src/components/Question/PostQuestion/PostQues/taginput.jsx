@@ -107,12 +107,14 @@ export default function TagInput({ selectedTags, setSelectedTags }) {
 
     function selectTag(tag) {
         return (() => {
-            setSelectedTags(oldSelectedTags => {
-                let tmpSet = new Set(oldSelectedTags);
-                if (!tmpSet.delete(tag))
-                    tmpSet.add(tag);
-                return Array.from(tmpSet);
-            });
+            if (selectedTags.length <= 5) {
+                setSelectedTags(oldSelectedTags => {
+                    let tmpSet = new Set(oldSelectedTags);
+                    if (!tmpSet.delete(tag))
+                        tmpSet.add(tag);
+                    return Array.from(tmpSet);
+                });
+            }
         });
     }
 
@@ -133,7 +135,7 @@ export default function TagInput({ selectedTags, setSelectedTags }) {
                 setFetching(true);
                 if (searchQuery.length === 0) {
                     setTags([]);
-                } else {
+                }else {
                     let res = await ajaxRequest('GET', `${API_DOMAIN}/tags/get-tags?q=${searchQuery}`);
                     if (res.data.hasOwnProperty('tags')) {
                         setTags(
@@ -144,8 +146,8 @@ export default function TagInput({ selectedTags, setSelectedTags }) {
                             }))
                         );
                     }
+                    checkSelectedTags();
                 }
-                
                 setFetching(false);
             }
         }

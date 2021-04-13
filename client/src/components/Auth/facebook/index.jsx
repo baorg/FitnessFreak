@@ -4,7 +4,7 @@ import { ReactSVG } from 'react-svg';
 
 import FacebookIcon from './facebook-icon.svg';
 import logo from './facebook-login-btn.png';
-import CONFIG from '../../../config';
+import { API_DOMAIN } from '../../../config';
 
 
 // Styled Components ======================================
@@ -18,7 +18,6 @@ const FacebookAuthBtn = styled.div`
     background: #EFF2F4;
     border-radius: 9px;
     cursor: pointer;
-
     svg{
         margin: 0 30px 0 25px;
     }
@@ -45,21 +44,13 @@ const FacebookAuthBtn = styled.div`
 export default function FacbookAuth(props) {
 
     return (
-        <FacebookAuthBtn>
-            <ReactSVG
-                src={ FacebookIcon}/>
-            <div className="txt">Continue with facebook</div>
-        </FacebookAuthBtn>
+        <a href={`${API_DOMAIN}/auth/facebook`}>
+            <FacebookAuthBtn>
+                <ReactSVG
+                    src={ FacebookIcon}/>
+                <div className="txt">Continue with facebook</div>
+            </FacebookAuthBtn>
+        </a>
+        
     );
-    // return (
-    // <FacebookAuthBtn>
-    //     <a href={`${CONFIG.API_DOMAIN}/auth/facebook`}>
-    //         {/* <img
-    //             className="facebook-img-btn"
-    //             src={logo}
-    //             alt="facebook login button"
-    //         /> */}
-    //     </a>
-    // </FacebookAuthBtn>
-    // );
 }

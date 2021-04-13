@@ -1,8 +1,9 @@
 import React from 'react';
 import { ReactSVG } from 'react-svg';
-
+import { navigate, A } from 'hookrouter';
 import GoogleIcon from './google-icon.svg';
 import styled from 'styled-components';
+import { API_DOMAIN } from '../../../config';
 
 let GoogleIconContainer = styled.div`
     display: flex;
@@ -34,11 +35,13 @@ let GoogleIconContainer = styled.div`
 
 export default function GoogleAuth(props) {
     return (
-        <GoogleIconContainer>
-            <ReactSVG
-                src={GoogleIcon}
-            />
-            <div className="txt">Continue with google</div>
-        </GoogleIconContainer>
+        <a href={`${API_DOMAIN}/auth/google`}>
+            <GoogleIconContainer >
+                <ReactSVG
+                    src={GoogleIcon}
+                />
+                <div className="txt">Continue with google</div>
+            </GoogleIconContainer>
+        </a>
     );
 }

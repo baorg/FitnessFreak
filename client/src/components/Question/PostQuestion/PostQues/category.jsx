@@ -11,9 +11,8 @@ const CategoryDiv = styled.div`
     display: flex;
     align-items: center;
     padding: 0 16px 0 16px;
-    
     height: 50px;
-    width: fit-content;
+    width: 170px;
     background: ${({selected}) => selected ? "#065BFB" :"#EFF2F4" };
     border-radius: 5px;
     
