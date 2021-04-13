@@ -6,6 +6,12 @@ import { TextField } from '@material-ui/core'
 
 let EmailField = styled(TextField)`
     height: 100%;
+    background-color: #EFF2F4;
+    & .MuiOutlinedInput-root {
+      & fieldset {
+        border-color:#EFF2F4;
+      }
+    }
 `;
 
 // ==============================================================================
@@ -13,7 +19,6 @@ let EmailField = styled(TextField)`
 export default function Email({ input, email, setEmail }) {
 
     return (
-        <div className="form-row">
             <EmailField
                 id="reg-mail"
                 value={email.value}
@@ -21,14 +26,13 @@ export default function Email({ input, email, setEmail }) {
                 className="form-control"
                 type="email"
                 name={input.name}
-                label="Email"
+                // label="Email"
                 helperText={email.error}
                 error={Boolean(email.error)}
                 placeholder={input.placeholder}
                 required
-                variant="filled"
-            />
-        </div>);
+                variant="outlined"
+            />);
     
     function handleChange(event) {
         setEmail({ value: event.target.value, error: null });

@@ -7,6 +7,12 @@ import { TextField } from '@material-ui/core'
 let PwdField = styled(TextField)`
     border-color: ${({ matched }) => matched ? "green" : "red"};
     height: 100%;
+    background-color: #EFF2F4;
+    & .MuiOutlinedInput-root {
+      & fieldset {
+        border-color:#EFF2F4;
+      }
+    }
 `;
 
 // ==============================================================================
@@ -15,26 +21,20 @@ export default function Password(props) {
     const [matched, setMatched] = useState(false);
 
     return (
-        <>
-            <div className="form-group">
-                {/* <label htmlFor={props.input.name}>Retype Password</label> */}
-                {/* {props.password2.error && <span className="err-dialog">{ props.password2.error}</span>} */}
-                <PwdField
-                    id="filled-basic"
-                    label="Retype Password"
-                    required
-                    variant="filled"
-                    value={props.password2.value}
-                    onChange={handlePasswordChange}
-                    className="form-control"
-                    type="password"
-                    name={props.name}
-                    placeholder={props.input.placeholder} 
-                    error={!matched}
-                    helperText={props.password2.error}
-                    />
-            </div>
-        </>);
+        <PwdField
+            id="filled-basic"
+            // label="Retype Password"
+            required
+            variant="outlined"
+            value={props.password2.value}
+            onChange={handlePasswordChange}
+            className="form-control"
+            type="password"
+            name={props.name}
+            placeholder={props.input.placeholder} 
+            error={!matched}
+            helperText={props.password2.error}
+            />);
 
     async function handlePasswordChange(event) {
             let pass2 = event.target.value;

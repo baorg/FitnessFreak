@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Button, LinearProgress } from '@material-ui/core';
-
+import { A } from 'hookrouter';
 import Name from './utils/name';
 import ajaxRequest from '../../../ajaxRequest';
 import { API_DOMAIN } from '../../../config';
@@ -16,9 +16,20 @@ let ForgotPasswordForm = styled.form`
         margin-bottom: 10px;
     }
     .send-btn{
-        width: 60%;
+        width: 100%;
         align-self: center;
         border-radius: 10px;
+        justify-self: center;
+        align-self: center;
+        font-family: SF Pro !important;
+        font-style: normal !important;
+        font-weight: 600 !important;
+        font-size: 25px !important;
+        line-height: 30px !important;
+        color: #FFFFFF;
+        text-transform: none !important;
+        height: 60px;
+        background: #065BFB !important;
     }
 
     .err-msg{
@@ -27,6 +38,22 @@ let ForgotPasswordForm = styled.form`
         border-radius: 10px;
         text-align: center;
         align-content: center;
+    }
+    
+    .btm{
+        margin: 10px 0 10px 0;
+    }
+    .txt{
+        font-size: 20px;
+        line-height: 24px;
+        color: rgba(66, 66, 89, 0.9);
+    }
+    .link{
+        color: #065BFB;
+        font-weight: 500;
+        font-size: 23px;
+        line-height: 27px;
+        margin: 0 0 0 8px;
     }
 `;
 
@@ -63,6 +90,12 @@ export default function ForgotPassword() {
                 disabled={sending}
                 type="submit"
             >Send Forgot Password Token</Button>
+            <div className="btm">
+                <span className="txt">Already have an account?</span>
+                <A
+                    href="/auth/login"
+                    className="link">Login</A>
+            </div>
         </ForgotPasswordForm>;
 
     async function submitForm(event) {

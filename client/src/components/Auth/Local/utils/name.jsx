@@ -6,6 +6,12 @@ import { TextField } from '@material-ui/core'
 
 let NameField = styled(TextField)`
     height: 100%;
+    background-color: #EFF2F4;
+    & .MuiOutlinedInput-root {
+      & fieldset {
+        border-color:white;
+      }
+    }
 `;
 
 // ==============================================================================
@@ -17,14 +23,13 @@ export default function Name({name, setName, input}) {
             maxLength={input.max_length}
             type="text"
             name={input.name}
-            label={input.label}
             required={input.required}
             placeholder={input.placeholder}
             value={name.value}
             onChange={handleNameChange}
             helperText={name.error}
             error={Boolean(name.error)}
-            variant="filled"
+            variant="outlined"
         />);
     
     function handleNameChange(event) {

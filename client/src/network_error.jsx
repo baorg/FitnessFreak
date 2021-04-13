@@ -16,8 +16,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default  ({ }) =>
     <Snackbar open={true} autoHideDuration={6000}>
-        {/* <Alert elevation={6} variant="filled" severity="error"> Connection problem! </Alert>
-         */}
          <div>Connection problem!</div>
     </Snackbar>
 

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { ReactSVG } from 'react-svg';
 
+import FacebookIcon from './facebook-icon.svg';
 import logo from './facebook-login-btn.png';
 import CONFIG from '../../../config';
 
@@ -8,11 +10,18 @@ import CONFIG from '../../../config';
 // Styled Components ======================================
 
 const FacebookAuthBtn = styled.div`
-    width: 90%;
     box-sizing: border-box;
     display: flex;
-    justify-content: center;
+    align-items: center;
+    height: 60px;
+    width: 100%;
+    background: #EFF2F4;
+    border-radius: 9px;
+    cursor: pointer;
 
+    svg{
+        margin: 0 30px 0 25px;
+    }
     .facebook-img-btn{
         width: 100%;
         box-sizing: border-box;
@@ -20,9 +29,12 @@ const FacebookAuthBtn = styled.div`
         cursor: pointer;
         place-self: center;
         justify-self: center;
-        :hover{
-            box-shadow: 0px 0px 3px 5px rgb(81, 165, 243);
-        }
+    }
+    .txt{
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 21px;
+        color: #424259;;
     }
 `;
 
@@ -33,14 +45,21 @@ const FacebookAuthBtn = styled.div`
 export default function FacbookAuth(props) {
 
     return (
-    <FacebookAuthBtn>
-        <a href={`${CONFIG.API_DOMAIN}/auth/facebook`}>
-            <img
-                className="facebook-img-btn"
-                src={logo}
-                alt="facebook login button"
-            />
-        </a>
-    </FacebookAuthBtn>
+        <FacebookAuthBtn>
+            <ReactSVG
+                src={ FacebookIcon}/>
+            <div className="txt">Continue with facebook</div>
+        </FacebookAuthBtn>
     );
+    // return (
+    // <FacebookAuthBtn>
+    //     <a href={`${CONFIG.API_DOMAIN}/auth/facebook`}>
+    //         {/* <img
+    //             className="facebook-img-btn"
+    //             src={logo}
+    //             alt="facebook login button"
+    //         /> */}
+    //     </a>
+    // </FacebookAuthBtn>
+    // );
 }

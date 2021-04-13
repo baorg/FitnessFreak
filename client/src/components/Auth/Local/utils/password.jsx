@@ -6,6 +6,12 @@ import { TextField } from '@material-ui/core'
 
 let PwdField = styled(TextField)`
     height: 100%;
+    background-color: #EFF2F4;
+    & .MuiOutlinedInput-root {
+      & fieldset {
+        border-color:#EFF2F4;
+      }
+    }
 `;
 
 // ==============================================================================
@@ -15,21 +21,18 @@ export default function Password(props) {
     const [error, setError] = useState(true);
 
     return (
-        <div className="form-group">
-            <PwdField
-                id="password"
-                value={props.password.value}
-                required
-                variant="filled"
-                onChange={handlePasswordChange}
-                className="form-control" 
-                required minLength="6" 
-                type="password" name={props.name} 
-                placeholder="enter password" 
-                label={props.input.label}
-                helperText={props.password.error}
-            />
-        </div>);
+        <PwdField
+            id="password"
+            value={props.password.value}
+            required
+            variant="outlined"
+            onChange={handlePasswordChange}
+            className="form-control" 
+            required minLength="6" 
+            type="password" name={props.name} 
+            placeholder="Password" 
+            helperText={props.password.error}
+        />);
     
     async function handlePasswordChange(event) {
         await props.setPassword({ value: event.target.value, error: null });
