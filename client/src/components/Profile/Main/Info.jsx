@@ -1,17 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { A } from 'hookrouter';
+
+
+import { Button, Chip, Divider } from '@material-ui/core';
 import { CalendarTodayIcon } from '@material-ui/icons';
-import { Button, Chip } from '@material-ui/core';
 import noimage from '../../../static/noimage.png';
 import nobanner from '../../../static/placeholder_profile_banner.jfif';
 import EditProfile from '../EditProfile';
 import FollowButton from '../FollowButton';
 import FollowingSystemDiv from '../FollowingSystem';
+import CategoryIcon from 'src/components/static/CategoryIcons';
 
+import { API_DOMAIN } from 'src/config';
+import request from 'src/ajaxRequest';
 
 // Styled Components ================================================
 let ProfileInfoDiv = styled.div`
+    display: flex;
+    flex-direction: column;
+    font-family: SF Pro;
+    font-style: normal;
 
+    >*{
+        margin: 5px 0 5px 0;
+    }
     .chosen-category{
         display: flex;
         width: 100%;
@@ -23,36 +36,54 @@ let ProfileInfoDiv = styled.div`
 
 `;
 
+
+let ProfileContent = styled.div`
+    width: 90%;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    >*{
+        margin: 5px 0 5px 0;
+    }
+`;
+
 let ProfileBanner = styled.img`
     width: 100%;
     border-radius: 10px;
-    margin-top: 10px;
+    margin: 0;
 `;
-let ProfileImage = styled.img`
-    width: 100px;
-    height: 100px;
-    position: relative;
-    top: -50px;
-    left: 20px;
-    border-radius: 50%;
-    background-color: white;
-    border-width: 2px;
-    border-color: #eeeeee;
-    border-style: solid;
+let ProfileImage = styled.div`
+    width: 100%;
+    margin-top: -65px;
+    display: grid;
+    place-content: center;
+
+    img{
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        border: 2px solid white;
+    }
 `;
 
-let Username = styled.div`
-    font-size: 0.8em;
+let Username = styled(A)`
+    font-size: 18px;
+    line-height: 21px;
+    color: #065BFB;
 `;
 let FirstLastName = styled.div`
-    font-size: 1.3em;
+    font-weight: 600;
+    font-size: 23px;
+    line-height: 27px;
 `;
 
 let Name = styled.div`
-    @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@1,600&display=swap');
-    font-family: 'Open Sans', sans-serif;
-    height: 3em;
-    margin-top: -30px;
+    font-family: SF Pro, sans-serif;
+    font-style: normal;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `;
 
 let JoinedDate = styled.div`
@@ -63,23 +94,29 @@ let JoinedDate = styled.div`
 `;
 
 let Bio = styled.div`
-    border: 2px solid #8ea09f;
-    border-radius: 4px;
-    min-height: 5em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .heading{
+        font-weight: normal;
+        font-size: 20px;
+        line-height: 24px;
+        color: rgba(66, 66, 89, 0.8);
+    }
+
+    .content{
+        font-weight: 600;
+        font-size: 22px;
+        line-height: 26px;
+        text-align: center;
+        color: #424259;
+        max-width: 80%;
+    }
 `;
 
-let BioDiv = styled.span`
-    position: relative;
-    background-color: #eeeeee;
-    top: -0.9em;
-    left: 1em;
-    font-size: 1.4em;
-    width: 2em;
-    text-align: center;
-`;
 
 let EditProfileButton = styled.button`
-    float: right;
     border-radius: 20px;
     margin: 10px 5px 10px 5px;
     height: 3em;
@@ -88,7 +125,6 @@ let EditProfileButton = styled.button`
     border-style: none;
     border: 2px solid blue; 
     background-color: inherit;
-    
     :hover{
         background-color: "#b8b8ff";
     }
@@ -103,100 +139,230 @@ let EditProfileButton = styled.button`
 let ScoreCard = styled.div`
     margin: 2em 0 2em 0;
     padding: 10px;
-    border: 2px solid #c2c2c2f3;
-    border-radius: 10px;
+    display: flex;
 `;
 let MainScore = styled.div`
+    width: 200px;
     height: 2em;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    span{
-        font-size: 1.4em;
+    align-self: center;
+    .heading{
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 24px;
+        color: rgba(66, 66, 89, 0.8);
+    }
+    .score{
+        font-weight: 600;
+        font-size: 27px;
+        line-height: 32px;
+        color: #424259;
     }
 `;
 
-let Score = styled.div`
-    background-color: #70cbe2;
-    min-width: 2em;
-    text-align: center;
-    text-justify: center;
-    border-radius: 5px;
-    height: fit-content;
-    margin: 10px;
-    padding: 0 10px 0 10px;
-    
-    span{
-        height: 100%;
-        margin: 0 10px 0 10px;
-        border-left: 1px solid #777777;
-        width: 0;
-    }
-`;
 
 let CategoryScore = styled.div`
     display: flex;
     flex-wrap: wrap;
+
+    .category{
+        display: flex;
+        flex-direction: column;
+        margin: 5px 10px 5px 10px;
+        align-items: center;
+        .heading{
+            font-size: 16px;
+            line-height: 19px;
+            color: rgba(66, 66, 89, 0.8);
+            .icon{
+                width: 15px;
+                height: 15px;
+            }
+        }
+        .score{
+            font-weight: 600;
+            font-size: 22px;
+            line-height: 26px;
+            color: #424259;
+        }
+    }
+
 `;
 
+let RankDiv = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 20px;
+    position: relative;
+    right: 30px;
+    top: -30px;
+    width: 0;
+
+    .heading{
+        font-size: 17px;
+        line-height: 20px;
+        color: rgba(66, 66, 89, 0.7);
+    }
+
+    .rank{
+        font-weight: 600;
+        font-size: 27px;
+        line-height: 32px;
+        color: #065BFB;
+    }
+
+`;
+
+let FollowersCountDiv = styled.div`
+    display: flex;
+    justify-content: center;
+        
+    .box{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 10px 20px 10px 20px;
+        .heading{
+            font-weight: normal;
+            font-size: 20px;
+            line-height: 24px;
+            color: rgba(66, 66, 89, 0.8);
+        }
+        .count{
+            font-weight: 600;
+            font-size: 27px;
+            line-height: 32px;
+            color: #424259;
+        }
+    }
+`;
+let NameRankDiv = styled.div`
+    display: flex;
+`;
 //=====================================================================
 
 
-export default function UserInfo(props) {
-    console.log('User: ', props.profileUser);
-    console.log('Score: ', props.profileUser.score);
-
+export default function UserInfo({profileUser, editProfile, setEditProfile }) {
+    // console.log('User: ', profileUser);
+    // console.log('Score: ', profileUser.score);
+    const [rank, setRank] = useState(null);
+    const [followers, setFollowers] = useState(null);
+    const [followings, setFollowings] = useState(null);
+    
+    useEffect(updateRankEffect, []);
+    useEffect(updateFollowingEffect, []);
+    
     return (
         <>
         <ProfileInfoDiv>
-            <ProfileBanner src={props.profileUser.banner_image || nobanner } alt="" />
-            <ProfileImage src={props.profileUser.profile_image || noimage} alt="" />
-            {props.profileUser.own_profile
+            <ProfileBanner src={profileUser.banner_image || nobanner } alt="" />
+            <ProfileImage>
+                <img src={profileUser.profile_image || noimage} alt="" />
+            </ProfileImage>
+
+            <ProfileContent>
+                <NameRankDiv>
+                    <Name >
+                        <FirstLastName>{profileUser.first_name} {profileUser.last_name}</FirstLastName>
+                        <Username href={`/profile/${profileUser._id}`}>@{profileUser.username}</Username>
+                        {/* <JoinedDate>Joined { (new Date(profileUser.created_at).toLocaleString('en-US', {year: 'numeric', month: 'long'}))}</JoinedDate> */}
+                    </Name>
+                    {rank && <RankDiv>
+                        <div className="heading">Rank</div>
+                        <div className="rank">#{rank}</div>
+                    </RankDiv>}
+                </NameRankDiv>
+                    
+                <div style={{width:"100%", display: "grid", "placeContent": "center"}}>
+                    {profileUser.own_profile
                     ? <EditProfileButton onClick={handleEditProfileClick}>
                         <span>Edit Profile</span></EditProfileButton> 
-                    : <FollowButton profile={props.profileUser} />}
-
-                <Name >
-                    <FirstLastName>{props.profileUser.first_name} {props.profileUser.last_name}</FirstLastName>
-                    <Username>@{props.profileUser.username}</Username>
-                    <JoinedDate>Joined { (new Date(props.profileUser.created_at).toLocaleString('en-US', {year: 'numeric', month: 'long'}))}</JoinedDate>
-                </Name>
-                <div className="chosen-category">
-                    {props.profileUser.chosen_category.map( category=>
-                        <Chip 
-                            variant="outlined"
-                            label={category}
-                            color="primary"/>
-                    )}
+                    : <FollowButton profile={profileUser} />}
                 </div>
-            <hr />
-            <Bio>
-                <BioDiv>Bio</BioDiv>
-                {props.profileUser.bio}
-            </Bio>
+                
+                <Bio>
+                    <div className="heading">Bio</div>
+                    <div className="content">" {profileUser.bio} "</div>
+                </Bio>
+
+                <Divider />
+                <FollowersCountDiv>
+                    <div className="box follower">
+                        <div className="heading">Followers</div>
+                        {followers && <div className="count">{followers}</div>}
+                    </div>
+                    <div className="box following">
+                        <div className="heading">Following</div>
+                        {followings && <div className="count">{followings}</div>}
+                    </div>
+                </FollowersCountDiv>
+                <Divider />
+
             <ScoreCard>
                 <MainScore>
-                    <span>Score</span>
-                    <Score>Total <span></span>{ props.profileUser.score.find(s=>s.name==='totalScore').score }</Score>
+                    <div className="heading">Total score</div>
+                    <div className="score">{ profileUser.score.find(s=>s.name==='totalScore').score }</div>
                 </MainScore>
-                <hr/>
                 <CategoryScore>
-                    {props.profileUser.score.filter(score=>(score.name!=='totalScore' && score.name!=='followers')).map(score => 
-                        <Score>{score.name} <span></span>{ score.score }</Score>
-                    )}
+                    {profileUser.score.filter(score => ((score.name !== 'totalScore' && score.name !== 'Followers' ) && score.name !== 'followers')).map(score =>
+                        <div className="category">
+                            <div className="heading">
+                                <CategoryIcon className="icon" category={score.name} /> {score.name}
+                            </div>
+                            <div className="score">{score.score}</div>
+                        </div>)}
                 </CategoryScore>
             </ScoreCard>
-            
-            <FollowingSystemDiv followers={20} followings={10} />
-
-            </ProfileInfoDiv>
-            </>
-    );
+            <Divider />
+            {/* <FollowingSystemDiv followers={20} followings={10} /> */}
+            </ProfileContent>
+        </ProfileInfoDiv>
+    </>);
 
     function handleEditProfileClick() {
-        if (props.editProfile) {
+        if (editProfile) {
             
         } else {
-            props.setEditProfile(true);
+            setEditProfile(true);
+        }
+    }
+
+    function updateRankEffect() {
+        effect();
+        return cleanup;
+
+        async function effect() {
+            try {
+                let res = await request('get', `${API_DOMAIN}/rank/user?user-id=${profileUser._id}`);
+                console.log(res.data);
+                if (res.data.success && res.data.ranking) {
+                    console.log('Ranking: ', res.data.ranking);
+                    setRank(res.data.ranking);
+                }
+            } catch (err) {
+                console.error('ERROR', err);
+            }
+            
+        }
+        function cleanup(){}
+    }
+
+    function updateFollowingEffect() {
+        effect();
+        
+        async function effect(){
+            try {
+                let res = await request('get', `${API_DOMAIN}/following/count/${profileUser._id}`);
+                if (res.data.success && res.data.followers && res.data.followings) {
+                    setFollowers(res.data.followers);
+                    setFollowings(res.data.followings);
+                }
+            } catch (err) {
+                console.error(err);
+            }
         }
     }
 

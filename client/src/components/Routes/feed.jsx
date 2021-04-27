@@ -4,7 +4,7 @@ import axios from "axios";
 import { useRoutes, navigate } from 'hookrouter';
 import {HTML404 } from '../ErrorPage/Error';
 import PostQuestion from "../Question/PostQuestion";
-import FullQuestion from '../Question/FullQuestion/fullQuestion';
+import FullQuestion from '../Question/FullQuestion';
 import TypeOfPageRoutes from "./typeofpageroutes";
 import ProfileRoutes from "./profileroutes";
 import Ranking from '../Ranking';

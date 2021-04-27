@@ -1,0 +1,8 @@
+{
+    "debug.javascript.autoAttachFilter": "smart",
+    "files.eol": "\r\n",
+    "[javascript]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+    }
+}

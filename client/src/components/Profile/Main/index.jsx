@@ -8,14 +8,10 @@ import QuestionAnswer from './content';
 
 const MainDiv = styled.div`
     min-height: 100vh;
-    padding-left: 5px;
-    padding-right: 5px;
-    border-bottom: 0px;
-    border-left: 2px solid #919191;
-    border-right: 2px solid #919191;
+    background-color: #fff;
     border-collapse: collapse;
-
     grid-column: 2 / 3;
+    border-radius: 10px;
 `;
 
 // =======================================================

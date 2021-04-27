@@ -1,22 +1,22 @@
-import React,{useEffect, useState} from 'react';
+import React,{useContext, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import { navigate } from 'hookrouter';
 import { TextField, Button } from '@material-ui/core';
 
 import ajaxRequest from '../../../ajaxRequest';
 import {API_DOMAIN} from '../../../config';
+import { UserContext } from 'src/components/utils/UserContext';
 
 // Styled Components ====================================================
 
-let CommentDiv = styled.div`
+let AnswerDiv = styled.div`
     height: 3em;
-
     background: #EFF2F4;
     box-shadow: 20px -8px 34px rgba(255, 255, 255, 0.63);
     border-radius: 8px;
     
     border-radius: 10px;
-    margin: 10px 5px 20px 5px;
+    margin: 30px 5px 20px 5px;
     padding: 0 10px 0 10px;
     display: flex;
     flex-wrap: wrap;
@@ -44,16 +44,17 @@ let CommentDiv = styled.div`
 
 
 
-export default function PostAnswer({ user, quesId, ...props }){
+export default function PostAnswer({ quesId, ...props }){
     const [answerInput, setAnswerInput] = useState("");
     const [submitAnswerDisabled, setSubmitAnswerDisabled] = useState(true);
+    const [user,] = useContext(UserContext);
 
     useEffect(()=>{
         setSubmitAnswerDisabled(user===null || answerInput.length===0);
     }, [user, answerInput])
 
     return (
-        <CommentDiv {...props}>
+        <AnswerDiv {...props}>
                 <input 
                     value={answerInput}
                     onChange={(el)=>setAnswerInput(el.target.value)}
@@ -68,7 +69,7 @@ export default function PostAnswer({ user, quesId, ...props }){
                     onClick={submitAnswer}
                     color="primary"
                 >Answer</Button>
-            </CommentDiv>
+            </AnswerDiv>
     );
 
     async function submitAnswer(){
@@ -80,8 +81,10 @@ export default function PostAnswer({ user, quesId, ...props }){
                     quesId: quesId,
                     answer: answerInput
                 });
-                if(res.data.success){
-                    navigate(`viewFullQuestion/${quesId}`);
+                if (res.data.success) {
+                    setAnswerInput("");
+                    // navigate(`/viewFullQuestion/${quesId}`);
+                    window.location.reload();
                 }
             }catch(err){
                 setSubmitAnswerDisabled(false);

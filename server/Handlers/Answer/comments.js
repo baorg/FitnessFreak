@@ -2,11 +2,11 @@ const { Ques, Ans, User, Tag, Comment } = require("../../Models");
 const { createNotification } = require('../Notifications/helpers');
 const { commentsSerializer } = require('../../Serializers/Comments');
 
-async function getComments(req, res, next){
+async function getComments(req, res, next) {
 
     let data = []
     let err = false;
-    let user_id = req.user?req.user._id:null;
+    let user_id = req.user ? req.user._id : null;
 
     try {
         // const userId = req.user.id;
@@ -19,16 +19,16 @@ async function getComments(req, res, next){
             },
         }
 
-        let answer = await Ans.findOne({_id: answer_id}, 'comments').populate('comments.userId').exec();
-        if(answer){
+        let answer = await Ans.findOne({ _id: answer_id }, 'comments').populate('comments.userId').exec();
+        if (answer) {
             let comments = answer.comments;
             res.data.success = true;
-            res.data.comments = commentsSerializer(comments, user_id);
-        }else{
+            res.data.comments = commentsSerializer(comments.reverse(), user_id);
+        } else {
             res.data.success = false;
             res.data.error = 'Invalid answer id';
         }
-        
+
     } catch (err) {
         console.error("ERROR:", err);
         res.data.success = false;
@@ -39,7 +39,7 @@ async function getComments(req, res, next){
 }
 
 
-async function postComment(req, res, next){
+async function postComment(req, res, next) {
 
     const userId = req.user.id;
     const answerId = req.body.answer_id;
@@ -60,7 +60,7 @@ async function postComment(req, res, next){
         const AnsUpdate = await Ans.updateOne({ _id: answerId }, { $push: { comments: saveComment } }).exec();
         let ans_user = (await Ans.findOne({ _id: answerId }, 'userId').exec());
         ans_user = ans_user.userId;
-        
+
 
         await createNotification(ans_user, userId, 3, answerId);
 
@@ -92,15 +92,15 @@ async function postComment(req, res, next){
     }
 }
 
-async function deleteComment(req, res, next){
+async function deleteComment(req, res, next) {
     let ans_id = req.body.answer_id;
     let comment_id = req.body.comment_id;
     let user_id = req.user._id.toString();
 
     console.log(ans_id, ' | ', comment_id, ' | ', user_id);
 
-    try{
-        let comment_del = await Ans.updateOne({_id: ans_id}, {
+    try {
+        let comment_del = await Ans.updateOne({ _id: ans_id }, {
             $pull: {
                 comments: {
                     _id: comment_id,
@@ -109,134 +109,138 @@ async function deleteComment(req, res, next){
             }
         });
         console.log(comment_del);
-        if(comment_del.nModified){
+        if (comment_del.nModified) {
             res.data.deleted = true;
             res.data.success = true;
-        }else{
+        } else {
             res.data.success = false;
             res.data.error = 'Data not present.';
         }
-    }catch(err){
+    } catch (err) {
         console.error('Error: ', err);
         res.data.error = 'Some internal error.';
         res.data.success = false;
-    }finally{
+    } finally {
         return next();
     }
 }
 
-async function handleVoting(user, answer_id, comment_id, value){
+async function handleVoting(user, answer_id, comment_id, value) {
     let error = "Some internal error.";
-    let vote = {userId: user, value: value};
+    let vote = { userId: user, value: value };
     let success;
 
-    try{
-        let answer = await Ans.findOne({_id: answer_id}).exec();
-        let comment=null, comment_index=-1;
+    try {
+        let answer = await Ans.findOne({ _id: answer_id }).exec();
+        let comment = null,
+            comment_index = -1;
 
-        if(answer===null){
+        if (answer === null) {
             error = "Invalid answer-id";
             throw Error(error);
         }
-        
-        for(var i=0;i<answer.comments.length;i++){
-            if(answer.comments[i].id === comment_id){
+
+        for (var i = 0; i < answer.comments.length; i++) {
+            if (answer.comments[i].id === comment_id) {
                 comment = answer.comments[i];
                 comment_index = i;
                 break;
             }
         }
 
-        if(comment===null){
+        if (comment === null) {
             error = "Invalid comment-id";
             throw Error(error);
         }
 
-        let vote_index = comment.upDown.findIndex(vote=>vote.userId.toString()===user.id.toString());
+        let vote_index = comment.upDown.findIndex(vote => vote.userId.toString() === user.id.toString());
 
-        { /*
-        if(vote_index===-1){
+        {
+            /*
+                   if(vote_index===-1){
+                       comment.upDown.push({
+                           userId: user._id,
+                           value: value
+                       });
+                       vote_index = comment.upDown.length-1;
+                       switch(value){
+                           case +1:
+                               comment.vote_count.upvote++;
+                               break;
+                           case -1:
+                               comment.vote_count.downvote++;
+                               break;
+                           default:
+                               break;
+                       }
+                   }else{
+                       switch(comment.upDown[vote_index].value){ // previoius value
+                           case -1:
+                               switch(value){  // current value
+                                   case -1:
+                                       break;
+                                   case 0:
+                                       comment.vote_count.downvote--;
+                                       break;
+                                   case 1:
+                                       comment.vote_count.downvote--;
+                                       comment.vote_count.upvote++;
+                                       break;
+                               }
+                               break;
+                           
+                           case 0:
+                               switch(value){  // current value
+                                   case -1:
+                                       comment.vote_count.downvote++;
+                                   case 0:
+                                       break;
+                                   case 1:
+                                       comment.vote_count.upvote++;
+                                       break;
+                               }
+                               break;
+                           
+                           case +1:
+                               switch(value){  // current value
+                                   case -1:
+                                       comment.vote_count.upvote--;
+                                       comment.vote_count.downvote++;
+                                   case 0:
+                                       comment.vote_count.upvote--;
+                                       break;
+                                   case +1:
+                                       break;
+                               }
+                               break;
+                       }
+                       comment.upDown[vote_index].value = value;
+                   }
+                   */
+        }
+
+
+        if (vote_index === -1) {
             comment.upDown.push({
                 userId: user._id,
                 value: value
             });
-            vote_index = comment.upDown.length-1;
-            switch(value){
-                case +1:
-                    comment.vote_count.upvote++;
-                    break;
-                case -1:
-                    comment.vote_count.downvote++;
-                    break;
-                default:
-                    break;
-            }
-        }else{
-            switch(comment.upDown[vote_index].value){ // previoius value
-                case -1:
-                    switch(value){  // current value
-                        case -1:
-                            break;
-                        case 0:
-                            comment.vote_count.downvote--;
-                            break;
-                        case 1:
-                            comment.vote_count.downvote--;
-                            comment.vote_count.upvote++;
-                            break;
-                    }
-                    break;
-                
-                case 0:
-                    switch(value){  // current value
-                        case -1:
-                            comment.vote_count.downvote++;
-                        case 0:
-                            break;
-                        case 1:
-                            comment.vote_count.upvote++;
-                            break;
-                    }
-                    break;
-                
-                case +1:
-                    switch(value){  // current value
-                        case -1:
-                            comment.vote_count.upvote--;
-                            comment.vote_count.downvote++;
-                        case 0:
-                            comment.vote_count.upvote--;
-                            break;
-                        case +1:
-                            break;
-                    }
-                    break;
-            }
-            comment.upDown[vote_index].value = value;
-        }
-        */}
-
-
-        if(vote_index===-1){
-            comment.upDown.push({
-                userId: user._id,
-                value: value
-            });
-            vote_index = comment.upDown.length-1;
-        }else{
+            vote_index = comment.upDown.length - 1;
+        } else {
             comment.upDown[vote_index].value = value;
         }
 
-        let upvote=0, downvote=0;
-        comment.upDown.forEach((vote)=>{
-            switch(vote.value){
+        let upvote = 0,
+            downvote = 0;
+        comment.upDown.forEach((vote) => {
+            switch (vote.value) {
                 case -1:
                     downvote++;
                     break;
                 case +1:
                     upvote++;
                     break;
-                default: 
+                default:
                     break;
             }
         });
@@ -250,17 +254,17 @@ async function handleVoting(user, answer_id, comment_id, value){
         vote_count = answer.comments[comment_index].vote_count;
         error = null;
 
-    } catch(err) {
+    } catch (err) {
         success = false;
         vote = null;
     } finally {
-        return {success, vote, error, vote_count};
+        return { success, vote, error, vote_count };
     }
 }
 
 
-async function upvoteComment(req, res, next){
-    
+async function upvoteComment(req, res, next) {
+
     let user = req.user;
     let answer_id = req.query.answer_id;
     let comment_id = req.query.comment_id;
@@ -275,7 +279,7 @@ async function upvoteComment(req, res, next){
     return next();
 }
 
-async function downvoteComment(req, res, next){
+async function downvoteComment(req, res, next) {
     let user = req.user;
     let answer_id = req.query.answer_id;
     let comment_id = req.query.comment_id;
@@ -291,7 +295,7 @@ async function downvoteComment(req, res, next){
 }
 
 
-async function unvoteComment(req, res, next){
+async function unvoteComment(req, res, next) {
     let user = req.user;
     let answer_id = req.query.answer_id;
     let comment_id = req.query.comment_id;
@@ -310,7 +314,7 @@ module.exports = {
     getComments,
     postComment,
     deleteComment,
-     
+
     upvoteComment,
     downvoteComment,
     unvoteComment

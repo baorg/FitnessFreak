@@ -51,6 +51,7 @@ export default function ({type, selectedCategories, url}) {
         setFeed({ questions: [], current_page: 0 });
         setHasMore(true);
         return () => {
+            setHasMore(false);
         }
     }, [ url ]);
 

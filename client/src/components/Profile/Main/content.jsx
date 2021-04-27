@@ -11,50 +11,31 @@ import BookmarksList from '../Bookmarks';
 // Styled components =====================================================================================================
 
 let ProfileContent = styled.div`
-
+    font-family: SF Pro;
+    font-style: normal;
+    font-weight: normal;
+    margin: 20px 0 0 0 ;
 `;
 
-let Button = styled.div`
-    border-bottom: 2px solid #909090;
+let SelectButtons = styled.div`
     display: flex;
     justify-content: space-evenly;
-`;
 
-let btn = styled.div`
-    display: grid;
-    place-content: center;
-    width: 30%;
-    height: 3em;
-    font-size: 1.4em;
-    border-radius: 10px;
-    margin: 10px;
-    background-color: ${props => props.active?'#8f8f8f':'inherit'};
-    :hover{
-        background-color: #606060;
-        color: #f0f0f0;
+    .sel{
+        font-size: 20px;
+        line-height: 24px;
+        color: rgba(66, 66, 89, 0.8);
         cursor: pointer;
     }
 
+
+    .active{
+        font-weight: 500;
+        font-size: 25px;
+        line-height: 30px;
+        color: #065BFB;
+    }
 `;
-
-let QuestionButton = styled(btn)`
-    text-align: center;
-`;
-
-let BookmarksBtn = styled(btn)`
-`;
-
-let AnswerButton = styled(btn)`
-`;
-
-let FollowersButton = styled(btn)`
-
-`;
-
-let FollowingButton = styled(btn)`
-
-`;
-
 // =================================================================================================================================================
 
 export default function Content({ user, profileUser }) {
@@ -68,35 +49,21 @@ export default function Content({ user, profileUser }) {
 
     return (
         <ProfileContent>
-            <Button>
-                
-                <QuestionButton
-                    active={activeListType === 'question'}
+            <SelectButtons>
+                <div
+                    className={`sel ${activeListType === 'question'?'active':''}`}
                     onClick={()=>changeList('question')}
-                >Questions Asked</QuestionButton>
-
-                <AnswerButton
-                    active={activeListType === 'answer'}
+                >Questions Asked</div>
+                <div
+                    className={`sel ${activeListType === 'answer'?'active':''}`}
                     onClick={()=>changeList('answer')}
-                >Answer</AnswerButton>
-                
-                <BookmarksBtn
-                    active={activeListType === 'bookmarks'}
+                >Answer</div>
+                <div
+                    className={`sel ${activeListType === 'bookmarks'?'active':''}`}
                     onClick={()=>changeList('bookmarks')}
                 >Bookmarks
-                </BookmarksBtn>
-
-                {/* <FollowersButton
-                    active={activeListType === 'followers'}
-                    onClick={()=>changeList('followers')}
-                >Followers</FollowersButton>
-                
-                <FollowingButton
-                    active={activeListType === 'following'}
-                    onClick={()=>changeList('following')}
-                >Following</FollowingButton> */}
-            
-            </Button>
+                </div>
+            </SelectButtons>
 
             {
                 activeListType === 'question' ?

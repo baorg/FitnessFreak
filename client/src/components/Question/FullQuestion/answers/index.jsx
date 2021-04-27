@@ -1,12 +1,14 @@
-import React,{useEffect, useState} from 'react';
+import React,{useContext, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import { navigate } from 'hookrouter';
 import { TextField, Button } from '@material-ui/core';
 
 import Answer from './answer';
-import Comment from './comment';
-import ajaxRequest from '../../../../ajaxRequest';
-import {API_DOMAIN} from '../../../../config';
+
+import ajaxRequest from 'src/ajaxRequest';
+import {API_DOMAIN} from 'src/config';
+import { UserContext } from 'src/components/utils/UserContext';
+import PostComment from 'src/components/Question/Question/post_comments';
 
 // Styled Components ====================================================
 
@@ -14,20 +16,6 @@ let AnswersDiv = styled.div`
     margin: 20px 10px 20px 10x;
     width: 100%;
     box-sizing: border-box;
-`;
-
-let AnswerInput = styled.div`
-    display: flex;
-    justify-items: space-around;
-    margin-top: 20px;
-    margin-bottom: 10px;
-
-    .cmmnt-text{
-        flex: 1;
-    }
-    .post-btn{
-        margin-left: auto;
-    }
 `;
 
 let StyledAnswer = styled(Answer)`
@@ -45,8 +33,9 @@ let MainDiv = styled.div`
 // ======================================================================
 
 
-export default function Answers({quesId, user}){
-    let [answers, setAnswers] = useState([]);    
+export default function Answers({ quesId }){
+    const [answers, setAnswers] = useState([]);
+    const [user, ] = useContext(UserContext);
 
     useEffect(()=>{
         fetchAnswers();
@@ -56,7 +45,7 @@ export default function Answers({quesId, user}){
 
 
     return (
-        <MainDiv>            
+        <MainDiv>
             <AnswersDiv>
                 {answers.map(answer=>
                         <StyledAnswer 

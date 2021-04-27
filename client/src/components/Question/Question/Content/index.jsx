@@ -4,6 +4,7 @@ import { A } from 'hookrouter';
 import CommentBtn from '../../../static/comment_icon';
 import UpDownVote from "../vote";
 import { responsive } from '../../../utils/data.json';
+import PostComment from 'src/components/Question/Question/post_comments';
 
 
 // Styled components ===================================
@@ -65,8 +66,8 @@ let VoteCount = styled.div`
 
 let BottomContainer = styled.div`
     display: flex;
+    align-items: center;
     width: 100%;
-    justify-content: space-evenly;
 
     .cmmnt-btn{
         margin: 0 10px 0 30px;
@@ -77,29 +78,37 @@ let BottomContainer = styled.div`
 let CategoryContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
-    margin-left: auto;
+    margin: 0 20px 20px 0;
     max-width: 60%;
 `;
 
 let CategorySpan = styled.div`
     
     border-radius: 6px;
-    height: fit-content;
-    width: fit-content;
+    height: 30px;
+    width: calc(fit-content + 30px);
     background: rgba(6, 91, 251, 0.1);
-    
     border-radius: 5px;
+    
     text-align: center;
     padding-top: auto;
     font-family: SF Pro;
     font-style: normal;
     font-weight: normal;
-    font-size: 16px;
+    font-size: 18px;
+    line-height: 30px;
     padding: 0 10px 0 10px;
     color: #065BFB;
     margin: 2px;
 `;
 
+let AnswersCountDiv = styled.div`
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    color: #065BFB;
+    margin: 0 0 0 10px;
+`;
 
 let PostedDate = styled.div`
     font-size: 1.1em;
@@ -111,7 +120,7 @@ let PostedDate = styled.div`
 //=======================================================
 
 
-export default function Content({ question, selectedCategories, url }){
+export default function Content({ question, selectedCategories, url, postComment=false, bottomNeeded=true }){
 
     // console.log('Question: ', question)
 
@@ -128,22 +137,29 @@ export default function Content({ question, selectedCategories, url }){
                 </QuestionPreviewDiv>
             </QuestionMainDiv>
         </QuestionContent>
-        <BottomContainer>
+        <CategoryContainer>
+            {question.category.map(category => (
+                <CategorySpan 
+                    className="category-span" 
+                    selected={isSelected(category)}>
+                    {category}
+                </CategorySpan>
+            ))}
+        </CategoryContainer>
+        {bottomNeeded && <BottomContainer>
             <UpDownVote 
                 quesId={question._id} 
                 vote={question.vote}
             />
-            <CommentBtn className="cmmnt-btn" count={question.answers_count}/>
-            <CategoryContainer>
-                {question.category.map(category => (
-                    <CategorySpan 
-                        className="category-span" 
-                        selected={isSelected(category)}>
-                        {category}
-                    </CategorySpan>
-                ))}
-            </CategoryContainer>
-        </BottomContainer>
+            <CommentBtn className="cmmnt-btn" count={question.comments_count} />
+            <AnswersCountDiv>
+                {question.answers_count===0?'no':question.answers_count} {question.answers_count<2?"answer":"answers"}
+            </AnswersCountDiv>
+            {postComment && <PostComment
+                    quesId={question._id}
+                    onSubmit={postComment}
+                />}
+        </BottomContainer>}
         </>
     );
 

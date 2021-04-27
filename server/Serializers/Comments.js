@@ -1,6 +1,7 @@
-function commentsSerializer(comments, user_id){
-    user_id = (user_id&&user_id.toString()) || "tmpuser";
-    return comments.map(comment=>({
+function commentsSerializer(comments, user_id) {
+    user_id = user_id ? user_id.toString() : null;
+
+    return comments.map(comment => ({
         _id: comment._id,
         comment: comment.comment,
         vote_count: comment.vote_count,
@@ -10,9 +11,10 @@ function commentsSerializer(comments, user_id){
             _id: comment.userId._id,
             username: comment.userId.username,
             first_name: comment.userId.first_name,
-            last_name: comment.userId.last_name
+            last_name: comment.userId.last_name,
+            profile_image: comment.userId.profile_image
         },
-        voted: comment.upDown.find(vote=>vote.userId.toString()===user_id) || {userId: user_id, value: 0}
+        voted: user_id ? comment.upDown.find(vote => vote.userId.toString() === user_id) || { userId: user_id, value: 0 } : null
     }));
 }
 

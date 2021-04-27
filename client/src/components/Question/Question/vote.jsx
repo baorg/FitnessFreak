@@ -42,7 +42,6 @@ export default function Vote({vote, quesId, type=1}){
             0: Answer
             1: Question
             2: Comment
-    
     */
 
     const [votes, setVotes] = useState(vote);

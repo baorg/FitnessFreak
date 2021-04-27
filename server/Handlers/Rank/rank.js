@@ -9,14 +9,14 @@ module.exports.getRankByCategory = async function(req, res, next) {
         const users = await User.find({}, "username first_name last_name score profile_image chosen_category").exec();
         let result = [];
 
-        if (type === 'followers'){
-            users.forEach((user)=>{
+        if (type === 'followers') {
+            users.forEach((user) => {
                 let index = hasUserOwnProperty(user, type);
                 let totalScoreIndex = hasUserOwnProperty(user, 'totalScore');
 
-                if (    index !== -1 &&
-                        (categories.length===0 || categories.some(c=>user.chosen_category&&user.chosen_category.some(cc=>cc===c)))
-                    ) {
+                if (index !== -1 &&
+                    (categories.length === 0 || categories.some(c => user.chosen_category && user.chosen_category.some(cc => cc === c)))
+                ) {
                     result.push({
                         _id: user._id,
                         username: user.username,
@@ -26,7 +26,7 @@ module.exports.getRankByCategory = async function(req, res, next) {
                         catScore: user.score[index].score,
                         profile_image: user.profile_image,
                         totalScore: user.score[totalScoreIndex].score,
-                        followers: Math.floor(user.score[index].score/score.followerGained)
+                        followers: Math.floor(user.score[index].score / score.followerGained)
                     });
                 }
             })
@@ -46,7 +46,7 @@ module.exports.getRankByCategory = async function(req, res, next) {
                         catScore: user.score[index].score,
                         profile_image: user.profile_image,
                         totalScore: user.score[totalScoreIndex].score,
-                        followers: Math.floor(user.score[index].score/score.followerGained)
+                        followers: Math.floor(user.score[index].score / score.followerGained)
                     });
                 }
             });
@@ -70,7 +70,7 @@ module.exports.getRankByCategory = async function(req, res, next) {
                 user.score.forEach(({ name, score }) => {
                     if (categoriesSet.has(name))
                         tmpData.catScore += score;
-                });                
+                });
 
                 if (tmpData.catScore > 0) {
                     result.push(tmpData);
@@ -90,4 +90,33 @@ module.exports.getRankByCategory = async function(req, res, next) {
         return next();
     }
 
+}
+
+
+module.exports.getUserRank = async function(req, res, next) {
+    const userId = req.query['user-id'];
+
+    try {
+        let users = await User.find({}, "username score").exec();
+        users = users.map((user) => {
+            let totalScoreIndex = hasUserOwnProperty(user, 'totalScore');
+            return {
+                _id: user._id,
+                username: user.username,
+                score: user.score,
+                totalScore: totalScoreIndex === -1 ? 0 : user.score[totalScoreIndex].score,
+            }
+        });
+        users.sort((a, b) => b.totalScore - a.totalScore);
+        let ranking = users.findIndex(user => user._id.toString() === userId) + 1;
+
+        res.data.success = true;
+        res.data.ranking = ranking;
+    } catch (err) {
+        console.error('ERROR:', err);
+        res.data.success = false;
+        res.data.error = 'Some internal error.';
+    } finally {
+        return next();
+    }
 }

@@ -6,7 +6,7 @@ import Auth from "../Auth";
 import Feed from "./feed";
 import Profile from "../Profile";
 import {HTML404 } from '../ErrorPage/Error';
-import FullQuestion from "../Question/FullQuestion/fullQuestion"
+import FullQuestion from "../Question/FullQuestion";
 import Navbar from '../Navigation/navbar/navbar';
 import { fetchUserData } from '../utils/fetch_user_data';
 

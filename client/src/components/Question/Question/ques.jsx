@@ -39,15 +39,16 @@ let Question = styled.div`
     max-height: 600px;
     overflow-y: auto;
     scrollbar-color: #E3E3E3 transparent;
-    scrollbar-width: thin;
+    scrollbar-width: 5px;
+    
     
     ::-webkit-scrollbar-thumb {
-      background-color: rgb(78, 78, 78);
-      outline: 1px solid rgb(210, 230, 250);
-      border-radius: 2px;
+        background: #E3E3E3;
+        border-radius: 10px;
+        outline: 1px solid rgb(210, 230, 250);
     }
     ::-webkit-scrollbar {
-      width: 0.8em;
+      width: 5px;
       border-radius: 100px;
     }
 
@@ -91,12 +92,12 @@ let styles = {
 
 
 
-export default function ({question, type, user, selectedCategories=[], qtype=0}) {
+export default function ({question, type, user, selectedCategories=[], qtype=0, bottomNeeded=true}) {
     
     /*
         type :- 
             0 : No Answers
-            1: with Answers
+            1 :  with Answers
     */
 
 
@@ -116,13 +117,13 @@ export default function ({question, type, user, selectedCategories=[], qtype=0})
                     <QuestionContent 
                         question={question} 
                         url={url}
-                        selectedCategories={selectedCategories}/>
-
+                        selectedCategories={selectedCategories}
+                        bottomNeeded={bottomNeeded}/>
                 {qtype===1 && <Answers quesId={question._id} user={user}/>}
             </Question>
-            <PostAnswer
+            {bottomNeeded && <PostAnswer
                 className="post-answer"
-                quesId={question._id} user={user} />
+                quesId={question._id} user={user} />}
         </QuestionContainer>
     );
 }

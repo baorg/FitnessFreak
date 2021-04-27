@@ -1,6 +1,7 @@
 import React, {useState,useEffect} from "react"
 import { A, navigate } from 'hookrouter';
 import { Delete, Done, VerifiedUser } from '@material-ui/icons';
+import moment from 'moment';
 
 import { Avatar, Container, Paper } from '@material-ui/core';
 import styled from 'styled-components';
@@ -182,7 +183,7 @@ function Answer({ answer, user }) {
 
                 <div className='posted-date'>
                     <span className='text'>Posted on </span>
-                    <span className='date'> {parseDate(answer.posted_at)} </span>
+                    <span className='date'> {moment(answer.posted_at).format('MMMM DD, YYYY')} </span>
                 </div>
             </div>
           </div>
@@ -234,15 +235,6 @@ function Answer({ answer, user }) {
     } else {
       // txt = "You pressed Cancel!";
     }
-  }
-
-  function parseDate(date){
-    date = new Date(date);
-    let m = date.toLocaleString('default', { month: 'long' });
-    let d = date.getDate();
-    let y = date.getYear();
-
-    return `${m} ${d}, ${y}`;
   }
 
 }

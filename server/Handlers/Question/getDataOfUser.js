@@ -71,38 +71,34 @@ async function getBookmarksOfUser(req, res, next) {
 async function getAnswersOfUser(req, res, next) {
     let { page = 1, user_id } = req.query;
     let page_size = 10;
-    let user = await User.findOne({ _id: user_id }, {
-            answer: { $slice: [(page - 1) * page_size, page * page_size] },
-            first_name: 1,
-            last_name: 1,
-            username: 1,
-            profile_image: 1
-        })
-        .populate({
-            path: 'answer',
-            model: Ans,
-            select: 'vote_count answer quesId marked',
-            populate: [{
-                path: 'quesId',
-                model: Ques,
-                select: 'title question created_at vote_count tags categoryName attachments answers_count',
-                populate: {
-                    path: 'userId',
-                    model: User,
-                    select: 'username first_name last_name profile_image'
-                }
-            }, {
+
+    console.log(page, user_id);
+
+    let answers = await Ans.find({ userId: user_id })
+        .populate([{
+            path: 'quesId',
+            model: Ques,
+            select: 'title question created_at vote_count tags categoryName attachments answers_count',
+            populate: {
                 path: 'userId',
                 model: User,
                 select: 'username first_name last_name profile_image'
-            }]
-        })
+            }
+        }, {
+            path: 'userId',
+            model: User,
+            select: 'username first_name last_name profile_image'
+        }])
+        .limit(page_size)
+        .skip(page_size * (page - 1))
         .exec();
 
-    if (user) {
+    console.log("answers: ", answers);
+
+    if (answers) {
         // let questions = userQuestionSerializer(user);
         res.data.success = true;
-        res.data.answers = AnswerSerializers.userAnswerSerializer(user);
+        res.data.answers = AnswerSerializers.answerSerializer(answers, req.user, true, true)
     } else {
         res.data.success = false;
         res.data.error = 'Invalid user_id';

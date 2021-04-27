@@ -63,13 +63,3 @@ export default function Attachments(props) {
       </AttachmentsDiv>
     );
 }
-
-
-
-{/* <GridList cellHeight={300} className={classes.gridList} style={{width:"100%"}}>
-          {props.attachments.map((tile) => (
-            <GridListTile style={{width: 'auto'}}>
-              <img src={tile.url} style={{width:'auto', height: '100%', borderRadius:'4px'}} />
-            </GridListTile>
-          ))}
-        </GridList> */}

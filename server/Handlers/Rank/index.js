@@ -1,5 +1,6 @@
-const {getRankByCategory} = require("./rank");
+const { getRankByCategory, getUserRank } = require("./rank");
 
 module.exports = {
-    getRankByCategory
+    getRankByCategory,
+    getUserRank
 }

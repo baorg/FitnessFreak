@@ -1,12 +1,33 @@
 const { Ques, User, Comment } = require("../../Models");
 const { createNotification } = require('../Notifications/helpers');
 const { commentsSerializer } = require('../../Serializers/Comments');
+const mongoose = require("mongoose");
 
-async function getComments(req, res, next){
+
+async function updateCommentsCount(questionId) {
+    console.log('Aggregating....');
+    let tmp = await Ques.aggregate([
+        { $match: { _id: mongoose.Types.ObjectId(questionId) } },
+        {
+            $project: {
+                comments_count: { $size: '$comments' },
+            }
+        }
+    ]).exec();
+    console.log('tmp -> ', tmp);
+    // let comments_count = 0;
+    if (tmp.length > 0) {
+        comments_count = tmp[0].comments_count;
+        let update = await Ques.updateOne({ _id: questionId }, { $set: { comments_count } }).exec();
+        console.log('Updates: ', update);
+    }
+}
+
+async function getComments(req, res, next) {
 
     let data = []
     let err = false;
-    let user_id = req.user?req.user._id:null;
+    let user_id = req.user ? req.user._id : null;
 
     try {
         // const userId = req.user.id;
@@ -15,16 +36,16 @@ async function getComments(req, res, next){
             path: 'userId',
             model: User,
             options: {
-                select: 'username first_name last_name'
+                select: 'username first_name last_name profile_image'
             },
         }
 
         let question = await Ques.findOne({ _id: question_id }, 'comments')
             .populate('comments.userId').exec();
         let comments = question.comments;
-        
+
         res.data.success = true;
-        res.data.comments = commentsSerializer(comments, user_id);
+        res.data.comments = commentsSerializer(comments.reverse(), user_id);
     } catch (err) {
         console.error("ERROR:", err);
         res.data.success = false;
@@ -35,32 +56,32 @@ async function getComments(req, res, next){
 }
 
 
-async function postComment(req, res, next){
+async function postComment(req, res, next) {
 
     const userId = req.user.id;
-    const questionId = req.body.question_id;
+    const questionId = req.body.questionId;
     const comment = req.body.comment;
 
-    // const result = { isAuthenticated: true, err: false }
     const saveComment = new Comment({
         comment: comment,
         userId: userId,
         vote_count: {},
         upDown: [],
         questionId: questionId
-    })
+    });
 
     try {
-        // const CommentSave = await saveComment.save()
-        const QuesUpdate = await Ques.updateOne({ _id: questionId }, { $push: { comments: saveComment } }).exec();
-
-        console.log('Question update: ', QuesUpdate);
+        const QuesUpdate = await Ques.updateOne({ _id: questionId }, {
+            $push: { comments: saveComment },
+            $inc: { comments_count: 1 }
+        }).exec();
 
         let ques_user = await Ques.findOne({ _id: questionId }, 'userId').exec();
         ques_user = ques_user.userId;
-        
+
 
         await createNotification(ques_user, userId, 5, questionId);
+        updateCommentsCount(questionId);
 
         res.data.success = true;
         res.data.is_saved = true;
@@ -89,15 +110,15 @@ async function postComment(req, res, next){
     }
 }
 
-async function deleteComment(req, res, next){
+async function deleteComment(req, res, next) {
     let ques_id = req.body.question_id;
     let comment_id = req.body.comment_id;
     let user_id = req.user._id.toString();
 
     // console.log(ques_id, ' | ', comment_id, ' | ', user_id);
 
-    try{
-        let comment_del = await Ques.updateOne({_id: ques_id}, {
+    try {
+        let comment_del = await Ques.updateOne({ _id: ques_id }, {
             $pull: {
                 comments: {
                     _id: comment_id,
@@ -107,135 +128,139 @@ async function deleteComment(req, res, next){
         });
         // console.log('Comment Del: ', comment_del);
 
-        if(comment_del.nModified){
+        if (comment_del.nModified) {
             res.data.deleted = true;
             res.data.success = true;
-        }else{
+        } else {
             res.data.success = false;
             res.data.error = 'Data not present.';
         }
-    }catch(err){
+    } catch (err) {
         console.error('Error: ', err);
         res.data.error = 'Some internal error.';
         res.data.success = false;
-    }finally{
+    } finally {
         return next();
     }
 }
 
-async function handleVoting(user, question_id, comment_id, value){
+async function handleVoting(user, question_id, comment_id, value) {
     let error = "Some internal error.";
-    let vote = {userId: user, value: value};
-    let vote_count = {upvote: 0, downvote: 0};
+    let vote = { userId: user, value: value };
+    let vote_count = { upvote: 0, downvote: 0 };
     let success;
 
-    try{
-        let question = await Ques.findOne({_id: question_id}).exec();
-        let comment=null, comment_index=-1;
+    try {
+        let question = await Ques.findOne({ _id: question_id }).exec();
+        let comment = null,
+            comment_index = -1;
 
-        if(question===null){
+        if (question === null) {
             error = "Invalid question-id";
             throw Error(error);
         }
-        
-        for(var i=0;i<question.comments.length;i++){
-            if(question.comments[i].id === comment_id){
+
+        for (var i = 0; i < question.comments.length; i++) {
+            if (question.comments[i].id === comment_id) {
                 comment = question.comments[i];
                 comment_index = i;
                 break;
             }
         }
 
-        if(comment===null){
+        if (comment === null) {
             error = "Invalid comment-id";
             throw Error(error);
         }
 
-        let vote_index = comment.upDown.findIndex(vote=>vote.userId.toString()===user.id.toString());
+        let vote_index = comment.upDown.findIndex(vote => vote.userId.toString() === user.id.toString());
 
-        { /*
-        if(vote_index===-1){
+        {
+            /*
+                   if(vote_index===-1){
+                       comment.upDown.push({
+                           userId: user._id,
+                           value: value
+                       });
+                       vote_index = comment.upDown.length-1;
+                       switch(value){
+                           case +1:
+                               comment.vote_count.upvote++;
+                               break;
+                           case -1:
+                               comment.vote_count.downvote++;
+                               break;
+                           default:
+                               break;
+                       }
+                   }else{
+                       switch(comment.upDown[vote_index].value){ // previoius value
+                           case -1:
+                               switch(value){  // current value
+                                   case -1:
+                                       break;
+                                   case 0:
+                                       comment.vote_count.downvote--;
+                                       break;
+                                   case 1:
+                                       comment.vote_count.downvote--;
+                                       comment.vote_count.upvote++;
+                                       break;
+                               }
+                               break;
+                           
+                           case 0:
+                               switch(value){  // current value
+                                   case -1:
+                                       comment.vote_count.downvote++;
+                                   case 0:
+                                       break;
+                                   case 1:
+                                       comment.vote_count.upvote++;
+                                       break;
+                               }
+                               break;
+                           
+                           case +1:
+                               switch(value){  // current value
+                                   case -1:
+                                       comment.vote_count.upvote--;
+                                       comment.vote_count.downvote++;
+                                   case 0:
+                                       comment.vote_count.upvote--;
+                                       break;
+                                   case +1:
+                                       break;
+                               }
+                               break;
+                       }
+                       comment.upDown[vote_index].value = value;
+                   }
+                   */
+        }
+
+
+        if (vote_index === -1) {
             comment.upDown.push({
                 userId: user._id,
                 value: value
             });
-            vote_index = comment.upDown.length-1;
-            switch(value){
-                case +1:
-                    comment.vote_count.upvote++;
-                    break;
-                case -1:
-                    comment.vote_count.downvote++;
-                    break;
-                default:
-                    break;
-            }
-        }else{
-            switch(comment.upDown[vote_index].value){ // previoius value
-                case -1:
-                    switch(value){  // current value
-                        case -1:
-                            break;
-                        case 0:
-                            comment.vote_count.downvote--;
-                            break;
-                        case 1:
-                            comment.vote_count.downvote--;
-                            comment.vote_count.upvote++;
-                            break;
-                    }
-                    break;
-                
-                case 0:
-                    switch(value){  // current value
-                        case -1:
-                            comment.vote_count.downvote++;
-                        case 0:
-                            break;
-                        case 1:
-                            comment.vote_count.upvote++;
-                            break;
-                    }
-                    break;
-                
-                case +1:
-                    switch(value){  // current value
-                        case -1:
-                            comment.vote_count.upvote--;
-                            comment.vote_count.downvote++;
-                        case 0:
-                            comment.vote_count.upvote--;
-                            break;
-                        case +1:
-                            break;
-                    }
-                    break;
-            }
-            comment.upDown[vote_index].value = value;
-        }
-        */}
-
-
-        if(vote_index===-1){
-            comment.upDown.push({
-                userId: user._id,
-                value: value
-            });
-            vote_index = comment.upDown.length-1;
-        }else{
+            vote_index = comment.upDown.length - 1;
+        } else {
             comment.upDown[vote_index].value = value;
         }
 
-        let upvote=0, downvote=0;
-        comment.upDown.forEach((vote)=>{
-            switch(vote.value){
+        let upvote = 0,
+            downvote = 0;
+        comment.upDown.forEach((vote) => {
+            switch (vote.value) {
                 case -1:
                     downvote++;
                     break;
                 case +1:
                     upvote++;
                     break;
-                default: 
+                default:
                     break;
             }
         });
@@ -249,18 +274,18 @@ async function handleVoting(user, question_id, comment_id, value){
         vote_count = question.comments[comment_index].vote_count;
         error = null;
 
-    } catch(err) {
+    } catch (err) {
         console.error('Error: ', err);
         success = false;
         vote = null;
     } finally {
-        return {success, vote, error, vote_count};
+        return { success, vote, error, vote_count };
     }
 }
 
 
-async function upvoteComment(req, res, next){
-    
+async function upvoteComment(req, res, next) {
+
     let user = req.user;
     let question_id = req.query.question_id;
     let comment_id = req.query.comment_id;
@@ -275,9 +300,9 @@ async function upvoteComment(req, res, next){
     return next();
 }
 
-async function downvoteComment(req, res, next){
+async function downvoteComment(req, res, next) {
     let user = req.user;
-    let answer_id = req.query.answer_id;
+    let answer_id = req.query.question_id;
     let comment_id = req.query.comment_id;
 
     let { success, vote, error, vote_count } = await handleVoting(user, answer_id, comment_id, -1);
@@ -291,9 +316,9 @@ async function downvoteComment(req, res, next){
 }
 
 
-async function unvoteComment(req, res, next){
+async function unvoteComment(req, res, next) {
     let user = req.user;
-    let answer_id = req.query.answer_id;
+    let answer_id = req.query.question_id;
     let comment_id = req.query.comment_id;
 
     let { success, vote, error, vote_count } = await handleVoting(user, answer_id, comment_id, 0);
@@ -310,7 +335,7 @@ module.exports = {
     getComments,
     postComment,
     deleteComment,
-     
+
     upvoteComment,
     downvoteComment,
     unvoteComment

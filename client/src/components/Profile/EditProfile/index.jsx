@@ -22,17 +22,21 @@ let StyledSpinner = styled(Spinner)`
     color: rgba(12,12,12);
 `;
 let ModalPage = styled.div`
-    position: absolute;
-    left: 0;
+    position: fixed;
     top: 0;
+    left: 0;
     width: 100vw;
-    min-height: 100vh;
-    height: fit-content;
+    height: 100vh;
     background-color: rgba(45, 45, 45, 0.6);
     z-index: 1500;
-    display: grid;
-    place-content: center;
-    /* flex-direction: column; */
+    overflow: auto;
+    
+    .container{
+        width: 100%;
+        height: calc(fit-content + 50px);
+        display: grid;
+        place-content: center;
+    }
 `;
 
 let EditProfileDiv = styled.div`
@@ -43,7 +47,7 @@ let EditProfileDiv = styled.div`
     height: fit-content;
     border-radius: 10px;
     padding: 10px;
-    /* margin-top: 50px; */
+    margin: 50px 0 30px 0;
     width: 100vw;
     max-width: ${responsive.small};
     min-height: 40em;
@@ -159,9 +163,9 @@ export default function EditProfile({user, setUser, open, setOpen}){
             aria-describedby="simple-modal-description"
             disableScrollLock={false}
             disableBackdropClick={true}
-            onClose={() => { setOpen(false);}}
-        >
-            <EditProfileDiv>
+            onClose={() => { setOpen(false); }}>
+            <div className="container">
+                <EditProfileDiv>
                 <EditProfileHeader>
                     <EditProfileHeading>Edit Profile</EditProfileHeading>
                     <StyledCloseRounded onClick={closeModal}/>
@@ -210,7 +214,8 @@ export default function EditProfile({user, setUser, open, setOpen}){
                     </>
                 }
                 
-            </EditProfileDiv>
+                </EditProfileDiv>
+            </div>
         </ModalPage>
     );
 

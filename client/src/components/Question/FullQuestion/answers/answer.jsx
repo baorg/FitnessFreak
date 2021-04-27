@@ -1,11 +1,11 @@
 import React, {useState,useEffect, useContext} from "react"
 import { A, navigate } from 'hookrouter';
 import { Delete, Done, VerifiedUser } from '@material-ui/icons';
+import moment from 'moment';
 
 import { Avatar, Container, Paper } from '@material-ui/core';
 import styled from 'styled-components';
 
-import QuestionDiv from 'src/components/Question/Question/ques';
 import CommentIcon from 'src/components/static/comment_icon';
 import VoteDiv from 'src/components/Question/Question/vote';
 import PostComment from 'src/components/Question/Question/post_comments';
@@ -16,7 +16,6 @@ import {UserContext} from 'src/components/utils/UserContext';
 import request from 'src/ajaxRequest';
 import {API_DOMAIN} from 'src/config';
 
-export default Answer;
 
 // Styled Components ========================================================================================
 
@@ -101,8 +100,7 @@ let AnswerHeadlineDiv = styled.div`
     }
   }
 `;
-let AnswerQuestion = styled.div`
-`;
+
 let AnswerBodyDiv = styled.div`
   min-height: 5em;
   padding: 1em 5px 1em 5px;
@@ -172,24 +170,14 @@ let PostedDate = styled.div`
 // ===========================================================================================================
 
 
-function Answer({ answer, selectedSatisfactoryAnswer, quesId, satisfactory, type=0b00 }){
-   /*
-    type -> 
-      0.    no comments, no question
-      1.    no comments,    question
-      2.       comments, no question
-      3.       comments,    question
-  */
-  
-  const [comments, setComments] = useState([]);
+
+
+
+function Answer({ answer }) {
+  const [comments,setComments] = useState([]);
   const [voteCount, setVoteCount] = useState(null);
   const [commentsReload, setCommentsReload] = useState(true);
   const [user, setUser] = useContext(UserContext);
-  
-  
-  let needComments = ((type & 0b10) == 0b10);
-  let needQuestion = ((type & 0b01) == 0b01);
-
   return (
     <AnswerDiv>
       <AnswerHeadlineDiv>
@@ -202,7 +190,7 @@ function Answer({ answer, selectedSatisfactoryAnswer, quesId, satisfactory, type
 
                 <div className='posted-date'>
                     <span className='text'>Posted on </span>
-                    <span className='date'> {(answer.posted_at)} </span>
+                    <span className='date'> {moment(answer.posted_at).format('MMMM DD, YYYY')} </span>
                 </div>
             </div>
           </div>
@@ -220,11 +208,7 @@ function Answer({ answer, selectedSatisfactoryAnswer, quesId, satisfactory, type
             <div className="ans-div" dangerouslySetInnerHTML={{ __html: answer.answer}} />
           </AnswerBodyDiv>
         </AnswerContentDiv>
-        {needQuestion &&
-        <AnswerQuestion>
-        <QuestionDiv question={answer.question} className="question-div" bottomNeeded={false} />
-        </AnswerQuestion>}
-
+        
         <AnswerBottomDiv>
             <VoteDiv vote={answer.vote} quesId={answer._id} type={0} />
             <CommentIcon className="cmmnt-icon" count={answer.comments_count} />
@@ -233,11 +217,11 @@ function Answer({ answer, selectedSatisfactoryAnswer, quesId, satisfactory, type
                     onSubmit={postComment}/>
             </div>
         </AnswerBottomDiv>
-        {needComments && <Comments
+        <Comments
                     parentId={answer._id}
                     parentType="answer"
                     commentsReload={commentsReload}
-                    onReloaded={() => setCommentsReload(false)} />}
+                    onReloaded={() => setCommentsReload(false)} />
     </AnswerDiv>
   );
 
@@ -270,5 +254,8 @@ function Answer({ answer, selectedSatisfactoryAnswer, quesId, satisfactory, type
     } catch (err) {
       console.error(err);
     }
-  }
 }
+}
+
+ 
+export default Answer;

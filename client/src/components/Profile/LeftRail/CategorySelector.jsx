@@ -10,7 +10,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 // =================================================
-
+import CategoryIcon from 'src/components/static/CategoryIcons';
 import { responsive } from '../../utils/data.json';
 import ajaxRequest from '../../../ajaxRequest';
 import { UserContext } from '../../utils/UserContext';
@@ -32,7 +32,13 @@ const MainDiv = styled.div`
         display: flex;
         flex-direction: column;
         align-items: center;
+        .main{
+            font-weight: 600;
+            font-size: 25px;
+            line-height: 30px;
+            color: #065BFB;
 
+        }
         .helper{
             font-size: 12px;
         }
@@ -42,7 +48,26 @@ const MainDiv = styled.div`
         color: #424259;
         display: flex;
         width: 100%;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 24px;
+        color: #424259;
+        margin-top: 20px;
 
+        &.active{
+            font-weight: 600;
+            font-size: 24px;
+            line-height: 29px;
+            color: #065BFB;
+        
+            path{ 
+                fill: #065BFB; /* : "#424259"};*/
+            }
+        }
+        path{ 
+            fill: "#424259"};
+        }
+        
         .cat-name{
             text-align: center;
             justify-content: center;
@@ -65,36 +90,83 @@ const MainDiv = styled.div`
 `;
 //====================================================================================
 
-
 export default function CategorySelector({ profile_user }){
     const [ user, ] = useContext(UserContext);
     const [ categories, setCategories ] = useState(null);
 
-    useEffect(fetchData, [user, ]);
+    // console.log('Profile User: ', profile_user);
 
+    useEffect(fetchData, [user, profile_user]);
+    useEffect(() => console.log('categories:', categories), [categories]);
+    if (profile_user && categories) {
+        if (user && user._id === profile_user._id)
+            return <SelfCategoryDiv categories={categories} setCategories={setCategories} />;
+        else
+            return <CategoryDiv categories={categories} />;
+    } else {
+        return <CircularProgress />;
+    }
+    
+
+    function fetchData(){
+        if(profile_user && profile_user.chosen_category){
+            console.log('Fetching user categories: ', profile_user.chosen_category);
+            fetchCategories()
+                .then(category_list => {
+                    setCategories(
+                        category_list.map(
+                            cat => ({
+                                category: cat.name,
+                                image: `${SERVER_DOMAIN}/server-static/${cat.url}`,
+                                chosen: profile_user.chosen_category.some(c => c === cat.name),
+                                active: true
+                            })
+                        ));
+                });
+        }
+    }
+}
+
+
+function CategoryDiv({ categories }) {
     return (
-        user && profile_user && user._id===profile_user._id && ( categories===null? <CircularProgress />:
-            <MainDiv>
-                <div className="heading">
-                    <span>Choose categories</span>
-                    <span className="helper">(At most 2)</span>
-                </div>
-                {categories.map(
-                    category => 
-                        <div className="category">
-                            <Switch
-                                checked={category.chosen}
-                                disabled={!category.active}
-                                color="primary"
-                                onClick={()=>toggleCategory(category.category)}
-                                className="cat-switch"
-                            />
-                            <img src={category.image} className="cat-img"/>
-                            <div className="cat-name">{category.category}</div>
-                        </div>
-                )}
-            </MainDiv>
-        )
+        <MainDiv>
+            <div className="heading">
+                <span className="main">Categories</span>
+            </div>
+            {categories.map(
+                category =>
+                    <div className={`category ${category.chosen ? "active" : ""}`}>
+                        <CategoryIcon className="icon" category={ category.category}/>
+                        <div className={`cat-name`} >{category.category}</div>
+                    </div>
+            )}
+        </MainDiv>
+    );
+}
+
+function SelfCategoryDiv({ categories, setCategories }) {
+    return (
+        <MainDiv>
+            <div className="heading">
+                <span>Choose categories</span>
+                <span className="helper">(At most 2)</span>
+            </div>
+            {categories.map(
+                category =>
+                <div className={`category ${category.chosen ? "active" : ""}`}>
+                        <Switch
+                            checked={category.chosen}
+                            disabled={!category.active}
+                            color="primary"
+                            onClick={() => toggleCategory(category.category)}
+                            className="cat-switch"
+                        />
+                        <CategoryIcon className="icon" category={ category.category}/>
+                        <div className={`cat-name`} >{category.category}</div>
+                    </div>
+            )}
+        </MainDiv>
     );
 
     async function toggleCategory(category){
@@ -123,32 +195,6 @@ export default function CategorySelector({ profile_user }){
                     })));
                 }
             }
-        }
-    }
-
-    function fetchData(){
-        if(user){
-            console.log('Fetching user categories: ', user.chosen_category);
-            fetchCategories()
-                .then(category_list => {
-                    // console.log(category_list.map(
-                    //         cat =>({
-                    //             category: cat.name,
-                    //             image: `${SERVER_DOMAIN}/server-static/${cat.url}`,
-                    //             chosen: user.chosen_category.some(c=>c===cat.name),
-                    //             active: true,
-                    //         })
-                    //     ));
-                    setCategories(
-                        category_list.map(
-                            cat => ({
-                                category: cat.name,
-                                image: `${SERVER_DOMAIN}/server-static/${cat.url}`,
-                                chosen: user.chosen_category.some(c => c === cat.name),
-                                active: true
-                            })
-                        ));
-                });
         }
     }
 }

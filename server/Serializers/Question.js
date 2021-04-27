@@ -26,7 +26,8 @@ module.exports.feedQuestionSerializer = function(questions, multiple = false) {
             tags: question.tags,
             posted_at: question.created_at,
             attachments: question.attachments,
-            answers_count: question.answers_count
+            answers_count: question.answers_count,
+            comments_count: question.comments_count,
         };
     }
 
