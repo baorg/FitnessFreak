@@ -6,6 +6,7 @@ import { TextField, Button } from '@material-ui/core';
 import ajaxRequest from '../../../ajaxRequest';
 import {API_DOMAIN} from '../../../config';
 import { UserContext } from 'src/components/utils/UserContext';
+import { PopupAgreementContext } from 'src/components/utils/PopupAgreementContext';
 
 // Styled Components ====================================================
 
@@ -48,9 +49,10 @@ export default function PostAnswer({ quesId, ...props }){
     const [answerInput, setAnswerInput] = useState("");
     const [submitAnswerDisabled, setSubmitAnswerDisabled] = useState(true);
     const [user,] = useContext(UserContext);
+    const showPopup = useContext(PopupAgreementContext);
 
     useEffect(()=>{
-        setSubmitAnswerDisabled(user===null || answerInput.length===0);
+        setSubmitAnswerDisabled(answerInput.length===0);
     }, [user, answerInput])
 
     return (
@@ -73,7 +75,7 @@ export default function PostAnswer({ quesId, ...props }){
     );
 
     async function submitAnswer(){
-        if(submitAnswerDisabled===false){
+        if(submitAnswerDisabled===false && user){
             // Submit answer .....................
             setSubmitAnswerDisabled(true);
             try{
@@ -89,6 +91,13 @@ export default function PostAnswer({ quesId, ...props }){
             }catch(err){
                 setSubmitAnswerDisabled(false);
             }
+        } else {
+            showPopup(
+                { content: 'You need to login before answering a question.', title: 'Login required' },
+                "Login",
+                "Cancel",
+                async () => { navigate('/auth/login'); },
+                async () => { });
         }
     }
 }

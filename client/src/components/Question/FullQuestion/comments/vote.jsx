@@ -1,15 +1,21 @@
 import { useState, useEffect } from 'react';
 import { VoteDiv, VoteCountDiv } from './styled';
 import LikeBtn from 'src/components/static/like_btn';
+import { navigate } from 'hookrouter';
 
 import request from 'src/ajaxRequest';
 import { API_DOMAIN } from 'src/config';
+import { PopupAgreementContext } from 'src/components/utils/PopupAgreementContext';
+import { UserContext } from 'src/components/utils/UserContext';
+import { useContext } from 'react';
 
 
 export default function Vote({ parentId, parentType, commentId, votes, voted, setVote }) {
     
     const [up, setUp] = useState(null);
     const [down, setDown] = useState(null);
+    const [user,] = useContext(UserContext);
+    const showPopup = useContext(PopupAgreementContext);
 
     useEffect(votedEffect, [voted ]);
 
@@ -56,6 +62,13 @@ export default function Vote({ parentId, parentType, commentId, votes, voted, se
             handleUnvote();
         } else if (up === false) {
             handleUpvote();
+        } else {
+            showPopup(
+                { content: 'You need to login for vote', title: 'Login required' },
+                "Login",
+                "Cancel",
+                async () => { navigate('/auth/login'); },
+                async () => { });
         }
     }
 
@@ -64,21 +77,36 @@ export default function Vote({ parentId, parentType, commentId, votes, voted, se
             handleUnvote();
         } else if (down === false) {
             handleDownvote();
+        } else {
+            showPopup(
+                { content: 'You need to login for vote', title: 'Login required' },
+                "Login",
+                "Cancel",
+                async () => { navigate('/auth/login'); },
+                async () => { });
         }
     }
 
     async function handleVoting(url) {
-        
-        try {
-            let res = await request(
-                'get',
-                `${url}?${parentType}_id=${parentId}&comment_id=${commentId}`
-            );
-            if (res.data.success) {
-                setVote(res.data.vote_count, res.data.vote);
+        if (user && user.is_authenticated) {
+            try {
+                let res = await request(
+                    'get',
+                    `${url}?${parentType}_id=${parentId}&comment_id=${commentId}`
+                );
+                if (res.data.success) {
+                    setVote(res.data.vote_count, res.data.vote);
+                }
+            } catch (err) {
+                console.error(err);
             }
-        } catch (err) {
-            console.error(err);
+        } else {
+            showPopup(
+                { content: 'You need to login for vote', title: 'Login required' },
+                "Login",
+                "Cancel",
+                async () => { navigate('/auth/login'); },
+                async () => { });
         }
     }
 

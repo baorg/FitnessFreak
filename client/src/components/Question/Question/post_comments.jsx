@@ -6,6 +6,7 @@ import { TextField, Button } from '@material-ui/core';
 import ajaxRequest from 'src/ajaxRequest';
 import {API_DOMAIN} from 'src/config';
 import { UserContext } from 'src/components/utils/UserContext';
+import { PopupAgreementContext } from 'src/components/utils/PopupAgreementContext';
 
 // Styled Components ====================================================
 
@@ -49,8 +50,11 @@ export default function PostComment({ parentId, onSubmit, submitting, ...props }
     const [commentInpt, setCommentInpt] = useState("");
     const [user,] = useContext(UserContext);
     const [submitAnswerDisabled, setSubmitAnswerDisabled] = useState(true);
+    const showPopup = useContext(PopupAgreementContext);
+
+
     useEffect(() => {
-        setSubmitAnswerDisabled(user && commentInpt.length > 0 ? false : true);
+        setSubmitAnswerDisabled(commentInpt.length > 0 ? false : true);
     }, [user, commentInpt]);
 
     return (
@@ -74,8 +78,17 @@ export default function PostComment({ parentId, onSubmit, submitting, ...props }
 
     async function submitComment(){
         if (submitting || submitAnswerDisabled) return;
-        onSubmit({ comment: commentInpt }).then(() => {
-            setCommentInpt("");
-        });
+        if (user) {
+            onSubmit({ comment: commentInpt }).then(() => {
+                setCommentInpt("");
+            });
+        } else {
+            showPopup(
+                { content: 'You need to login before answering a question.', title: 'Login required' },
+                "Login",
+                "Cancel",
+                async () => { navigate('/auth/login'); },
+                async () => { });
+        }
     }
 }

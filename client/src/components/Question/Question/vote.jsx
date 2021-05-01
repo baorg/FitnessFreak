@@ -1,10 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import styled from 'styled-components';
-
+import { navigate } from 'hookrouter';
 import LikeBtn from '../../static/like_btn';
 
 import ajaxRequest from '../../../ajaxRequest';
 import {API_DOMAIN} from '../../../config';
+import { PopupAgreementContext } from 'src/components/utils/PopupAgreementContext';
 
 // Styled Components =============================================================================
 
@@ -47,12 +48,13 @@ export default function Vote({vote, quesId, type=1}){
     const [votes, setVotes] = useState(vote);
     const [up,setUp]= useState(null);
     const [down,setDown]=useState(null);
-    
+    const showPopup = useContext(PopupAgreementContext);
+        
     useEffect(()=>{
         setVotes(vote);
     }, [vote]);
     useEffect(() => {
-        fetchUserStatus();    
+        fetchUserStatus();
     }, []);
 
     return (
@@ -61,15 +63,13 @@ export default function Vote({vote, quesId, type=1}){
             type="like"
             active={up}
             onClick={upvote}
-            className="vote-btn"
-        />
+            className="vote-btn"/>
         <VoteCountDiv count={votes.up-votes.down}>{Math.abs(votes.up - votes.down)}</VoteCountDiv>
         <LikeBtn
             type="dislike"
             active={down}
             onClick={downvote}
-            className="vote-btn"
-        />
+            className="vote-btn"/>
       </VoteDiv>
     );
 
@@ -93,7 +93,6 @@ export default function Vote({vote, quesId, type=1}){
                     isQues: type,
                     quesId: quesId,
                     up: voted});
-
             if(res.data.success){
                 if(res.data.is_saved){
                     setUp(voted);
@@ -106,13 +105,19 @@ export default function Vote({vote, quesId, type=1}){
                     down: res.data.vote.downvote
                 });
             }
+        } else {
+            showPopup(
+                { content: 'You need to login for vote', title: 'Login required' },
+                "Login",
+                "Cancel",
+                async () => { navigate('/auth/login'); },
+                async () => { });
         }
     }
 
     async function downvote(){
         if(down!==null){
             let voted = !down;
-            
             setDown(null);
             let res = await ajaxRequest('post', `${API_DOMAIN}/question/votes/editVote`, 
                 {
@@ -120,7 +125,6 @@ export default function Vote({vote, quesId, type=1}){
                     quesId: quesId, 
                     down: voted
                 });
-
             if(res.data.success){
                 if(res.data.is_saved){
                     setDown(voted);
@@ -133,6 +137,13 @@ export default function Vote({vote, quesId, type=1}){
                     down: res.data.vote.downvote
                 });
             }   
+        } else {
+            showPopup(
+                { content: 'You need to login for vote', title: 'Login required' },
+                "Login",
+                "Cancel",
+                async () => { navigate('/auth/login'); },
+                async () => { });
         }
     }
 
