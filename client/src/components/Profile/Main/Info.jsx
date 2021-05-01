@@ -116,17 +116,19 @@ let Bio = styled.div`
 `;
 
 
-let EditProfileButton = styled.button`
-    border-radius: 20px;
+let EditProfileButton = styled(Button)`
+    border-radius: 5px;
+    font-family: SF Pro;
+    font-weight: 600;
+    font-size: 20px !important;
+    line-height: 25px !important;
+    text-decoration: none;
+    text-transform: none !important;
     margin: 10px 5px 10px 5px;
-    height: 3em;
-    width: 8em;
-    border-radius: 1.5em;
-    border-style: none;
-    border: 2px solid blue; 
+    padding: 10px;
     background-color: inherit;
     :hover{
-        background-color: "#b8b8ff";
+        background-color: #b8b8ff !important;
     }
 
     span{
@@ -242,6 +244,15 @@ let FollowersCountDiv = styled.div`
 let NameRankDiv = styled.div`
     display: flex;
 `;
+
+let EditFollowBtnContainer = styled.div`
+    width: fit-content;
+    display: grid;
+    position: relative;
+    margin-left: auto;
+    height: 0;
+    place-content: center;
+`;
 //=====================================================================
 
 
@@ -268,7 +279,6 @@ export default function UserInfo({profileUser, editProfile, setEditProfile }) {
                     <Name >
                         <FirstLastName>{profileUser.first_name} {profileUser.last_name}</FirstLastName>
                         <Username href={`/profile/${profileUser._id}`}>@{profileUser.username}</Username>
-                        {/* <JoinedDate>Joined { (new Date(profileUser.created_at).toLocaleString('en-US', {year: 'numeric', month: 'long'}))}</JoinedDate> */}
                     </Name>
                     {rank && <RankDiv>
                         <div className="heading">Rank</div>
@@ -276,12 +286,12 @@ export default function UserInfo({profileUser, editProfile, setEditProfile }) {
                     </RankDiv>}
                 </NameRankDiv>
                     
-                <div style={{width:"100%", display: "grid", "placeContent": "center"}}>
+                <EditFollowBtnContainer>
                     {profileUser.own_profile
-                    ? <EditProfileButton onClick={handleEditProfileClick}>
+                    ? <EditProfileButton color="primary" variant="outlined" onClick={handleEditProfileClick}>
                         <span>Edit Profile</span></EditProfileButton> 
-                    : <FollowButton profile={profileUser} />}
-                </div>
+                    : <FollowButton profile={profileUser} type="btn" variant="outlined" />}
+                </EditFollowBtnContainer>
                 
                 <Bio>
                     <div className="heading">Bio</div>

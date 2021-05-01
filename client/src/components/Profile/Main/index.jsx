@@ -26,12 +26,10 @@ export default function Main(props) {
                 profileUser={props.profileUser}
                 user={props.user} 
                 setEditProfile={props.setEditProfile}
-                editProfile={props.editProfile}
-            />
+                editProfile={props.editProfile}/>
             <QuestionAnswer
                 profileUser={props.profileUser}
-                user={props.user} 
-            />
+                user={props.user} />
         </MainDiv>
     );
 }

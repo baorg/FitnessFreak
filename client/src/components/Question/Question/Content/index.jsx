@@ -148,12 +148,13 @@ export default function Content({ question, selectedCategories, url, postComment
         </CategoryContainer>
         {bottomNeeded && <BottomContainer>
             <UpDownVote 
-                quesId={question._id} 
-                vote={question.vote}
-            />
+                quesId={question._id}
+                vote={question.vote} />
             <CommentBtn className="cmmnt-btn" count={question.comments_count} />
             <AnswersCountDiv>
-                {question.answers_count===0?'no':question.answers_count} {question.answers_count<2?"answer":"answers"}
+                    {(question.answers_count !== undefined && question.answers_count !== null) &&
+                        (question.answers_count === 0 ? 'Unanswered' : question.answers_count.toString()
+                        + (question.answers_count < 2 ? " answer" : " answers"))}
             </AnswersCountDiv>
             {postComment && <PostComment
                     quesId={question._id}

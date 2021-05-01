@@ -52,16 +52,13 @@ export default function Content({ user, profileUser }) {
             <SelectButtons>
                 <div
                     className={`sel ${activeListType === 'question'?'active':''}`}
-                    onClick={()=>changeList('question')}
-                >Questions Asked</div>
+                    onClick={()=>changeList('question')}>Questions Asked</div>
                 <div
                     className={`sel ${activeListType === 'answer'?'active':''}`}
-                    onClick={()=>changeList('answer')}
-                >Answer</div>
+                    onClick={()=>changeList('answer')}>Answer</div>
                 <div
                     className={`sel ${activeListType === 'bookmarks'?'active':''}`}
-                    onClick={()=>changeList('bookmarks')}
-                >Bookmarks
+                    onClick={()=>changeList('bookmarks')}>Bookmarks
                 </div>
             </SelectButtons>
 
@@ -77,10 +74,3 @@ export default function Content({ user, profileUser }) {
         </ProfileContent>
     );
 }
-
-{/* 
-:activeListType === 'followers' ?
-                            <FollowersList profileUser={profileUser} />
-                            : activeListType === 'following' ?
-                                <FollowingsList profileUser={profileUser} />
-                                : <></> */}

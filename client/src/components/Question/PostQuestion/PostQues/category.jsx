@@ -7,12 +7,12 @@ import CategoryIcon from '../../../static/CategoryIcons';
 // Styled Components =================================================================
 
 const CategoryDiv = styled.div`
-    margin: 10px 1em 5px 0;
     display: flex;
     align-items: center;
-    padding: 0 16px 0 16px;
+    padding: 0 0 0 16px;
+    margin: 4px 3px 4px 3px;
     height: 50px;
-    width: 170px;
+    width: 155px;
     background: ${({selected}) => selected ? "#065BFB" :"#EFF2F4" };
     border-radius: 5px;
     
@@ -47,6 +47,8 @@ const CategoryDiv = styled.div`
     }
 
     @media(max-width: ${responsive.small}){
+        height: 40px;
+        width: 135px;
         font-weight: 400;
         font-size: 14px;
         line-height: 16px;

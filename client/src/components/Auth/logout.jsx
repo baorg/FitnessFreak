@@ -26,8 +26,7 @@ function LogOutDialog({ open, setOpen, user}) {
             keepMounted
             onClose={handleClose}
             aria-labelledby="alert-dialog-slide-title"
-            aria-describedby="alert-dialog-slide-description"
-        >
+            aria-describedby="alert-dialog-slide-description">
             <DialogTitle id="alert-dialog-slide-title">Logout</DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-slide-description">

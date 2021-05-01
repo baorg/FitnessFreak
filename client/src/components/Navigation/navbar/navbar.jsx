@@ -58,12 +58,16 @@ const NavbarContainer = styled.div`
 
 const StyledBrand = styled(A)`
   @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500&family=JetBrains+Mono:ital,wght@1,100&display=swap');
-  font-family: 'Cinzel', serif;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 1.5em;
-  font-style: italic;
+  @import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+  
+  font-family: Raleway, JetBrains Mono, monospace, serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 28px;
   text-align: center;
   text-decoration: none !important;
+  color: #065BFB;
 `;
 
 const StyledIcons = styled.div`

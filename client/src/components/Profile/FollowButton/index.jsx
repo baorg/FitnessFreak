@@ -36,38 +36,40 @@ let Btn = styled.div`
 // =======================================================================================
 
 
-export default function Button({ profile, type="text" }) {
+export default function Button({ profile, type="text", ...props }) {
     const [isFollowing, setIsFollowing] = useState(null);
     const [ user, ] = useContext(UserContext);
 
 
     useEffect(fetchFollow, [user]);
 
-
     return (
-        <Btn className="follow-btn">
+        <Btn className="follow-btn" {...props}>
             {
                 isFollowing === null ?
                     <></>
-                : isFollowing ?
-                  <UnfollowButton type={type} profile={profile} setIsFollowing={setIsFollowing} />
-                : <FollowButton type={type} profile={profile} setIsFollowing={setIsFollowing} />
+                    : isFollowing ?
+                        <UnfollowButton type={type} profile={profile} setIsFollowing={setIsFollowing} {...props} />
+                        : <FollowButton type={type} profile={profile} setIsFollowing={setIsFollowing} {...props} />
             }
         </Btn>
     );
 
-    function fetchFollow(){
-        if(user!==null){
-                ajaxRequest('GET', 
-                    `${API_DOMAIN}/following/check-following?user_id=${profile._id}`)
-                .then(({data})=>{
-                    if (data.success) {
-                        setIsFollowing(data.is_following);
-                    }
-                })
-                .catch(err=>{
-                    console.error("ERROR: ", err);
-                });
+    function fetchFollow() {
+        console.log('Fetch Follow ', user, profile);
+        if (user && profile) {
+            if (user._id === profile._id) return;
+            
+            ajaxRequest('GET',
+                `${API_DOMAIN}/following/check-following?user_id=${profile._id}`)
+            .then(({data})=>{
+                if (data.success) {
+                    setIsFollowing(data.is_following);
+                }
+            })
+            .catch(err=>{
+                console.error("ERROR: ", err);
+            });
         }
     }
 }

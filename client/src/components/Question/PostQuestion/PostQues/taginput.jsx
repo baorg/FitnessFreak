@@ -33,7 +33,7 @@ import {
 
 
 
-export default function TagInput({ selectedTags, setSelectedTags }) {
+export default function TagInput({ showMsg, maxTagsAllowed, selectedTags, setSelectedTags }) {
     const [ tags, setTags] = useState([]);
     const [ fetching, setFetching] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
@@ -64,10 +64,9 @@ export default function TagInput({ selectedTags, setSelectedTags }) {
                                     onChange={handleInputChange}
                                     id="input-with-icon-adornment"
                                     startAdornment={
-                                        <InputAdornment position="start">
+                                        searchQuery.length===0 && <InputAdornment position="start">
                                             <SearchIcon />
-                                        </InputAdornment>
-                                    }
+                                        </InputAdornment>}
                                 />
                                 {fetching && <LinearProgress />}
                             </FormControl>
@@ -107,13 +106,15 @@ export default function TagInput({ selectedTags, setSelectedTags }) {
 
     function selectTag(tag) {
         return (() => {
-            if (selectedTags.length <= 5) {
+            if (selectedTags.length < maxTagsAllowed) {
                 setSelectedTags(oldSelectedTags => {
                     let tmpSet = new Set(oldSelectedTags);
                     if (!tmpSet.delete(tag))
                         tmpSet.add(tag);
                     return Array.from(tmpSet);
                 });
+            } else {
+                showMsg(`Only ${maxTagsAllowed} tags are allowed`, 'error');
             }
         });
     }

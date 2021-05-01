@@ -12,6 +12,8 @@ import { fetchUserData } from '../utils/fetch_user_data';
 
 import { UserContext, UserProvider } from '../utils/UserContext';
 import { NavProvider } from '../utils/NavContext';
+import { PopupAgreementProvider } from 'src/components/utils/PopupAgreementContext';
+import { PopupMessageProvider } from 'src/components/utils/PopupMessageContext';
 
 import { responsive } from '../utils/data.json';
 
@@ -57,7 +59,11 @@ function Render() {
   return (
     <UserProvider>
       <NavProvider>
-        <RenderedRoute />
+        <PopupAgreementProvider>
+          <PopupMessageProvider>
+            <RenderedRoute />
+          </PopupMessageProvider>
+        </PopupAgreementProvider>
       </NavProvider>
     </UserProvider>
   );

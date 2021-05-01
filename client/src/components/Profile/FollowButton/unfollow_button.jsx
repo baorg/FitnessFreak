@@ -29,6 +29,20 @@ let UnfollowProfileButton = styled(Button)`
     }
 `;
 
+let UnfollowProfileButtonBtn = styled(Button)`
+font-family: SF Pro;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px !important;
+    line-height: 25px !important;
+    color: #065BFB;
+    margin: 10px 4px 10px 4px;
+    background-color: inherit;
+    text-transform: capitalize !important;
+    width: 6em;
+    cursor: ${({ active }) => active ? "pointer" : "wait" };
+`;
+
 let UnfollowIconBtn = styled(UnfollowIcon)`
     cursor: pointer;
 
@@ -45,7 +59,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   });
 
   
-export default function UnfollowButton({ type, profile, setIsFollowing }){
+export default function UnfollowButton({ type, profile, setIsFollowing, ...props }){
     const [active, setActive] = useState(true);
 
     return (<>
@@ -116,7 +130,20 @@ export default function UnfollowButton({ type, profile, setIsFollowing }){
                       onClick={()=>setActive(false)}
                   />
               );
-          
+          case 'btn':
+          case 'button':
+              return (
+                <UnfollowProfileButtonBtn
+                    color="secondary"
+                      active={active} disabled={!active}
+                      onMouseEnter={()=>setText('Unfollow')}
+                      onMouseLeave={()=>setText('Following')}
+                      onClick={()=>setActive(false)}
+                      variant="outlined"
+                      {...props}>
+                      <span>{text}</span>
+                  </UnfollowProfileButtonBtn>
+              );
           default:
                   throw Error('Unknown type');
                   break;

@@ -17,7 +17,7 @@ export const PostQuestionDiv = styled.div`
     font-style: normal;
     display: flex;
     flex-direction: column;
-    margin-bottom: 200px;
+    margin-bottom: 3em;
     >*{
         margin-top: 25px;
     }
@@ -52,7 +52,6 @@ export const PostQuestionHeading = styled.div`
     line-height: 32px;
     margin-top: 0;
     color: #424259;
-
     @media(max-width: ${responsive.small}){
         font-weight: 500;
     }
@@ -123,7 +122,6 @@ export const CategoriesDiv = styled.div`
 export const CategoryBtn = styled.div`
     border: 2px solid #8f8f8f;
     border-radius: 4px;
-    margin: 4px;
     font-size: 0.8em;
     padding: 0 2px 0 2px;
     cursor: pointer;

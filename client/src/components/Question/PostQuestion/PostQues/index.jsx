@@ -3,7 +3,8 @@ import React, { useState, useEffect, useContext } from "react";
 
 // MaterialUI
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-
+import { Snackbar } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
 
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -35,20 +36,20 @@ import {
 
 
 
-function PostQuestion(props) {    
-    const availabeTags = [];
+function PostQuestion(props) {
 
     const mobileScreen = useMediaQuery(`(max-width: ${responsive.small})`);
-
     const [ editorData, setEditorData ] = useState("");
     const [ selectedTags, setSelectedTags ] = useState([]);
     const [ images, setImages ] = useState([]);
     // const [ availableCategories, ]  = useContext(CategoriesContext);
     const [ submitting, setSubmitting ] = useState(false);
     const [ categories, setCategories ] = useState([]);
-
+    const [ msg, setMsg ] = useState(null);
 
     const maxCategoriesAllowed = 2;
+    const maxTagsAllowed = 5;
+
 
     useEffect(() => {
         console.log('User:', props.user);
@@ -66,8 +67,7 @@ function PostQuestion(props) {
                 value={editorData}
                 placeholder="Type here something....."
                 type="text"
-                onChange={({target})=>setEditorData(target.value)}
-            />
+                onChange={({target})=>setEditorData(target.value)}/>
             <FormContent>
                 <FormTitle> Categories </FormTitle>
                 <FormDesc>Select category which you feel related to your question.</FormDesc>
@@ -78,40 +78,38 @@ function PostQuestion(props) {
                 </CategoriesDiv>
             </FormContent>
             <FormContent>
-                <TagInput selectedTags={selectedTags} setSelectedTags={setSelectedTags} />
+                <TagInput
+                    showMsg={showMsg}
+                    maxTagsAllowed={maxTagsAllowed}
+                    selectedTags={selectedTags}
+                    setSelectedTags={setSelectedTags} />
             </FormContent>
             <FormContent>
                 {submitting ?
                          <SubmitButton color="primary" disabled variant="contained" >Post your question.</SubmitButton>
                         : <SubmitButton color="primary" variant="contained" onClick={submit}>Post your question.</SubmitButton>}
             </FormContent>
+            <Snackbar open={Boolean(msg)} autoHideDuration={3000} onClose={handleMsgClose}>
+                {msg && <Alert onClose={handleMsgClose} severity={msg.severity}>
+                    {msg.msg}
+                </Alert>}
+            </Snackbar>
         </PostQuestionDiv>
     );
+
+    function handleMsgClose() {
+        setMsg(null);
+    }
+
+    function showMsg(msg, severity) {
+        setMsg({ msg, severity });
+    }
     
     async function getCategoriesData() {
         console.log('Getting categories data.....');
         let categories_data = await fetchCategories();
         console.log('Categories Data: ', categories_data);
         setCategories(categories_data.map(val => ({ ...val, selected: false })));
-    }
-
-    function selectTag(a) {
-        setSelectedTags(a);
-    }
-
-    function handleEditorChange(event, editor) {
-    console.log(editor);
-    setEditorData(editor.getData());
-    }
-
-    function handleEditorBlur(event, editor) {
-    let data = editor.getData();
-    console.log('Editor Blur');
-    }
-
-    function handleEditorFocus(event, editor) {
-    let data = editor.getData();
-    console.log('Editor Focus');
     }
 
     function countSelectedCategories() {
@@ -127,96 +125,88 @@ function PostQuestion(props) {
             console.log('Cat count: ', countSelectedCategories());
             if (countSelectedCategories() < maxCategoriesAllowed) {
                 setCategories(categories.map(val => val.name == cat ? { name: val.name, selected: true } : val));
+            } else {
+                showMsg("You can only choose 2 categories", "error");
             }
         }
     }
+
     async function submit() {
         console.log('Submitting....');
+        
+        if (editorData.length === 0) {
+            showMsg('Write question', 'error');
+            return;
+        }
+        if (countSelectedCategories() === 0) {
+            showMsg('Select at least 1 category', 'error');
+            return;
+        }
+        if (selectedTags.length === 0) {
+            showMsg('Select at least 1 tag', 'error');
+            return;
+        }
+        
         setSubmitting(true);
         
-        let images_count = images.length;
-        let images_url = [];
+        // let images_count = images.length;
+        // let images_url = [];
+        // for (var i = 0; i < images_count; i++){
+        //     let image = images[i];
+        //     if (image.uploaded) {
+        //         images_url.push(image);
+        //     } else {
+        //         // let formData = new FormData();
+        //         // formData.append('file', images[i].file);
+        //         let res = await fetch(`${CONFIG.API_DOMAIN}/upload/image-upload`, {
+        //             method: 'POST',
+        //             body: formData,
+        //             credentials: 'include'
+        //         });
 
-        for (var i = 0; i < images_count; i++){
-            let image = images[i];
-            if (image.uploaded) {
-                images_url.push(image);
-            } else {
-                let formData = new FormData();
-                formData.append('file', images[i].file);
-                let res = await fetch(`${CONFIG.API_DOMAIN}/upload/image-upload`, {
-                    method: 'POST',
-                    body: formData,
-                    credentials: 'include'
-                });
+        //         let data = await res.json();
+        //         if (data.success) {
+        //             images_url.push({ url: data.url, type: 'image' });
+        //             await setImages(images.map((img, ind) => {
+        //                 if (ind === i)
+        //                     return {
+        //                         src: data.url,
+        //                         file: img.file,
+        //                         uploaded: true
+        //                     };
+        //                 else
+        //                     return img;
+        //             }));
+        //         } else {
+        //             alert('Some error occured in submitting question.');
+        //             setSubmitting(false);
+        //             return;
+        //         }
+        //     }
+        // }
 
-                let data = await res.json();
-                if (data.success) {
-                    images_url.push({ url: data.url, type: 'image' });
-                    await setImages(images.map((img, ind) => {
-                        if (ind === i)
-                            return {
-                                src: data.url,
-                                file: img.file,
-                                uploaded: true
-                            };
-                        else
-                            return img;
-                    }));
-                } else {
-                    alert('Some error occured in submitting question.');
-                    setSubmitting(false);
-                    return;
-                }
-            }
-        }
 
         let res = await ajaxRequest("POST", `${CONFIG.API_DOMAIN}/question/post-question`, {
             category: categories.filter(cat => cat.selected).map(val => val.name),
             tags: selectedTags,
             question: editorData,
             title: "",
-            attachments: images_url
         });
 
         if (res.data.is_saved) {
-            alert('Question submitted successfully');
+            // alert('Question submitted successfully');
+            showMsg('Question submitted successfully', 'success');
             navigate("/");
             return;
         }
         else {
-            alert('Errr..., some error occured on our side!');
+            // alert('Errr..., some error occured on our side!');
+            showMsg('Some error occured! Try refreshing the page', 'error');
             setSubmitting(false);
             return;
         }
     }
 
-    async function handleSubmit(event) {
-        event.preventDefault();
-        return submit();
-    }
-
 }
 
 export default PostQuestion;
-
-
-{/* <Searchdiv tags={availabeTags} selectedTags={selectedTags} setSelectedTags={setSelectedTags} change={selectTag} type="tags"  /> */}
-{/* <FormContent>
-    <FormTitle> Attachments </FormTitle>
-    <FormDesc>Add attachments to explain your question properly.</FormDesc>
-    <ImagesTile images={images} setImages={setImages} submitting={submitting} />
-</FormContent> */}
-// {/* <FormTitle> Body </FormTitle>
-//           <FormDesc>Explain your question throughly.</FormDesc> */}
-//           {/* <QuestionEditor
-//             editor={ClassicEditor}
-//               config={{
-//                 toolbar: ['heading', '|', 'bold', 'italic', 'blockQuote', 'numberedList', 'bulletedList', '|', 'undo', 'redo', 'Link'],
-//                 ckfinder: { uploadUrl: '/Question/upload' }
-//               }}
-//               onChange={handleEditorChange}
-//               onBlur={handleEditorBlur}
-//               onFocus={handleEditorFocus}
-//               style={{ height: "10em" }}
-//             /> */}

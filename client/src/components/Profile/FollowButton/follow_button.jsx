@@ -9,7 +9,7 @@ import FollowIcon from '../../static/follow_icon';
 
 // Styled Components ================================================
 
-let FollowProfileButton = styled(Button)`
+let FollowProfileButtonText = styled(Button)`
     font-family: SF Pro;
     font-style: normal;
     font-weight: 600;
@@ -27,6 +27,16 @@ let FollowProfileButton = styled(Button)`
     :hover{
         background-color: white !important;
     }
+`;
+
+let FollowProfileButtonBtn = styled(Button)`
+    font-family: SF Pro;
+    font-style: normal;
+    font-weight: 800;
+    font-size: 20px !important;
+    line-height: 25px !important;
+    text-transform: none !important;
+    cursor: ${({ active }) => active ? "pointer" : "wait" };
 `;
 
 
@@ -60,25 +70,39 @@ export default function FollowButton({ profile, setIsFollowing, type }){
         }
     }
 
-    function TypeFollow({type, onClick, active}){
+    function TypeFollow({type, onClick, active, ...props}){
         switch(type){
             case 'text':
                 return (
-                    <FollowProfileButton
+                    <FollowProfileButtonText
                         active={active}
                         onClick={onClick}
+                        {...props}
                     >
                         <span>Follow</span>
-                    </FollowProfileButton>);
+                    </FollowProfileButtonText>);
             
             case 'icon':
                 return (
                     <FollowIconBtn
                         active={active}
                         onClick={onClick}
+                        {...props}
                     />
                 );
             
+            case 'btn':
+            case 'button':
+                return (
+                    <FollowProfileButtonBtn
+                        color="primary"
+                        active={active}
+                        onClick={onClick}
+                        variant="outlined"
+                        {...props}>
+                        <span>Follow</span>
+                    </FollowProfileButtonBtn>
+                );
             default:
                     throw Error('Unknown type');
                     break;

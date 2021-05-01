@@ -1,14 +1,15 @@
-import React, { useState } from "react"
+import React, { useContext, useState } from "react"
 import styled from 'styled-components';
 import {
     LinearProgress, Button,
     Grid
 } from '@material-ui/core'
-import { A } from 'hookrouter';
+import { A, navigate } from 'hookrouter';
 
 import { Name, Password, PasswordCheck, Email } from './utils';
 import CONFIG from '../../../config'
 import ajaxRequest from '../../../ajaxRequest'
+import { PopupAgreementContext } from "src/components/utils/PopupAgreementContext";
 
 
 // Styled Components =========================================================
@@ -79,7 +80,7 @@ export default function Register(props) {
     const [email, setEmail] = useState({value:'', error: null});
     const [sendingData, changeSendingData] = useState(false);
     const [msg, setMsg] = useState(null);
-
+    const showPopup = useContext(PopupAgreementContext);
 
     return (
         <StyledForm action="" className="form-container" onSubmit={handleSubmit}>
@@ -175,8 +176,14 @@ export default function Register(props) {
             clearError();
             if (res.data.success) {
                 console.log('Success......');
-                alert('You have been registered. Now login.');
-                clearData();
+                showPopup(
+                    { title: "Register", content: "You have been registered successfuly. Check you email from activation code" },
+                    'Login',
+                    null,
+                    async () => { clearData(); navigate('/auth/login'); },
+                    async () => { });
+                // alert('You have been registered. Now login.');
+                // clearData();
             } else {
                 setMsg(null);
                 res.data.errors.forEach(err => {

@@ -1,17 +1,22 @@
 import React from 'react';
 import { ReactSVG } from 'react-svg';
+import { Button } from '@material-ui/core';
+
 import { navigate, A } from 'hookrouter';
 import GoogleIcon from './google-icon.svg';
 import styled from 'styled-components';
 import { API_DOMAIN } from '../../../config';
 
-let GoogleIconContainer = styled.div`
+let GoogleIconContainer = styled(Button)`
     display: flex;
     align-items: center;
     height: 60px;
-    background: #EFF2F4;
+    width: 100%;
+    background: #EFF2F4 !important;
     border-radius: 9px;
     cursor: pointer;
+    text-decoration: none;
+    text-transform: none !important;
 
     svg{
         margin: 0 30px 0 25px;
@@ -35,13 +40,10 @@ let GoogleIconContainer = styled.div`
 
 export default function GoogleAuth(props) {
     return (
-        <a href={`${API_DOMAIN}/auth/google`}>
-            <GoogleIconContainer >
-                <ReactSVG
-                    src={GoogleIcon}
-                />
-                <div className="txt">Continue with google</div>
-            </GoogleIconContainer>
-        </a>
+        <GoogleIconContainer
+            startIcon={<ReactSVG src={GoogleIcon} />}
+            href={`${API_DOMAIN}/auth/google`}>
+            <div className="txt">Continue with google</div>
+        </GoogleIconContainer>
     );
 }
