@@ -12,7 +12,8 @@ function UserSerializer(users, multiple = false) {
             created_at: user.created_at,
             bio: user.bio,
             score: user.score.length === 0 ? [{ name: "totalScore", score: 0 }] : user.score,
-            chosen_category: user.chosen_category
+            chosen_category: user.chosen_category,
+            is_verified: user.is_verified
         }
     }
 

@@ -15,7 +15,8 @@ module.exports.feedQuestionSerializer = function(questions, multiple = false) {
                 username: question.userId.username,
                 first_name: question.userId.first_name,
                 last_name: question.userId.last_name,
-                profile_image: question.userId.profile_image
+                profile_image: question.userId.profile_image,
+                is_verified: question.userId.is_verified,
             } : {
                 _id: null,
                 username: "[deleted]",
@@ -50,7 +51,8 @@ module.exports.userQuestionSerializer = function(user) {
                 username: user.username,
                 first_name: user.first_name,
                 last_name: user.last_name,
-                profile_image: user.profile_image
+                profile_image: user.profile_image,
+                is_verified: user.is_verified
             },
             vote: {
                 up: ques.vote_count.upvote,

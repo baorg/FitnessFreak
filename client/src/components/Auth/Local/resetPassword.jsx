@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Button, LinearProgress } from '@material-ui/core';
-import { useQueryParams } from 'hookrouter';
+import { useQueryParams, A } from 'hookrouter';
 
 import Password from './utils/password';
 import PasswordCheck from './utils/check_password';
@@ -30,10 +30,23 @@ let ResetPasswordForm = styled.form`
         text-align: center;
         align-content: center;
     }
+    .link{
+        color: #065BFB;
+        font-weight: 500;
+        font-size: 23px;
+        line-height: 27px;
+        margin: 0 0 0 8px;
+    }
 `;
 
 let PasswordChanged = styled.div`
-
+    .link{
+        color: #065BFB;
+        font-weight: 500;
+        font-size: 23px;
+        line-height: 27px;
+        margin: 0 0 0 8px;
+    }
 `;
 // ===========================================================
 
@@ -51,6 +64,9 @@ function Verification() {
     return passwordChanged ?
         <PasswordChanged>
             <h3>Your password have been changed</h3>
+            <A
+                href="/auth/login"
+                className="link">Login</A>
         </PasswordChanged>
     :    <ResetPasswordForm onSubmit={submitForm}>
         <h1>Reset Password</h1>
@@ -72,8 +88,10 @@ function Verification() {
             variant="contained"
             color="primary"
             disabled={sending}
-            type="submit"
-        >Reset Password</Button>
+            type="submit">Reset Password</Button>
+        <A
+            href="/auth/login"
+            className="link">Login</A>
     </ResetPasswordForm>;
 
     async function submitForm(event) {

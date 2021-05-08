@@ -1,6 +1,9 @@
 import styled from 'styled-components';
+
 import { Avatar } from '@material-ui/core';
-import { A } from 'hookrouter';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+
+import { A, navigate } from 'hookrouter';
 import moment from 'moment';
 
 import BookmarkIcon from '../../../BookMark/MyBookMark';
@@ -8,9 +11,7 @@ import QuestionHeaderMenu from './menu';
 import { responsive } from '../../../utils/data.json';
 import FollowBtn from '../../../Profile/FollowButton';
 
-
 // Styled components ===================================
-
 let QuestionHeader = styled.div`
     display: flex;
     align-items: center;
@@ -53,6 +54,7 @@ let NameDiv = styled.div`
     }
     
     .posted-by-name{
+        text-decoration: none;
         font-size: 1.2em;
     }
 
@@ -95,6 +97,8 @@ export default function Header({ question, user = null }) {
     return (
         <QuestionHeader>
             <Avatar
+                style={{ cursor: 'pointer' }}
+                onClick={() => navigate(`/profile/${question.user._id}`)} 
                 alt={`${question.user && question.user.username || 'unknown'}s_profile_image`}
                 src={question.user && question.user.profile_image}
                 className="avatar"
@@ -102,7 +106,10 @@ export default function Header({ question, user = null }) {
             <PostedName>
                 <NameDiv>
                     {question.user ?
-                        <A className="posted-by-name" href={`/profile/${question.user._id || question.user.userId}`}> {question.user.username}</A>
+                        <>
+                            <A className="posted-by-name" href={`/profile/${question.user._id || question.user.userId}`}> {question.user.username}</A>
+                            {question.user.is_verified && <CheckCircleIcon variant="filled" color="primary" />}
+                        </>
                         : <span className="posted-by-name deleted-name">[deleted]</span>}
                     <FollowBtn
                         type="text"

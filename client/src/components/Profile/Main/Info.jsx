@@ -4,12 +4,19 @@ import { A } from 'hookrouter';
 
 
 import { Button, Chip, Divider } from '@material-ui/core';
-import { CalendarTodayIcon } from '@material-ui/icons';
+import {
+    CalendarToday as CalendarTodayIcon,
+    CheckCircle as CheckCircleIcon
+} from '@material-ui/icons';
 import noimage from '../../../static/noimage.png';
 import nobanner from '../../../static/placeholder_profile_banner.jfif';
 import EditProfile from '../EditProfile';
 import FollowButton from '../FollowButton';
-import FollowingSystemDiv from '../FollowingSystem';
+
+import FollowersPopover from 'src/components/Profile/FollowingSystem/followers';
+import FollowingsPopover from 'src/components/Profile/FollowingSystem/following';
+
+
 import CategoryIcon from 'src/components/static/CategoryIcons';
 
 import { API_DOMAIN } from 'src/config';
@@ -227,6 +234,7 @@ let FollowersCountDiv = styled.div`
         flex-direction: column;
         align-items: center;
         margin: 10px 20px 10px 20px;
+        cursor: pointer;
         .heading{
             font-weight: normal;
             font-size: 20px;
@@ -257,17 +265,24 @@ let EditFollowBtnContainer = styled.div`
 
 
 export default function UserInfo({profileUser, editProfile, setEditProfile }) {
-    // console.log('User: ', profileUser);
-    // console.log('Score: ', profileUser.score);
     const [rank, setRank] = useState(null);
     const [followers, setFollowers] = useState(null);
     const [followings, setFollowings] = useState(null);
-    
+    const [followPop, setFollowPop] = useState(null);
+
     useEffect(updateRankEffect, []);
     useEffect(updateFollowingEffect, []);
     
     return (
         <>
+            <FollowersPopover
+                    profileUser={profileUser}
+                    open={followPop === 'followers'}
+                    handleClose={() => setFollowPop(null)} />
+                <FollowingsPopover
+                    profileUser={profileUser}
+                    open={followPop==='followings'}
+                    handleClose={() => setFollowPop(null)} />
         <ProfileInfoDiv>
             <ProfileBanner src={profileUser.banner_image || nobanner } alt="" />
             <ProfileImage>
@@ -277,7 +292,9 @@ export default function UserInfo({profileUser, editProfile, setEditProfile }) {
             <ProfileContent>
                 <NameRankDiv>
                     <Name >
-                        <FirstLastName>{profileUser.first_name} {profileUser.last_name}</FirstLastName>
+                        <FirstLastName>{profileUser.first_name} {profileUser.last_name}
+                        {profileUser.is_verified && <CheckCircleIcon style={{fontSize: 20}} variant="filled" color="primary" />}
+                        </FirstLastName>
                         <Username href={`/profile/${profileUser._id}`}>@{profileUser.username}</Username>
                     </Name>
                     {rank && <RankDiv>
@@ -300,11 +317,13 @@ export default function UserInfo({profileUser, editProfile, setEditProfile }) {
 
                 <Divider />
                 <FollowersCountDiv>
-                    <div className="box follower">
+                    <div className="box follower"
+                        onClick={()=>setFollowPop('followers')}>
                         <div className="heading">Followers</div>
                         {followers && <div className="count">{followers}</div>}
                     </div>
-                    <div className="box following">
+                    <div className="box following"
+                        onClick={()=>setFollowPop('followings')}>
                         <div className="heading">Following</div>
                         {followings && <div className="count">{followings}</div>}
                     </div>

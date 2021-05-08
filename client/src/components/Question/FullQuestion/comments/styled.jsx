@@ -36,20 +36,21 @@ const CommentDiv = styled.div`
     display: flex;
     flex-direction: column;
     padding: 10px;
+    .dlt-icon{
+        cursor: pointer;
+        margin-left: auto;
+        outline-style: none;
+    }
 
     .header{
         display: flex;
         align-items: center;
         margin-left: 10px;
-
+        
         .avatar{
             width: 35px;
             height: 35px;
-
-            /* @media(max-width: ${responsive.small}){
-                width: 30px;
-                height: 30px;
-            } */
+            cursor: pointer;
         }
         
         
@@ -63,9 +64,9 @@ const CommentDiv = styled.div`
                     font-size: 0.9rem;
                     color: #555;
                 }
-            
                 .posted-by-name{
-                    font-size: 1.2em;
+                    font-size: 1.1em;
+                    text-decoration: none;
                 }
             
                 .deleted-name{

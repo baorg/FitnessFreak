@@ -171,7 +171,7 @@ export default function EmailDiv(props) {
                     : <DefaultDiv>
                         <div className="email-container">
                             <div className="email-div">{props.email.email}</div>
-                            <div><Button color="primary" onClick={handleAddClick}>Edit</Button></div>
+                            {/* <div><Button color="primary" onClick={handleAddClick}>Edit</Button></div> */}
                         </div>
                         {
                             props.email.verified ?

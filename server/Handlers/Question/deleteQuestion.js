@@ -1,15 +1,13 @@
 const { Ques, Ans, User, Tag, Comment } = require("../../Models");
-
+const AnswerRepo = require('Repository/answer');
+const QuestionRepo = require('Repository/question');
 
 async function deleteQuestion(req, res) {
     let err = false;
     const quesId = req.body.quesId;
     const userId = req.user.id;
     try {
-        await Ques.findByIdAndDelete(quesId).exec()
-        const user = await User.findById(userId)
-        user.question.pull(quesId)
-        await user.save();
+        err = !await QuestionRepo.deleteQuestion(quesId, userId);
     } catch (error) {
         err = true;
         console.log("err while deleting question ", error);
@@ -23,10 +21,10 @@ async function deleteAnswer(req, res) {
     const ansId = req.body.ansId;
     const userId = req.user.id;
     try {
-        await Ans.findByIdAndDelete(ansId).exec()
-        const user = await User.findById(userId)
-        user.answer.pull(ansId)
-        await user.save();
+        let d = await AnswerRepo.deleteAnswer(ansId, userId);
+        if (!d) {
+            err = true;
+        }
     } catch (error) {
         err = true;
         console.log("err while deleting answer ", error);

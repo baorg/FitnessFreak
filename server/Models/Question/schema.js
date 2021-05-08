@@ -23,7 +23,7 @@ module.exports = new mongoose.Schema({
         type: [commentSchema],
         default: []
     },
+    satisfied: { type: Boolean, default: 0 },
     answers_count: { type: Number, default: 0 },
     comments_count: { type: Number, default: 0 },
-    satisfied: { type: Boolean, default: 0 }
 });

@@ -1,4 +1,5 @@
 require('dotenv').config();
+require('app-module-path').addPath(__dirname);
 // console.log('NODE ENV: ', process.env.CLOUDINARY_CLOUD_NAME);
 const express = require("express");
 const session = require("express-session");
@@ -55,7 +56,7 @@ app.use(logging);
 
     app.use('/api', Router);
     app.use('/server-static', express.static(path.join(__dirname, 'static')));
-    
+
     if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV == 'testing') {
         console.log('Running production/testing build');
         app.use(express.static(path.join(path.dirname(path.dirname(__filename)), 'client', 'build')));

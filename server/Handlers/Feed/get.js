@@ -15,7 +15,7 @@ module.exports = async function(req, res, next) {
             'vote_count title question userId tags categoryName created_at answers_count comments_count', [{
                 path: 'userId',
                 model: User,
-                select: 'username profile_image first_name last_name'
+                select: 'username profile_image first_name last_name is_verified'
             }]);
 
         if (current_timestamp - last_updated >= 6 * 60 * 60 * 1000) {
@@ -25,7 +25,7 @@ module.exports = async function(req, res, next) {
                 'vote_count title question userId tags categoryName created_at answers_count comments_count', [{
                     path: 'userId',
                     model: User,
-                    select: 'username profile_image first_name last_name'
+                    select: 'username profile_image first_name last_name is_verified'
                 }])).feed;
         }
         questions = feed;
@@ -35,7 +35,7 @@ module.exports = async function(req, res, next) {
             'vote_count title question userId tags categoryName created_at answers_count comments_count', [{
                 path: 'userId',
                 model: User,
-                select: 'username profile_image first_name last_name'
+                select: 'username profile_image first_name last_name is_verified'
             }, ]
         );
     }

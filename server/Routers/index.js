@@ -16,7 +16,7 @@ const { initRequest, sendResponse } = require('../Middlewares');
 
 router.use(initRequest);
 
-router.use('/answer', answersRouter);
+router.use('/answer', answersRouter, sendResponse);
 router.use('/auth', authRouter, sendResponse);
 router.use('/cloudinary', cloudinaryRouter);
 router.use('/feed', feedRouter);

@@ -21,7 +21,7 @@ function getArray(arr, page) {
 
 async function getBookMarks(userId, obj) {
     console.log("get Bookmarks")
-    const promise = User.findById(userId, 'username first_name last_name').populate(obj).exec()
+    const promise = User.findById(userId, 'username first_name last_name is_verified').populate(obj).exec()
     return response = promise.then((ques) => {
             // console.log("bookmarks = ", ques);
             return { question: getArray(ques, obj.path) }
@@ -46,19 +46,17 @@ async function answers(userId) {
         },
     }
 
-    const promise = User.findById(userId, 'username first_name last_name').populate(obj).exec()
+    const promise = User.findById(userId, 'username first_name last_name is_verified').populate(obj).exec()
     return response = promise.then((ques) => {
             const user = { userId: ques._id, username: ques.username }
             return {
                 question: ques.answer.map((question) => ({
-
                     _id: question.quesId._id,
                     title: question.quesId.title,
                     question: question.quesId.question,
                     category: question.quesId.categoryName,
                     user: user,
                     posted_at: question.quesId.created_at
-
                 }))
             }
         })

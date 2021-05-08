@@ -16,7 +16,7 @@ module.exports.getQuestionsHandler = function(req, res, next) {
         path: 'userId',
         model: User,
         options: {
-            select: 'username first_name last_name'
+            select: 'username first_name last_name is_verified'
         },
     }).exec((err, questions) => {
         if (err) {
@@ -33,33 +33,6 @@ module.exports.getQuestionsHandler = function(req, res, next) {
 }
 
 
-// function getCount(ques) {
-//     let arr = ques.upDown;
-//     let upCount = 0;
-//     let downCount = 0;
-//     for (let i = 0; i < arr.length; i++) {
-//         if (arr[i].value == 1)
-//             upCount++;
-//         else
-//             downCount++;
-//     }
-
-//     let obj = {
-//         answers: ques.answers,
-//         upCount: upCount,
-//         downCount: downCount,
-//         question: {
-//             title: ques.title,
-//             question: ques.question,
-//             posted_at: ques.created_at,
-//             tags: ques.tags,
-//             categories: ques.categoryName,
-//             attachments: ques.attachments
-//         }
-//     }
-//     return obj;
-// }
-
 module.exports.getOneQuestionHandler = function(req, res, next) {
     let ques_id = req.params.ques_id;
 
@@ -67,7 +40,7 @@ module.exports.getOneQuestionHandler = function(req, res, next) {
         path: 'userId',
         model: User,
         options: {
-            select: 'username first_name last_name'
+            select: 'username first_name last_name is_verified'
         },
     }
 
@@ -100,7 +73,7 @@ module.exports.getFeedQuestion = async function(req, res) {
     question = await Ques.findOne({ _id: id })
         .populate({
             path: "userId",
-            select: 'username'
+            select: 'username is_verified'
         })
         .select('id vote_count title question categoryName userId tags created_at answers_count comments_count')
         .exec();

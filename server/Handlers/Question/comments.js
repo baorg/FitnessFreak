@@ -126,6 +126,7 @@ async function deleteComment(req, res, next) {
                 }
             }
         });
+        await updateCommentsCount(ques_id);
         // console.log('Comment Del: ', comment_del);
 
         if (comment_del.nModified) {

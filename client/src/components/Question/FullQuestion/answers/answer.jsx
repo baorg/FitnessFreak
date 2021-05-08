@@ -1,9 +1,12 @@
 import React, {useState,useEffect, useContext} from "react"
 import { A, navigate } from 'hookrouter';
-import { Delete, Done, VerifiedUser } from '@material-ui/icons';
 import moment from 'moment';
 
 import { Avatar, Container, Paper } from '@material-ui/core';
+import {
+  Delete, Done, VerifiedUser,
+  CheckCircle as CheckCircleIcon
+} from '@material-ui/icons';
 import styled from 'styled-components';
 
 import CommentIcon from 'src/components/static/comment_icon';
@@ -12,6 +15,7 @@ import PostComment from 'src/components/Question/Question/post_comments';
 import Comments from 'src/components/Question/FullQuestion/comments';
 
 import {UserContext} from 'src/components/utils/UserContext';
+import { PopupAgreementContext } from 'src/components/utils/PopupAgreementContext';
 
 import request from 'src/ajaxRequest';
 import {API_DOMAIN} from 'src/config';
@@ -32,7 +36,12 @@ let AnswerDiv = styled.div`
 let AnswerHeadlineDiv = styled.div`
   display: flex;
   margin-bottom: 5px;
-
+  
+  .dlt-icon{
+    margin-left: auto;
+    cursor: pointer;
+  }
+  
   .ans-prompt{
     font-size: 0.8em;
     color: #808080;
@@ -44,6 +53,7 @@ let AnswerHeadlineDiv = styled.div`
     width: 100%;
     max-height: 50px;
     max-width: 50px;
+    cursor: pointer;
   }
 
   .user-info-div{
@@ -56,6 +66,8 @@ let AnswerHeadlineDiv = styled.div`
 
       .user-username{
         margin-left: 2px;
+        text-decoration: none;
+        font-size: 1.2em;
       }
 
       .deleted{
@@ -178,16 +190,21 @@ function Answer({ answer }) {
   const [voteCount, setVoteCount] = useState(null);
   const [commentsReload, setCommentsReload] = useState(true);
   const [user, setUser] = useContext(UserContext);
+  const showPopup = useContext(PopupAgreementContext);
+
   return (
     <AnswerDiv>
       <AnswerHeadlineDiv>
           <div className="user-info-div">
-            <Avatar src={answer.user&&answer.user.profile_image}/>
+          <Avatar src={answer.user && answer.user.profile_image}
+            style={{cursor: 'pointer'}}
+            onClick={() => navigate(`/profile/${answer.user._id}`)} />
             <div className='user-name-div'>
               {answer.user ?
-                <A href={`/profile/${answer.user._id}`} className='user-username'>{ answer.user.username }</A>
+              <A href={`/profile/${answer.user._id}`} className='user-username'>{answer.user.username}
+                {answer.user.is_verified && <CheckCircleIcon style={{fontSize: 20}} variant="filled" color="primary" />}
+              </A>
                 : <div className='user-username deleted'>[ deleted ]</div>}
-
                 <div className='posted-date'>
                     <span className='text'>Posted on </span>
                     <span className='date'> {moment(answer.posted_at).format('MMMM DD, YYYY')} </span>
@@ -200,7 +217,7 @@ function Answer({ answer }) {
             <span className="satisfactory-div">Satisfactory</span>
           </div>
         }
-        { (user&&user._id === answer.user&&answer.user._id) && user && answer.user && <Delete onClick={deleteAnswer} />}
+        { user && answer.user&&user._id === answer.user._id && <Delete className="dlt-icon" onClick={deleteAnswer} />}
       </AnswerHeadlineDiv>
 
         <AnswerContentDiv>
@@ -225,21 +242,25 @@ function Answer({ answer }) {
     </AnswerDiv>
   );
 
-  function deleteAnswer(){
-    if (window.confirm("Are you sure you want to delete your answer")) {
-      // txt = "You pressed OK!";
-      request("post", `${API_DOMAIN}/question/deleteAnswer`, {
-        ansId: answer._id
-      }).then(({ data }) => {
-        if (!data.err) {
-          // console.log('data after deletion: ', data);
-          window.location.reload();
-        } else {
-          console.log("error in deleting answer");
-        }
-      });
-    } else {
-      // txt = "You pressed Cancel!";
+  function deleteAnswer() {
+    showPopup(
+      { content: 'Do you want to delete this answer', title: 'Delete Answer' },
+      "Cancel",
+      "Delete",
+      async () => { },
+      del);
+  
+    async function del() {
+      try {
+        await request("post", `${API_DOMAIN}/question/deleteAnswer`, {
+          ansId: answer._id
+        });
+          
+      } catch (err) {
+        
+      } finally {
+        window.location.reload();
+      }
     }
   }
 

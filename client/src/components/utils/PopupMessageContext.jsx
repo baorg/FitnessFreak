@@ -52,11 +52,11 @@ function PopupMessageProvider(props) {
         setOpen(false);
     }
     return (
-        <PopupMessageContext.Provider 
+        <PopupMessageContext.Provider
             value={ showPopUp }>
             {props.children}
             <Snackbar
-                autoHideDuration={3000}
+                autoHideDuration={2000}
                 anchorOrigin={{ vertical:'bottom', horizontal:'left' }}
                 open={open}
                 onClose={handleClose}

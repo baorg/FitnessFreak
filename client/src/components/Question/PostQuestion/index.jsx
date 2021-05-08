@@ -30,7 +30,6 @@ let MainDiv = styled(PostQues)`
 export default function PostQuestion(props) {
     
     useEffect(() => {
-        console.log('User:', props.user);
         if (props.user === null) {
             navigate("/auth");
         }

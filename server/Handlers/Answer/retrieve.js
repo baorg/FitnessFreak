@@ -15,7 +15,7 @@ async function getAnswersByQuesId(req, res, next) {
             path: 'userId',
             model: User,
             options: {
-                select: 'username first_name last_name profile_image'
+                select: 'username first_name last_name profile_image is_verified'
             },
         }
         const answers = await Ans.find({ quesId: quesId }).populate(obj).exec();
@@ -28,9 +28,9 @@ async function getAnswersByQuesId(req, res, next) {
                 return 1;
             }
         });
-        
-        res.data.success = true;       
-        res.data.answers = AnswerSerializers.answerSerializer(answers, user=req.user, queestion=false, many=true);
+
+        res.data.success = true;
+        res.data.answers = AnswerSerializers.answerSerializer(answers, user = req.user, queestion = false, many = true);
     } catch (err) {
         console.error("ERROR:", err);
         res.data.success = false;
@@ -59,7 +59,7 @@ async function getAnswerById(req, res, next) {
         }];
 
         let answer = await Ans.findOne({ _id: ansId }, 'vote_count answer quesId userId marked upDown').populate(obj).exec();
-        
+
         if (answer) {
             res.data.success = true;
             res.data.answer = AnswerSerializers.answerSerializer(answer);

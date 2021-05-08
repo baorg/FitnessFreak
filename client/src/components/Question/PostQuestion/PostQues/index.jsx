@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from "react";
 
 // MaterialUI
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { Snackbar } from '@material-ui/core';
+import { Snackbar, LinearProgress } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 
 import { CKEditor } from '@ckeditor/ckeditor5-react';
@@ -63,32 +63,32 @@ function PostQuestion(props) {
     return (
         <PostQuestionDiv>
             <PostQuestionHeading>Ask your question.</PostQuestionHeading>
+            {submitting && <LinearProgress />}
             <QuestionBody
                 value={editorData}
                 placeholder="Type here something....."
                 type="text"
                 onChange={({target})=>setEditorData(target.value)}/>
-            <FormContent>
-                <FormTitle> Categories </FormTitle>
-                <FormDesc>Select category which you feel related to your question.</FormDesc>
-                <CategoriesDiv>
-                    {categories.map((el,index)=>
-                        <CategoryDiv category={el} selected={el.selected} handleChange={() => { selectCategory(el.name); }} />
-                    )}
-                </CategoriesDiv>
-            </FormContent>
-            <FormContent>
-                <TagInput
-                    showMsg={showMsg}
-                    maxTagsAllowed={maxTagsAllowed}
-                    selectedTags={selectedTags}
-                    setSelectedTags={setSelectedTags} />
-            </FormContent>
-            <FormContent>
-                {submitting ?
-                         <SubmitButton color="primary" disabled variant="contained" >Post your question.</SubmitButton>
-                        : <SubmitButton color="primary" variant="contained" onClick={submit}>Post your question.</SubmitButton>}
-            </FormContent>
+                <FormContent>
+                    <FormTitle> Categories </FormTitle>
+                    <FormDesc>Select category which you feel related to your question.</FormDesc>
+                    <CategoriesDiv>
+                        {categories.map((el,index)=>
+                            <CategoryDiv category={el} selected={el.selected} handleChange={() => { selectCategory(el.name); }} />
+                        )}</CategoriesDiv>
+                </FormContent>
+                <FormContent>
+                    <TagInput
+                        showMsg={showMsg}
+                        maxTagsAllowed={maxTagsAllowed}
+                        selectedTags={selectedTags}
+                        setSelectedTags={setSelectedTags} />
+                </FormContent>
+                <FormContent>
+                    {submitting ?
+                             <SubmitButton color="primary" disabled variant="contained" >Post your question.</SubmitButton>
+                            : <SubmitButton color="primary" variant="contained" onClick={submit}>Post your question.</SubmitButton>}
+                </FormContent>
             <Snackbar open={Boolean(msg)} autoHideDuration={3000} onClose={handleMsgClose}>
                 {msg && <Alert onClose={handleMsgClose} severity={msg.severity}>
                     {msg.msg}
@@ -148,42 +148,6 @@ function PostQuestion(props) {
         }
         
         setSubmitting(true);
-        
-        // let images_count = images.length;
-        // let images_url = [];
-        // for (var i = 0; i < images_count; i++){
-        //     let image = images[i];
-        //     if (image.uploaded) {
-        //         images_url.push(image);
-        //     } else {
-        //         // let formData = new FormData();
-        //         // formData.append('file', images[i].file);
-        //         let res = await fetch(`${CONFIG.API_DOMAIN}/upload/image-upload`, {
-        //             method: 'POST',
-        //             body: formData,
-        //             credentials: 'include'
-        //         });
-
-        //         let data = await res.json();
-        //         if (data.success) {
-        //             images_url.push({ url: data.url, type: 'image' });
-        //             await setImages(images.map((img, ind) => {
-        //                 if (ind === i)
-        //                     return {
-        //                         src: data.url,
-        //                         file: img.file,
-        //                         uploaded: true
-        //                     };
-        //                 else
-        //                     return img;
-        //             }));
-        //         } else {
-        //             alert('Some error occured in submitting question.');
-        //             setSubmitting(false);
-        //             return;
-        //         }
-        //     }
-        // }
 
 
         let res = await ajaxRequest("POST", `${CONFIG.API_DOMAIN}/question/post-question`, {
@@ -196,7 +160,7 @@ function PostQuestion(props) {
         if (res.data.is_saved) {
             // alert('Question submitted successfully');
             showMsg('Question submitted successfully', 'success');
-            navigate("/");
+            navigate(`/viewFullQuestion/${res.data.question_id}`);
             return;
         }
         else {

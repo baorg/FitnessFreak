@@ -70,12 +70,14 @@ let LoginForm = styled.form`
                 font-size: 23px;
                 line-height: 27px;
                 color: #065BFB;
+                text-decoration: none;
             }
         }
         .forgot-password{
+            color: rgba(66, 66, 89, 0.9);
             font-size: 20px;
             line-height: 24px;
-            color: rgba(66, 66, 89, 0.9);
+            text-decoration: none;
         }
     
     }
@@ -110,7 +112,6 @@ export default function Login(props) {
                     {sending ? <LinearProgress />
                         : msg && <Alert severity="error">{msg}</Alert>}
                 </Grid>
-                {/* <div className="action-div"></div> */}
                 <Grid item xs={12}>
                     <Name
                         id="username-login"
@@ -163,7 +164,6 @@ export default function Login(props) {
                 });
             
             await clearError();
-            
             
             if (res.data.success) {
                 await clearError();

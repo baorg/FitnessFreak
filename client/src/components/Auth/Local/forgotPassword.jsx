@@ -69,7 +69,11 @@ export default function ForgotPassword() {
         <div>
             <h3>Mail has been sent to your email ({msg}).</h3>
             <p>( Also check your spam folder. )</p>
+            <A
+                href="/auth/login"
+                className="link">Login</A>
         </div>
+
         :
         <ForgotPasswordForm onSubmit={submitForm}>
             <h1>Forgot Password</h1>

@@ -1,9 +1,15 @@
-import React, {useState,useEffect} from "react"
+import React, {useState,useEffect, useContext} from "react"
 import { A, navigate } from 'hookrouter';
-import { Delete, Done, VerifiedUser } from '@material-ui/icons';
 import moment from 'moment';
 
 import { Avatar, Container, Paper } from '@material-ui/core';
+import {
+  Delete,
+  Done,
+  ThreeSixtySharp,
+  VerifiedUser,
+  CheckCircle as CheckCircleIcon
+} from '@material-ui/icons';
 import styled from 'styled-components';
 
 import CommentIcon from '../../../static/comment_icon';
@@ -11,6 +17,8 @@ import VoteDiv from '../vote';
 import PostComment from "./comment";
 import ajaxRequest from '../../../../ajaxRequest';
 import {API_DOMAIN} from '../../../../config';
+import { UserContext } from "src/components/utils/UserContext";
+import { PopupAgreementContext } from 'src/components/utils/PopupAgreementContext';
 
 
 // Styled Components ========================================================================================
@@ -28,6 +36,11 @@ let AnswerDiv = styled.div`
 let AnswerHeadlineDiv = styled.div`
   display: flex;
   margin-bottom: 5px;
+
+  .dlt-icon{
+    margin-left: auto;
+    cursor: pointer;
+  }
 
   .ans-prompt{
     font-size: 0.8em;
@@ -52,6 +65,7 @@ let AnswerHeadlineDiv = styled.div`
 
       .user-username{
         margin-left: 2px;
+        text-decoration: none;
       }
 
       .deleted{
@@ -163,80 +177,75 @@ let PostedDate = styled.div`
 
 
 
-function Answer({ answer, user }) {
-  const [comments,setComments] = useState([]);
+function Answer({ answer }) {
+  const [comments, setComments] = useState([]);
   const [voteCount, setVoteCount] = useState(null);
-
-  // useEffect(() => {
-  //     fetchComments();
-  // }, [ answer ]);
+  const [user,] = useContext(UserContext);
+  const showPopup = useContext(PopupAgreementContext);
 
   return (
     <AnswerDiv>
       <AnswerHeadlineDiv>
-          <div className="user-info-div">
-            <Avatar src={answer.user&&answer.user.profile_image}/>
-            <div className='user-name-div'>
-              {answer.user ?
-                <A href={`/profile/${answer.user._id}`} className='user-username'>{ answer.user.username }</A>
-                : <div className='user-username deleted'>[ deleted ]</div>}
+        <div className="user-info-div">
+          <Avatar src={answer.user && answer.user.profile_image} />
+          <div className='user-name-div'>
+            {answer.user ?
+                <A href={`/profile/${answer.user._id}`} className='user-username'>
+                  {answer.user.username}
+                  {answer.user.is_verified && <CheckCircleIcon style={{fontSize: 20}} variant="filled" color="primary" />}
+                </A>
+              : <div className='user-username deleted'>[ deleted ]</div>}
 
-                <div className='posted-date'>
-                    <span className='text'>Posted on </span>
-                    <span className='date'> {moment(answer.posted_at).format('MMMM DD, YYYY')} </span>
-                </div>
+            <div className='posted-date'>
+              <span className='text'>Posted on </span>
+              <span className='date'> {moment(answer.posted_at).format('MMMM DD, YYYY')} </span>
             </div>
           </div>
+        </div>
         {answer.marked &&
           <div className='verified-check'>
             <VerifiedUser style={{ color: "green" }} />
             <span className="satisfactory-div">Satisfactory</span>
           </div>
         }
-        { (user&&user._id === answer.user&&answer.user._id) && user && answer.user && <Delete onClick={deleteAnswer} />}
+        {user && answer.user && user._id === answer.user._id && <Delete className="dlt-icon" onClick={deleteAnswer} />}
       </AnswerHeadlineDiv>
 
-        <AnswerContentDiv>
-          <AnswerBodyDiv>
-            <div className="ans-div" dangerouslySetInnerHTML={{ __html: answer.answer}} />
-          </AnswerBodyDiv>
-        </AnswerContentDiv>
+      <AnswerContentDiv>
+        <AnswerBodyDiv>
+          <div className="ans-div" dangerouslySetInnerHTML={{ __html: answer.answer }} />
+        </AnswerBodyDiv>
+      </AnswerContentDiv>
         
-        <AnswerBottomDiv>
-          <VoteDiv vote={answer.vote} quesId={answer._id} type={0} />
-          <CommentIcon className="cmmnt-icon" count={answer.comments_count} />
-          {/* <PostComment answerId={answer._id} user={user} comments={comments} setComments={setComments} /> */}
-        </AnswerBottomDiv>
+      <AnswerBottomDiv>
+        <VoteDiv vote={answer.vote} quesId={answer._id} type={0} />
+        <CommentIcon className="cmmnt-icon" count={answer.comments_count} />
+        {/* <PostComment answerId={answer._id} user={user} comments={comments} setComments={setComments} /> */}
+      </AnswerBottomDiv>
     </AnswerDiv>
   );
-    
-    /*
-    async function fetchComments(){
-        const obj = { up: answer.vote_count.upvote, down: answer.vote_count.downvote };
-        setVoteCount(obj);
-        let res = await ajaxRequest("get", `${API_DOMAIN}/question/get-comments-of-answer?answerId=${answer._id}`);
-        setComments(res.data.comments);
-    }
-    */
 
-  function deleteAnswer(){
-    if (window.confirm("Are you sure you want to delete your answer")) {
-      // txt = "You pressed OK!";
-      ajaxRequest("post", `${API_DOMAIN}/question/deleteAnswer`, {
-        ansId: answer._id
-      }).then(({ data }) => {
-        if (!data.err) {
-          // console.log('data after deletion: ', data);
-          window.location.reload();
-        } else {
-          console.log("error in deleting answer");
-        }
-      });
-    } else {
-      // txt = "You pressed Cancel!";
+  function deleteAnswer() {
+    showPopup(
+      { content: 'Do you want to delete this answer', title: 'Delete Answer' },
+      "Cancel",
+      "Delete",
+      async () => { },
+      del);
+  
+    async function del() {
+      try {
+        await ajaxRequest("post", `${API_DOMAIN}/question/deleteAnswer`, {
+          ansId: answer._id
+        });
+          
+      } catch (err) {
+        
+      } finally {
+        window.location.reload();
+      }
     }
   }
-
 }
 
  

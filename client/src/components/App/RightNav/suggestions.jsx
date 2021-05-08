@@ -1,5 +1,8 @@
 import React, {useEffect, useState} from 'react';
+
 import { CircularProgress, Paper, Avatar } from '@material-ui/core';
+import { CheckCircle as CheckCircleIcon } from '@material-ui/icons';
+
 import styled from 'styled-components';
 import { A, } from 'hookrouter';
 
@@ -106,7 +109,9 @@ export default function SuggestionBox({}){
                     <Profile>
                         <Avatar src={user.profile_image}/>
                         <div className="name">
-                            <div className="main-name">{user.first_name} {user.last_name}</div>
+                            <div className="main-name">{user.first_name} {user.last_name}
+                                {user.is_verified && <CheckCircleIcon style={{fontSize: 20}} variant="filled" color="primary" />}
+                            </div>
                             <A className="username" href={`/profile/${user._id}`}>@{user.username}</A>
                         </div>
                         <FollowBtn type="icon" profile={user} />

@@ -1,8 +1,7 @@
 const CLIENT_HOME_PAGE_URL = process.env.CLIENT_DOMAIN;
 const CLIENT_LOGIN_PAGE_URL = `${CLIENT_HOME_PAGE_URL}/auth`;
 const { Ques, Ans, User } = require("../../Models");
-const saveChanges = require("./utilis").saveChanges;
-const { createNotification } = require('../Notifications/helpers');
+const { addAnswer } = require('Repository/answer');
 
 module.exports = async function(req, res, next) {
     console.log('Posting answer....');
@@ -21,19 +20,8 @@ module.exports = async function(req, res, next) {
             userId: userId,
             quesId: quesId
         });
-        ans = await ans.save();
-        let user = await User.findById(userId).exec();
-        user.answer.push(ans._id);
-        user = await user.save();
 
-        let ques = await Ques.findById(quesId).exec();
-        ques.answers.push(ans._id);
-        ques.answers_count = ques.answers.length;
-        ques = await ques.save();
-
-        await saveChanges(quesId, userId, 1, name);
-        await createNotification(ques.userId, userId, 2, ans._id);
-
+        await addAnswer(ans);
 
         res.data.success = true;
         res.data.is_saved = true;

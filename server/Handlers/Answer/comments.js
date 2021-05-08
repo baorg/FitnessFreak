@@ -15,7 +15,7 @@ async function getComments(req, res, next) {
             path: 'userId',
             model: User,
             options: {
-                select: 'username first_name last_name'
+                select: 'username first_name last_name is_verified profile_image'
             },
         }
 
@@ -79,7 +79,8 @@ async function postComment(req, res, next) {
                 _id: req.user._id,
                 username: req.user.username,
                 first_name: req.user.first_name,
-                last_name: req.user.last_name
+                last_name: req.user.last_name,
+                is_verified: req.user.is_verified
             }
         }
     } catch (err) {
@@ -108,7 +109,7 @@ async function deleteComment(req, res, next) {
                 }
             }
         });
-        console.log(comment_del);
+        console.log('Deleting comment: ', comment_del);
         if (comment_del.nModified) {
             res.data.deleted = true;
             res.data.success = true;

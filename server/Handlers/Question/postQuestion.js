@@ -1,7 +1,7 @@
 const { Ques, User } = require("../../Models");
 const { validationResult } = require('express-validator');
-const score = require("../../config").score;
-const addScore = require("./utilis").addScore;
+const QuestionRepo = require('Repository/question');
+
 
 module.exports = async function(req, res, next) {
     const errors = validationResult(req);
@@ -21,7 +21,7 @@ module.exports = async function(req, res, next) {
         let title = req.body.title;
         let attachments = req.body.attachments || [];
 
-        const ques = new Ques({
+        let ques = new Ques({
             title: title,
             question: question,
             userId: user_id,
@@ -37,21 +37,13 @@ module.exports = async function(req, res, next) {
                 url: val.url,
                 type_: 'image'
             });
-        })
+        });
 
-
-        await ques.save();
-        await User.updateOne({ _id: user_id }, { $push: { question: ques._id } }).exec();
-
-        let user = await User.findById(user_id, "score").exec()
-        addScore(user, "totalScore", score.question);
-        category.forEach((ele) => {
-            addScore(user, ele, score.question)
-        })
-        await user.save()
-
+        question = await QuestionRepo.addQuestion(ques);
         res.data.is_saved = true;
         res.data.success = true;
+        res.data.question_id = question._id;
+
     } catch (err) {
         console.error('[ERROR] ', __filename, err);
         res.data.is_saved = false;

@@ -50,6 +50,7 @@ let StyledForm = styled.form`
         font-size: 23px;
         line-height: 27px;
         margin: 0 0 0 8px;
+        text-decoration: none;
     }
 `;
 
@@ -99,7 +100,7 @@ export default function Register(props) {
                         id="username-register"
                         input={{ name: "username", label: "Username", max_length: "20", placeholder: 'Enter username', required: true }}
                         name={userName}
-                        setName={setUserName} />
+                        setName={({value, error})=>setUserName({ value: value.toLowerCase(), error })} />
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <Name
@@ -182,18 +183,16 @@ export default function Register(props) {
                     null,
                     async () => { clearData(); navigate('/auth/login'); },
                     async () => { });
-                // alert('You have been registered. Now login.');
-                // clearData();
             } else {
                 setMsg(null);
                 res.data.errors.forEach(err => {
                     if (err.param === 'username'){
                         console.log('User error');
-                        setUserName({ value: userName.value, error: err.msg });
+                        setUserName({ value: userName.value.toLowerCase(), error: err.msg });
                     }
                     if (err.param === 'email') {
                         console.log('email error');
-                        setEmail({ value: email.value, error: err.msg });
+                        setEmail({ value: email.value.toLowerCase(), error: err.msg });
                     }
                     if (err.param === 'password1'){
                         console.log('Pass1 error');

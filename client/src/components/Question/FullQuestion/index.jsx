@@ -5,15 +5,9 @@ import { A,navigate } from "hookrouter";
 import { Avatar } from '@material-ui/core';
 import styled from 'styled-components';
 
-// import Answer from "../../Answer/Answer/answer";
-// import UpvoteDownvote from "../../UpvoteDownvote/upvoteDownvote";
-// import SideNavBar from "../../Navigation/SideNav/SideNav";
-
 import ajaxRequest from '../../../ajaxRequest';
-// import Attachments from './attachments';
-// import BookMark from "../../BookMark/MyBookMark";
 import CONFIG from '../../../config';
-// import DeleteIcon from '@material-ui/icons/Delete';
+
 
 import { UserContext } from 'src/components/utils/UserContext';
 import { responsive } from '../../utils/data.json';
@@ -138,39 +132,16 @@ function FullQuestion({ quesId }) {
                 }
             })
         } else {
-            // txt = "You pressed Cancel!";
         }
         
     }
 
-
-    function deleteQuestion(){
-        if (window.confirm("Are you sure you want to delete your Question")) {
-            // txt = "You pressed OK!";
-            ajaxRequest("post",`${CONFIG.API_DOMAIN}/question/deleteQuestion`,{
-                quesId: quesId
-            }).then(async(res)=>{
-                if(!res.data.err){
-                    navigate("/");
-                }
-                else{
-                    console.log("error in deleting question");
-                }
-            })
-        } else {
-            // txt = "You pressed Cancel!";
-        }
-    }
-
     async function postComment({comment}) {
-        // console.log('Posting comment... "', comment, '"');
         try {
             let res = await request(
                 'post',
                 `${API_DOMAIN}/question/post-comment`,
                 { comment: comment, questionId: question._id });
-            
-            // console.log("Data: ", res.data);
             setCommentsReload(true);
         } catch (err) {
             console.error('ERROR', err);
