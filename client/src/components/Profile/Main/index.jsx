@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import UserInfoDiv from './Info';
 import QuestionAnswer from './content';
-
+import { UserContext } from 'src/components/utils/UserContext';
 
 // Styled components ===================================
 
@@ -18,18 +18,18 @@ const MainDiv = styled.div`
 
 
 
-export default function Main(props) {
-    
+export default function Main({ profileUser, editProfile, setEditProfile, setViewImage }) {
+    const [user,] = useContext(UserContext);
+
     return (
         <MainDiv>
             <UserInfoDiv
-                profileUser={props.profileUser}
-                user={props.user} 
-                setEditProfile={props.setEditProfile}
-                editProfile={props.editProfile}/>
+                profileUser={profileUser}
+                setEditProfile={setEditProfile}
+                setViewImage={setViewImage}
+                editProfile={editProfile}/>
             <QuestionAnswer
-                profileUser={props.profileUser}
-                user={props.user} />
+                profileUser={profileUser} />
         </MainDiv>
     );
 }

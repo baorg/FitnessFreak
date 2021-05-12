@@ -6,6 +6,7 @@ import LikeBtn from '../../static/like_btn';
 import ajaxRequest from '../../../ajaxRequest';
 import {API_DOMAIN} from '../../../config';
 import { PopupAgreementContext } from 'src/components/utils/PopupAgreementContext';
+import { UserContext } from 'src/components/utils/UserContext';
 
 // Styled Components =============================================================================
 
@@ -48,8 +49,9 @@ export default function Vote({vote, quesId, type=1}){
     const [votes, setVotes] = useState(vote);
     const [up,setUp]= useState(null);
     const [down,setDown]=useState(null);
+    const [user,] = useContext(UserContext);
+
     const showPopup = useContext(PopupAgreementContext);
-        
     useEffect(()=>{
         setVotes(vote);
     }, [vote]);
@@ -105,7 +107,7 @@ export default function Vote({vote, quesId, type=1}){
                     down: res.data.vote.downvote
                 });
             }
-        } else {
+        } else if(user===null || user.isAuthenticated === false){
             showPopup(
                 { content: 'You need to login for vote', title: 'Login required' },
                 "Login",
@@ -137,7 +139,7 @@ export default function Vote({vote, quesId, type=1}){
                     down: res.data.vote.downvote
                 });
             }   
-        } else {
+        } else if(user===null || user.isAuthenticated === false){
             showPopup(
                 { content: 'You need to login for vote', title: 'Login required' },
                 "Login",

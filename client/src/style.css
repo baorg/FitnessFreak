@@ -2,10 +2,14 @@
     font-family: 'SF Pro';
     font-style: normal;
     font-weight: 400;
-    src: local('SF Pro'), local('SF Pro'),
-         url('fonts/FontsFree-Net-SFProDisplay-Regular.ttf') format('truetype')
-  }
+    src: local('SF Pro'), local('SF Pro'), url('fonts/FontsFree-Net-SFProDisplay-Regular.ttf') format('truetype')
+}
 
 body {
     background-color: #EFF2F4;
+}
+
+body * {
+    margin: 0;
+    padding: 0;
 }

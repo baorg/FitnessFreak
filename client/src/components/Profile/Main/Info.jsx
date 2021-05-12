@@ -8,6 +8,8 @@ import {
     CalendarToday as CalendarTodayIcon,
     CheckCircle as CheckCircleIcon
 } from '@material-ui/icons';
+
+import FullImageView from '../FullImageView';
 import noimage from '../../../static/noimage.png';
 import nobanner from '../../../static/placeholder_profile_banner.jfif';
 import EditProfile from '../EditProfile';
@@ -58,16 +60,19 @@ let ProfileBanner = styled.img`
     width: 100%;
     border-radius: 10px;
     margin: 0;
+    cursor: pointer;
 `;
 let ProfileImage = styled.div`
     width: 100%;
-    margin-top: -65px;
+    margin-top: -50px;
     display: grid;
-    place-content: center;
+    margin-left: 50px;
+    cursor: pointer;
+    /* place-content: center; */
 
     img{
-        width: 150px;
-        height: 150px;
+        width: 100px;
+        height: 100px;
         border-radius: 50%;
         border: 2px solid white;
     }
@@ -87,10 +92,9 @@ let FirstLastName = styled.div`
 let Name = styled.div`
     font-family: SF Pro, sans-serif;
     font-style: normal;
-    width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    margin-left: 0;
 `;
 
 let JoinedDate = styled.div`
@@ -103,7 +107,7 @@ let JoinedDate = styled.div`
 let Bio = styled.div`
     display: flex;
     flex-direction: column;
-    align-items: center;
+    width: calc(100% - 140px);
 
     .heading{
         font-weight: normal;
@@ -116,7 +120,6 @@ let Bio = styled.div`
         font-weight: 600;
         font-size: 22px;
         line-height: 26px;
-        text-align: center;
         color: #424259;
         max-width: 80%;
     }
@@ -206,8 +209,9 @@ let RankDiv = styled.div`
     align-items: center;
     margin-right: 20px;
     position: relative;
+    margin-left: auto;
     right: 30px;
-    top: -30px;
+    top: -50px;
     width: 0;
 
     .heading{
@@ -228,12 +232,12 @@ let RankDiv = styled.div`
 let FollowersCountDiv = styled.div`
     display: flex;
     justify-content: center;
-        
+    margin: auto;
     .box{
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin: 10px 20px 10px 20px;
+        margin: -10px 20px 10px 20px;
         cursor: pointer;
         .heading{
             font-weight: normal;
@@ -249,6 +253,11 @@ let FollowersCountDiv = styled.div`
         }
     }
 `;
+const BtmContainer = styled.div`
+    width: 100%;
+    display: flex;
+    margin: 10px 0 30px 0;
+`;
 let NameRankDiv = styled.div`
     display: flex;
 `;
@@ -256,15 +265,13 @@ let NameRankDiv = styled.div`
 let EditFollowBtnContainer = styled.div`
     width: fit-content;
     display: grid;
-    position: relative;
     margin-left: auto;
-    height: 0;
     place-content: center;
 `;
 //=====================================================================
 
 
-export default function UserInfo({profileUser, editProfile, setEditProfile }) {
+export default function UserInfo({profileUser, editProfile, setEditProfile, setViewImage }) {
     const [rank, setRank] = useState(null);
     const [followers, setFollowers] = useState(null);
     const [followings, setFollowings] = useState(null);
@@ -272,20 +279,22 @@ export default function UserInfo({profileUser, editProfile, setEditProfile }) {
 
     useEffect(updateRankEffect, []);
     useEffect(updateFollowingEffect, []);
-    
+
     return (
-        <>
-            <FollowersPopover
-                    profileUser={profileUser}
-                    open={followPop === 'followers'}
-                    handleClose={() => setFollowPop(null)} />
-                <FollowingsPopover
-                    profileUser={profileUser}
-                    open={followPop==='followings'}
-                    handleClose={() => setFollowPop(null)} />
+    <>
+        <FollowersPopover
+                profileUser={profileUser}
+                open={followPop === 'followers'}
+                handleClose={() => setFollowPop(null)} />
+        <FollowingsPopover
+            profileUser={profileUser}
+            open={followPop==='followings'}
+            handleClose={() => setFollowPop(null)} />
         <ProfileInfoDiv>
-            <ProfileBanner src={profileUser.banner_image || nobanner } alt="" />
-            <ProfileImage>
+            <ProfileBanner
+                onClick={() => setViewImage(profileUser.banner_image)}
+                src={profileUser.banner_image || nobanner} alt="" />
+            <ProfileImage onClick={()=>setViewImage(profileUser.profile_image)}>
                 <img src={profileUser.profile_image || noimage} alt="" />
             </ProfileImage>
 
@@ -296,38 +305,39 @@ export default function UserInfo({profileUser, editProfile, setEditProfile }) {
                         {profileUser.is_verified && <CheckCircleIcon style={{fontSize: 20}} variant="filled" color="primary" />}
                         </FirstLastName>
                         <Username href={`/profile/${profileUser._id}`}>@{profileUser.username}</Username>
-                    </Name>
+                        </Name>
+                    <FollowersCountDiv>
+                        <div className="box follower"
+                            onClick={()=>setFollowPop('followers')}>
+                            <div className="heading">Followers</div>
+                            {followers && <div className="count">{followers}</div>}
+                        </div>
+                        <div className="box following"
+                            onClick={()=>setFollowPop('followings')}>
+                            <div className="heading">Following</div>
+                            {followings && <div className="count">{followings}</div>}
+                        </div>
+                    </FollowersCountDiv>
                     {rank && <RankDiv>
                         <div className="heading">Rank</div>
                         <div className="rank">#{rank}</div>
                     </RankDiv>}
                 </NameRankDiv>
-                    
-                <EditFollowBtnContainer>
-                    {profileUser.own_profile
-                    ? <EditProfileButton color="primary" variant="outlined" onClick={handleEditProfileClick}>
-                        <span>Edit Profile</span></EditProfileButton> 
-                    : <FollowButton profile={profileUser} type="btn" variant="outlined" />}
-                </EditFollowBtnContainer>
                 
-                <Bio>
-                    <div className="heading">Bio</div>
-                    <div className="content">" {profileUser.bio} "</div>
-                </Bio>
-
-                <Divider />
-                <FollowersCountDiv>
-                    <div className="box follower"
-                        onClick={()=>setFollowPop('followers')}>
-                        <div className="heading">Followers</div>
-                        {followers && <div className="count">{followers}</div>}
-                    </div>
-                    <div className="box following"
-                        onClick={()=>setFollowPop('followings')}>
-                        <div className="heading">Following</div>
-                        {followings && <div className="count">{followings}</div>}
-                    </div>
-                </FollowersCountDiv>
+                
+                <BtmContainer>
+                    <Bio>
+                        <div className="heading">Bio</div>
+                        <div className="content">" {profileUser.bio} "</div>
+                    </Bio>
+                    <EditFollowBtnContainer>
+                        {profileUser.own_profile
+                        ? <EditProfileButton color="primary" variant="outlined" onClick={handleEditProfileClick}>
+                            <span>Edit Profile</span></EditProfileButton> 
+                        : <FollowButton profile={profileUser} type="btn" variant="outlined" />}
+                    </EditFollowBtnContainer>
+                </BtmContainer>
+                
                 <Divider />
 
             <ScoreCard>
@@ -346,9 +356,8 @@ export default function UserInfo({profileUser, editProfile, setEditProfile }) {
                 </CategoryScore>
             </ScoreCard>
             <Divider />
-            {/* <FollowingSystemDiv followers={20} followings={10} /> */}
-            </ProfileContent>
-        </ProfileInfoDiv>
+        </ProfileContent>
+    </ProfileInfoDiv>
     </>);
 
     function handleEditProfileClick() {

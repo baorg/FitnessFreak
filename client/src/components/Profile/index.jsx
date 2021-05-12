@@ -15,12 +15,14 @@ import { Spinner } from 'react-bootstrap';
 import { responsive } from '../utils/data.json';
 
 import { UserContext } from '../utils/UserContext';
+import FullImageView from 'src/components/Profile/FullImageView';
 
 // Styled components ===================================
 
 let MainDiv = styled.div`
     width: 100%;
-    box-sizing: border-box;  
+    box-sizing: border-box;
+    margin: 0;
 `;
 
 let StyledSpinner = styled(Spinner)`
@@ -34,8 +36,9 @@ const ProfileDiv = styled.div`
     width: 100vw;
     min-height: 100vh;
     display: grid;
-    grid-template-columns: ${({midPoint, lastPoint})=>lastPoint? "0 1fr 0": midPoint? "1fr 2fr": "1fr 800px 1fr"};
-
+    /* grid-template-columns: ${({ midPoint, lastPoint }) => lastPoint ? "0 1fr 0" : midPoint ? "1fr 2fr" : "1fr 800px 1fr"}; */
+    /* place-content: center; */
+    grid-template-columns: ${({midPoint, lastPoint})=>lastPoint? "0 1fr 0": "1fr 800px 1fr"};
     grid-column: 1 / 2;
     grid-column-gap: 2px;
 `;
@@ -46,11 +49,15 @@ const ProfileDiv = styled.div`
 export default function Profile({ userId }) {
     const [profileUser, setProfileUser] = useState(null);
     const [editProfile, setEditProfile] = useState(false);
-    
+    const [viewImage, setViewImage] = useState(null);
+    const [user, setUser ] = useContext(UserContext);
+
     const midPoint = useMediaQuery(`(min-width: ${responsive.small}) and (max-width: ${responsive.medium})`);
     const lastPoint = useMediaQuery(`(max-width: ${responsive.small})`);
 
-    const [user, setUser ] = useContext(UserContext);
+    useEffect(() => {
+        console.log('viewImage: ', viewImage, Boolean(viewImage));
+    }, [viewImage]);
 
     useEffect(() => {
         getUserData();
@@ -60,16 +67,17 @@ export default function Profile({ userId }) {
         <>
             <MainDiv active={editProfile}>
                 <ProfileDiv midPoint={midPoint} lastPoint={lastPoint}>
-                    <LeftRail profile_user={profileUser} />
+                    {/* <LeftRail profile_user={profileUser} /> */}
                     {profileUser ?
                         <Main
                             profileUser={profileUser}
                             user={user}
                             setEditProfile={setEditProfile}
+                            setViewImage={setViewImage}
                             editProfile={editProfile}
                         />
                         : <StyledSpinner />}
-                        <RightRail />
+                        {/* <RightRail /> */}
                 </ProfileDiv>
             </MainDiv>
             { editProfile &&
@@ -79,6 +87,10 @@ export default function Profile({ userId }) {
                     user={user}
                     setUser={setUser}
                 />}
+            <FullImageView
+                image={viewImage}
+                open={Boolean(viewImage)}
+                handleClose={() => setViewImage(null)} />
         </>);
 
     async function getUserData() {
