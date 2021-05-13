@@ -4,7 +4,7 @@ import { navigate } from 'hookrouter';
 import styled from 'styled-components';
 import Modal from '@material-ui/core/Modal';
 import { CloseRounded } from '@material-ui/icons'
-import { TextField, Button } from '@material-ui/core';
+import { TextField, Button, Divider } from '@material-ui/core';
 
 import ajaxRequest from '../../../ajaxRequest';
 import CONFIG from '../../../config';
@@ -30,6 +30,8 @@ let ModalPage = styled.div`
     background-color: rgba(45, 45, 45, 0.6);
     z-index: 1500;
     overflow: auto;
+    font-family: SF Pro;
+    font-style: normal;
     
     .container{
         width: 100%;
@@ -49,7 +51,7 @@ let EditProfileDiv = styled.div`
     padding: 10px;
     margin: 50px 0 30px 0;
     width: 100vw;
-    max-width: ${responsive.small};
+    max-width: 600px;
     min-height: 40em;
     display: flex;
     flex-direction: column;
@@ -59,15 +61,18 @@ let EditProfileHeader = styled.div`
     width: 100%;
     display: flex;
     justify-content: space-between;
+    margin: 10px 0 10px 0;
 `;
 
 let EditProfileHeading = styled.div`
-    font-size: 2.3em;
+    font-weight: 600;
+    font-size: 27px;
+    line-height: 32px;
+    color: #424259;
 `;
 
 let StyledCloseRounded = styled(CloseRounded)`
-    background-color: #303030;
-    color: white;
+    color: #424259;
     font-size: 1.4em;
     border-radius: 50%;
     padding: 1px;
@@ -82,8 +87,14 @@ let ContentDiv = styled.div`
     align-items: center;
     padding: 12px;
     margin-top: 20px;
-    border-top: 2px solid rgba(104, 104, 104, 0.904); 
-    
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 26px;
+    color: #43405B;
+    /* border-top: 2px solid rgba(104, 104, 104, 0.904);  */
+    >*{
+        margin-top: 15px;
+    }
     .head{
         font-size: 25px;
         align-self: flex-start;
@@ -99,7 +110,7 @@ let ElementDiv = styled.div`
 `;
 
 let FirstNameField = styled(TextField)`
-    width: 80%;
+    width: 100%;
     min-width: 100px;
     margin-bottom: 2em;
 `;
@@ -111,16 +122,24 @@ let BioField = styled.div`
 
 let FooterDiv = styled.div`
     height: 4em;
+    width: 100%;
     display: grid;
     place-items: center;
 `;
 let LastNameField = styled(TextField)`
-    width: 80%;
+    width: 100%;
     min-width: 100px;
 `;
 
 let SubmitButton = styled(Button)`
     margin-top: 2em;
+    width: 100%;
+    color: #FFFFFF !important;
+    background: #065BFB !important;
+    border-radius: 9px;
+    font-size: 20px;
+    line-height: 24px;
+
 `;
 // ====================================================================================
 
@@ -170,13 +189,15 @@ export default function EditProfile({user, setUser, open, setOpen}){
                     <EditProfileHeading>Edit Profile</EditProfileHeading>
                     <StyledCloseRounded onClick={closeModal}/>
                 </EditProfileHeader>
-                <hr />
+                <Divider />
                 {loading ?
                     <StyledSpinner />
                     :
                     <>
                         <EditProfileImage user={user} setUser={setUser} />
+                        <Divider />
                         <EditProfileBanner user={user} setUser={setUser} />
+                        <Divider />
                         <ContentDiv>
                             <div className="head">Info</div>
                             <ElementDiv>
@@ -201,19 +222,18 @@ export default function EditProfile({user, setUser, open, setOpen}){
                                     <textarea placeholder="Enter your bio"
                                         name="bio" value={bio}
                                         onChange={(event) => { setBio(event.target.value); }}
-                                        style={{ width: "20em", height: "10em", resize: "none" }}
+                                        style={{ width: "100%", padding: "5px", height: "10em", resize: "none" }}
                                         ></textarea>
                                 </BioField>
-                                <br />
                             </ElementDiv>
                             <FooterDiv>
                                 <SubmitButton onClick={updating ? () => { }:submit} disabled={updating} color="primary" variant="contained">Update</SubmitButton>
                             </FooterDiv>
                         </ContentDiv>
+                        <Divider />
                         <EmailDiv email={email} />
                     </>
                 }
-                
                 </EditProfileDiv>
             </div>
         </ModalPage>

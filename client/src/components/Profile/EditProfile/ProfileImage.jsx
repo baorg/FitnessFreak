@@ -11,6 +11,7 @@ import ajaxRequest from '../../../ajaxRequest';
 
 let EditProfileImageDiv = styled.div`
     padding: 10px 4px 10px 4px;
+    margin: 10px 0 10px 0;
     display: flex;
     flex-direction: column;
     width: 100%;

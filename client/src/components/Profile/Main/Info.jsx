@@ -15,8 +15,7 @@ import nobanner from '../../../static/placeholder_profile_banner.jfif';
 import EditProfile from '../EditProfile';
 import FollowButton from '../FollowButton';
 
-import FollowersPopover from 'src/components/Profile/FollowingSystem/followers';
-import FollowingsPopover from 'src/components/Profile/FollowingSystem/following';
+import FollowingSystemPopover from 'src/components/Profile/FollowingSystem';
 
 
 import CategoryIcon from 'src/components/static/CategoryIcons';
@@ -136,13 +135,13 @@ let EditProfileButton = styled(Button)`
     text-transform: none !important;
     margin: 10px 5px 10px 5px;
     padding: 10px;
-    background-color: inherit;
-    :hover{
+    background-color: #065BFB !important;
+    /* :hover{
         background-color: #b8b8ff !important;
-    }
+    } */
 
     span{
-        color: blue;
+        color: white;
     }
 
 `;
@@ -275,6 +274,7 @@ export default function UserInfo({profileUser, editProfile, setEditProfile, setV
     const [rank, setRank] = useState(null);
     const [followers, setFollowers] = useState(null);
     const [followings, setFollowings] = useState(null);
+    
     const [followPop, setFollowPop] = useState(null);
 
     useEffect(updateRankEffect, []);
@@ -282,13 +282,10 @@ export default function UserInfo({profileUser, editProfile, setEditProfile, setV
 
     return (
     <>
-        <FollowersPopover
-                profileUser={profileUser}
-                open={followPop === 'followers'}
-                handleClose={() => setFollowPop(null)} />
-        <FollowingsPopover
+        <FollowingSystemPopover
             profileUser={profileUser}
-            open={followPop==='followings'}
+            type={followPop}
+            setType={setFollowPop}
             handleClose={() => setFollowPop(null)} />
         <ProfileInfoDiv>
             <ProfileBanner

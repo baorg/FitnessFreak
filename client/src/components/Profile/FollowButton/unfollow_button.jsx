@@ -30,17 +30,27 @@ let UnfollowProfileButton = styled(Button)`
 `;
 
 let UnfollowProfileButtonBtn = styled(Button)`
-font-family: SF Pro;
-    font-style: normal;
+    font-family: SF Pro;
+    /* font-style: normal;
     font-weight: 600;
     font-size: 20px !important;
-    line-height: 25px !important;
-    color: #065BFB;
+    line-height: 25px !important; */
+    outline: none;
+    outline-width: 0;
+    width: 110px;
+    font-style: normal !important;
+    font-weight: 500 !important;
+    font-size: 18px !important;
+    line-height: 21px !important;
+    color: #065BFB !important;
+    background: rgba(6, 91, 251, 0.08) !important;
     margin: 10px 4px 10px 4px;
-    background-color: inherit;
+    border: 0;
+    border-radius: 7px;
     text-transform: capitalize !important;
     width: 6em;
     cursor: ${({ active }) => active ? "pointer" : "wait" };
+
 `;
 
 let UnfollowIconBtn = styled(UnfollowIcon)`
@@ -63,9 +73,7 @@ export default function UnfollowButton({ type, profile, setIsFollowing, ...props
     const [active, setActive] = useState(true);
 
     return (<>
-            <TypeFollow 
-            
-            />
+            <TypeFollow />
             <Dialog
               open={!active}
               TransitionComponent={Transition}
@@ -134,7 +142,6 @@ export default function UnfollowButton({ type, profile, setIsFollowing, ...props
           case 'button':
               return (
                 <UnfollowProfileButtonBtn
-                    color="secondary"
                       active={active} disabled={!active}
                       onMouseEnter={()=>setText('Unfollow')}
                       onMouseLeave={()=>setText('Following')}

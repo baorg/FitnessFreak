@@ -31,11 +31,22 @@ let FollowProfileButtonText = styled(Button)`
 
 let FollowProfileButtonBtn = styled(Button)`
     font-family: SF Pro;
-    font-style: normal;
+    /* font-style: normal;
     font-weight: 800;
     font-size: 20px !important;
     line-height: 25px !important;
-    text-transform: none !important;
+    text-transform: none !important; */
+    width: 110px;
+    font-style: normal !important;
+    font-weight: 500 !important;
+    font-size: 18px !important;
+    line-height: 21px !important;
+    color: #FFFFFF !important;
+    background: #065BFB !important;
+    margin: 10px 4px 10px 4px;
+    border-radius: 7px;
+    text-transform: capitalize !important;
+
     cursor: ${({ active }) => active ? "pointer" : "wait" };
 `;
 
