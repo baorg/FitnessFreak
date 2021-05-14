@@ -38,8 +38,7 @@ const ModalContainer = styled.div`
         height: 30px;
         display: flex;
         justify-content: space-evenly;
-        margin-bottom: 10px;
-
+        margin-bottom: 25px;
         .text{
             margin: auto;
             font-family: SF Pro;
@@ -49,6 +48,9 @@ const ModalContainer = styled.div`
             line-height: 26px;
             color: rgba(66, 66, 89, 0.4);
             cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         .active{
             font-family: SF Pro;
@@ -57,14 +59,11 @@ const ModalContainer = styled.div`
             font-size: 27px;
             line-height: 32px;
             color: #065BFB;
-
-            :after{
-                content: "";
-                top: 30px;
-                width: 40px;
-                height: 20px;
+            .underscore{
+                height: 4px;
+                width: 34px;
+                border-radius: 2px;
                 background: #065BFB;
-                border-radius: 10px;
             }
         }
         
@@ -84,11 +83,31 @@ let NoFollowingDiv = styled.div`
 `;
 
 const FollowingListContainer = styled.div`
+
+    ::-webkit-scrollbar {
+      width: 5px;
+      border-radius: 5px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      box-shadow: inset 0 0 6px rgba(0, 0, 0, 0);
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background-color: darkgrey;
+      outline: 0px;
+      border-radius: 5px;
+    }
+
+
     height: 90%;
-    overflow-y: auto;
+    width: 600px;
+    max-width: 100%;
+    overflow-y: scroll;
     scrollbar-width: 5px;
     scroll-padding: 1px;
     scroll-margin: 2px;
+    scrollbar-width: 10px;
     scrollbar-color: #E3E3E3 transparent;
 `;
 
@@ -101,8 +120,8 @@ const FollowingsListDiv = styled.div`
 const FollowingDiv = styled.div`
     margin-left: 2%;
     margin-right: 2%;
-    width: 100%;
     margin-top: 10px;
+    width: 100%;
     padding: 10px;
     display: flex;
 
@@ -153,10 +172,12 @@ function FollowingSystem({ type, setType, handleClose, profileUser}) {
                 <div className="heading">
                     <div
                         className={`text ${type === "followers" ? 'active' : ''}`}
-                        onClick={()=>setType('followers')}>Followers</div>
+                        onClick={() => setType('followers')}>
+                        <span>Followers</span><span className="underscore"/></div>
                     <div
                         className={`text ${type === "followings" ? 'active' : ''}`}
-                        onClick={()=>setType('followings')}>Followings</div>
+                        onClick={() => setType('followings')}>
+                        <span>Followings</span><span className="underscore"/></div>
                     <CloseIcon className="close-icon" onClick={handleClose} />
                 </div>
                 <Divider />
@@ -171,7 +192,15 @@ function FollowingSystem({ type, setType, handleClose, profileUser}) {
                                     <NameDiv>
                                         <div className="user-name" style={{ fontSize: "20px", padding: "10px", color: "black" }}>
                                             {user.first_name}
-                                            {user.is_verified && <CheckCircleIcon variant="filled" color="primary" />}
+                                            {user.is_verified &&
+                                                <CheckCircleIcon
+                                                    style={{
+                                                        color: "#065BFB",
+                                                        margin: "auto 0 auto 5px"
+                                                    }}
+                                                    fontSize="small"
+                                                    variant="filled"
+                                                    color="primary" />}
                                         </div>
                                         <A className="user-username" href={`/profile/${user._id || user.userId}`}> @{user.username}</A>
                                     </NameDiv>

@@ -7,21 +7,21 @@ module.exports = async function(req, res, next) {
         .populate({
             path: 'following',
             model: User,
-            options: { select: 'username profile_image first_name last_name' }
+            options: { select: 'username profile_image first_name last_name is_verified' }
         })
         .exec();
     // console.log('User:', user_data);
-    if(user_data){
+    if (user_data) {
         res.data.success = true;
         res.data.valid_user = true;
         res.data.following = user_data.following;
-    }else{
+    } else {
         res.data.success = false;
         res.data.valid_user = true;
         res.data.error = "Invalid user";
         res.data.following = null;
     }
-    
+
 
     return next();
 }

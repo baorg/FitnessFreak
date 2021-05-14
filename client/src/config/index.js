@@ -1,4 +1,4 @@
-const CONFIG = require('./config.json');
+const CONFIG = require("./config.json");
 // module.exports = CONFIG.PRODUCTION;
 // module.exports = CONFIG.TESTING;
 module.exports = CONFIG.LOCAL;

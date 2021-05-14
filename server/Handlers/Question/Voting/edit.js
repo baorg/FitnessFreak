@@ -1,5 +1,4 @@
-
-const {createNotification} = require('../../Notifications/helpers');
+const { createNotification } = require('../../Notifications/helpers');
 const { Ques } = require("../../../Models");
 const { Ans, Comment, User } = require("../../../Models");
 const { addScore } = require("../utilis");
@@ -60,8 +59,8 @@ module.exports = async function(req, res, next) {
         const model = getModel(isQues);
         const ques = await model.findById(quesId, 'upDown vote_count userId').exec();
 
-        console.log(quesId, '  ', model,'  ', isQues, ' |  Ques: ', ques);
-        if(ques){
+        // console.log(quesId, ' ', model,'  ', isQues, ' |  Ques: ', ques);
+        if (ques) {
             let arr = ques.upDown;
             let index = getIndex(arr, userId);
             let value = (up === undefined) ? -1 : 1;
@@ -102,14 +101,14 @@ module.exports = async function(req, res, next) {
             }
             await ques.save()
 
-            format_response(res, { success:true, is_saved: true, vote: ques.vote_count }, true);
-        }else{
-            format_response(res, {is_saved: false, error: 'Invalid id'}, false);
+            format_response(res, { success: true, is_saved: true, vote: ques.vote_count }, true);
+        } else {
+            format_response(res, { is_saved: false, error: 'Invalid id' }, false);
         }
-        
+
     } catch (err) {
         console.error('ERROR  :', err);
-        format_response(res, {success: false, vote: ques.vote_count }, false);
+        format_response(res, { success: false, vote: ques.vote_count }, false);
     } finally {
         return next();
     }

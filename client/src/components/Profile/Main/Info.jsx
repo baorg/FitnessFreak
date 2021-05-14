@@ -66,10 +66,10 @@ let ProfileImage = styled.div`
     margin-top: -50px;
     display: grid;
     margin-left: 50px;
-    cursor: pointer;
     /* place-content: center; */
 
     img{
+        cursor: pointer;
         width: 100px;
         height: 100px;
         border-radius: 50%;
@@ -232,6 +232,7 @@ let FollowersCountDiv = styled.div`
     display: flex;
     justify-content: center;
     margin: auto;
+    
     .box{
         display: flex;
         flex-direction: column;
@@ -291,8 +292,8 @@ export default function UserInfo({profileUser, editProfile, setEditProfile, setV
             <ProfileBanner
                 onClick={() => setViewImage(profileUser.banner_image)}
                 src={profileUser.banner_image || nobanner} alt="" />
-            <ProfileImage onClick={()=>setViewImage(profileUser.profile_image)}>
-                <img src={profileUser.profile_image || noimage} alt="" />
+            <ProfileImage>
+                <img onClick={()=>setViewImage(profileUser.profile_image)} src={profileUser.profile_image || noimage} alt="" />
             </ProfileImage>
 
             <ProfileContent>
@@ -307,12 +308,12 @@ export default function UserInfo({profileUser, editProfile, setEditProfile, setV
                         <div className="box follower"
                             onClick={()=>setFollowPop('followers')}>
                             <div className="heading">Followers</div>
-                            {followers && <div className="count">{followers}</div>}
+                            <div className="count">{followers}</div>
                         </div>
                         <div className="box following"
                             onClick={()=>setFollowPop('followings')}>
                             <div className="heading">Following</div>
-                            {followings && <div className="count">{followings}</div>}
+                            <div className="count">{followings}</div>
                         </div>
                     </FollowersCountDiv>
                     {rank && <RankDiv>
@@ -391,7 +392,7 @@ export default function UserInfo({profileUser, editProfile, setEditProfile, setV
         async function effect(){
             try {
                 let res = await request('get', `${API_DOMAIN}/following/count/${profileUser._id}`);
-                if (res.data.success && res.data.followers && res.data.followings) {
+                if (res.data.success) {
                     setFollowers(res.data.followers);
                     setFollowings(res.data.followings);
                 }

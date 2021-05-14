@@ -47,15 +47,15 @@ async function removeFollowing(followerId, followeeId) {
     let deleteFollower = await this.updateOne({ _id: followerId }, { $pull: { following: followeeId } }).exec();
     let deleteFollowee = await this.updateOne({ _id: followeeId }, { $pull: { followers: followerId } }).exec();
     const user = await this.findById(followeeId).exec();
-
     addScore(user, "totalScore", -score.followerGained);
     addScore(user, "Followers", -score.followerGained);
-
+    await user.save();
+    return {
+        follower: deleteFollower,
+        followee: deleteFollowee
+    };
     // const username = await this.findUserByUserId(followerId)
     // user.notifications.push(`${username} has unfollowed you`)
-
-
-    await user.save();
 }
 
 module.exports = {

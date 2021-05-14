@@ -7,6 +7,7 @@ module.exports = function(req, res, next) {
     if (followerId && followeeId) {
         User.removeFollowing(followerId, followeeId)
             .then(data => {
+                console.log(data);
                 res.data.success = true;
                 res.data.msg = "Following removed";
                 res.data.following = { follower: followerId, followeeId: followeeId };

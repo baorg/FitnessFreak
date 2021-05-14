@@ -43,7 +43,7 @@ const NavbarContainer = styled.div`
 
   .search-bar{
     max-width: 800px;
-    width: auto;
+    width: calc(100% - 100px);
     width: -moz-available;
     margin-left: auto;
     margin-right: auto;
@@ -53,6 +53,7 @@ const NavbarContainer = styled.div`
 
   @media (max-width: ${responsive.small}){
     font-size: 10px;
+    
   }
 `;
 
